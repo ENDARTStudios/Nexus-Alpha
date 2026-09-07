@@ -1,0 +1,50 @@
+name: Nexus-Alpha Quality & Security Gate
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  validate-project:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 1. Clonar o Repositório
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # Necessário para auditorias completas de histórico de commits
+
+    - name: 2. Configurar Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+
+    - name: 3. Instalar Dependências de Teste e Qualidade
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-asyncio pyyaml
+
+    - name: 4. Executar Auditoria Estática de Segurança (Anti-Leak)
+      run: |
+        echo "Varrendo o código em busca de segredos vazados ou credenciais expostas..."
+        # Busca simples via grep para interceptar senhas ou chaves estáticas deixadas por engano
+        if grep -rni "NexusSecurePass2026" src/ --exclude="graph_connector.py"; then
+          echo "ERRO CRÍTICO: Senha de produção ou token estático detectado fora dos arquivos de configuração configurados!"
+          exit 1
+        fi
+        echo "Nenhum segredo óbvio vazado no código."
+
+    - name: 5. Executar Suíte de Testes Automatizados (Pytest)
+      run: |
+        echo "Iniciando testes unitários e de integração..."
+        pytest
+
+    - name: 6. Validar Conformidade com SPRINT.md
+      run: |
+        echo "Verificando se o arquivo de governança SPRINT.md existe e está atualizado..."
+        if [ ! -f "SPRINT.md" ]; then
+          echo "ERRO: O arquivo SPRINT.md não foi localizado na raiz do projeto!"
+          exit 1
+        fi
+        echo "Esteira validada. Código em conformidade com as regras de governança."

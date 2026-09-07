@@ -1,0 +1,23 @@
+User-agent: *
+Disallow: /api/
+Disallow: /_next/image*
+Disallow: /usage/
+
+# Bloqueio explícito dos principais scrapers de empresas de IA
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /

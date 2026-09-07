@@ -1,0 +1,22 @@
+{
+  "high_trust_tlds": [".edu", ".gov", ".ac.", ".org"],
+  "low_trust_patterns": [
+    "reddit.com",
+    "medium.com",
+    "wordpress.com",
+    "blogspot.com",
+    "tumblr.com",
+    "substack.com"
+  ],
+  "sensationalism_keywords": {
+    "pt": ["inacreditável", "urgente", "escândalo", "misterioso", "chocante", "imperdível", "surpreendente", "absurdo", "revelado", "exclusivo"],
+    "en": ["breaking", "shocking", "unbelievable", "scandal", "outrageous"]
+  },
+  "sensationalism_density_threshold": 0.15,
+  "confidence_penalty": 0.5,
+  "quarantine_threshold": 0.3,
+  "triangulation": {
+    "quorum": 3,
+    "min_domain_score": 0.7
+  }
+}

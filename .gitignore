@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+
+# Ambiente
+.env
+.venv/
+venv/
+env/
+
+# Logs / dados locais
+logs/
+data/quarentena/*.jsonl
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# System
+.DS_Store
+Thumbs.db
+
+# Docker
+*.tar
+*.image
+
+# Node (se usar frontend build)
+node_modules/
+.next/
+out/

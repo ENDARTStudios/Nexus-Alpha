@@ -1,0 +1,53 @@
+version: "1.0.0"
+
+project: "nexus-alpha"
+
+scraper:
+  network:
+    timeout_seconds: 10.0
+    max_connections: 10
+    max_keepalive_connections: 5
+    user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    proxy_rotation:
+      enabled: false
+      file: "config/proxies.txt"
+  content_filtering:
+    noise_selectors:
+      - "nav"
+      - "footer"
+      - "header"
+      - "script"
+      - "style"
+      - "aside"
+      - ".ads"
+      - "#sidebar"
+      - ".comments"
+    min_text_length_bytes: 200
+
+database:
+  graph:
+    uri: "bolt://neo4j-db:7687"
+    user: "neo4j"
+    password_env: "NEXUS_NEO4J_PASSWORD"
+    pool_size: 50
+  vector:
+    uri: "http://qdrant-db:6333"
+    collection_name: "nexus_semantic_memory"
+    embedding_dim: 768
+
+security_policy:
+  reputation:
+    trusted_domains_weight: 0.9      # .edu, .gov, wikipedia.org
+    default_domains_weight: 0.6      # Portais de notícias gerais
+    untrusted_domains_weight: 0.2    # Fóruns, blogs abertos
+  triangulation:
+    min_independent_sources: 3       # Mínimo de fontes para validar um fato
+    auto_quarantine_threshold: 0.5   # Scores abaixo disso vão para quarentena
+
+evolution:
+  reflection_interval_hours: 24
+  contradiction_query_path: "src/database/schema.cypher"
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(levelname)s - %(name)s - %(message)s"
