@@ -125,10 +125,11 @@ class GraphConnector:
             await self.connect()
 
         source_url = payload.get("source_url", "")
-        domain_score = self.security.confidence(
-            source_url,
-            payload.get("title", "") + " " + str(payload.get("metadata", {})),
+        context_text = "{} {}".format(
+            payload.get("title") or "",
+            payload.get("metadata") or "",
         )
+        domain_score = self.security.confidence(source_url, context_text)
         entities = payload.get("extracted_entities", []) or []
 
         if not entities:
