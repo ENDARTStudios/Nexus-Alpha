@@ -84,6 +84,17 @@ async def run_cycle() -> None:
     api_url = f"{api_base}/api/ingest"
     headers = {"X-Nexus-Token": token, "Content-Type": "application/json"}
     async with httpx.AsyncClient() as client:
+        # Wake-up: ping /health até o Space sair da hibernação antes do POST
+        for attempt in range(5):
+            try:
+                hp = await client.get(f"{api_base}/health", timeout=20.0)
+                if hp.status_code == 200:
+                    break
+                logger.info("Warm-up: Space /health -> %d (tentativa %d/5)", hp.status_code, attempt + 1)
+            except Exception as exc:
+                logger.warning("Warm-up: ping falhou (%s) - tentativa %d/5", exc, attempt + 1)
+            await asyncio.sleep(15)
+
         logger.info("Enviando %d entidades para %s", len(payload["extracted_entities"]), api_url)
         response = await client.post(api_url, json=payload, headers=headers, timeout=30.0)
         logger.info("Resposta: %s — %s", response.status_code, response.text)
