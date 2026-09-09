@@ -58,6 +58,6 @@ def setup_secure_logging():
 if __name__ == "__main__":
     setup_secure_logging()
     
-    # Teste de simulação de erro contendo dados perigosos
-    logging.warning("Falha ao conectar na URL: bolt://neo4j:NexusSecurePass2026@neo4j-db:7687")
+    # Teste de simulação de erro contendo dados perigosos (senha virtual, não produtiva)
+    logging.warning("Falha ao conectar na URL: bolt://neo4j:S3nh4Fake@neo4j-db:7687")
     logging.error("Requisição rejeitada com o cabeçalho: {'X-Nexus-Token': 'ChaveSecretaPadraoParaDesenvolvimento'}")

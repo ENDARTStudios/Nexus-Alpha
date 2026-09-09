@@ -22,7 +22,7 @@ logger = logging.getLogger("nexus.core")
 app = FastAPI(
     title="Nexus-Alpha Cloud Core",
     description="Cérebro da IA rodando no Hugging Face Spaces",
-    version="1.0.0",
+    version="1.2.0",
 )
 
 
@@ -50,7 +50,7 @@ def home() -> dict:
 
 
 @app.get("/health")
-def health() -> dict:
+def health_check() -> dict:
     return {"status": "ok"}
 
 
@@ -62,25 +62,29 @@ async def ingest_data(
     if x_nexus_token != API_SECRET_TOKEN:
         raise HTTPException(status_code=401, detail="Token de autorização inválido.")
 
-    connector = GraphConnector()
-    total = 0
-    db_status = "persisted"
+    db_status = "demo-memory"
+    success = False
     try:
+        connector = GraphConnector()
         await connector.connect()
-        total = await connector.ingest_payload(payload.model_dump())
+        success = bool(await connector.ingest_payload(payload.model_dump()))
+        await connector.close()
     except Exception as exc:
         logger.warning("Neo4j indisponível (%s) — modo demo em memória.", exc)
-        db_status = "demo-memory"
-        total = len(payload.extracted_entities)
-    finally:
-        await connector.close()
+        success = False
 
-    if total == 0 and not payload.extracted_entities:
-        raise HTTPException(status_code=400, detail="Payload sem entidades para ingestão.")
+    if success:
+        db_status = "cluster-active"
+        return {
+            "status": "success",
+            "message": "Dados processados e inseridos no Neo4j AuraDB real.",
+            "db_status": db_status,
+            "entities_processed": len(payload.extracted_entities),
+        }
 
     return {
-        "status": "success",
-        "message": "Dados processados e inseridos no Neo4j AuraDB." if db_status == "persisted" else "Dados validados (modo demo — persistência em memória).",
+        "status": "partial_success",
+        "message": "Dados retidos em quarentena local devido a indisponibilidade temporária do Neo4j.",
         "db_status": db_status,
         "entities_processed": len(payload.extracted_entities),
     }

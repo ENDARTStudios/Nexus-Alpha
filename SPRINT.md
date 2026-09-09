@@ -1,29 +1,52 @@
-# SPRINT.md — Nexus-Alpha
+# 🏁 Sprint Governance & Backlog Log — Nexus-Alpha
 
-## Funcionalidade Alvo (Foco absoluto: maior impacto / menor complexidade)
-Formalizar a governança de desenvolvimento, implementar a casca de UI/UX de monitoramento (Next.js + Tailwind + Motion) e blindar o ecossistema contra vazamento de segredos e falhas em produção, sem alterar o core de scraping/NER/grafos.
+Este documento estabelece o escopo de execução exclusivo para a **Sprint Atual**.
+Nenhum agente, modelo de IA ou desenvolvedor pode realizar alterações em arquivos
+ou introduzir dependências que não estejam explicitamente mapeadas neste documento.
 
-## Tarefas e Arquivos Afetados (mapadas a Issues hipotéticas)
-| Issue | Tarefa | Arquivos Affected | Critério de Conclusão |
-|---|---|---|---|
-| #101 | Estabelecimento do fluxo de sprint | `SPRINT.md`, `.github/workflows/ai-validation.yml` | Documento preenchido; CI atualizado |
-| #102 | Casca de UI Next.js + Tailwind + Motion | `src/frontend/next.config.js`, `src/frontend/app/page.tsx`, `src/frontend/app/layout.tsx`, `src/frontend/components/*.tsx` | 3 telas renderizam sem overflow em 375/390/768px |
-| #103 | Skeleton loading + lazy graph + spring animations | `src/frontend/components/MetricCard.tsx`, `src/frontend/components/GraphCanvas.tsx`, `src/frontend/lib/motion.config.ts` | Skeleton visível <300ms; animação spring aplicada |
-| #104 | Auditoria de segurança — secrets | `src/main.py`, `app.py`, `src/security/log_sanitizer.py` | Nenhum `.get()` sem `os.environ`; log sanitiza tokens |
-| #105 | Sanitização de logs + interceptador de payload | `src/security/log_sanitizer.py`, `src/security/interceptor.py` | Erros de API/DB não expõem chaves/URLs; payload >1MB bloqueado |
-| #013 | Deploy do Space Docker (Hugging Face) — demo Nexus-Alpha FastAPI | `Dockerfile`, `.gitignore`, `README_HF.md` | Container sobe na porta 7860 como user não-root (uid 1000); API FastAPI respondendo em `/` e `/health` |
-| #014 | Visualização do Grafo de Conhecimento (Next.js + Motion + ForceGraph) | `src/frontend/components/KnowledgeGraph.tsx` | Renderiza nós/arestas via react-force-graph-2d; lazy loading + skeleton + animação spring; responsivo 375/390/768 |
-| #015 | Backup Automatizado Semanal (Grafos + Vetores) | `.github/workflows/db-backup.yml` | Cron domingo 00:00; snapshot JSON em `backups/`; commit+push automático via Nexus-Alpha Bot |
+---
 
-## Critérios de Conclusão
-- Nenhuma chave/API/token aparece direto no código fonte (apenas `os.environ.get()` com fallback seguro).
-- Painel de auditoria responsivo: 375px / 390px / 768px sem overflow horizontal.
-- Logs públicos passam pelo sanitizador (`log_sanitizer.py`) antes de escrita.
-- Interceptor rejeita JSON >1MB (`interceptor.py`).
-- `SPRINT.md` atualizado ao finalizar.
+## 📅 Sprint Atual: `v1.2.0-alpha` — Ajuste de Rotas e Conexão de Produção
 
-## Plano de Teste
-- `tests/test_responsive.py`: verifica dimensões 375/390/768 via Playwright/selenium headless (se disponível) ou assertions de CSS médio.
-- `tests/test_security_sanitizer.py`: assert que strings contendo `sk-`, `Bearer`, `bolt://`, `neo4j-password` são removidas de logs simulados.
-- `tests/test_interceptor.py`: assert payload 2MB retorna 413; payload 100KB passa.
-- `tests/test_ui_motion.py`: assert componentes exportam animações `spring` via `framer-motion`.
+- **Status:** 🟢 Planejada / Pronta para Execução
+- **Impacto:** Crítico (Ativação do banco de dados Neo4j real em produção e correção do endpoint de healthcheck)
+- **Complexidade:** Baixa (Configuração de middlewares e strings de conexão no Hugging Face)
+
+---
+
+## 🎯 Funcionalidade Alvo e Escopo
+
+Resolver o isolamento de rede do contêiner no Hugging Face Space para que ele consiga
+se autenticar no Neo4j AuraDB e ajustar as rotas do FastAPI para responder corretamente
+ao ping de monitoramento.
+
+### 📋 Tarefas Mapeadas (Mapeamento de GitHub Issues)
+
+#### [Issue #016] — Correção do Endpoint `/health` e Rotas do FastAPI
+
+- **Descrição:** Adicionar explicitamente a rota `@app.get("/health")` no arquivo
+  `app.py` do Hugging Face. O roteador atual está operando apenas na raiz `/`, fazendo
+  com que o monitor do Space retorne 404 ao buscar o healthcheck estruturado.
+- **Critérios de Conclusão:**
+  - Chamadas para `GET /health` devem retornar `200 {"status": "ok"}` no contêiner de produção.
+- **Arquivos Afetados:**
+  - `app.py` (Modificação)
+
+#### [Issue #017] — Depuração do Driver de Conexão Bolt (Neo4j AuraDB)
+
+- **Descrição:** Ajustar o protocolo do driver no `graph_connector.py` para usar
+  `neo4j+s://` (exigido pelo AuraDB para criptografia TLS estrita em nuvem) em vez de
+  `bolt://` simples, resolvendo o fallback automático para `demo-memory`.
+- **Critérios de Conclusão:**
+  - O log do Space deve exibir `Conexão assíncrona com o Neo4j estabelecida com sucesso`
+    apontando para o cluster real.
+- **Arquivos Afetados:**
+  - `src/database/graph_connector.py` (Modificação)
+
+---
+
+## 🛡️ Restrições de Deploy e Critérios de Aceitação (Definition of Done)
+
+1. **Pass de Testes:** O validador do GitHub Actions (`ai-validation.yml`) deve dar sinal verde.
+2. **Conexão Real:** O próximo disparo manual do worker deve retornar `db_status: cluster-active`
+   e gravar as 40 tripletas diretamente no grafo online.
