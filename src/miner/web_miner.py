@@ -80,13 +80,14 @@ class WebMiner:
         for attempt in range(1, self.max_retries + 1):
             proxy = self.proxy_rotator.next() if self.proxy_rotator else None
             try:
-                response = await client.get(
-                    url,
+                request_kwargs = dict(
                     headers=self.headers,
                     timeout=self.timeout,
                     follow_redirects=True,
-                    proxy=proxy,
                 )
+                if proxy:
+                    request_kwargs["proxy"] = proxy
+                response = await client.get(url, **request_kwargs)
                 if response.status_code == 200:
                     return response.text
                 if response.status_code in self.RETRYABLE_STATUS:
