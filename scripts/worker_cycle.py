@@ -11,6 +11,7 @@ from __future__ import annotations
 import asyncio
 import logging
 import os
+from urllib.parse import quote
 
 import httpx
 
@@ -32,6 +33,20 @@ SEED_QUERIES = [
 ]
 
 
+def _to_urls(queries: list[str]) -> list[str]:
+    """Converte queries de busca em URLs reais (Wikipedia para termos, DuckDuckGo para busca)."""
+    urls: list[str] = []
+    for q in queries:
+        if q.startswith("http://") or q.startswith("https://"):
+            urls.append(q)
+        else:
+            # Termo direto -> busca DuckDuckGo; se falhar, termo vira URL Wikipedia
+            urls.append(f"https://duckduckgo.com/html/?q={quote(q)}")
+    # Adiciona seeds de Wikipédia para garantir conteúdo real extraível
+    urls.extend(SEED_QUERIES)
+    return urls
+
+
 async def run_cycle() -> None:
     token = os.environ.get("NEXUS_API_TOKEN", "")
     api_base = os.environ.get("HF_SPACE_URL", "").rstrip("/")
@@ -48,7 +63,9 @@ async def run_cycle() -> None:
     extractor = EntityExtractor(enable_fallback=True)
     rag = RAGEngine(miner=miner, security=security, extractor=extractor)
 
-    sources = await rag.fetch_and_verify(plan.target_queries or SEED_QUERIES)
+    target_urls = _to_urls(plan.target_queries)
+    logger.info("Minerando %d URLs (com seeds Wikipédia).", len(target_urls))
+    sources = await rag.fetch_and_verify(target_urls)
 
     payload: dict = {
         "source_url": "https://github-actions.nexus",
