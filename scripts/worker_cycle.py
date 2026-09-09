@@ -3,7 +3,7 @@
 A cada 6h (ou manualmente):
 1. ReasoningEngine decide o plano.
 2. WebMiner coleta dados (com AntiBlockSystem).
-3. NLPExtractor extrai tripletas.
+3. EntityExtractor (fallback regex, custo zero) extrai tripletas.
 4. Envia ao Hugging Face Spaces via API autenticada.
 """
 from __future__ import annotations
@@ -15,7 +15,7 @@ import os
 import httpx
 
 from src.cognition.reasoning_engine import ReasoningEngine
-from src.cognition.nlp_extractor import NLPExtractor
+from src.cognition.extractor import EntityExtractor
 from src.cognition.rag_engine import RAGEngine
 from src.miner.web_miner import WebMiner
 from src.miner.security_protocol import SecurityProtocol
@@ -45,11 +45,12 @@ async def run_cycle() -> None:
 
     miner = WebMiner()
     security = SecurityProtocol()
-    nlp = NLPExtractor()
-    rag = RAGEngine(miner=miner, security=security, extractor=None)  # type: ignore[arg-type]
+    extractor = EntityExtractor(enable_fallback=True)
+    rag = RAGEngine(miner=miner, security=security, extractor=extractor)
 
     sources = await rag.fetch_and_verify(plan.target_queries or SEED_QUERIES)
-    payload_payload: dict = {
+
+    payload: dict = {
         "source_url": "https://github-actions.nexus",
         "timestamp": int(asyncio.get_event_loop().time()),
         "domain_score": 0.0,
@@ -57,20 +58,17 @@ async def run_cycle() -> None:
     }
     for src in sources:
         for ent in src["payload"].get("extracted_entities", []):
-            payload_payload["extracted_entities"].append(ent)
-        if nlp is not None and src.get("content"):
-            for tripla in nlp.extract_triplets(src["content"], src.get("title", "IA") or "IA"):
-                payload_payload["extracted_entities"].append(tripla)
+            payload["extracted_entities"].append(ent)
 
-    if not payload_payload["extracted_entities"]:
+    if not payload["extracted_entities"]:
         logger.warning("Nenhuma tripla extraída neste ciclo.")
         return
 
     api_url = f"{api_base}/api/ingest"
     headers = {"X-Nexus-Token": token, "Content-Type": "application/json"}
     async with httpx.AsyncClient() as client:
-        logger.info("Enviando %d entidades para %s", len(payload_payload["extracted_entities"]), api_url)
-        response = await client.post(api_url, json=payload_payload, headers=headers, timeout=30.0)
+        logger.info("Enviando %d entidades para %s", len(payload["extracted_entities"]), api_url)
+        response = await client.post(api_url, json=payload, headers=headers, timeout=30.0)
         logger.info("Resposta: %s — %s", response.status_code, response.text)
 
 
