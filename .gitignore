@@ -1,36 +1,44 @@
-# Python
+# Cache do Python
 __pycache__/
-*.py[cod]
-*$py.class
-*.egg-info/
-dist/
-build/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.pypy/
 
-# Ambiente
-.env
-.venv/
+# Ambientes Virtuais locais
 venv/
+.venv/
 env/
+ENV/
 
-# Logs / dados locais
-logs/
-data/quarentena/*.jsonl
-*.log
+# Arquivos de Configuração Locais e Segredos
+.env
+*.local
+config/secrets.yaml
 
-# IDE
-.idea/
+# IDEs e Editores de Código
 .vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
 *.swp
 
-# System
-.DS_Store
-Thumbs.db
+# Logs do sistema
+*.log
+logs/
 
-# Docker
+# Docker / build
 *.tar
 *.image
-
-# Node (se usar frontend build)
+dist/
+build/
 node_modules/
 .next/
 out/
+
+# Sistema
+.DS_Store
+Thumbs.db

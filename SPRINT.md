@@ -11,6 +11,9 @@ Formalizar a governança de desenvolvimento, implementar a casca de UI/UX de mon
 | #103 | Skeleton loading + lazy graph + spring animations | `src/frontend/components/MetricCard.tsx`, `src/frontend/components/GraphCanvas.tsx`, `src/frontend/lib/motion.config.ts` | Skeleton visível <300ms; animação spring aplicada |
 | #104 | Auditoria de segurança — secrets | `src/main.py`, `app.py`, `src/security/log_sanitizer.py` | Nenhum `.get()` sem `os.environ`; log sanitiza tokens |
 | #105 | Sanitização de logs + interceptador de payload | `src/security/log_sanitizer.py`, `src/security/interceptor.py` | Erros de API/DB não expõem chaves/URLs; payload >1MB bloqueado |
+| #013 | Deploy do Space Docker (Hugging Face) — demo Nexus-Alpha FastAPI | `Dockerfile`, `.gitignore`, `README_HF.md` | Container sobe na porta 7860 como user não-root (uid 1000); API FastAPI respondendo em `/` e `/health` |
+| #014 | Visualização do Grafo de Conhecimento (Next.js + Motion + ForceGraph) | `src/frontend/components/KnowledgeGraph.tsx` | Renderiza nós/arestas via react-force-graph-2d; lazy loading + skeleton + animação spring; responsivo 375/390/768 |
+| #015 | Backup Automatizado Semanal (Grafos + Vetores) | `.github/workflows/db-backup.yml` | Cron domingo 00:00; snapshot JSON em `backups/`; commit+push automático via Nexus-Alpha Bot |
 
 ## Critérios de Conclusão
 - Nenhuma chave/API/token aparece direto no código fonte (apenas `os.environ.get()` com fallback seguro).

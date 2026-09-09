@@ -1,0 +1,8 @@
+# Runtime do Hugging Face Space — dependências reais do app.py (lite, sem torch/transformers/spacy)
+fastapi==0.110.0
+uvicorn==0.27.1
+pydantic==2.6.4
+neo4j==5.18.0
+PyYAML==6.0.1
+httpx==0.27.0
+beautifulsoup4==4.12.3
