@@ -50,6 +50,7 @@ def _to_urls(queries: list[str]) -> list[str]:
 async def run_cycle() -> None:
     token = os.environ.get("NEXUS_API_TOKEN", "")
     api_base = os.environ.get("HF_SPACE_URL", "").rstrip("/")
+    hf_token = os.environ.get("HF_TOKEN", "")
     if not token or not api_base:
         logger.error("Secrets ausentes — defina NEXUS_API_TOKEN e HF_SPACE_URL no GitHub.")
         return
@@ -82,7 +83,12 @@ async def run_cycle() -> None:
         return
 
     api_url = f"{api_base}/api/ingest"
-    headers = {"X-Nexus-Token": token, "Content-Type": "application/json"}
+    # Header Authorization (token HF) é exigido pelo proxy de Spaces PRIVADOS
+    headers = {
+        "Authorization": f"Bearer {hf_token}",
+        "X-Nexus-Token": token,
+        "Content-Type": "application/json",
+    }
     async with httpx.AsyncClient() as client:
         # Wake-up: ping /health até o Space sair da hibernação antes do POST
         for attempt in range(5):

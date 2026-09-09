@@ -28,6 +28,7 @@ jobs:
         env:
           NEXUS_API_TOKEN: ${{ secrets.NEXUS_API_TOKEN }}
           HF_SPACE_URL: ${{ secrets.HF_SPACE_URL }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
           PYTHONPATH: ${{ github.workspace }}
         run: |
           python scripts/worker_cycle.py
