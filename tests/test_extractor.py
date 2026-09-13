@@ -36,3 +36,11 @@ def test_confidence_scoring_bounds():
     score = EntityExtractor._confidence_for("IA", "Redes Neurais", "UTILIZA")
     assert 0.0 < score <= 0.99
     assert EntityExtractor._confidence_for("", "", "") == 0.0
+
+
+def test_valid_term_filters_pronouns_and_short_terms():
+    assert EntityExtractor._valid_term("que") is False
+    assert EntityExtractor._valid_term("isso") is False
+    assert EntityExtractor._valid_term("ab") is False
+    assert EntityExtractor._valid_term("") is False
+    assert EntityExtractor._valid_term("Inteligência Artificial") is True

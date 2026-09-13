@@ -68,27 +68,63 @@ class EntityExtractor:
             base += 0.15
         return round(min(0.99, base), 3)
 
+    PRONOUN_STARTS = {
+        "que", "isso", "isto", "aquilo", "ele", "ela", "eles", "elas", "seu",
+        "sua", "seus", "suas", "este", "esta", "estes", "estas", "esse", "essa",
+        "esses", "essas", "lhe", "lhes", "me", "te", "nos", "vos", "o", "a",
+        "os", "as", "algo", "tudo", "nada",
+    }
+
+    @staticmethod
+    def _phrase_text(token, max_tokens: int = 6) -> str:
+        tokens = [t for t in token.subtree if not t.is_punct and not t.is_space]
+        if len(tokens) > max_tokens:
+            tokens = tokens[:max_tokens]
+        return " ".join(t.text for t in tokens).strip()
+
+    @classmethod
+    def _valid_term(cls, term: str) -> bool:
+        if not term or len(term) < 3:
+            return False
+        first = term.split()[0].lower()
+        if first in cls.PRONOUN_STARTS:
+            return False
+        return any(ch.isalpha() for ch in term)
+
     def extract_spacy(self, text: str, max_triples: int = 25) -> list[Triple]:
         if self._nlp is None:
             return []
         doc = self._nlp(text)
         triples: list[Triple] = []
         for sent in doc.sents:
-            subj, obj, root = None, None, None
-            for tok in sent:
-                if "nsubj" in tok.dep_ and self._is_clean(tok.text):
-                    subj = tok.text
-                if "obj" in tok.dep_ and self._is_clean(tok.text):
-                    obj = tok.text
-                if tok.dep_ == "ROOT" and self._is_clean(tok.lemma_):
-                    root = tok.lemma_.upper()
-            if subj and obj and root:
-                triples.append(Triple(
-                    subject=subj.strip(),
-                    predicate=root,
-                    object=obj.strip(),
-                    confidence=self._confidence_for(subj, obj, root),
-                ))
+            root = next((t for t in sent if t.dep_ == "ROOT"), None)
+            if root is None or root.pos_ not in ("VERB", "AUX"):
+                continue
+            predicate = root.lemma_.upper()
+            if not any(ch.isalpha() for ch in predicate):
+                continue
+            subj_tok = next(
+                (c for c in root.children if c.dep_ in ("nsubj", "nsubj:pass")), None
+            )
+            obj_tok = next(
+                (
+                    c for c in root.children
+                    if c.dep_ in ("obj", "dobj", "iobj", "attr", "obl", "xcomp")
+                ),
+                None,
+            )
+            if subj_tok is None or obj_tok is None:
+                continue
+            subject = self._phrase_text(subj_tok)
+            obj = self._phrase_text(obj_tok)
+            if not self._valid_term(subject) or not self._valid_term(obj):
+                continue
+            triples.append(Triple(
+                subject=subject,
+                predicate=predicate,
+                object=obj,
+                confidence=self._confidence_for(subject, obj, predicate),
+            ))
             if len(triples) >= max_triples:
                 break
         return triples
