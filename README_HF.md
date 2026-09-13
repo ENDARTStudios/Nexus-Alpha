@@ -7,5 +7,5 @@ sdk: docker
 app_port: 7860
 pinned: false
 license: mit
-short_description: Demo do cérebro FastAPI da Nexus-Alpha (Space gratuito, CPU básica)
+short_description: Demo do cerebro FastAPI da Nexus-Alpha (Space CPU)
 ---

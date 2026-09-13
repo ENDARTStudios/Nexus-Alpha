@@ -55,10 +55,7 @@ def space_id_from_env() -> str:
 
 
 def main() -> int:
-    token = (os.environ.get("HF_TOKEN") or "").strip()
-    if not token:
-        raise SystemExit("Defina HF_TOKEN com um token de escrita do Hugging Face.")
-
+    token = (os.environ.get("HF_TOKEN") or "").strip() or None
     try:
         from huggingface_hub import HfApi
     except ImportError:
@@ -66,6 +63,14 @@ def main() -> int:
 
     repo_id = space_id_from_env()
     api = HfApi(token=token)
+    try:
+        identity = api.whoami().get("name")
+    except Exception as exc:
+        raise SystemExit(
+            "Sem autenticação no Hugging Face. Defina HF_TOKEN ou faça login "
+            f"(`hf auth login`). Detalhe: {exc}"
+        )
+    print(f"Autenticado como: {identity}")
     print(f"Enviando núcleo para o Space: {repo_id}")
 
     api.upload_folder(
