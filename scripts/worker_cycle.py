@@ -39,14 +39,13 @@ SEED_QUERIES = [
 
 
 def _to_urls(queries: list[str]) -> list[str]:
-    """Converte queries de busca em URLs reais e adiciona seeds diversas."""
-    urls: list[str] = []
+    """Seeds diversas primeiro (corroboração) e depois as queries de busca."""
+    urls: list[str] = list(SEED_QUERIES)
     for q in queries:
         if q.startswith("http://") or q.startswith("https://"):
             urls.append(q)
         else:
             urls.append(f"https://duckduckgo.com/html/?q={quote(q)}")
-    urls.extend(SEED_QUERIES)
     return urls
 
 
@@ -65,7 +64,7 @@ async def run_cycle() -> None:
     miner = WebMiner()
     security = SecurityProtocol()
     extractor = EntityExtractor(enable_fallback=True)
-    rag = RAGEngine(miner=miner, security=security, extractor=extractor)
+    rag = RAGEngine(miner=miner, security=security, extractor=extractor, top_k=10)
 
     target_urls = _to_urls(plan.target_queries)
     logger.info("Minerando %d URLs (com seeds Wikipédia).", len(target_urls))
