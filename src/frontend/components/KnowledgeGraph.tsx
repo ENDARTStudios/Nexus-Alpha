@@ -4,9 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 
 // Força o carregamento dinâmico (Lazy Loading) do cliente para evitar quebras de SSR (Server-Side Rendering)
-const ForceGraph2D = React.lazy(() =>
-  import('react-force-graph').then((mod) => ({ default: mod.ForceGraph2D }))
-);
+const ForceGraph2D = React.lazy(() => import("react-force-graph-2d"));
 
 interface GraphData {
   nodes: { id: string; group: number; val: number; verified?: boolean }[];
