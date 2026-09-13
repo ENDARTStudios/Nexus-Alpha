@@ -56,6 +56,10 @@ SEED_QUERIES = [
     "https://phys.org/technology-news/machine-learning-ai/",
     "https://spectrum.ieee.org/artificial-intelligence",
     "https://www.aaai.org/",
+    "https://www.khanacademy.org/computing/computer-science",
+    "https://www.edx.org/learn/artificial-intelligence",
+    "https://www.whitehouse.gov/ostp/ai-bill-of-rights/",
+    "https://openstax.org/subjects/computer-science",
 ]
 
 

@@ -95,6 +95,19 @@ class EntityExtractor:
         "ver também", "commons", "wikcionário", "wikidata", "ficheiro",
     }
 
+    LEADING_ARTICLES = {
+        "o", "a", "os", "as", "um", "uma", "uns", "umas", "the", "an",
+        "this", "that", "these", "those",
+    }
+
+    @classmethod
+    def _normalize_term(cls, term: str) -> str:
+        """Remove artigos/determinantes iniciais para aumentar o cruzamento entre fontes."""
+        tokens = term.split()
+        while tokens and tokens[0].lower() in cls.LEADING_ARTICLES:
+            tokens.pop(0)
+        return " ".join(tokens).strip()
+
     @classmethod
     def _valid_term(cls, term: str) -> bool:
         if not term or len(term) < 3:
@@ -139,8 +152,8 @@ class EntityExtractor:
             )
             if subj_tok is None or obj_tok is None:
                 continue
-            subject = self._phrase_text(subj_tok)
-            obj = self._phrase_text(obj_tok)
+            subject = self._normalize_term(self._phrase_text(subj_tok))
+            obj = self._normalize_term(self._phrase_text(obj_tok))
             if not self._valid_term(subject) or not self._valid_term(obj):
                 continue
             triples.append(Triple(
@@ -164,6 +177,8 @@ class EntityExtractor:
         triples: list[Triple] = []
         for match in pattern.finditer(text):
             subj, pred, obj = (g.strip() for g in match.groups())
+            subj = self._normalize_term(subj)
+            obj = self._normalize_term(obj)
             triples.append(Triple(
                 subject=subj,
                 predicate=pred.upper(),

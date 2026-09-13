@@ -44,3 +44,9 @@ def test_valid_term_filters_pronouns_and_short_terms():
     assert EntityExtractor._valid_term("ab") is False
     assert EntityExtractor._valid_term("") is False
     assert EntityExtractor._valid_term("Inteligência Artificial") is True
+
+
+def test_normalize_term_strips_leading_articles():
+    assert EntityExtractor._normalize_term("uma rede neural") == "rede neural"
+    assert EntityExtractor._normalize_term("A AGI") == "AGI"
+    assert EntityExtractor._normalize_term("Inteligência Artificial") == "Inteligência Artificial"
