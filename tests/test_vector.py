@@ -35,3 +35,24 @@ def test_upsert_persists_and_returns_id(tmp_path):
     vector_id = vc.upsert({"source_url": "https://x", "timestamp": 1, "title": "T"})
     assert isinstance(vector_id, str)
     assert vc.count() == 1
+
+
+def test_backend_autodetects_qdrant_from_uri(tmp_path, monkeypatch):
+    cfg = tmp_path / "settings.yaml"
+    cfg.write_text(
+        "database:\n  vector:\n    uri: 'http://qdrant.example:6333'\n    embedding_dim: 4\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(VectorConnector, "_init_backend", lambda self: None)
+    vc = VectorConnector(config_path=str(cfg))
+    assert vc.backend_name() == "qdrant"
+
+
+def test_explicit_memory_backend_is_kept(tmp_path):
+    cfg = tmp_path / "settings.yaml"
+    cfg.write_text(
+        "database:\n  vector:\n    uri: 'http://qdrant.example:6333'\n    embedding_dim: 4\n",
+        encoding="utf-8",
+    )
+    vc = VectorConnector(config_path=str(cfg), backend="memory")
+    assert vc.backend_name() == "memory"

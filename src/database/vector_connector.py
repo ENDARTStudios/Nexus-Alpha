@@ -58,7 +58,7 @@ class VectorConnector:
     ) -> None:
         self.config_path = config_path
         self.client: Any = None
-        self.backend = backend or "memory"
+        self.backend = backend
         self.collection_name: str = "nexus_semantic_memory"
         self.embedding_dim: int = 384
         self.qdrant_url: Optional[str] = None
@@ -122,6 +122,7 @@ class VectorConnector:
                 logger.warning("Milvus indisponível (%s) — usando in-memory.", exc)
                 self.backend = "memory"
         else:
+            self.backend = "memory"
             logger.info("VectorConnector em modo in-memory.")
 
     def _ensure_collection(self) -> None:
