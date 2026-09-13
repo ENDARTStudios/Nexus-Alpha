@@ -8,6 +8,7 @@ de abrir/fechar um driver a cada requisição.
 """
 from __future__ import annotations
 
+import hashlib
 import logging
 import os
 import time
@@ -169,6 +170,29 @@ async def ingest_data(
         logger.warning("Neo4j indisponível (%s) — modo demo em memória.", exc)
         success = False
 
+    vectors_indexed = 0
+    try:
+        from src.cognition.embeddings import hash_embedding
+
+        text = " ".join(
+            f"{e.subject} {e.predicate} {e.object}"
+            for e in payload.extracted_entities
+        ) or (payload.title or payload.source_url)
+        vector_db = get_vector_connector()
+        vector = hash_embedding(text, vector_db.embedding_dim)
+        point_id = int(
+            hashlib.sha256(f"{payload.source_url}:{payload.timestamp}".encode()).hexdigest()[:8],
+            16,
+        ) % (10 ** 8)
+        if vector_db.store_memory(
+            point_id=point_id,
+            vector=vector,
+            payload={"text": text, "url": payload.source_url, "title": payload.title},
+        ):
+            vectors_indexed = 1
+    except Exception as exc:
+        logger.warning("Memória vetorial indisponível (%s) — ingestão apenas no grafo.", exc)
+
     db_status = "cluster-active" if success else "demo-memory"
     return {
         "status": "success" if success else "partial_success",
@@ -179,6 +203,7 @@ async def ingest_data(
         ),
         "db_status": db_status,
         "entities_processed": len(payload.extracted_entities),
+        "vectors_indexed": vectors_indexed,
     }
 
 
