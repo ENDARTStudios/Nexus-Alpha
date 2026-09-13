@@ -98,7 +98,11 @@ class ChatService:
                 row.get("subject", ""), row.get("predicate", ""), row.get("object", "")
             ).strip()
             if fact:
-                facts.append({"fact": fact, "source": "neo4j"})
+                facts.append({
+                    "fact": fact,
+                    "source": "neo4j",
+                    "verified": bool(row.get("verificado")),
+                })
         if rows:
             steps.append(f"Grafo de conhecimento: {len(rows)} relação(ões) encontrada(s).")
         else:
@@ -137,6 +141,7 @@ class ChatService:
                 "sources": [],
                 "provider": self.llm.name,
                 "context_size": 0,
+                "verified": False,
             }
 
         if self._sessions.get(session_id):
@@ -158,6 +163,7 @@ class ChatService:
         self._remember(session_id, "assistant", reply)
 
         sources = sorted({f["source"] for f in facts if f.get("source")})
+        verified = any(f.get("verified") for f in facts)
         return {
             "reply": reply,
             "session_id": session_id,
@@ -165,4 +171,5 @@ class ChatService:
             "sources": sources,
             "provider": provider,
             "context_size": len(facts),
+            "verified": verified,
         }

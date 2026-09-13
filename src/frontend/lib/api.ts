@@ -6,6 +6,7 @@ export interface ChatResponse {
   sources: string[];
   provider: string;
   context_source?: string;
+  verified?: boolean;
 }
 
 const API_BASE = process.env.NEXT_PUBLIC_NEXUS_API_URL ?? "";

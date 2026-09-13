@@ -9,8 +9,8 @@ const ForceGraph2D = React.lazy(() =>
 );
 
 interface GraphData {
-  nodes: { id: string; group: number; val: number }[];
-  links: { source: string; target: string; label: string }[];
+  nodes: { id: string; group: number; val: number; verified?: boolean }[];
+  links: { source: string; target: string; label: string; verified?: boolean }[];
 }
 
 // Malha de demonstração usada quando o cluster está vazio ou indisponível.
@@ -60,6 +60,15 @@ export default function KnowledgeGraph() {
         🧠 Córtex Semântico: Mapeamento Relacional Vivo
       </div>
 
+      <div className="absolute top-4 right-4 z-10 flex items-center gap-3 bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-700/50 text-[10px] font-mono">
+        <span className="flex items-center gap-1 text-emerald-300">
+          <span className="h-2 w-2 rounded-full bg-emerald-500" /> Verificado
+        </span>
+        <span className="flex items-center gap-1 text-violet-300">
+          <span className="h-2 w-2 rounded-full bg-violet-500" /> Conceito
+        </span>
+      </div>
+
       <React.Suspense fallback={
         // Skeleton de carregamento perfeitamente alinhado ao Design System
         <div className="w-full h-full flex flex-col items-center justify-center bg-slate-950 space-y-4 animate-pulse">
@@ -80,7 +89,7 @@ export default function KnowledgeGraph() {
               nodeAutoColorBy="group"
               linkDirectionalParticles={2}
               linkDirectionalParticleSpeed={0.005}
-              linkColor={() => "#334155"}
+              linkColor={(link: any) => (link.verified ? "rgba(16,185,129,0.6)" : "#334155")}
               backgroundColor="#020617"
               width={window.innerWidth > 768 ? 800 : window.innerWidth - 32}
               height={500}
@@ -90,11 +99,11 @@ export default function KnowledgeGraph() {
                 ctx.font = `${fontSize}px JetBrains Mono, monospace`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.fillStyle = node.color || '#8B5CF6';
+                ctx.fillStyle = node.verified ? '#10B981' : (node.color || '#8B5CF6');
                 ctx.beginPath();
-                ctx.arc(node.x, node.y, 5, 0, 2 * Math.PI, false);
+                ctx.arc(node.x, node.y, node.verified ? 7 : 5, 0, 2 * Math.PI, false);
                 ctx.fill();
-                ctx.fillStyle = '#94A3B8';
+                ctx.fillStyle = node.verified ? '#6EE7B7' : '#94A3B8';
                 ctx.fillText(label, node.x, node.y + 10);
               }}
             />

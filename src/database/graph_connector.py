@@ -75,17 +75,24 @@ CONTEXT_QUERY = """
 UNWIND $keywords AS kw
 MATCH (s:Conceito)-[r:RELACIONA]->(o:Conceito)
 WHERE toLower(s.nome) CONTAINS kw OR toLower(o.nome) CONTAINS kw
-RETURN DISTINCT s.nome AS subject, r.predicate AS predicate, o.nome AS object
+OPTIONAL MATCH (fa:Fato {chave: toLower(s.nome) + '|' + r.predicate + '|' + toLower(o.nome)})
+RETURN DISTINCT s.nome AS subject, r.predicate AS predicate, o.nome AS object,
+       coalesce(fa.verificado, false) AS verificado
 LIMIT $limit
 """
 
 TOPOLOGY_QUERY = """
 MATCH (s:Conceito)-[r:RELACIONA]->(o:Conceito)
-RETURN s.nome AS sujeito, r.predicate AS relacao, o.nome AS objeto
+OPTIONAL MATCH (fa:Fato {chave: toLower(s.nome) + '|' + r.predicate + '|' + toLower(o.nome)})
+RETURN s.nome AS sujeito, r.predicate AS relacao, o.nome AS objeto,
+       coalesce(fa.verificado, false) AS verificado
 LIMIT $limit
 """
 
-DEMO_TOPOLOGY = {"nodes": [{"id": "Nexus-Alpha Core", "group": 1, "val": 20}], "links": []}
+DEMO_TOPOLOGY = {
+    "nodes": [{"id": "Nexus-Alpha Core", "group": 1, "val": 20, "verified": False}],
+    "links": [],
+}
 
 COUNT_QUERY = "MATCH (c:Conceito) RETURN count(c) AS total"
 
@@ -302,12 +309,20 @@ class GraphConnector:
                 async for record in result:
                     sujeito = record["sujeito"]
                     objeto = record["objeto"]
-                    nodes.setdefault(sujeito, {"id": sujeito, "group": 1, "val": 15})
-                    nodes.setdefault(objeto, {"id": objeto, "group": 1, "val": 15})
+                    verificado = bool(record["verificado"])
+                    for name in (sujeito, objeto):
+                        node = nodes.setdefault(
+                            name, {"id": name, "group": 1, "val": 15, "verified": False}
+                        )
+                        if verificado:
+                            node["verified"] = True
+                            node["group"] = 2
+                            node["val"] = 22
                     links.append({
                         "source": sujeito,
                         "target": objeto,
                         "label": record["relacao"],
+                        "verified": verificado,
                     })
         except Exception as exc:
             logger.warning("Falha ao extrair topologia do Neo4j: %s", exc)

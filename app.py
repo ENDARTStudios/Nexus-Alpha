@@ -231,6 +231,7 @@ async def chat_endpoint(payload: ChatRequest) -> dict:
         "sources": sources,
         "provider": result["provider"],
         "context_source": context_source,
+        "verified": result.get("verified", False),
     }
 
 

@@ -9,6 +9,7 @@ interface Message {
   id: string;
   text: string;
   sender: "user" | "nexus";
+  verified?: boolean;
 }
 
 export default function ChatWidget() {
@@ -59,6 +60,7 @@ export default function ChatWidget() {
             data.reply ||
             "Desculpe, tive uma instabilidade temporária no meu link de comunicação.",
           sender: "nexus",
+          verified: data.verified ?? false,
         },
       ]);
     } catch {
@@ -117,6 +119,11 @@ export default function ChatWidget() {
                     }`}
                   >
                     {msg.text}
+                    {msg.sender === "nexus" && msg.verified && (
+                      <span className="mt-1.5 flex w-fit items-center gap-1 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-300">
+                        ✓ Fato Verificado
+                      </span>
+                    )}
                   </div>
                 </div>
               ))}
