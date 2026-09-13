@@ -25,7 +25,9 @@ jobs:
           pip install -r requirements.txt
 
       - name: Baixar Modelo spaCy (PT)
-        run: python -m spacy download pt_core_news_sm
+        continue-on-error: true
+        run: |
+          pip install "https://github.com/explosion/spacy-models/releases/download/pt_core_news_sm-3.7.0/pt_core_news_sm-3.7.0-py3-none-any.whl"
 
       - name: Executar Motor de Mineração e Ingestão
         env:
