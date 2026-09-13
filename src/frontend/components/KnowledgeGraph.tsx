@@ -56,17 +56,14 @@ export default function KnowledgeGraph() {
 
   return (
     <div className="w-full h-[500px] bg-slate-950 rounded-2xl border border-slate-800/80 overflow-hidden relative">
-      <div className="absolute top-4 left-4 z-10 bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-700/50 text-xs text-slate-300 font-mono">
-        🧠 Córtex Semântico: Mapeamento Relacional Vivo
-      </div>
-
-      <div className="absolute top-4 right-4 z-10 flex items-center gap-3 bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-700/50 text-[10px] font-mono">
-        <span className="flex items-center gap-1 text-emerald-300">
-          <span className="h-2 w-2 rounded-full bg-emerald-500" /> Verificado
-        </span>
-        <span className="flex items-center gap-1 text-violet-300">
-          <span className="h-2 w-2 rounded-full bg-violet-500" /> Conceito
-        </span>
+      <div className="absolute top-4 left-4 z-10 bg-slate-900/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-slate-700/50 text-xs text-slate-300 font-mono flex items-center gap-4">
+        <span>🧠 CÓRTEX INTEGRADO</span>
+        <div className="flex items-center gap-1.5">
+          <span className="h-2 w-2 rounded-full bg-violet-400" /> Fato Verificado
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span className="h-2 w-2 rounded-full bg-slate-600" /> Conceito Geral
+        </div>
       </div>
 
       <React.Suspense fallback={
@@ -87,24 +84,24 @@ export default function KnowledgeGraph() {
               graphData={graphData}
               nodeLabel="id"
               nodeAutoColorBy="group"
-              linkDirectionalParticles={2}
-              linkDirectionalParticleSpeed={0.005}
-              linkColor={(link: any) => (link.verified ? "rgba(16,185,129,0.6)" : "#334155")}
+              linkDirectionalParticles={3}
+              linkDirectionalParticleSpeed={0.007}
+              linkColor={(link: any) => (link.verified ? "rgba(167,139,250,0.65)" : "#1E293B")}
               backgroundColor="#020617"
               width={window.innerWidth > 768 ? 800 : window.innerWidth - 32}
               height={500}
               nodeCanvasObject={(node: any, ctx, globalScale) => {
                 const label = node.id;
-                const fontSize = 12 / globalScale;
+                const fontSize = 11 / globalScale;
                 ctx.font = `${fontSize}px JetBrains Mono, monospace`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.fillStyle = node.verified ? '#10B981' : (node.color || '#8B5CF6');
+                ctx.fillStyle = node.verified ? '#A78BFA' : '#475569';
                 ctx.beginPath();
-                ctx.arc(node.x, node.y, node.verified ? 7 : 5, 0, 2 * Math.PI, false);
+                ctx.arc(node.x, node.y, node.verified ? 7 : 4, 0, 2 * Math.PI, false);
                 ctx.fill();
-                ctx.fillStyle = node.verified ? '#6EE7B7' : '#94A3B8';
-                ctx.fillText(label, node.x, node.y + 10);
+                ctx.fillStyle = node.verified ? '#C4B5FD' : '#94A3B8';
+                ctx.fillText(label, node.x, node.y + 12);
               }}
             />
           </motion.div>

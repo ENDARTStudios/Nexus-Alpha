@@ -9,7 +9,7 @@ interface Message {
   id: string;
   text: string;
   sender: "user" | "nexus";
-  verified?: boolean;
+  isVerified?: boolean;
 }
 
 export default function ChatWidget() {
@@ -39,11 +39,7 @@ export default function ChatWidget() {
     event.preventDefault();
     if (!input.trim() || isTyping) return;
 
-    const userMsg: Message = {
-      id: Date.now().toString(),
-      text: input,
-      sender: "user",
-    };
+    const userMsg: Message = { id: Date.now().toString(), text: input, sender: "user" };
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
     setIsTyping(true);
@@ -56,21 +52,15 @@ export default function ChatWidget() {
         ...prev,
         {
           id: (Date.now() + 1).toString(),
-          text:
-            data.reply ||
-            "Desculpe, tive uma instabilidade temporária no meu link de comunicação.",
+          text: data.reply || "Processando dados...",
           sender: "nexus",
-          verified: data.verified ?? false,
+          isVerified: data.verified ?? false,
         },
       ]);
     } catch {
       setMessages((prev) => [
         ...prev,
-        {
-          id: "err",
-          text: "Erro ao conectar com o Córtex Central.",
-          sender: "nexus",
-        },
+        { id: "err", text: "Erro ao conectar com o Córtex Central.", sender: "nexus" },
       ]);
     } finally {
       setIsTyping(false);
@@ -93,7 +83,7 @@ export default function ChatWidget() {
                 <div className="h-2 w-2 rounded-full bg-violet-500 animate-pulse" />
                 <div>
                   <h3 className="text-sm font-bold text-white">Nexus Assistente</h3>
-                  <p className="text-[10px] text-slate-400 font-mono">AGENTE INTEGRADO</p>
+                  <p className="text-[10px] text-slate-400 font-mono">CÓRTEX REAL-TIME</p>
                 </div>
               </div>
               <button
@@ -109,22 +99,22 @@ export default function ChatWidget() {
               {messages.map((msg) => (
                 <div
                   key={msg.id}
-                  className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
+                  className={`flex flex-col ${msg.sender === "user" ? "items-end" : "items-start"}`}
                 >
                   <div
-                    className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm ${
+                    className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm ${
                       msg.sender === "user"
                         ? "bg-violet-600 text-white rounded-tr-none"
                         : "bg-slate-800 text-slate-200 rounded-tl-none border border-slate-700/50"
                     }`}
                   >
                     {msg.text}
-                    {msg.sender === "nexus" && msg.verified && (
-                      <span className="mt-1.5 flex w-fit items-center gap-1 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-300">
-                        ✓ Fato Verificado
-                      </span>
-                    )}
                   </div>
+                  {msg.isVerified && msg.sender === "nexus" && (
+                    <span className="text-[9px] text-emerald-400 font-mono mt-1 ml-1 flex items-center gap-1 bg-emerald-950/40 px-2 py-0.5 rounded-full border border-emerald-800/30">
+                      ✓ Fato Verificado pelo Córtex
+                    </span>
+                  )}
                 </div>
               ))}
 
@@ -153,7 +143,7 @@ export default function ChatWidget() {
                 type="text"
                 value={input}
                 onChange={(event) => setInput(event.target.value)}
-                placeholder="Pergunte ao Córtex da IA..."
+                placeholder="Consulte o grafo ativo..."
                 className="flex-1 bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-violet-500 transition-colors placeholder:text-slate-500"
               />
               <button
