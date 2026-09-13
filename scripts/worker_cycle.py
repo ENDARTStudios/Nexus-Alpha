@@ -29,34 +29,33 @@ logger = logging.getLogger("nexus.worker")
 
 
 SEED_QUERIES = [
-    # Documentação de frameworks core de IA/ML
+    # Base enciclopédica PT (maximiza sobreposição exata de triplas)
+    "https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial",
+    "https://pt.wikipedia.org/wiki/Aprendizado_de_m%C3%A1quina",
+    "https://pt.wikipedia.org/wiki/Rede_neural_artificial",
+    "https://pt.wikipedia.org/wiki/Aprendizado_profundo",
+    "https://pt.wikipedia.org/wiki/Processamento_de_linguagem_natural",
+    "https://pt.wikipedia.org/wiki/Visi%C3%A3o_computacional",
+    "https://pt.wikipedia.org/wiki/Aprendizado_por_refor%C3%A7o",
+    "https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial_geral",
+    # Base enciclopédica EN
+    "https://en.wikipedia.org/wiki/Artificial_intelligence",
+    "https://en.wikipedia.org/wiki/Machine_learning",
+    # Documentação / pesquisa (allowlist tech)
     "https://pytorch.org/tutorials/beginner/basics/intro.html",
     "https://www.tensorflow.org/tutorials/quickstart/beginner",
     "https://scikit-learn.org/stable/modules/neural_networks_supervised.html",
-    # Pesquisa / modelos open source
     "https://huggingface.co/docs/transformers/index",
     "https://ollama.com/library",
-    # Enciclopédias conceituais (artigos densos PT/EN)
-    "https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial",
-    "https://pt.wikipedia.org/wiki/Aprendizado_de_m%C3%A1quina",
-    "https://en.wikipedia.org/wiki/Artificial_intelligence",
-    "https://en.wikipedia.org/wiki/Machine_learning",
-    # Blogs de engenharia/pesquisa de big techs
-    "https://openai.com/research/",
     "https://research.google/blog/",
-    "https://engineering.fb.com/",
-    # Papers e agregadores científicos
     "https://arxiv.org/abs/2303.08774",
     "https://paperswithcode.com/area/natural-language-processing",
-    # Guias técnicos gerais
-    "https://developer.mozilla.org/en-US/docs/Glossary/Machine_learning",
-    "https://www.w3.org/WAI/fundamentals/accessibility-intro/",
-    # Acadêmico / institucional
+    # Institucional / científico / guias
     "https://plato.stanford.edu/entries/artificial-intelligence/",
     "https://www.nist.gov/artificial-intelligence",
     "https://www.geeksforgeeks.org/what-is-artificial-intelligence/",
     "https://www.ibm.com/think/topics/artificial-intelligence",
-    # Comprovadamente produtivos em rodadas anteriores
+    "https://developer.mozilla.org/en-US/docs/Glossary/Machine_learning",
     "https://news.mit.edu/topic/artificial-intelligence2",
     "https://spectrum.ieee.org/artificial-intelligence",
 ]
