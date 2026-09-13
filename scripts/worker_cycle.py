@@ -60,6 +60,13 @@ SEED_QUERIES = [
     "https://www.edx.org/learn/artificial-intelligence",
     "https://www.whitehouse.gov/ostp/ai-bill-of-rights/",
     "https://openstax.org/subjects/computer-science",
+    # Artigos PT adicionais (mesmo idioma -> maior sobreposicao de triplas)
+    "https://pt.wikipedia.org/wiki/Aprendizado_por_refor%C3%A7o",
+    "https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial_geral",
+    "https://pt.wikipedia.org/wiki/Rede_neural_convolucional",
+    "https://pt.wikipedia.org/wiki/Teste_de_Turing",
+    "https://pt.wikipedia.org/wiki/Sistema_especialista",
+    "https://pt.wikipedia.org/wiki/ChatGPT",
 ]
 
 
@@ -89,7 +96,7 @@ async def run_cycle() -> None:
     miner = WebMiner()
     security = SecurityProtocol()
     extractor = EntityExtractor(enable_fallback=True)
-    rag = RAGEngine(miner=miner, security=security, extractor=extractor, top_k=30)
+    rag = RAGEngine(miner=miner, security=security, extractor=extractor, top_k=40)
 
     target_urls = _to_urls(plan.target_queries)
     logger.info("Minerando %d URLs (com seeds Wikipédia).", len(target_urls))
