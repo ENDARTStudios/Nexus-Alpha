@@ -37,6 +37,52 @@ assíncrono dividido em 5 etapas:
 
 ---
 
+### 💬 Fluxo de Atendimento Conversacional (Chatbot)
+
+```text
+[ Cliente no site ] → (bolha de chat) → [ ChatWidget (Next.js + Motion) ]
+                                              │ POST /api/chat
+                                              ▼
+                                     [ FastAPI /api/chat ]
+                                              │
+                                ┌─────────────┴─────────────┐
+                                ▼ (fatos)                    ▼ (geração)
+                       [ Memória Híbrida ] ──────────► [ LLM plugável ]
+                       (Neo4j + Qdrant)              (extrativo ou remoto)
+```
+
+*   **Recuperação:** `src/cognition/chat_service.py` extrai palavras-chave e
+    consulta `GraphConnector.search_context` (Neo4j) + `VectorConnector.query_similarity`
+    (Qdrant), com histórico curto por `session_id`.
+*   **Geração:** `src/cognition/llm_provider.py` — responder **extrativo** por padrão
+    (zero dependências); LLM opcional via `NEXUS_LLM_BASE_URL` (compatível com
+    OpenAI, Hugging Face Inference e LLM local via Ollama/vLLM).
+*   **UI:** `src/frontend/components/ChatWidget.tsx` — tema grafite (`#0F172A`) com
+    borda roxo elétrico (`#8B5CF6`), indicador "Nexus pensando..." e skeletons de
+    mensagem. Config de movimento em `src/frontend/lib/motion.config.ts`.
+
+### 🧬 Simulação de Enxame (Predição)
+
+Expansão de capacidade inspirada em motores de predição multi-agente (ex.: MiroFish).
+Como o MiroFish é **AGPL-3.0**, nenhum código foi reutilizado — a implementação é
+**original** e usa apenas a biblioteca padrão.
+
+```text
+[ POST /api/simulate ] → [ SwarmSimulator ]
+                              ├─ seed: topologia do grafo OU search_context(tópico)
+                              ├─ agentes (stance + influência) e canais de influência
+                              └─ rodadas de bounded confidence → relatório
+```
+
+*   **`src/simulation/agent.py`** — `SwarmAgent`: cada conceito vira um agente com
+    posição (`stance`), influência (grau no grafo) e vizinhança.
+*   **`src/simulation/swarm.py`** — `SwarmSimulator`: dinâmica de opinião
+    (convergência/polarização), injeção "visão divina" e relatório (consenso,
+    polarização, veredito, confiança, clusters, trajetória).
+*   **Determinismo:** `seed` reproduz a simulação; custo limitado (≤50 rodadas).
+
+---
+
 ## 🗂️ 2. Topologia dos Módulos Core
 
 O repositório é estritamente modularizado para garantir a manutenibilidade por
@@ -62,9 +108,10 @@ agentes independentes:
     `interceptor.py` (rejeita payloads >1MB e bloqueia brute-force).
 
 *   **`src/database/` (Camada de Persistência):** conectores assíncronos oficiais —
-    `graph_connector.py` (Neo4j / Cypher via `schema.cypher`) e `vector_connector.py`
-    (Qdrant / fallback em memória). Traduzem os contratos de dados JSON-LD em
-    queries estruturadas para os SGBDs em nuvem.
+    `graph_connector.py` (Neo4j / Cypher) e `vector_connector.py` (Qdrant /
+    fallback em memória). O modelo usa a relação `RELACIONA {predicate}` em
+    **Cypher puro (sem APOC)**, garantindo portabilidade no AuraDB. Os vetores são
+    gerados por `src/cognition/embeddings.py` (feature hashing local, sem API).
 
 ---
 
@@ -100,7 +147,38 @@ agentes independentes:
 
 ---
 
-## 🏗️ 5. Stack e Infraestrutura (Zero Cost)
+## 🛰️ 5. Camadas de Alcance e Tooling Opcional
+
+Além do pipeline principal, o ecossistema admite camadas **opcionais** que ampliam
+o alcance sem violar o pilar Custo Zero. Todas degradam graciosamente: quando o
+backend não está instalado, o minerador segue com o scraper estático.
+
+*   **`src/miner/agent_reach.py` — Agent Reach:** camada de alcance sobre
+    primitivos gratuitos. Usa o **Jina Reader** (`https://r.jina.ai/<url>`) para
+    converter páginas JS-heavy em markdown limpo, **feedparser** para feeds
+    RSS/Atom e **yt-dlp** para transcrições do YouTube. Nenhuma chave de API.
+*   **`src/miner/browser_miner.py` — Browser Use (opt-in):** renderização de
+    páginas dinâmicas via `browser-use`. Exige `pip install browser-use` **e** uma
+    chave de LLM (`OPENAI_API_KEY`); desativado por padrão.
+*   **`scripts/security_audit.py` — Strix (opt-in):** wrapper não-bloqueante para
+    pentest autônomo. Exige Docker + chave de LLM; sem eles, imprime instruções.
+*   **Dependências:** isoladas em `requirements-tooling.txt` — o CI não as exige.
+
+### 🧰 Tooling de Desenvolvimento (opencode)
+
+*   **MCP `codebase-memory`:** indexa o repositório em um grafo de código (15 tools).
+*   **MCP `agentmemory`:** memória persistente entre sessões (7 tools em modo local).
+*   **Subagents (`~/.config/opencode/agent/`):** kg-engineer, rag-engineer,
+    data-engineer, devops-automator, code-reviewer, minimal-change-engineer,
+    appsec-engineer, secrets-engineer.
+*   **Skill `diagram-design` (`~/.agents/skills/`):** diagramas editoriais SVG/HTML.
+
+> Configs de MCP/agents/skills vivem no escopo global do opencode, **não** no
+> repositório — não afetam o build nem o runtime de produção.
+
+---
+
+## 🏗️ 6. Stack e Infraestrutura (Zero Cost)
 
 | Componente | Papel | Camada/Arquivo |
 |---|---|---|
@@ -112,7 +190,7 @@ agentes independentes:
 
 ---
 
-## 📜 6. Como Executar
+## 📜 7. Como Executar
 
 ```bash
 # Ciclo completo local

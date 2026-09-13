@@ -13,6 +13,7 @@ from typing import Any, Optional
 
 from src.cognition.nlp_extractor import NLPExtractor
 from src.cognition.reasoning_engine import ReasoningEngine
+from src.cognition.embeddings import hash_embedding
 from src.database.graph_connector import GraphConnector
 from src.database.vector_connector import VectorConnector
 from src.miner.anti_block import AntiBlockSystem
@@ -106,7 +107,9 @@ class NexusAlphaCore:
                 try:
                     self.vector_db.store_memory(
                         point_id=int(time.time()) % (10 ** 8),
-                        vector=[0.1] * 384,
+                        vector=hash_embedding(
+                            mined_text, getattr(self.vector_db, "embedding_dim", 384)
+                        ),
                         payload={"text": mined_text, "url": source_url},
                     )
                 except Exception as exc:

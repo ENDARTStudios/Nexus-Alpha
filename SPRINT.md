@@ -6,47 +6,210 @@ ou introduzir dependências que não estejam explicitamente mapeadas neste docum
 
 ---
 
-## 📅 Sprint Atual: `v1.2.0-alpha` — Ajuste de Rotas e Conexão de Produção
+## ✅ Sprint Concluída: `v1.2.0-alpha` — Ajuste de Rotas e Conexão de Produção
 
-- **Status:** 🟢 Planejada / Pronta para Execução
-- **Impacto:** Crítico (Ativação do banco de dados Neo4j real em produção e correção do endpoint de healthcheck)
-- **Complexidade:** Baixa (Configuração de middlewares e strings de conexão no Hugging Face)
+- **Status:** 🟢 Concluída
+- **Entregas:** rota explícita `GET /health` no `app.py` (Issue #016); protocolo
+  `neo4j+s://` (TLS estrito do AuraDB) + configuração env-first no
+  `graph_connector.py` (Issue #017); sanitização do fixture de teste do
+  `log_sanitizer.py` para manter o gate anti-leak verde.
+- **Pendência externa:** ativação do `cluster-active` depende de billing do GitHub
+  Actions e das secrets `NEO4J_URI`/`NEO4J_PASSWORD` no Space.
 
 ---
 
-## 🎯 Funcionalidade Alvo e Escopo
+## ✅ Sprint Concluída: `v1.3.0-alpha` — Integração de Tooling & Capacidades Externas
 
-Resolver o isolamento de rede do contêiner no Hugging Face Space para que ele consiga
-se autenticar no Neo4j AuraDB e ajustar as rotas do FastAPI para responder corretamente
-ao ping de monitoramento.
+- **Status:** 🟢 Concluída (implementada; pendente de commit)
+- **Impacto:** Médio (produtividade de desenvolvimento e ampliação das fontes de mineração)
+- **Complexidade:** Média (adaptadores opcionais + configuração de agentes)
+- **Pilar:** **Custo Zero** — nenhuma integração pode exigir chave paga por padrão;
+  todas degradam graciosamente quando ausentes.
+
+### 🎯 Funcionalidade Alvo e Escopo
+
+Ampliar as capacidades da Nexus-Alpha com um conjunto de ferramentas externas
+selecionadas, mantendo o núcleo estável e o CI verde. Duas frentes:
+
+1. **Dev-tooling (opencode):** memória de código e agentes especialistas para
+   acelerar o desenvolvimento.
+2. **Capacidades de runtime (minerador/segurança):** alcance de fontes que o
+   scraper estático não cobre e auditoria de segurança opcional.
 
 ### 📋 Tarefas Mapeadas (Mapeamento de GitHub Issues)
 
-#### [Issue #016] — Correção do Endpoint `/health` e Rotas do FastAPI
+#### [Issue #018] — MCP de dev-tooling no opencode (config externa)
+- **Descrição:** registrar os servidores MCP `codebase-memory` (grafo de código)
+  e `agentmemory` (memória persistente) na config global do opencode.
+- **Arquivos Afetados:** `~/.config/opencode/opencode.jsonc` (externo ao repositório)
+- **Critérios:** handshake MCP validado (`initialize` + `tools/list`) para ambos.
 
-- **Descrição:** Adicionar explicitamente a rota `@app.get("/health")` no arquivo
-  `app.py` do Hugging Face. O roteador atual está operando apenas na raiz `/`, fazendo
-  com que o monitor do Space retorne 404 ao buscar o healthcheck estruturado.
-- **Critérios de Conclusão:**
-  - Chamadas para `GET /health` devem retornar `200 {"status": "ok"}` no contêiner de produção.
-- **Arquivos Afetados:**
-  - `app.py` (Modificação)
+#### [Issue #019] — Subagents e skill de diagramação
+- **Descrição:** instalar 8 subagents curados (agency-agents) e a skill
+  `diagram-design` para documentação visual.
+- **Arquivos Afetados:** `~/.config/opencode/agent/*.md`, `~/.agents/skills/diagram-design/`
+- **Critérios:** frontmatter válido (`mode: subagent`); `SKILL.md` presente.
 
-#### [Issue #017] — Depuração do Driver de Conexão Bolt (Neo4j AuraDB)
+#### [Issue #020] — Adaptador Agent Reach (fontes de mineração)
+- **Descrição:** camada opcional de alcance sobre primitivos gratuitos — Jina
+  Reader (web), feedparser (RSS) e yt-dlp (YouTube) — integrada ao `WebMiner`.
+- **Arquivos Afetados:** `src/miner/agent_reach.py`, `tests/test_agent_reach.py`
+- **Critérios:** degradação graciosa (`None` sem exceção) quando o backend falta.
 
-- **Descrição:** Ajustar o protocolo do driver no `graph_connector.py` para usar
-  `neo4j+s://` (exigido pelo AuraDB para criptografia TLS estrita em nuvem) em vez de
-  `bolt://` simples, resolvendo o fallback automático para `demo-memory`.
-- **Critérios de Conclusão:**
-  - O log do Space deve exibir `Conexão assíncrona com o Neo4j estabelecida com sucesso`
-    apontando para o cluster real.
-- **Arquivos Afetados:**
-  - `src/database/graph_connector.py` (Modificação)
+#### [Issue #021] — Backend opcional Browser Use
+- **Descrição:** renderização de páginas dinâmicas via `browser-use`, opt-in e
+  acionada apenas quando o conteúdo estático é insuficiente.
+- **Arquivos Afetados:** `src/miner/browser_miner.py`, `src/miner/web_miner.py`,
+  `src/miner/__init__.py`, `tests/test_browser_miner.py`, `tests/test_reach_integration.py`
+- **Critérios:** `WebMiner` sem os adaptadores mantém comportamento idêntico.
+
+#### [Issue #022] — Auditoria de segurança com Strix (opcional)
+- **Descrição:** wrapper não-bloqueante que aciona o pentest autônomo quando
+  Docker + chave de LLM estão presentes.
+- **Arquivos Afetados:** `scripts/security_audit.py`, `requirements-tooling.txt`
+- **Critérios:** sem pré-requisitos, imprime instruções e sai com código 0.
+
+#### [Issue #023] — Documentação e governança
+- **Descrição:** registrar a arquitetura das camadas opcionais e o mapa de tooling.
+- **Arquivos Afetados:** `SPRINT.md`, `ARCHITECTURE.md`
 
 ---
 
-## 🛡️ Restrições de Deploy e Critérios de Aceitação (Definition of Done)
+## 🛡️ Critérios de Aceitação (Definition of Done)
 
-1. **Pass de Testes:** O validador do GitHub Actions (`ai-validation.yml`) deve dar sinal verde.
-2. **Conexão Real:** O próximo disparo manual do worker deve retornar `db_status: cluster-active`
-   e gravar as 40 tripletas diretamente no grafo online.
+1. **Pass de Testes:** `pytest` verde (inclui os novos testes dos adaptadores).
+2. **Zero-Custo Preservado:** `requirements.txt` inalterado; dependências novas
+   isoladas em `requirements-tooling.txt` e **não** exigidas pelo CI.
+3. **Degradação Graciosa:** ausência de backend/CLI nunca derruba o pipeline.
+4. **Gate anti-leak:** nenhuma credencial literal fora de `graph_connector.py`.
+
+## Plano de Teste
+
+- `tests/test_agent_reach.py`: payload Jina, conteúdo curto, erro HTTP, limpeza
+  de VTT, ausência de yt-dlp/feedparser, despacho de `fetch`.
+- `tests/test_browser_miner.py`: desativação sem módulo/chave, import-error gracioso.
+- `tests/test_reach_integration.py`: fallback do `WebMiner` (renderer > reach > estático).
+- `python scripts/security_audit.py`: sem pré-requisitos, deve sair com código 0.
+
+---
+
+## 📅 Sprint Atual: `v1.4.0-alpha` — Atendimento Conversacional (Chatbot)
+
+- **Status:** 🟢 Planejada / Em Execução
+- **Impacto:** Alto (transforma a Nexus-Alpha em um chatbot de site sobre a memória híbrida)
+- **Complexidade:** Média (rota de conversação + widget de UI)
+- **Pilar:** **Custo Zero** — geração plugável: responder extrativo por padrão (sem
+  dependências) e LLM opcional via endpoint compatível com OpenAI (HF Inference,
+  Ollama/local, OpenRouter).
+
+### 🎯 Funcionalidade Alvo e Escopo
+
+Expor o conhecimento minerado/validado como um atendimento conversacional:
+
+```
+[ Widget no site ] → POST /api/chat → [ ChatService ]
+                                          ├─ recuperação híbrida (Neo4j + Qdrant)
+                                          └─ geração (extrativo ou LLM remoto)
+```
+
+### 📋 Tarefas Mapeadas (Mapeamento de GitHub Issues)
+
+#### [Issue #024] — Camada de geração plugável
+- **Descrição:** `ExtractiveResponder` (padrão, zero deps) + `OpenAICompatibleLLM`
+  (opcional, cobre LLM local via Ollama/`NEXUS_LLM_BASE_URL`).
+- **Arquivos Afetados:** `src/cognition/llm_provider.py`, `tests/test_llm_provider.py`
+- **Critérios:** fallback extrativo sempre disponível; remoto só quando configurado.
+
+#### [Issue #025] — Recuperação híbrida + sessões de conversa
+- **Descrição:** `ChatService` extrai palavras-chave, consulta grafo e vetor,
+  sintetiza e mantém histórico curto por `session_id`.
+- **Arquivos Afetados:** `src/cognition/chat_service.py`,
+  `src/database/graph_connector.py` (`search_context`),
+  `src/cognition/__init__.py`, `tests/test_chat_service.py`
+- **Critérios:** degradação graciosa sem Neo4j/Qdrant; histórico LRU limitado.
+
+#### [Issue #026] — Rota `POST /api/chat` + CORS
+- **Descrição:** endpoint público de conversação no FastAPI, com CORS configurável
+  por `NEXUS_CORS_ORIGINS`.
+- **Arquivos Afetados:** `app.py`, `tests/test_chat_api.py`
+- **Critérios:** `200` com `reply`/`reasoning_steps`; `422` para mensagem vazia.
+
+#### [Issue #027] — Widget de chat (Next.js/Tailwind/Motion)
+- **Descrição:** bolha flutuante com tema grafite + roxo elétrico, indicador de
+  raciocínio ("Nexus pensando...") e skeletons de mensagem.
+- **Arquivos Afetados:** `src/frontend/components/ChatWidget.tsx`,
+  `src/frontend/lib/api.ts`, `src/frontend/lib/motion.config.ts`
+- **Critérios:** responsivo; usa `framer-motion`; consome `NEXT_PUBLIC_NEXUS_API_URL`.
+
+---
+
+## 🛡️ Critérios de Aceitação (Definition of Done)
+
+1. **Pass de Testes:** `pytest` verde (chat + geração + recuperação).
+2. **Custo Zero Preservado:** nenhuma dependência nova obrigatória; LLM é opcional.
+3. **Degradação Graciosa:** sem Neo4j/Qdrant/LLM o chat responde honestamente.
+4. **Gate anti-leak:** nenhuma credencial literal fora de `graph_connector.py`.
+
+## Plano de Teste
+
+- `tests/test_llm_provider.py`: extrativo com/sem contexto; disponibilidade do remoto.
+- `tests/test_chat_service.py`: fusão grafo+vetor, falha do grafo, mensagem vazia,
+  histórico de sessão limitado.
+- `tests/test_chat_api.py`: `/health`, `/api/chat` (200) e validação (422).
+
+---
+
+## ✅ Sprint Concluída: `v1.5.0-alpha` — Hardening & Eficiência (Auditoria Global)
+
+- **Status:** 🟢 Concluída
+- **Objetivo:** corrigir bugs de runtime, remover dependências frágeis e reduzir o custo por requisição.
+
+### Correções aplicadas
+
+| # | Problema | Correção | Arquivos |
+|---|---|---|---|
+| H1 | `dashboard/app.py` usava `asyncio` sem importar | `import asyncio` + `asyncio.run` | `dashboard/app.py` |
+| H2 | `interceptor.py` importava `sanitize_text` inexistente | função criada + exportada | `src/security/log_sanitizer.py`, `src/security/__init__.py` |
+| H3 | `VectorConnector.upsert` não armazenava (código morto) | passou a persistir de fato | `src/database/vector_connector.py` |
+| H4 | Dimensão do vetor divergente (768 config vs 384 código) | alinhado para 384 + embedding real | `config/settings.yaml`, `src/main.py` |
+| H5 | Ingestão dependia de APOC (`apoc.create.relationship`) | relação `RELACIONA {predicate}` (Cypher puro) | `src/database/graph_connector.py` |
+| H6 | Driver Neo4j criado/fechado a cada requisição | singletons + pool reaproveitado | `app.py` |
+| H7 | `worker_cycle` usava relógio monotônico e `domain_score=0.0` | epoch + melhor score das fontes | `scripts/worker_cycle.py` |
+| H8 | `detect_contradictions` nunca casava (tipo dinâmico) | query sobre `r.predicate` | `src/database/graph_connector.py` |
+
+### Novidades
+- `src/cognition/embeddings.py` — embedding local determinístico (feature hashing), tornando a busca vetorial lexicalmente útil sem dependências.
+- `GET /api/metrics` — métricas de grafo/vetores/quarentena.
+- Bootstrap de constraints/índices do Neo4j no `lifespan` (`NEXUS_BOOTSTRAP_SCHEMA`).
+- `.env.example` documentando todas as variáveis de ambiente.
+
+### DoD
+1. `pytest` verde (86 testes).
+2. Nenhuma dependência nova obrigatória.
+3. Gate anti-leak verde.
+
+---
+
+## ✅ Sprint Concluída: `v1.6.0-alpha` — Simulação de Enxame (Predição)
+
+- **Status:** 🟢 Concluída
+- **Objetivo:** expandir as capacidades com um motor de predição por enxame sobre o grafo de conhecimento.
+
+### Contexto de licença
+Capacidade inspirada em motores de predição multi-agente (ex.: MiroFish). O
+MiroFish é **AGPL-3.0**, portanto **nenhum código foi reutilizado** — a
+implementação é original (stdlib puro), preservando o Custo Zero e a licença do projeto.
+
+### Entregas
+
+| Item | Descrição | Arquivos |
+|---|---|---|
+| `SwarmAgent` | Conceito do grafo elevado a agente com `stance`/influência/vizinhança | `src/simulation/agent.py` |
+| `SwarmSimulator` | Dinâmica de opinião com *bounded confidence*; seed de topologia ou relações | `src/simulation/swarm.py` |
+| Relatório | consenso, polarização, veredito, confiança, clusters e trajetória | `src/simulation/swarm.py` |
+| `POST /api/simulate` | Simulação por tópico ou grafo inteiro, injeção "visão divina" e narrativa LLM opcional | `app.py` |
+
+### DoD
+1. `pytest` verde (94 testes).
+2. Zero dependências novas; determinístico com `seed`.
+3. Degradação graciosa com grafo vazio (`status: empty`).

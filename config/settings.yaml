@@ -33,7 +33,7 @@ database:
   vector:
     uri: "http://qdrant-db:6333"
     collection_name: "nexus_semantic_memory"
-    embedding_dim: 768
+    embedding_dim: 384
 
 security_policy:
   reputation:

@@ -53,7 +53,7 @@ python src/frontend/mock_server.py
 python -m pytest tests/ -v
 ```
 
-Todos os 35 testes cobrem: miner, cognition, RAG, NLP, triangulation, reflection, memory, vector, quarantine, anti-block, proxy, reasoning engine, dashboard components.
+Os 86 testes cobrem: miner, cognition, RAG, NLP, triangulation, reflection, memory, vector, embeddings, quarantine, anti-block, proxy, reasoning engine, chat (API/serviço/LLM), topologia de grafo, sanitização de logs, interceptor, dashboard components.
 
 ## 📋 Governança
 

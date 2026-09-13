@@ -13,6 +13,7 @@ Design System:
 """
 from __future__ import annotations
 
+import asyncio
 import sys
 from pathlib import Path
 
@@ -118,8 +119,15 @@ with tabs[1]:
     st.subheader("Contradições Detectadas (Neo4j)")
     try:
         from src.database.graph_connector import GraphConnector
-        gc = GraphConnector()
-        contradictions = asyncio.get_event_loop().run_until_complete(gc.detect_contradictions())
+
+        async def _load_contradictions() -> list:
+            gc = GraphConnector()
+            try:
+                return await gc.detect_contradictions()
+            finally:
+                await gc.close()
+
+        contradictions = asyncio.run(_load_contradictions())
         if contradictions:
             st.dataframe(contradictions[:10], use_container_width=True)
         else:
@@ -134,6 +142,7 @@ with tabs[2]:
     records = quarantine.list_all()
     if records:
         for idx, r in enumerate(records[-10:][::-1]):
+            real_index = len(records) - 1 - idx
             col_a, col_b, col_c, col_d = st.columns([2, 1, 2, 1])
             with col_a:
                 st.markdown(f"**Fonte:** `{r.get('payload', {}).get('source_url', 'N/A')}`")
@@ -143,12 +152,12 @@ with tabs[2]:
                 st.markdown(f"**Registro:** `{r.get('timestamp', '')[:19]}`")
             with col_c:
                 # Ação humana
-                if st.button("✅ Aprovar Forçadamente", key=f"approve_{idx}"):
-                    removed = quarantine.approve_at(-idx - 1)  # approximate index
+                if st.button("✅ Aprovar Forçadamente", key=f"approve_{real_index}"):
+                    removed = quarantine.approve_at(real_index)
                     st.success(f"Aprovado: {removed['payload']['source_url'] if removed else '?'}")
                     st.rerun()
-                if st.button("❌ Descartar Definitivamente", key=f"discard_{idx}"):
-                    quarantine.discard_at(-idx - 1)
+                if st.button("❌ Descartar Definitivamente", key=f"discard_{real_index}"):
+                    quarantine.discard_at(real_index)
                     st.info("Fato descartado permanentemente.")
                     st.rerun()
             with col_d:

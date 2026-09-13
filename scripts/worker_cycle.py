@@ -11,6 +11,7 @@ from __future__ import annotations
 import asyncio
 import logging
 import os
+import time
 from urllib.parse import quote
 
 import httpx
@@ -70,8 +71,11 @@ async def run_cycle() -> None:
 
     payload: dict = {
         "source_url": "https://github-actions.nexus",
-        "timestamp": int(asyncio.get_event_loop().time()),
-        "domain_score": 0.0,
+        "timestamp": int(time.time()),
+        "domain_score": max(
+            (float(src.get("payload", {}).get("domain_score", 0.0)) for src in sources),
+            default=0.0,
+        ),
         "extracted_entities": [],
     }
     for src in sources:

@@ -1,0 +1,12 @@
+# Nexus-Alpha — Integrações opcionais (tooling)
+# NÃO instaladas por padrão e NÃO exigidas pelo CI (ai-validation.yml).
+# Instale sob demanda: pip install -r requirements-tooling.txt
+
+# Agent Reach — leitura de RSS/Atom no minerador (Jina Reader/yt-dlp/gh são CLIs externas)
+feedparser>=6.0
+
+# Browser Use — renderização de páginas dinâmicas (requer chave de LLM, ex.: OPENAI_API_KEY)
+browser-use==0.13.10
+
+# Strix — auditoria de segurança autônoma (requer Docker rodando + chave de LLM)
+strix-agent==1.6.2

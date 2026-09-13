@@ -33,8 +33,8 @@ MERGE (s:Conceito {nome: item.subject})
 MERGE (o:Conceito {nome: item.object})
   ON CREATE SET o.criado_em = timestamp()
 
-WITH f, s, o, item
-CALL apoc.create.relationship(s, toUpper(item.predicate), {confidence: item.confidence, timestamp: $timestamp}, o) YIELD rel
+MERGE (s)-[r:RELACIONA {predicate: toUpper(item.predicate)}]->(o)
+  SET r.confidence = item.confidence, r.timestamp = $timestamp
 
 MERGE (s)-[:MINERADO_DE]->(f)
 MERGE (o)-[:MINERADO_DE]->(f)
@@ -43,15 +43,13 @@ RETURN count(item) AS total_processado
 """
 
 CONTRADICTION_QUERY = """
-MATCH (c1:Conceito)-[r1]->(c2:Conceito)
-WHERE type(r1) IN ['AFIRMA', 'NEGA']
-WITH c1, c2, collect({tipo: type(r1), peso: r1.peso}) AS relacoes
-WHERE size(relacoes) > 1
-  AND any(r IN relacoes WHERE r.tipo = 'AFIRMA')
-  AND any(r IN relacoes WHERE r.tipo = 'NEGA')
+MATCH (c1:Conceito)-[r:RELACIONA]->(c2:Conceito)
+WITH c1, c2, collect(DISTINCT r.predicate) AS predicados
+WHERE any(p IN predicados WHERE p = 'AFIRMA')
+  AND any(p IN predicados WHERE p = 'NEGA')
 RETURN c1.nome AS origem,
        c2.nome AS destino,
-       relacoes,
+       predicados AS relacoes,
        'Alerta: contradição detectada — acionar mecanismo de desempate web' AS status
 """
 
@@ -63,6 +61,30 @@ RETURN c.nome AS conceito, grau AS conexoes
 ORDER BY grau DESC
 LIMIT 25
 """
+
+CONTEXT_QUERY = """
+UNWIND $keywords AS kw
+MATCH (s:Conceito)-[r:RELACIONA]->(o:Conceito)
+WHERE toLower(s.nome) CONTAINS kw OR toLower(o.nome) CONTAINS kw
+RETURN DISTINCT s.nome AS subject, r.predicate AS predicate, o.nome AS object
+LIMIT $limit
+"""
+
+TOPOLOGY_QUERY = """
+MATCH (s:Conceito)-[r:RELACIONA]->(o:Conceito)
+RETURN s.nome AS sujeito, r.predicate AS relacao, o.nome AS objeto
+LIMIT $limit
+"""
+
+DEMO_TOPOLOGY = {"nodes": [{"id": "Nexus-Alpha Core", "group": 1, "val": 20}], "links": []}
+
+COUNT_QUERY = "MATCH (c:Conceito) RETURN count(c) AS total"
+
+SCHEMA_STATEMENTS = [
+    "CREATE CONSTRAINT conceito_nome IF NOT EXISTS FOR (c:Conceito) REQUIRE c.nome IS UNIQUE",
+    "CREATE CONSTRAINT fonte_url IF NOT EXISTS FOR (f:FonteWeb) REQUIRE f.url IS UNIQUE",
+    "CREATE INDEX conceito_busca IF NOT EXISTS FOR (c:Conceito) ON (c.nome)",
+]
 
 
 class GraphConnector:
@@ -115,6 +137,7 @@ class GraphConnector:
                     self.uri,
                     auth=(self.user, self.password),
                     max_connection_pool_size=self.pool_size,
+                    connection_timeout=10.0,
                 )
                 logger.info("Conexão assíncrona e criptografada com o Neo4j estabelecida com sucesso.")
             except Exception as exc:
@@ -127,6 +150,33 @@ class GraphConnector:
             await self.driver.close()
             self.driver = None
             logger.info("Conexão com o Neo4j encerrada de forma limpa.")
+
+    async def ensure_schema(self) -> bool:
+        """Aplica constraints/índices idempotentes (performance de leitura)."""
+        try:
+            if self.driver is None:
+                await self.connect()
+            async with self.driver.session() as session:
+                for statement in SCHEMA_STATEMENTS:
+                    await session.run(statement)
+            logger.info("Schema do Neo4j verificado (constraints/índices).")
+            return True
+        except Exception as exc:
+            logger.warning("Falha ao aplicar schema do Neo4j: %s", exc)
+            return False
+
+    async def count_concepts(self) -> int:
+        """Total de nós :Conceito no grafo (0 se indisponível)."""
+        try:
+            if self.driver is None:
+                await self.connect()
+            async with self.driver.session() as session:
+                result = await session.run(COUNT_QUERY)
+                record = await result.single()
+                return int(record["total"]) if record else 0
+        except Exception as exc:
+            logger.warning("Falha ao contar conceitos no Neo4j: %s", exc)
+            return 0
 
     async def __aenter__(self) -> "GraphConnector":
         await self.connect()
@@ -185,6 +235,51 @@ class GraphConnector:
         async with self.driver.session() as session:
             result = await session.run(EVOLUTION_QUERY)
             return [dict(record) async for record in result]
+
+    async def search_context(self, keywords: list[str], limit: int = 8) -> list[dict[str, Any]]:
+        """Busca relações cujos conceitos casam com as palavras-chave (chat/RAG)."""
+        keywords = [k.lower() for k in keywords if k]
+        if not keywords:
+            return []
+        try:
+            if self.driver is None:
+                await self.connect()
+            async with self.driver.session() as session:
+                result = await session.run(CONTEXT_QUERY, keywords=keywords, limit=limit)
+                return [dict(record) async for record in result]
+        except Exception as exc:
+            logger.warning("Falha na busca de contexto no Neo4j: %s", exc)
+            return []
+
+    async def topology(self, limit: int = 100) -> dict[str, list[dict[str, Any]]]:
+        """Exporta nós e arestas no formato D3/ForceGraph para a UI.
+
+        Degrada para uma malha de demonstração quando o cluster está vazio ou
+        indisponível, mantendo o comportamento resiliente do endpoint.
+        """
+        nodes: dict[str, dict[str, Any]] = {}
+        links: list[dict[str, Any]] = []
+        try:
+            if self.driver is None:
+                await self.connect()
+            async with self.driver.session() as session:
+                result = await session.run(TOPOLOGY_QUERY, limit=limit)
+                async for record in result:
+                    sujeito = record["sujeito"]
+                    objeto = record["objeto"]
+                    nodes.setdefault(sujeito, {"id": sujeito, "group": 1, "val": 15})
+                    nodes.setdefault(objeto, {"id": objeto, "group": 1, "val": 15})
+                    links.append({
+                        "source": sujeito,
+                        "target": objeto,
+                        "label": record["relacao"],
+                    })
+        except Exception as exc:
+            logger.warning("Falha ao extrair topologia do Neo4j: %s", exc)
+
+        if not nodes:
+            return {"nodes": list(DEMO_TOPOLOGY["nodes"]), "links": []}
+        return {"nodes": list(nodes.values()), "links": links}
 
 
 if __name__ == "__main__":

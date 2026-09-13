@@ -171,11 +171,13 @@ class VectorConnector:
 
     def upsert(self, payload: dict[str, Any], embedding: Optional[list[float]] = None) -> str:
         vec_id = self._vector_id(payload)
-        return str(self.store_memory(
-            point_id=int(hashlib.sha256(vec_id.encode()).hexdigest()[:8], 16) % (10 ** 8),
+        point_id = int(hashlib.sha256(vec_id.encode()).hexdigest()[:8], 16) % (10 ** 8)
+        self.store_memory(
+            point_id=point_id,
             vector=embedding or [0.0] * self.embedding_dim,
             payload=payload,
-        )) if False else vec_id  # noqa: mantém semântica original
+        )
+        return vec_id
 
     def search(self, query_embedding: list[float], top_k: int = 5) -> list[dict[str, Any]]:
         return self.query_similarity(query_embedding, limit=top_k)

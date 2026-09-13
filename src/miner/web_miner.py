@@ -14,6 +14,8 @@ import httpx
 from bs4 import BeautifulSoup
 
 from .anti_block import AntiBlockSystem
+from .agent_reach import AgentReach
+from .browser_miner import BrowserMiner
 
 
 logger = logging.getLogger(__name__)
@@ -66,6 +68,9 @@ class WebMiner:
         max_retries: int = 3,
         proxy_rotator: Optional[ProxyRotator] = None,
         anti_block: Optional[AntiBlockSystem] = None,
+        reach: Optional[AgentReach] = None,
+        renderer: Optional[BrowserMiner] = None,
+        min_content_length: int = 200,
     ) -> None:
         self.timeout = timeout
         self.max_retries = max_retries
@@ -74,6 +79,9 @@ class WebMiner:
         if user_agent:
             self.headers["User-Agent"] = user_agent
         self.proxy_rotator = proxy_rotator
+        self.reach = reach
+        self.renderer = renderer
+        self.min_content_length = min_content_length
 
     async def fetch_page(self, client: httpx.AsyncClient, url: str) -> str:
         last_exc: Optional[Exception] = None
@@ -183,13 +191,40 @@ class WebMiner:
         )
         cleaned = []
         for url, html in zip(urls, raw_pages):
-            if not html:
-                continue
-            data = self.clean_html(html, source_url=url)
-            cleaned.append(data)
+            if html:
+                data = self.clean_html(html, source_url=url)
+            else:
+                data = {"title": "", "content": "", "metadata": {}, "payload": None}
+            if len(data.get("content", "")) < self.min_content_length:
+                fallback = await self._fallback_fetch(url)
+                if fallback is not None:
+                    data = fallback
+            if data.get("payload"):
+                cleaned.append(data)
         if urls:
             await self.anti_block.dynamic_delay()
         return cleaned
+
+    async def _fallback_fetch(self, url: str) -> Optional[dict]:
+        """Renderização dinâmica (browser-use) e depois primitivos do AgentReach."""
+        if self.renderer is not None and self.renderer.available():
+            payload = await self.renderer.fetch_rendered(url)
+            if payload:
+                return self._to_clean_dict(payload)
+        if self.reach is not None:
+            payload = await self.reach.fetch(url)
+            if payload:
+                return self._to_clean_dict(payload)
+        return None
+
+    @staticmethod
+    def _to_clean_dict(payload: dict) -> dict:
+        return {
+            "title": payload.get("title", ""),
+            "content": payload.get("content", ""),
+            "metadata": payload.get("metadata", {}),
+            "payload": payload,
+        }
 
 
 if __name__ == "__main__":

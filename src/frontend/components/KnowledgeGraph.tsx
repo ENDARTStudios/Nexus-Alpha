@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 
@@ -11,34 +13,45 @@ interface GraphData {
   links: { source: string; target: string; label: string }[];
 }
 
+// Malha de demonstração usada quando o cluster está vazio ou indisponível.
+const FALLBACK_DATA: GraphData = {
+  nodes: [
+    { id: "Inteligência Artificial", group: 1, val: 25 },
+    { id: "Redes Neurais", group: 1, val: 15 },
+    { id: "GitHub Actions", group: 2, val: 12 },
+    { id: "Nexus-Alpha", group: 3, val: 20 },
+    { id: "Neo4j AuraDB", group: 3, val: 10 }
+  ],
+  links: [
+    { source: "Inteligência Artificial", target: "Redes Neurais", label: "UTILIZA" },
+    { source: "GitHub Actions", target: "Nexus-Alpha", label: "EXECUTA" },
+    { source: "Nexus-Alpha", target: "Inteligência Artificial", label: "EVOLUI" },
+    { source: "Nexus-Alpha", target: "Neo4j AuraDB", label: "PERSISTE_EM" }
+  ]
+};
+
 export default function KnowledgeGraph() {
   const [graphData, setGraphData] = useState<GraphData | null>(null);
   const graphRef = useRef<any>();
 
-  // Simula a busca de dados estruturados do Neo4j via API do Space
+  // Consome a topologia real do Neo4j via API do Space.
   useEffect(() => {
+    let cancelled = false;
     const fetchGraph = async () => {
-      // Mock dinâmico simulando nós minerados pelo robô
-      const mockData: GraphData = {
-        nodes: [
-          { id: "Inteligência Artificial", group: 1, val: 25 },
-          { id: "Redes Neurais", group: 1, val: 15 },
-          { id: "GitHub Actions", group: 2, val: 12 },
-          { id: "Nexus-Alpha", group: 3, val: 20 },
-          { id: "Neo4j AuraDB", group: 3, val: 10 }
-        ],
-        links: [
-          { source: "Inteligência Artificial", target: "Redes Neurais", label: "UTILIZA" },
-          { source: "GitHub Actions", target: "Nexus-Alpha", label: "EXECUTA" },
-          { source: "Nexus-Alpha", target: "Inteligência Artificial", label: "EVOLUI" },
-          { source: "Nexus-Alpha", target: "Neo4j AuraDB", label: "PERSISTE_EM" }
-        ]
-      };
-
-      // Simula a latência de rede para exibir o esqueleto visual
-      setTimeout(() => setGraphData(mockData), 1200);
+      const base = process.env.NEXT_PUBLIC_NEXUS_API_URL ?? "";
+      try {
+        const response = await fetch(`${base}/api/graph/topology`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data: GraphData = await response.json();
+        if (!cancelled) setGraphData(data);
+      } catch {
+        if (!cancelled) setGraphData(FALLBACK_DATA);
+      }
     };
     fetchGraph();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   return (
