@@ -94,10 +94,12 @@ async def run_cycle() -> None:
         "Content-Type": "application/json",
     }
     async with httpx.AsyncClient() as client:
-        # Wake-up: ping /health até o Space sair da hibernação antes do POST
+        # Wake-up: ping /health até o Space sair da hibernação antes do POST.
+        # Space privado exige Authorization também no healthcheck (senão retorna 404).
+        warmup_headers = {"Authorization": f"Bearer {hf_token}"}
         for attempt in range(5):
             try:
-                hp = await client.get(f"{api_base}/health", timeout=20.0)
+                hp = await client.get(f"{api_base}/health", headers=warmup_headers, timeout=20.0)
                 if hp.status_code == 200:
                     break
                 logger.info("Warm-up: Space /health -> %d (tentativa %d/5)", hp.status_code, attempt + 1)
