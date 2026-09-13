@@ -36,15 +36,19 @@ MERGE (o:Conceito {nome: item.object})
 MERGE (s)-[r:RELACIONA {predicate: toUpper(item.predicate)}]->(o)
   SET r.confidence = item.confidence, r.timestamp = $timestamp
 
-MERGE (f)-[:CONFIRMA]->(r)
+MERGE (fato:Fato {chave: toLower(item.subject) + '|' + toUpper(item.predicate) + '|' + toLower(item.object)})
+  ON CREATE SET fato.sujeito = item.subject, fato.predicado = toUpper(item.predicate),
+                fato.objeto = item.object, fato.criado_em = timestamp()
+
+MERGE (f)-[:CONFIRMA]->(fato)
 MERGE (s)-[:MINERADO_DE]->(f)
 MERGE (o)-[:MINERADO_DE]->(f)
 
-WITH DISTINCT r
-MATCH (ff:FonteWeb)-[:CONFIRMA]->(r)
-WITH r, count(DISTINCT ff) AS confirmacoes
-SET r.confirmacoes = confirmacoes, r.verificado = (confirmacoes >= $quorum)
-RETURN count(r) AS total_processado
+WITH DISTINCT fato
+MATCH (ff:FonteWeb)-[:CONFIRMA]->(fato)
+WITH fato, count(DISTINCT ff) AS confirmacoes
+SET fato.confirmacoes = confirmacoes, fato.verificado = (confirmacoes >= $quorum)
+RETURN count(fato) AS total_processado
 """
 
 CONTRADICTION_QUERY = """
@@ -86,7 +90,7 @@ DEMO_TOPOLOGY = {"nodes": [{"id": "Nexus-Alpha Core", "group": 1, "val": 20}], "
 COUNT_QUERY = "MATCH (c:Conceito) RETURN count(c) AS total"
 
 VERIFIED_QUERY = (
-    "MATCH ()-[r:RELACIONA]->() WHERE r.verificado = true RETURN count(r) AS total"
+    "MATCH (fa:Fato) WHERE fa.verificado = true RETURN count(fa) AS total"
 )
 
 SCHEMA_STATEMENTS = [
