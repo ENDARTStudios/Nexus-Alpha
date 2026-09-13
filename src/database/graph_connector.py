@@ -101,10 +101,17 @@ class GraphConnector:
         self._load_config()
 
     def _load_config(self) -> None:
-        """Carrega credenciais (env-first) e garante o protocolo TLS `neo4j+s://`."""
+        """Carrega credenciais (env-first) e garante o protocolo TLS `neo4j+s://`.
+
+        Aceita aliases de ambiente para evitar divergência de nomenclatura:
+        ``NEO4J_URI``/``NEO4J_URL`` e ``NEO4J_PASSWORD``/``NEXUS_NEO4J_PASSWORD``.
+        """
         try:
-            self.uri = os.environ.get("NEO4J_URI")
-            self.password = os.environ.get("NEO4J_PASSWORD")
+            self.uri = os.environ.get("NEO4J_URI") or os.environ.get("NEO4J_URL")
+            self.password = (
+                os.environ.get("NEO4J_PASSWORD")
+                or os.environ.get("NEXUS_NEO4J_PASSWORD")
+            )
             self.user = os.environ.get("NEO4J_USER", "neo4j")
             self.pool_size = 50
 
