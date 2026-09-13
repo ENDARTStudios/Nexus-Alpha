@@ -43,6 +43,7 @@ security_policy:
   triangulation:
     min_independent_sources: 3       # Mínimo de fontes para validar um fato
     auto_quarantine_threshold: 0.5   # Scores abaixo disso vão para quarentena
+    verify_quorum: 3                 # Fontes distintas p/ promover a :Fato.verificado (env: NEXUS_VERIFY_QUORUM)
 
 evolution:
   reflection_interval_hours: 24

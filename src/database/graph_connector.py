@@ -123,28 +123,47 @@ class GraphConnector:
     def _load_config(self) -> None:
         """Carrega credenciais (env-first) e garante o protocolo TLS `neo4j+s://`.
 
-        Aceita aliases de ambiente para evitar divergência de nomenclatura:
-        ``NEO4J_URI``/``NEO4J_URL`` e ``NEO4J_PASSWORD``/``NEXUS_NEO4J_PASSWORD``.
+        Aceita aliases de ambiente (``NEO4J_URI``/``NEO4J_URL``,
+        ``NEO4J_PASSWORD``/``NEXUS_NEO4J_PASSWORD``) e resolve o quórum de
+        verificação via ``NEXUS_VERIFY_QUORUM`` ou
+        ``security_policy.triangulation.verify_quorum`` (default 3).
         """
         try:
-            self.uri = os.environ.get("NEO4J_URI") or os.environ.get("NEO4J_URL")
+            cfg: dict[str, Any] = {}
+            try:
+                with open(self.config_path, "r", encoding="utf-8") as f:
+                    cfg = yaml.safe_load(f) or {}
+            except FileNotFoundError:
+                logger.warning("settings.yaml não encontrado (%s) — usando defaults.", self.config_path)
+
+            graph = cfg.get("database", {}).get("graph", {})
+            triangulation = cfg.get("security_policy", {}).get("triangulation", {})
+
+            self.uri = (
+                os.environ.get("NEO4J_URI")
+                or os.environ.get("NEO4J_URL")
+                or graph.get("uri", "bolt://localhost:7687")
+            )
             self.password = (
                 os.environ.get("NEO4J_PASSWORD")
                 or os.environ.get("NEXUS_NEO4J_PASSWORD")
             )
-            self.user = os.environ.get("NEO4J_USER", "neo4j")
-            self.pool_size = 50
-            self.verify_quorum = int(os.environ.get("NEXUS_VERIFY_QUORUM", "3"))
-
-            if not self.uri or not self.password:
-                with open(self.config_path, "r", encoding="utf-8") as f:
-                    cfg = yaml.safe_load(f) or {}
-                graph = cfg.get("database", {}).get("graph", {})
-                self.uri = graph.get("uri", "bolt://localhost:7687")
-                self.user = graph.get("user", "neo4j")
-                self.pool_size = graph.get("pool_size", 50)
+            if not self.password:
                 password_env = graph.get("password_env", "NEXUS_NEO4J_PASSWORD")
                 self.password = os.getenv(password_env) or "NexusSecurePass2026"
+            self.user = os.environ.get("NEO4J_USER") or graph.get("user", "neo4j")
+            self.pool_size = graph.get("pool_size", 50)
+
+            raw_quorum = (
+                os.environ.get("NEXUS_VERIFY_QUORUM")
+                or triangulation.get("verify_quorum")
+                or 3
+            )
+            try:
+                self.verify_quorum = max(1, int(raw_quorum))
+            except (TypeError, ValueError):
+                logger.warning("NEXUS_VERIFY_QUORUM inválido (%r) — usando 3.", raw_quorum)
+                self.verify_quorum = 3
 
             # [CORREÇÃO - ISSUE #017]: força o protocolo seguro exigido pelo AuraDB
             if self.uri.startswith("bolt://"):
@@ -152,7 +171,11 @@ class GraphConnector:
             elif self.uri.startswith("neo4j://"):
                 self.uri = self.uri.replace("neo4j://", "neo4j+s://", 1)
 
-            logger.info("Configuração carregada. Alvo de persistência: %s", self.uri.split("@")[-1] or self.uri)
+            logger.info(
+                "Configuração carregada. Alvo: %s | quórum de verificação=%d",
+                self.uri.split("@")[-1] or self.uri,
+                self.verify_quorum,
+            )
         except Exception as exc:
             logger.error("Falha ao carregar configurações de grafos: %s", exc)
             raise

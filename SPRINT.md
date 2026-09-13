@@ -6,44 +6,45 @@ ou introduzir dependências que não estejam explicitamente mapeadas neste docum
 
 ---
 
-## 📅 Sprint Atual: `v1.3.0-alpha` — Produção Visual e Integração do Córtex
+## 📅 Sprint Atual: `v1.4.0-alpha` — Expansão de Malha e Escalar Quórum
 
 - **Status:** 🟢 Planejada / Em Execução
-- **Impacto:** Altíssimo (consumo dos endpoints estáveis reais pelo Frontend Next.js)
-- **Complexidade:** Média (endpoints autenticados e tratamento de CORS em produção)
+- **Impacto:** Alto (multiplicação dos fatos validados e verificação contínua de novos domínios)
+- **Complexidade:** Baixa (configuração e adição de novos alvos de busca no orquestrador)
 
 ### 🎯 Funcionalidade Alvo e Escopo
 
-Conectar os componentes visuais (`ChatWidget.tsx` e `KnowledgeGraph.tsx`) aos
-endpoints estáveis da API do Hugging Face (`/api/chat` com Cypher real e
-`/api/graph/topology`), substituindo os mocks e destacando os fatos verificados.
+Ampliar de 6 para 20+ o número de fontes (*seeds*) iniciais de mineração técnica e
+acadêmica e ajustar o comportamento do RAG para cruzar dados mais profundos,
+elevando a taxa de conversão de conceitos gerais para **Fatos Verificados** sem
+corromper as travas de segurança (quórum mantido).
 
 ### 📋 Tarefas Mapeadas (Mapeamento de GitHub Issues)
 
-#### [Issue #018] — Acoplamento do Chatbot Real ao Grafo Vivo
-- **Descrição:** consumir `/api/chat` (Neo4j real) e exibir o selo "Fato Verificado"
-  quando a resposta se basear em fato corroborado.
-- **Arquivos Afetados:** `src/frontend/components/ChatWidget.tsx`,
-  `src/frontend/lib/api.ts`, `src/cognition/chat_service.py`,
-  `src/database/graph_connector.py` (`CONTEXT_QUERY` expõe `verificado`), `app.py`.
-- **Critérios de Conclusão:** o chat responde com dados reais do cluster online; o
-  selo só aparece quando `verified` é verdadeiro.
+#### [Issue #020] — Injeção de Novas Sementes (Seeds) Técnicas no Minerador
+- **Descrição:** adicionar portais independentes e agregadores de documentação
+  oficial de IA à lista de alvos iniciais, forçando o cruzamento de dados sobre os
+  mesmos tópicos em locais diferentes.
+- **Arquivos Afetados:** `scripts/worker_cycle.py` (seeds + `top_k`), executado por
+  `.github/workflows/ai-cron.yml`.
+- **Critérios de Conclusão:** o pipeline deve processar no mínimo 15 domínios
+  únicos de tecnologia por rodada.
 
-#### [Issue #019] — Renderização da Topologia Viva no ForceGraph
-- **Descrição:** consumir `/api/graph/topology` e colorir os nós conforme as
-  propriedades reais do Neo4j (conceitos vs nós de fatos verificados).
-- **Arquivos Afetados:** `src/frontend/components/KnowledgeGraph.tsx`,
-  `src/database/graph_connector.py` (`TOPOLOGY_QUERY` expõe `verificado`).
-- **Critérios de Conclusão:** renderização dinâmica dos conceitos e conexões reais;
-  nós verdes para fatos verificados, violeta para os demais.
+#### [Issue #021] — Otimização do Filtro de Quórum Dinâmico
+- **Descrição:** tornar o parâmetro `NEXUS_VERIFY_QUORUM` modular (env + arquivo),
+  permitindo testes estatísticos sem reescrever o motor de persistência.
+- **Arquivos Afetados:** `config/settings.yaml` (`security_policy.triangulation.verify_quorum`),
+  `src/database/graph_connector.py` (resolução env-first + validação + log).
+- **Critérios de Conclusão:** alterar o quórum via variável de ambiente, com
+  validação registrada nos logs do Space.
 
 ---
 
 ## 🛡️ Restrições de Deploy e Critérios de Aceitação (Definition of Done)
 
-1. **Gate de Testes:** a suíte (97+) e o gate anti-leak devem permanecer verdes.
-2. **CORS Seguro:** a API do Hugging Face deve aceitar as requisições do domínio de
-   deploy da Vercel via `NEXUS_CORS_ORIGINS`.
+1. **Pass de Testes:** a suíte (97+) e a esteira de validação permanecem verdes.
+2. **Taxa de Cruzamento:** o próximo ciclo deve comprovar o aumento nos
+   `verified_facts` mantendo o quórum estável.
 
 ---
 
@@ -56,3 +57,4 @@ endpoints estáveis da API do Hugging Face (`/api/chat` com Cypher real e
 - `v1.6.0-alpha` — Simulação de enxame (`/api/simulate`).
 - `v1.7.0-alpha` — Qualidade de extração (spaCy pt) + memória vetorial.
 - `v1.8.0-alpha` — Ruído, limpeza e corroboração real (`:Fato` + `verified_facts`).
+- `v1.9.0-alpha` — Produção visual (scaffold Next.js, chat real, ForceGraph, CORS Vercel).

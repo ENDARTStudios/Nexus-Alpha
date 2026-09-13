@@ -29,12 +29,33 @@ logger = logging.getLogger("nexus.worker")
 
 
 SEED_QUERIES = [
+    # Wikipédia (PT/EN)
     "https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial",
     "https://pt.wikipedia.org/wiki/Aprendizado_de_m%C3%A1quina",
     "https://pt.wikipedia.org/wiki/Rede_neural_artificial",
     "https://pt.wikipedia.org/wiki/Aprendizado_profundo",
     "https://pt.wikipedia.org/wiki/Processamento_de_linguagem_natural",
     "https://pt.wikipedia.org/wiki/Visi%C3%A3o_computacional",
+    "https://en.wikipedia.org/wiki/Artificial_intelligence",
+    "https://en.wikipedia.org/wiki/Machine_learning",
+    "https://en.wikipedia.org/wiki/Deep_learning",
+    "https://en.wikipedia.org/wiki/Natural_language_processing",
+    # Documentação técnica / oficial
+    "https://scikit-learn.org/stable/modules/neural_networks_supervised.html",
+    "https://pytorch.org/tutorials/beginner/basics/intro.html",
+    "https://www.tensorflow.org/tutorials/quickstart/beginner",
+    "https://developer.mozilla.org/en-US/docs/Glossary/Machine_learning",
+    # Acadêmico / institucional / científico
+    "https://plato.stanford.edu/entries/artificial-intelligence/",
+    "https://ocw.mit.edu/courses/6-034-artificial-intelligence-fall-2010/",
+    "https://news.mit.edu/topic/artificial-intelligence2",
+    "https://arxiv.org/abs/2303.08774",
+    "https://www.geeksforgeeks.org/what-is-artificial-intelligence/",
+    "https://www.nist.gov/artificial-intelligence",
+    "https://www.sciencenews.org/topic/artificial-intelligence",
+    "https://phys.org/technology-news/machine-learning-ai/",
+    "https://spectrum.ieee.org/artificial-intelligence",
+    "https://www.aaai.org/",
 ]
 
 
@@ -64,7 +85,7 @@ async def run_cycle() -> None:
     miner = WebMiner()
     security = SecurityProtocol()
     extractor = EntityExtractor(enable_fallback=True)
-    rag = RAGEngine(miner=miner, security=security, extractor=extractor, top_k=10)
+    rag = RAGEngine(miner=miner, security=security, extractor=extractor, top_k=30)
 
     target_urls = _to_urls(plan.target_queries)
     logger.info("Minerando %d URLs (com seeds Wikipédia).", len(target_urls))

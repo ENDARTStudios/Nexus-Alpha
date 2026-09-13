@@ -2,7 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
-  height: 100%;
+@layer base {
+  body {
+    @apply bg-slate-950 text-slate-100 antialiased overflow-x-hidden;
+  }
+}
+
+/* Customização leve para os botões e áreas interativas do ForceGraph */
+.force-graph-container canvas {
+  display: block;
+  user-select: none;
+  outline: none;
+}
+
+/* Animação customizada para os Skeletons de carregamento da interface */
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }

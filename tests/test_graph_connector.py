@@ -33,3 +33,28 @@ async def test_count_concepts_returns_zero_when_offline(monkeypatch):
 
     monkeypatch.setattr(connector, "connect", boom)
     assert await connector.count_concepts() == 0
+
+
+def test_verify_quorum_from_env(tmp_path, monkeypatch):
+    cfg = tmp_path / "settings.yaml"
+    cfg.write_text("database:\n  graph:\n    uri: 'bolt://localhost:7687'\n", encoding="utf-8")
+    monkeypatch.setenv("NEXUS_VERIFY_QUORUM", "5")
+    assert GraphConnector(config_path=str(cfg)).verify_quorum == 5
+
+
+def test_verify_quorum_from_settings(tmp_path, monkeypatch):
+    cfg = tmp_path / "settings.yaml"
+    cfg.write_text(
+        "database:\n  graph:\n    uri: 'bolt://localhost:7687'\n"
+        "security_policy:\n  triangulation:\n    verify_quorum: 4\n",
+        encoding="utf-8",
+    )
+    monkeypatch.delenv("NEXUS_VERIFY_QUORUM", raising=False)
+    assert GraphConnector(config_path=str(cfg)).verify_quorum == 4
+
+
+def test_verify_quorum_invalid_falls_back_to_three(tmp_path, monkeypatch):
+    cfg = tmp_path / "settings.yaml"
+    cfg.write_text("database:\n  graph:\n    uri: 'bolt://localhost:7687'\n", encoding="utf-8")
+    monkeypatch.setenv("NEXUS_VERIFY_QUORUM", "abc")
+    assert GraphConnector(config_path=str(cfg)).verify_quorum == 3
