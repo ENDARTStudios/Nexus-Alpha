@@ -86,6 +86,18 @@ def get_quarantine() -> QuarantineStore:
     return _quarantine
 
 
+_canonicalizer = None
+
+
+def get_canonicalizer():
+    global _canonicalizer
+    if _canonicalizer is None:
+        from src.cognition.canonicalizer import SemanticCanonicalizer
+
+        _canonicalizer = SemanticCanonicalizer()
+    return _canonicalizer
+
+
 def get_chat_service():
     global _chat_service
     if _chat_service is None:
@@ -167,9 +179,16 @@ async def ingest_data(
     if x_nexus_token != API_SECRET_TOKEN:
         raise HTTPException(status_code=401, detail="Token de autorização inválido.")
 
+    payload_dict = payload.model_dump()
+    canonicalizer = get_canonicalizer()
+    payload_dict["extracted_entities"] = [
+        canonicalizer.canonicalize_triplet(entity)
+        for entity in payload_dict.get("extracted_entities", [])
+    ]
+
     success = False
     try:
-        success = bool(await get_graph_connector().ingest_payload(payload.model_dump()))
+        success = bool(await get_graph_connector().ingest_payload(payload_dict))
     except Exception as exc:
         logger.warning("Neo4j indisponível (%s) — modo demo em memória.", exc)
         success = False

@@ -14,6 +14,7 @@ from typing import Any, Optional
 from src.cognition.nlp_extractor import NLPExtractor
 from src.cognition.reasoning_engine import ReasoningEngine
 from src.cognition.embeddings import hash_embedding
+from src.cognition.canonicalizer import SemanticCanonicalizer
 from src.database.graph_connector import GraphConnector
 from src.database.vector_connector import VectorConnector
 from src.miner.anti_block import AntiBlockSystem
@@ -42,6 +43,7 @@ class NexusAlphaCore:
         self.anti_block = AntiBlockSystem()
         self.reasoning = reasoning or ReasoningEngine()
         self.nlp = nlp or NLPExtractor()
+        self.canonicalizer = SemanticCanonicalizer()
         self.security = security or TriangulationFilter(min_sources=2, threshold=0.5)
         self.miner = miner or WebMiner()
         self.protocol = SecurityProtocol()
@@ -75,12 +77,13 @@ class NexusAlphaCore:
             "base da Inteligência Artificial moderna."
         )
 
-        # 3. Extração semântica (NLP)
+        # 3. Extração semântica (NLP) + canonicalização (colisão de sinônimos)
         logger.info("Processando texto extraído no pipeline de NLP...")
         triplets = self.nlp.extract_triplets(mined_text, target_concept)
         if not triplets:
             logger.warning("Nenhuma tripla pôde ser extraída.")
             return {"status": "no_triplets"}
+        triplets = [self.canonicalizer.canonicalize_triplet(t) for t in triplets]
 
         # 4. Triangulação e persistência
         verified = 0
