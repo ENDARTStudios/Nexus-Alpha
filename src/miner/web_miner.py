@@ -57,6 +57,9 @@ class WebMiner:
         "nav", "footer", "header", "script", "style", "aside",
         ".ads", "#sidebar", ".comments", ".advertisement",
         ".cookie-banner", ".popup", "[role='navigation']",
+        ".mw-editsection", "#catlinks", ".navbox", ".toc", ".reference",
+        ".mw-empty-elt", ".printfooter", ".metadata", ".hatnote",
+        ".mw-jump-link", ".noprint",
     ]
 
     RETRYABLE_STATUS = {403, 408, 425, 429, 500, 502, 503, 504}

@@ -75,11 +75,19 @@ class EntityExtractor:
         "os", "as", "algo", "tudo", "nada",
     }
 
-    @staticmethod
-    def _phrase_text(token, max_tokens: int = 6) -> str:
+    TRAILING_STOP = {
+        "que", "em", "de", "da", "do", "das", "dos", "a", "o", "as", "os",
+        "e", "ao", "aos", "com", "para", "por", "no", "na", "nos", "nas",
+        "se", "como", "mais",
+    }
+
+    @classmethod
+    def _phrase_text(cls, token, max_tokens: int = 6) -> str:
         tokens = [t for t in token.subtree if not t.is_punct and not t.is_space]
         if len(tokens) > max_tokens:
             tokens = tokens[:max_tokens]
+        while tokens and tokens[-1].lower_ in cls.TRAILING_STOP:
+            tokens.pop()
         return " ".join(t.text for t in tokens).strip()
 
     @classmethod
