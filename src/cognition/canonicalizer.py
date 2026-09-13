@@ -91,7 +91,11 @@ class SemanticCanonicalizer:
         cleaned = self.clean_string(raw)
         if cleaned in self.entity_synonyms:
             return self.entity_synonyms[cleaned]
-        return (raw or "").strip().title()
+        stripped = (raw or "").strip()
+        # Preserva acrônimos/caixa original; só capitaliza termos totalmente minúsculos.
+        if stripped.islower():
+            return stripped.title()
+        return stripped
 
     def canonicalize_predicate(self, raw: str) -> str:
         cleaned = self.clean_string(raw)
