@@ -240,3 +240,37 @@ implementação é original (stdlib puro), preservando o Custo Zero e a licença
 1. `pytest` verde (95 testes).
 2. Nenhuma dependência nova no CI.
 3. Gate anti-leak verde.
+
+---
+
+## ✅ Sprint Concluída: `v1.8.0-alpha` — Limpeza, Ruído e Corroboração Real
+
+- **Status:** 🟢 Concluída
+- **Objetivo:** executar os 3 passos de consolidação do conhecimento (ruído, limpeza, triangulação).
+
+### Passo 1 — Filtro de ruído
+- `EntityExtractor._valid_term`: rejeita termos com `|`, marcadores de navegação
+  ("Portal", "Categoria", "editar"…) e "sopa" de nomes próprios (4+ tokens, 3+ capitalizados).
+- `WebMiner.NOISE_SELECTORS`: +`.div-col`, `.portal`, `.sistersitebox`, `.reflist`, `.vertical-navbox`.
+
+### Passo 2 — Limpeza e re-mineração
+- Neo4j e Qdrant zerados; grafo reconstruído do zero.
+
+### Passo 3 — Corroboração/triangulação real
+- Modelo `:Fato` (nó) com `(:FonteWeb)-[:CONFIRMA]->(:Fato)`; `confirmacoes` e
+  `verificado = confirmacoes >= $quorum` (default 3; `NEXUS_VERIFY_QUORUM`).
+- Worker envia **um payload por fonte** (preserva o domínio) e usa 6 seeds diversas + `top_k=10`.
+- `/api/ingest` e `/api/metrics` expõem `verified_facts`.
+
+### Bugs corrigidos no caminho
+- Em Cypher, relacionamento não pode ser endpoint → corroboração migrada para nó `:Fato`.
+- `VectorConnector` nunca detectava o backend Qdrant (`backend or "memory"` tornava o auto-detect código morto).
+- `RAGEngine.top_k=5` cortava as fontes → apenas 2 seeds eram mineradas.
+
+### Resultado (produção)
+- `db_status: cluster-active`; `vectors: 5` (Qdrant persistente).
+- **206 conceitos, 106 fatos, 1 fato verificado** (`[4x] IA generativa --[DISTRIBUIR]--> IA explicável`).
+
+### DoD
+1. `pytest` verde (97 testes).
+2. Gate anti-leak verde.
