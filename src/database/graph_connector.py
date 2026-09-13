@@ -36,10 +36,15 @@ MERGE (o:Conceito {nome: item.object})
 MERGE (s)-[r:RELACIONA {predicate: toUpper(item.predicate)}]->(o)
   SET r.confidence = item.confidence, r.timestamp = $timestamp
 
+MERGE (f)-[:CONFIRMA]->(r)
 MERGE (s)-[:MINERADO_DE]->(f)
 MERGE (o)-[:MINERADO_DE]->(f)
 
-RETURN count(item) AS total_processado
+WITH DISTINCT r
+MATCH (ff:FonteWeb)-[:CONFIRMA]->(r)
+WITH r, count(DISTINCT ff) AS confirmacoes
+SET r.confirmacoes = confirmacoes, r.verificado = (confirmacoes >= $quorum)
+RETURN count(r) AS total_processado
 """
 
 CONTRADICTION_QUERY = """
@@ -80,6 +85,10 @@ DEMO_TOPOLOGY = {"nodes": [{"id": "Nexus-Alpha Core", "group": 1, "val": 20}], "
 
 COUNT_QUERY = "MATCH (c:Conceito) RETURN count(c) AS total"
 
+VERIFIED_QUERY = (
+    "MATCH ()-[r:RELACIONA]->() WHERE r.verificado = true RETURN count(r) AS total"
+)
+
 SCHEMA_STATEMENTS = [
     "CREATE CONSTRAINT conceito_nome IF NOT EXISTS FOR (c:Conceito) REQUIRE c.nome IS UNIQUE",
     "CREATE CONSTRAINT fonte_url IF NOT EXISTS FOR (f:FonteWeb) REQUIRE f.url IS UNIQUE",
@@ -114,6 +123,7 @@ class GraphConnector:
             )
             self.user = os.environ.get("NEO4J_USER", "neo4j")
             self.pool_size = 50
+            self.verify_quorum = int(os.environ.get("NEXUS_VERIFY_QUORUM", "3"))
 
             if not self.uri or not self.password:
                 with open(self.config_path, "r", encoding="utf-8") as f:
@@ -185,6 +195,19 @@ class GraphConnector:
             logger.warning("Falha ao contar conceitos no Neo4j: %s", exc)
             return 0
 
+    async def count_verified(self) -> int:
+        """Total de relações corroboradas por >= quórum de fontes (fatos verificados)."""
+        try:
+            if self.driver is None:
+                await self.connect()
+            async with self.driver.session() as session:
+                result = await session.run(VERIFIED_QUERY)
+                record = await result.single()
+                return int(record["total"]) if record else 0
+        except Exception as exc:
+            logger.warning("Falha ao contar fatos verificados: %s", exc)
+            return 0
+
     async def __aenter__(self) -> "GraphConnector":
         await self.connect()
         return self
@@ -217,6 +240,7 @@ class GraphConnector:
                     timestamp=payload.get("timestamp"),
                     domain_score=domain_score,
                     entities=entities,
+                    quorum=self.verify_quorum,
                 )
                 summary = await result.single()
                 total = summary["total_processado"] if summary else 0

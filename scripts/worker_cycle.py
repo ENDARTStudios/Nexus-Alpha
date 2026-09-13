@@ -3,8 +3,9 @@
 A cada 6h (ou manualmente):
 1. ReasoningEngine decide o plano.
 2. WebMiner coleta dados (com AntiBlockSystem).
-3. EntityExtractor (fallback regex, custo zero) extrai tripletas.
-4. Envia ao Hugging Face Spaces via API autenticada.
+3. EntityExtractor (spaCy pt com fallback regex) extrai tripletas.
+4. Envia **um payload por fonte** ao Hugging Face Space (preserva o domínio de
+   cada fonte para a corroboração/triangulação server-side).
 """
 from __future__ import annotations
 
@@ -31,19 +32,20 @@ SEED_QUERIES = [
     "https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial",
     "https://pt.wikipedia.org/wiki/Aprendizado_de_m%C3%A1quina",
     "https://pt.wikipedia.org/wiki/Rede_neural_artificial",
+    "https://pt.wikipedia.org/wiki/Aprendizado_profundo",
+    "https://pt.wikipedia.org/wiki/Processamento_de_linguagem_natural",
+    "https://pt.wikipedia.org/wiki/Visi%C3%A3o_computacional",
 ]
 
 
 def _to_urls(queries: list[str]) -> list[str]:
-    """Converte queries de busca em URLs reais (Wikipedia para termos, DuckDuckGo para busca)."""
+    """Converte queries de busca em URLs reais e adiciona seeds diversas."""
     urls: list[str] = []
     for q in queries:
         if q.startswith("http://") or q.startswith("https://"):
             urls.append(q)
         else:
-            # Termo direto -> busca DuckDuckGo; se falhar, termo vira URL Wikipedia
             urls.append(f"https://duckduckgo.com/html/?q={quote(q)}")
-    # Adiciona seeds de Wikipédia para garantir conteúdo real extraível
     urls.extend(SEED_QUERIES)
     return urls
 
@@ -69,33 +71,20 @@ async def run_cycle() -> None:
     logger.info("Minerando %d URLs (com seeds Wikipédia).", len(target_urls))
     sources = await rag.fetch_and_verify(target_urls)
 
-    payload: dict = {
-        "source_url": "https://github-actions.nexus",
-        "timestamp": int(time.time()),
-        "domain_score": max(
-            (float(src.get("payload", {}).get("domain_score", 0.0)) for src in sources),
-            default=0.0,
-        ),
-        "extracted_entities": [],
-    }
-    for src in sources:
-        for ent in src["payload"].get("extracted_entities", []):
-            payload["extracted_entities"].append(ent)
-
-    if not payload["extracted_entities"]:
+    payloads = [src.get("payload", {}) for src in sources]
+    payloads = [p for p in payloads if p.get("extracted_entities")]
+    if not payloads:
         logger.warning("Nenhuma tripla extraída neste ciclo.")
         return
 
     api_url = f"{api_base}/api/ingest"
-    # Header Authorization (token HF) é exigido pelo proxy de Spaces PRIVADOS
     headers = {
         "Authorization": f"Bearer {hf_token}",
         "X-Nexus-Token": token,
         "Content-Type": "application/json",
     }
     async with httpx.AsyncClient() as client:
-        # Wake-up: ping /health até o Space sair da hibernação antes do POST.
-        # Space privado exige Authorization também no healthcheck (senão retorna 404).
+        # Wake-up: ping /health até o Space sair da hibernação (auth obrigatório em Space privado).
         warmup_headers = {"Authorization": f"Bearer {hf_token}"}
         for attempt in range(5):
             try:
@@ -107,9 +96,16 @@ async def run_cycle() -> None:
                 logger.warning("Warm-up: ping falhou (%s) - tentativa %d/5", exc, attempt + 1)
             await asyncio.sleep(15)
 
-        logger.info("Enviando %d entidades para %s", len(payload["extracted_entities"]), api_url)
-        response = await client.post(api_url, json=payload, headers=headers, timeout=30.0)
-        logger.info("Resposta: %s — %s", response.status_code, response.text)
+        sent = 0
+        for payload in payloads:
+            payload.setdefault("timestamp", int(time.time()))
+            response = await client.post(api_url, json=payload, headers=headers, timeout=30.0)
+            logger.info(
+                "Resposta [%s]: %s — %s",
+                payload.get("source_url"), response.status_code, response.text,
+            )
+            sent += 1
+        logger.info("Ingestão concluída: %d fonte(s) enviada(s).", sent)
 
 
 if __name__ == "__main__":

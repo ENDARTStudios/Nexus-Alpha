@@ -59,7 +59,8 @@ class WebMiner:
         ".cookie-banner", ".popup", "[role='navigation']",
         ".mw-editsection", "#catlinks", ".navbox", ".toc", ".reference",
         ".mw-empty-elt", ".printfooter", ".metadata", ".hatnote",
-        ".mw-jump-link", ".noprint",
+        ".mw-jump-link", ".noprint", ".div-col", ".portal", ".sistersitebox",
+        ".side-box", ".reflist", ".mw-references-wrap", ".vertical-navbox",
     ]
 
     RETRYABLE_STATUS = {403, 408, 425, 429, 500, 502, 503, 504}

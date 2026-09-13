@@ -78,6 +78,9 @@ class FakeConnector:
     async def count_concepts(self) -> int:
         return 3
 
+    async def count_verified(self) -> int:
+        return 2
+
     async def ensure_schema(self) -> bool:
         return True
 

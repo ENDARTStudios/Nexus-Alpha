@@ -90,12 +90,28 @@ class EntityExtractor:
             tokens.pop()
         return " ".join(t.text for t in tokens).strip()
 
+    NOISE_MARKERS = {
+        "portal", "categoria", "wikipédia", "wikipedia", "editar", "código",
+        "ver também", "commons", "wikcionário", "wikidata", "ficheiro",
+    }
+
     @classmethod
     def _valid_term(cls, term: str) -> bool:
         if not term or len(term) < 3:
             return False
-        first = term.split()[0].lower()
-        if first in cls.PRONOUN_STARTS:
+        if "|" in term:
+            return False
+        lowered = term.lower()
+        if any(marker in lowered for marker in cls.NOISE_MARKERS):
+            return False
+        tokens = term.split()
+        if len(tokens) > 5:
+            return False
+        if tokens[0].lower() in cls.PRONOUN_STARTS:
+            return False
+        # Assinatura de lista de links: 4+ tokens com 3+ capitalizados ("sopa" de nomes próprios)
+        capitalized = sum(1 for t in tokens if t[:1].isupper())
+        if len(tokens) >= 4 and capitalized >= 3:
             return False
         return any(ch.isalpha() for ch in term)
 

@@ -140,6 +140,7 @@ def health_check() -> dict:
 async def metrics() -> dict:
     """Métricas para o dashboard/frontend (grafo, vetores e quarentena)."""
     facts = await get_graph_connector().count_concepts()
+    verified = await get_graph_connector().count_verified()
     vectors = get_vector_connector().count()
     try:
         quarantined = len(get_quarantine().list_all())
@@ -150,6 +151,7 @@ async def metrics() -> dict:
         "status": "online",
         "timestamp": int(time.time()),
         "facts": facts,
+        "verified_facts": verified,
         "vectors": vectors,
         "quarantine": quarantined,
     }
@@ -194,6 +196,7 @@ async def ingest_data(
         logger.warning("Memória vetorial indisponível (%s) — ingestão apenas no grafo.", exc)
 
     db_status = "cluster-active" if success else "demo-memory"
+    verified = await get_graph_connector().count_verified()
     return {
         "status": "success" if success else "partial_success",
         "message": (
@@ -204,6 +207,7 @@ async def ingest_data(
         "db_status": db_status,
         "entities_processed": len(payload.extracted_entities),
         "vectors_indexed": vectors_indexed,
+        "verified_facts": verified,
     }
 
 
