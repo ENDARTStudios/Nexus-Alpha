@@ -213,3 +213,30 @@ implementação é original (stdlib puro), preservando o Custo Zero e a licença
 1. `pytest` verde (94 testes).
 2. Zero dependências novas; determinístico com `seed`.
 3. Degradação graciosa com grafo vazio (`status: empty`).
+
+---
+
+## ✅ Sprint Concluída: `v1.7.0-alpha` — Qualidade de Extração & Memória Vetorial
+
+- **Status:** 🟢 Concluída
+- **Objetivo:** melhorar a qualidade dos fatos minerados e popular a memória vetorial no fluxo de produção.
+
+### Entregas
+
+| Item | Descrição | Arquivos |
+|---|---|---|
+| spaCy PT no worker | instala `pt_core_news_sm` (wheel explícito, não-fatal) | `.github/workflows/ai-cron.yml` |
+| Extrator SVO | raiz verbal, sintagmas via *subtrees*, filtro de pronomes e de palavras funcionais | `src/cognition/extractor.py` |
+| Anti-boilerplate | seletores de ruído do Wikipedia (`.mw-editsection`, `#catlinks`, `.navbox`…) | `src/miner/web_miner.py` |
+| Indexação vetorial | `/api/ingest` grava `hash_embedding` no Qdrant e devolve `vectors_indexed` | `app.py` |
+| Runtime do Space | `qdrant-client` adicionado ao `requirements-hf.txt` | `requirements-hf.txt` |
+
+### Resultado (produção)
+- `db_status: cluster-active` e `vectors_indexed: 1` por ciclo.
+- Grafo: **265 conceitos**, 87+ relações; memória vetorial: **4** fragmentos (Qdrant Cloud).
+- Extração com predicados lemmatizados (`CONSISTIR`, `IMPULSIONAR`…) e sujeitos/objetos frasais.
+
+### DoD
+1. `pytest` verde (95 testes).
+2. Nenhuma dependência nova no CI.
+3. Gate anti-leak verde.
