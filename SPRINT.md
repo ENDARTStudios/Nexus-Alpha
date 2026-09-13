@@ -6,45 +6,49 @@ ou introduzir dependências que não estejam explicitamente mapeadas neste docum
 
 ---
 
-## 📅 Sprint Atual: `v1.4.0-alpha` — Expansão de Malha e Escalar Quórum
+## 📅 Sprint Atual: `v1.5.0-alpha` — Resolução Vetorial e Colisão Dinâmica
 
 - **Status:** 🟢 Planejada / Em Execução
-- **Impacto:** Alto (multiplicação dos fatos validados e verificação contínua de novos domínios)
-- **Complexidade:** Baixa (configuração e adição de novos alvos de busca no orquestrador)
+- **Impacto:** Crítico (cura da dispersão filológica de entidades compostas)
+- **Complexidade:** Média (acoplamento de similaridade de cosseno no fluxo de ingestão)
 
 ### 🎯 Funcionalidade Alvo e Escopo
 
-Ampliar de 6 para 20+ o número de fontes (*seeds*) iniciais de mineração técnica e
-acadêmica e ajustar o comportamento do RAG para cruzar dados mais profundos,
-elevando a taxa de conversão de conceitos gerais para **Fatos Verificados** sem
-corromper as travas de segurança (quórum mantido).
+Complementar o modelo heurístico de sinônimos estáticos (`SemanticCanonicalizer`)
+com um algoritmo de **clustering semântico por embeddings**. Entidades com
+proximidade vetorial acima do limiar colapsam automaticamente sob o mesmo nó
+canônico no Neo4j AuraDB, forçando o acúmulo honesto de confirmações para a
+promoção de `verified_facts` (quórum estrito mantido em 3).
+
+> **Nota técnica:** o embedding local (`src/cognition/embeddings.py`) é *lexical*
+> (feature hashing). Pares near-duplicados pontuam ~0.82, então o limiar efetivo é
+> **0.80** (o valor 0.88 era calibrado para embeddings semânticos densos).
 
 ### 📋 Tarefas Mapeadas (Mapeamento de GitHub Issues)
 
-#### [Issue #020] — Injeção de Novas Sementes (Seeds) Técnicas no Minerador
-- **Descrição:** adicionar portais independentes e agregadores de documentação
-  oficial de IA à lista de alvos iniciais, forçando o cruzamento de dados sobre os
-  mesmos tópicos em locais diferentes.
-- **Arquivos Afetados:** `scripts/worker_cycle.py` (seeds + `top_k`), executado por
-  `.github/workflows/ai-cron.yml`.
-- **Critérios de Conclusão:** o pipeline deve processar no mínimo 15 domínios
-  únicos de tecnologia por rodada.
+#### [Issue #023] — Desenvolvimento do Módulo `EntityResolver`
+- **Descrição:** resolvedor vetorial usando o utilitário nativo de embeddings, com
+  cache volátil por instância/rodada.
+- **Arquivos Afetados:** `src/cognition/entity_resolver.py` (Criação),
+  `tests/test_entity_resolver.py` (Criação), `src/cognition/embeddings.py`
+  (novas funções `get_embedding`/`cosine_similarity`).
+- **Critérios de Conclusão:** fusão de termos textualmente distintos mas próximos
+  (ex.: `IA Generativa` ↔ `IA Generativa (GenAI)`).
 
-#### [Issue #021] — Otimização do Filtro de Quórum Dinâmico
-- **Descrição:** tornar o parâmetro `NEXUS_VERIFY_QUORUM` modular (env + arquivo),
-  permitindo testes estatísticos sem reescrever o motor de persistência.
-- **Arquivos Afetados:** `config/settings.yaml` (`security_policy.triangulation.verify_quorum`),
-  `src/database/graph_connector.py` (resolução env-first + validação + log).
-- **Critérios de Conclusão:** alterar o quórum via variável de ambiente, com
-  validação registrada nos logs do Space.
+#### [Issue #024] — Integração Cirúrgica no Pipeline e na API
+- **Descrição:** injetar o resolvedor logo após a canonicalização, antes do
+  validador de quórum.
+- **Arquivos Afetados:** `src/main.py` (Modificação), `app.py` (Modificação).
+- **Critérios de Conclusão:** incremento mensurável em `verified_facts` mantendo o
+  quórum de triangulação fixado em 3.
 
 ---
 
 ## 🛡️ Restrições de Deploy e Critérios de Aceitação (Definition of Done)
 
-1. **Pass de Testes:** a suíte (97+) e a esteira de validação permanecem verdes.
-2. **Taxa de Cruzamento:** o próximo ciclo deve comprovar o aumento nos
-   `verified_facts` mantendo o quórum estável.
+1. **Gate de CI Estrito:** a expansão eleva a suíte para **107+ testes verdes**, sem
+   quebras nos construtores do `test_main.py`.
+2. **Preservação de Acrônimos:** o resolvedor não corrompe siglas (`MIT`, `AI`, `IA`).
 
 ---
 
@@ -58,3 +62,4 @@ corromper as travas de segurança (quórum mantido).
 - `v1.7.0-alpha` — Qualidade de extração (spaCy pt) + memória vetorial.
 - `v1.8.0-alpha` — Ruído, limpeza e corroboração real (`:Fato` + `verified_facts`).
 - `v1.9.0-alpha` — Produção visual (scaffold Next.js, chat real, ForceGraph, CORS Vercel).
+- `v1.10.0-alpha` — Malha de seeds (allowlist tech) + canonicalização léxica (`SemanticCanonicalizer`).

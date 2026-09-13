@@ -10,6 +10,7 @@ from .llm_provider import ExtractiveResponder, OpenAICompatibleLLM, get_llm_prov
 from .chat_service import ChatService
 from .embeddings import hash_embedding
 from .canonicalizer import SemanticCanonicalizer
+from .entity_resolver import EntityResolver
 
 __all__ = [
     "ChainOfThought", "ReasoningStep",
@@ -17,5 +18,5 @@ __all__ = [
     "RAGEngine", "EntityExtractor", "Triple", "NLPExtractor",
     "LocalMemory", "ReflectionWorker",
     "ExtractiveResponder", "OpenAICompatibleLLM", "get_llm_provider",
-    "ChatService", "hash_embedding", "SemanticCanonicalizer",
+    "ChatService", "hash_embedding", "SemanticCanonicalizer", "EntityResolver",
 ]

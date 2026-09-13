@@ -98,6 +98,18 @@ def get_canonicalizer():
     return _canonicalizer
 
 
+_entity_resolver = None
+
+
+def get_entity_resolver():
+    global _entity_resolver
+    if _entity_resolver is None:
+        from src.cognition.entity_resolver import EntityResolver
+
+        _entity_resolver = EntityResolver()
+    return _entity_resolver
+
+
 def get_chat_service():
     global _chat_service
     if _chat_service is None:
@@ -181,8 +193,9 @@ async def ingest_data(
 
     payload_dict = payload.model_dump()
     canonicalizer = get_canonicalizer()
+    resolver = get_entity_resolver()
     payload_dict["extracted_entities"] = [
-        canonicalizer.canonicalize_triplet(entity)
+        resolver.resolve_triplet(canonicalizer.canonicalize_triplet(entity))
         for entity in payload_dict.get("extracted_entities", [])
     ]
 

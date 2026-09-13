@@ -15,6 +15,7 @@ from src.cognition.nlp_extractor import NLPExtractor
 from src.cognition.reasoning_engine import ReasoningEngine
 from src.cognition.embeddings import hash_embedding
 from src.cognition.canonicalizer import SemanticCanonicalizer
+from src.cognition.entity_resolver import EntityResolver
 from src.database.graph_connector import GraphConnector
 from src.database.vector_connector import VectorConnector
 from src.miner.anti_block import AntiBlockSystem
@@ -44,6 +45,7 @@ class NexusAlphaCore:
         self.reasoning = reasoning or ReasoningEngine()
         self.nlp = nlp or NLPExtractor()
         self.canonicalizer = SemanticCanonicalizer()
+        self.entity_resolver = EntityResolver()
         self.security = security or TriangulationFilter(min_sources=2, threshold=0.5)
         self.miner = miner or WebMiner()
         self.protocol = SecurityProtocol()
@@ -84,6 +86,7 @@ class NexusAlphaCore:
             logger.warning("Nenhuma tripla pôde ser extraída.")
             return {"status": "no_triplets"}
         triplets = [self.canonicalizer.canonicalize_triplet(t) for t in triplets]
+        triplets = [self.entity_resolver.resolve_triplet(t) for t in triplets]
 
         # 4. Triangulação e persistência
         verified = 0
