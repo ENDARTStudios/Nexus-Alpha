@@ -117,9 +117,11 @@ app = FastAPI(
 
 
 _cors_origins = os.environ.get("NEXUS_CORS_ORIGINS", "*")
+_cors_regex = os.environ.get("NEXUS_CORS_ORIGIN_REGEX", r"https://.*\.vercel\.app")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[o.strip() for o in _cors_origins.split(",") if o.strip()] or ["*"],
+    allow_origin_regex=_cors_regex or None,
     allow_credentials=False,
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
