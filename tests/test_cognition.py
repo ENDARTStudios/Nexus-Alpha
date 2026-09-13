@@ -50,3 +50,12 @@ def test_security_triangulation_quorum():
     result: VerificationResult = proto.triangulate("dado X confirmado", sources)
     assert result.status.startswith("Hipótese")
     assert result.confidence < 0.9
+
+
+def test_trusted_tech_domains_pass_the_trust_gate():
+    proto = SecurityProtocol()
+    assert proto.domain_score("https://huggingface.co/docs") == 0.8
+    assert proto.domain_score("https://openai.com/research") == 0.8
+    assert proto.domain_score("https://pytorch.org") == 0.9
+    assert proto.domain_score("https://example.com") == 0.6
+    assert proto.domain_score("https://reddit.com/x") == 0.4

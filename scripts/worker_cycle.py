@@ -29,44 +29,36 @@ logger = logging.getLogger("nexus.worker")
 
 
 SEED_QUERIES = [
-    # Wikipédia (PT/EN)
-    "https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial",
-    "https://pt.wikipedia.org/wiki/Aprendizado_de_m%C3%A1quina",
-    "https://pt.wikipedia.org/wiki/Rede_neural_artificial",
-    "https://pt.wikipedia.org/wiki/Aprendizado_profundo",
-    "https://pt.wikipedia.org/wiki/Processamento_de_linguagem_natural",
-    "https://pt.wikipedia.org/wiki/Visi%C3%A3o_computacional",
-    "https://en.wikipedia.org/wiki/Artificial_intelligence",
-    "https://en.wikipedia.org/wiki/Machine_learning",
-    "https://en.wikipedia.org/wiki/Deep_learning",
-    "https://en.wikipedia.org/wiki/Natural_language_processing",
-    # Documentação técnica / oficial
-    "https://scikit-learn.org/stable/modules/neural_networks_supervised.html",
+    # Documentação de frameworks core de IA/ML
     "https://pytorch.org/tutorials/beginner/basics/intro.html",
     "https://www.tensorflow.org/tutorials/quickstart/beginner",
-    "https://developer.mozilla.org/en-US/docs/Glossary/Machine_learning",
-    # Acadêmico / institucional / científico
-    "https://plato.stanford.edu/entries/artificial-intelligence/",
-    "https://ocw.mit.edu/courses/6-034-artificial-intelligence-fall-2010/",
-    "https://news.mit.edu/topic/artificial-intelligence2",
+    "https://scikit-learn.org/stable/modules/neural_networks_supervised.html",
+    # Pesquisa / modelos open source
+    "https://huggingface.co/docs/transformers/index",
+    "https://ollama.com/library",
+    # Enciclopédias conceituais (artigos densos PT/EN)
+    "https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial",
+    "https://pt.wikipedia.org/wiki/Aprendizado_de_m%C3%A1quina",
+    "https://en.wikipedia.org/wiki/Artificial_intelligence",
+    "https://en.wikipedia.org/wiki/Machine_learning",
+    # Blogs de engenharia/pesquisa de big techs
+    "https://openai.com/research/",
+    "https://research.google/blog/",
+    "https://engineering.fb.com/",
+    # Papers e agregadores científicos
     "https://arxiv.org/abs/2303.08774",
-    "https://www.geeksforgeeks.org/what-is-artificial-intelligence/",
+    "https://paperswithcode.com/area/natural-language-processing",
+    # Guias técnicos gerais
+    "https://developer.mozilla.org/en-US/docs/Glossary/Machine_learning",
+    "https://www.w3.org/WAI/fundamentals/accessibility-intro/",
+    # Acadêmico / institucional
+    "https://plato.stanford.edu/entries/artificial-intelligence/",
     "https://www.nist.gov/artificial-intelligence",
-    "https://www.sciencenews.org/topic/artificial-intelligence",
-    "https://phys.org/technology-news/machine-learning-ai/",
+    "https://www.geeksforgeeks.org/what-is-artificial-intelligence/",
+    "https://www.ibm.com/think/topics/artificial-intelligence",
+    # Comprovadamente produtivos em rodadas anteriores
+    "https://news.mit.edu/topic/artificial-intelligence2",
     "https://spectrum.ieee.org/artificial-intelligence",
-    "https://www.aaai.org/",
-    "https://www.khanacademy.org/computing/computer-science",
-    "https://www.edx.org/learn/artificial-intelligence",
-    "https://www.whitehouse.gov/ostp/ai-bill-of-rights/",
-    "https://openstax.org/subjects/computer-science",
-    # Artigos PT adicionais (mesmo idioma -> maior sobreposicao de triplas)
-    "https://pt.wikipedia.org/wiki/Aprendizado_por_refor%C3%A7o",
-    "https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial_geral",
-    "https://pt.wikipedia.org/wiki/Rede_neural_convolucional",
-    "https://pt.wikipedia.org/wiki/Teste_de_Turing",
-    "https://pt.wikipedia.org/wiki/Sistema_especialista",
-    "https://pt.wikipedia.org/wiki/ChatGPT",
 ]
 
 

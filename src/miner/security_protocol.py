@@ -9,6 +9,12 @@ from urllib.parse import urlparse
 
 
 HIGH_TRUST_TLDS = (".edu", ".gov", ".ac.", ".org")
+TRUSTED_TECH_DOMAINS = (
+    "huggingface.co", "openai.com", "research.google", "ai.google", "deepmind.google",
+    "engineering.fb.com", "github.com", "ibm.com", "paperswithcode.com", "ollama.com",
+    "pytorch.org", "tensorflow.org", "scikit-learn.org", "arxiv.org", "mozilla.org",
+    "w3.org", "keras.io",
+)
 LOW_TRUST_PATTERNS = (
     "reddit.com", "medium.com", "wordpress.com",
     "blogspot.com", "tumblr.com", "substack.com",
@@ -38,6 +44,8 @@ class SecurityProtocol:
         host = urlparse(url).netloc.lower()
         if any(tld in host for tld in HIGH_TRUST_TLDS):
             return 0.9
+        if any(domain in host for domain in TRUSTED_TECH_DOMAINS):
+            return 0.8
         if any(pat in host for pat in LOW_TRUST_PATTERNS):
             return 0.4
         return 0.6
