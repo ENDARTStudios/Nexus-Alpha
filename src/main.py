@@ -16,6 +16,7 @@ from src.cognition.reasoning_engine import ReasoningEngine
 from src.cognition.embeddings import hash_embedding
 from src.cognition.canonicalizer import SemanticCanonicalizer
 from src.cognition.entity_resolver import EntityResolver
+from src.cognition.llm_extractor import LLMCanonicalExtractor
 from src.database.graph_connector import GraphConnector
 from src.database.vector_connector import VectorConnector
 from src.miner.anti_block import AntiBlockSystem
@@ -46,6 +47,7 @@ class NexusAlphaCore:
         self.nlp = nlp or NLPExtractor()
         self.canonicalizer = SemanticCanonicalizer()
         self.entity_resolver = EntityResolver()
+        self.llm_extractor = LLMCanonicalExtractor()
         self.security = security or TriangulationFilter(min_sources=2, threshold=0.5)
         self.miner = miner or WebMiner()
         self.protocol = SecurityProtocol()
@@ -79,9 +81,11 @@ class NexusAlphaCore:
             "base da Inteligência Artificial moderna."
         )
 
-        # 3. Extração semântica (NLP) + canonicalização (colisão de sinônimos)
-        logger.info("Processando texto extraído no pipeline de NLP...")
-        triplets = self.nlp.extract_triplets(mined_text, target_concept)
+        # 3. Extração semântica: LLM canônico (opt-in) com fallback heurístico
+        logger.info("Extraindo triplas (LLM canônico se configurado; senão heurístico)...")
+        triplets = self.llm_extractor.extract_canonical_triplets(mined_text)
+        if not triplets:
+            triplets = self.nlp.extract_triplets(mined_text, target_concept)
         if not triplets:
             logger.warning("Nenhuma tripla pôde ser extraída.")
             return {"status": "no_triplets"}

@@ -6,49 +6,48 @@ ou introduzir dependências que não estejam explicitamente mapeadas neste docum
 
 ---
 
-## 📅 Sprint Atual: `v1.5.0-alpha` — Resolução Vetorial e Colisão Dinâmica
+## 📅 Sprint Atual: `v1.6.0-alpha` — Schema Canônico Baseado em LLM
 
 - **Status:** 🟢 Planejada / Em Execução
-- **Impacto:** Crítico (cura da dispersão filológica de entidades compostas)
-- **Complexidade:** Média (acoplamento de similaridade de cosseno no fluxo de ingestão)
+- **Impacto:** Crítico (resolução do gargalo de extração heterogênea via inferência guiada)
+- **Complexidade:** Alta (orquestração de prompts estritos e validação estrutural pós-inferência)
 
 ### 🎯 Funcionalidade Alvo e Escopo
 
-Complementar o modelo heurístico de sinônimos estáticos (`SemanticCanonicalizer`)
-com um algoritmo de **clustering semântico por embeddings**. Entidades com
-proximidade vetorial acima do limiar colapsam automaticamente sob o mesmo nó
-canônico no Neo4j AuraDB, forçando o acúmulo honesto de confirmações para a
-promoção de `verified_facts` (quórum estrito mantido em 3).
+Substituir (de forma **opt-in**) a extração heurística por um pipeline baseado em
+LLM operando sob um **vocabulário controlado de predicados** e entidades
+normalizadas. Isso garante uniformidade estrutural na raiz da coleta, forçando a
+colisão de triplas semanticamente equivalentes e destravando `verified_facts`.
 
-> **Nota técnica:** o embedding local (`src/cognition/embeddings.py`) é *lexical*
-> (feature hashing). Pares near-duplicados pontuam ~0.82, então o limiar efetivo é
-> **0.80** (o valor 0.88 era calibrado para embeddings semânticos densos).
+> **Fallback obrigatório:** sem `NEXUS_LLM_BASE_URL` configurado, o extrator LLM
+> devolve vazio e o pipeline cai no extrator heurístico (spaCy/regex) — nunca
+> deixa de produzir fatos.
 
 ### 📋 Tarefas Mapeadas (Mapeamento de GitHub Issues)
 
-#### [Issue #023] — Desenvolvimento do Módulo `EntityResolver`
-- **Descrição:** resolvedor vetorial usando o utilitário nativo de embeddings, com
-  cache volátil por instância/rodada.
-- **Arquivos Afetados:** `src/cognition/entity_resolver.py` (Criação),
-  `tests/test_entity_resolver.py` (Criação), `src/cognition/embeddings.py`
-  (novas funções `get_embedding`/`cosine_similarity`).
-- **Critérios de Conclusão:** fusão de termos textualmente distintos mas próximos
-  (ex.: `IA Generativa` ↔ `IA Generativa (GenAI)`).
+#### [Issue #025] — Construção do `LLMCanonicalExtractor`
+- **Descrição:** extração guiada por schema JSON usando o `llm_provider` nativo,
+  com filtro de predicados autorizados (`UTILIZA`, `EXECUTA`, `PRODUZ`, …).
+- **Arquivos Afetados:** `src/cognition/llm_extractor.py` (Criação),
+  `tests/test_llm_extractor.py` (Criação),
+  `src/cognition/llm_provider.py` (`generate_text` síncrono).
+- **Critérios de Conclusão:** retorno estrito de JSON parseável e triplas
+  normalizadas, sem lixo descritivo.
 
-#### [Issue #024] — Integração Cirúrgica no Pipeline e na API
-- **Descrição:** injetar o resolvedor logo após a canonicalização, antes do
-  validador de quórum.
-- **Arquivos Afetados:** `src/main.py` (Modificação), `app.py` (Modificação).
-- **Critérios de Conclusão:** incremento mensurável em `verified_facts` mantendo o
-  quórum de triangulação fixado em 3.
+#### [Issue #026] — Acoplamento do Novo Extrator no Core e na API
+- **Descrição:** injetar o extrator no `src/main.py`, no worker
+  (`scripts/worker_cycle.py`) e expor `POST /api/extract` no Space.
+- **Arquivos Afetados:** `src/main.py`, `scripts/worker_cycle.py`, `app.py`.
+- **Critérios de Conclusão:** elevação mensurável nos `verified_facts` após ciclos
+  sobre as seeds híbridas, mantendo o quórum em 3.
 
 ---
 
 ## 🛡️ Restrições de Deploy e Critérios de Aceitação (Definition of Done)
 
-1. **Gate de CI Estrito:** a expansão eleva a suíte para **107+ testes verdes**, sem
-   quebras nos construtores do `test_main.py`.
-2. **Preservação de Acrônimos:** o resolvedor não corrompe siglas (`MIT`, `AI`, `IA`).
+1. **Gate de CI Estrito:** a suíte expande para **111+ testes verdes**.
+2. **Fallback Garantido:** sem LLM configurado, a ingestão heurística permanece
+   funcional (nenhum ciclo produz zero fatos).
 
 ---
 
@@ -62,4 +61,5 @@ promoção de `verified_facts` (quórum estrito mantido em 3).
 - `v1.7.0-alpha` — Qualidade de extração (spaCy pt) + memória vetorial.
 - `v1.8.0-alpha` — Ruído, limpeza e corroboração real (`:Fato` + `verified_facts`).
 - `v1.9.0-alpha` — Produção visual (scaffold Next.js, chat real, ForceGraph, CORS Vercel).
-- `v1.10.0-alpha` — Malha de seeds (allowlist tech) + canonicalização léxica (`SemanticCanonicalizer`).
+- `v1.10.0-alpha` — Malha de seeds (allowlist tech) + canonicalização léxica.
+- `v1.11.0-alpha` — Resolução vetorial de entidades (`EntityResolver`).

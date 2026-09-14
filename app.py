@@ -59,6 +59,10 @@ class SimulationRequest(BaseModel):
     use_llm: bool = False
 
 
+class ExtractRequest(BaseModel):
+    text: str = Field(min_length=20, max_length=20000)
+
+
 _graph_connector: Optional[GraphConnector] = None
 _vector_connector: Optional[VectorConnector] = None
 _quarantine: Optional[QuarantineStore] = None
@@ -243,6 +247,15 @@ async def ingest_data(
         "vectors_indexed": vectors_indexed,
         "verified_facts": verified,
     }
+
+
+@app.post("/api/extract")
+def extract_endpoint(payload: ExtractRequest) -> dict:
+    """Extração canônica de triplas via LLM (opt-in; vazio se o LLM não estiver configurado)."""
+    from src.cognition.llm_extractor import LLMCanonicalExtractor
+
+    triplets = LLMCanonicalExtractor().extract_canonical_triplets(payload.text)
+    return {"status": "ok", "triplets": triplets, "count": len(triplets)}
 
 
 @app.post("/api/chat")

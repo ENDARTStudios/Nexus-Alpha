@@ -118,6 +118,24 @@ async def run_cycle() -> None:
                 logger.warning("Warm-up: ping falhou (%s) - tentativa %d/5", exc, attempt + 1)
             await asyncio.sleep(15)
 
+        # Extração canônica via LLM no Space (opt-in). Se vazio, mantém o heurístico.
+        canonicalized = 0
+        extract_url = f"{api_base}/api/extract"
+        for payload in payloads:
+            try:
+                ex = await client.post(
+                    extract_url,
+                    json={"text": (payload.get("content") or "")[:20000]},
+                    headers=headers,
+                    timeout=90.0,
+                )
+                if ex.status_code == 200 and ex.json().get("triplets"):
+                    payload["extracted_entities"] = ex.json()["triplets"]
+                    canonicalized += 1
+            except Exception as exc:
+                logger.warning("Extração LLM falhou (%s): %s", payload.get("source_url"), exc)
+        logger.info("Extração canônica LLM aplicada em %d/%d fonte(s).", canonicalized, len(payloads))
+
         sent = 0
         for payload in payloads:
             payload.setdefault("timestamp", int(time.time()))

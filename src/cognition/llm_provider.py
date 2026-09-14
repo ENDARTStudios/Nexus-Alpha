@@ -125,3 +125,38 @@ def get_llm_provider() -> Any:
         return remote
     logger.info("LLM provider: extrativo (nenhum endpoint remoto configurado).")
     return ExtractiveResponder()
+
+
+def generate_text(system_prompt: str, user_prompt: str, timeout: float = 60.0) -> str:
+    """Chamada síncrona ao LLM (compatível com OpenAI) para extração estruturada.
+
+    Retorna ``""`` quando nenhum endpoint está configurado (``NEXUS_LLM_BASE_URL``),
+    permitindo que o pipeline caia no extrator heurístico sem quebrar.
+    """
+    base_url = (os.environ.get("NEXUS_LLM_BASE_URL") or "").rstrip("/")
+    if not base_url:
+        logger.info("generate_text: sem NEXUS_LLM_BASE_URL — extração LLM indisponível.")
+        return ""
+    api_key = os.environ.get("NEXUS_LLM_API_KEY") or ""
+    model = os.environ.get("NEXUS_LLM_MODEL") or "meta-llama/Meta-Llama-3-8B-Instruct"
+    payload = {
+        "model": model,
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt},
+        ],
+        "temperature": 0.1,
+        "max_tokens": 1024,
+    }
+    headers = {"Authorization": f"Bearer {api_key}"} if api_key else {}
+    try:
+        with httpx.Client(timeout=timeout) as client:
+            response = client.post(
+                f"{base_url}/chat/completions", json=payload, headers=headers
+            )
+            response.raise_for_status()
+            data = response.json()
+            return (data["choices"][0]["message"]["content"] or "").strip()
+    except Exception as exc:
+        logger.warning("generate_text falhou: %s", exc)
+        return ""
