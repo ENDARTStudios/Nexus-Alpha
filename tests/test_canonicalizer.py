@@ -8,16 +8,16 @@ def test_triplet_canonicalization_logic():
     canonicalizer = SemanticCanonicalizer()
     raw = {"subject": "ia", "predicate": "utiliza", "object": "ml"}
     result = canonicalizer.canonicalize_triplet(raw)
-    assert result["subject"] == "Inteligência Artificial"
+    assert result["subject"] == "INTELIGÊNCIA ARTIFICIAL"
     assert result["predicate"] == "UTILIZA"
-    assert result["object"] == "Machine Learning"
+    assert result["object"] == "MACHINE LEARNING"
 
 
 def test_fallback_unknown_terms():
     canonicalizer = SemanticCanonicalizer()
     raw = {"subject": "algoritmo quântico", "predicate": "acelera", "object": "processamento"}
     result = canonicalizer.canonicalize_triplet(raw)
-    assert result["subject"] == "Algoritmo Quântico"
+    assert result["subject"] == "ALGORITMO QUÂNTICO"
     assert result["predicate"] == "ACELERA"
 
 

@@ -24,30 +24,30 @@ class SemanticCanonicalizer:
     def __init__(self) -> None:
         self.entity_synonyms: dict[str, str] = {
             # Inteligência Artificial
-            "ia": "Inteligência Artificial",
-            "ai": "Inteligência Artificial",
-            "artificial intelligence": "Inteligência Artificial",
-            "inteligência artificial": "Inteligência Artificial",
+            "ia": "INTELIGÊNCIA ARTIFICIAL",
+            "ai": "INTELIGÊNCIA ARTIFICIAL",
+            "artificial intelligence": "INTELIGÊNCIA ARTIFICIAL",
+            "inteligência artificial": "INTELIGÊNCIA ARTIFICIAL",
             # Machine Learning
-            "ml": "Machine Learning",
-            "machine learning": "Machine Learning",
-            "aprendizado de máquina": "Machine Learning",
-            "aprendizagem de máquina": "Machine Learning",
+            "ml": "MACHINE LEARNING",
+            "machine learning": "MACHINE LEARNING",
+            "aprendizado de máquina": "MACHINE LEARNING",
+            "aprendizagem de máquina": "MACHINE LEARNING",
             # Deep Learning
-            "dl": "Aprendizado Profundo",
-            "deep learning": "Aprendizado Profundo",
-            "aprendizado profundo": "Aprendizado Profundo",
+            "dl": "APRENDIZADO PROFUNDO",
+            "deep learning": "APRENDIZADO PROFUNDO",
+            "aprendizado profundo": "APRENDIZADO PROFUNDO",
             # Redes Neurais
-            "redes neurais": "Redes Neurais",
-            "rede neural": "Redes Neurais",
-            "neural networks": "Redes Neurais",
-            "neural network": "Redes Neurais",
+            "redes neurais": "REDES NEURAIS",
+            "rede neural": "REDES NEURAIS",
+            "neural networks": "REDES NEURAIS",
+            "neural network": "REDES NEURAIS",
             # LLM / NLP
-            "llm": "Grandes Modelos de Linguagem",
-            "large language models": "Grandes Modelos de Linguagem",
-            "nlp": "Processamento de Linguagem Natural",
-            "pln": "Processamento de Linguagem Natural",
-            "processamento de linguagem natural": "Processamento de Linguagem Natural",
+            "llm": "GRANDES MODELOS DE LINGUAGEM",
+            "large language models": "GRANDES MODELOS DE LINGUAGEM",
+            "nlp": "PROCESSAMENTO DE LINGUAGEM NATURAL",
+            "pln": "PROCESSAMENTO DE LINGUAGEM NATURAL",
+            "processamento de linguagem natural": "PROCESSAMENTO DE LINGUAGEM NATURAL",
         }
 
         self.predicate_synonyms: dict[str, str] = {
@@ -91,11 +91,7 @@ class SemanticCanonicalizer:
         cleaned = self.clean_string(raw)
         if cleaned in self.entity_synonyms:
             return self.entity_synonyms[cleaned]
-        stripped = (raw or "").strip()
-        # Preserva acrônimos/caixa original; só capitaliza termos totalmente minúsculos.
-        if stripped.islower():
-            return stripped.title()
-        return stripped
+        return (raw or "").strip().upper()
 
     def canonicalize_predicate(self, raw: str) -> str:
         cleaned = self.clean_string(raw)
