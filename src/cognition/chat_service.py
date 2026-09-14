@@ -126,6 +126,22 @@ class ChatService:
         if hits:
             steps.append(f"Memória vetorial: {len(hits)} fragmento(s) recuperado(s).")
 
+        # GraphRAG: subgrafo de 1-2 saltos ao redor do termo principal
+        if keywords:
+            try:
+                from .graph_rag import GraphRAGEngine
+
+                primary = max(keywords, key=len)
+                subgraph = await GraphRAGEngine(self.graph).retrieve_subgraph_context(primary)
+                if subgraph:
+                    steps.append("Subgrafo GraphRAG: contexto topológico recuperado.")
+                    for line in subgraph.splitlines():
+                        text = line.lstrip("• ").strip()
+                        if text and all(f.get("fact") != text for f in facts):
+                            facts.append({"fact": text, "source": "graphrag"})
+            except Exception as exc:
+                logger.warning("GraphRAG indisponível no chat: %s", exc)
+
         return facts, steps
 
     async def answer(self, message: str, session_id: str = "default") -> dict[str, Any]:
