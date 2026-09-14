@@ -6,48 +6,44 @@ ou introduzir dependências que não estejam explicitamente mapeadas neste docum
 
 ---
 
-## 📅 Sprint Atual: `v1.6.0-alpha` — Schema Canônico Baseado em LLM
+## 📅 Sprint Atual: `v1.7.0-alpha` — Escalonamento e Estabilização de Produção
 
 - **Status:** 🟢 Planejada / Em Execução
-- **Impacto:** Crítico (resolução do gargalo de extração heterogênea via inferência guiada)
-- **Complexidade:** Alta (orquestração de prompts estritos e validação estrutural pós-inferência)
+- **Impacto:** Alto (expansão contínua da malha sob governança estrita de LLM)
+- **Complexidade:** Baixa (monitoramento e ajustes finos de prompts e seeds)
 
-### 🎯 Funcionalidade Alvo e Escopo
+---
 
-Substituir (de forma **opt-in**) a extração heurística por um pipeline baseado em
-LLM operando sob um **vocabulário controlado de predicados** e entidades
-normalizadas. Isso garante uniformidade estrutural na raiz da coleta, forçando a
-colisão de triplas semanticamente equivalentes e destravando `verified_facts`.
+## 🎯 Resultados Consolidados da Sprint Anterior (`v1.6.0-alpha`)
 
-> **Fallback obrigatório:** sem `NEXUS_LLM_BASE_URL` configurado, o extrator LLM
-> devolve vazio e o pipeline cai no extrator heurístico (spaCy/regex) — nunca
-> deixa de produzir fatos.
+- **Módulo Entregue:** `LLMCanonicalExtractor` via DeepSeek-V3 Serverless Router.
+- **Métricas Alcançadas:**
+  - Total de Conceitos: **388**
+  - Fatos Verificados (`verified_facts`): **1 ──► 2** 🎯
+  - Vetores no Qdrant: **23**
+- **Sucesso Empírico:** triangulação exata com quórum 3 para:
+  1. `Inteligência Artificial --[UTILIZA]--> Aprendizado Profundo`
+  2. `Inteligência Artificial --[UTILIZA]--> Machine Learning`
+- **Status do Backlog:** **114 testes verdes** e gate anti-leak 100% validado.
 
-### 📋 Tarefas Mapeadas (Mapeamento de GitHub Issues)
+---
 
-#### [Issue #025] — Construção do `LLMCanonicalExtractor`
-- **Descrição:** extração guiada por schema JSON usando o `llm_provider` nativo,
-  com filtro de predicados autorizados (`UTILIZA`, `EXECUTA`, `PRODUZ`, …).
-- **Arquivos Afetados:** `src/cognition/llm_extractor.py` (Criação),
-  `tests/test_llm_extractor.py` (Criação),
-  `src/cognition/llm_provider.py` (`generate_text` síncrono).
-- **Critérios de Conclusão:** retorno estrito de JSON parseável e triplas
-  normalizadas, sem lixo descritivo.
+## 📋 Escopo do Novo Ciclo (`v1.7.0-alpha`)
 
-#### [Issue #026] — Acoplamento do Novo Extrator no Core e na API
-- **Descrição:** injetar o extrator no `src/main.py`, no worker
-  (`scripts/worker_cycle.py`) e expor `POST /api/extract` no Space.
-- **Arquivos Afetados:** `src/main.py`, `scripts/worker_cycle.py`, `app.py`.
-- **Critérios de Conclusão:** elevação mensurável nos `verified_facts` após ciclos
-  sobre as seeds híbridas, mantendo o quórum em 3.
+### [Issue #027] — Monitoramento Ativo e Alinhamento de Casos de Borda (Edge Cases)
+- **Descrição:** monitorar triplas em 2x e eliminar variações de casing
+  (`Generative Ai` vs `GENERATIVE AI`) com caixa alta total no pós-processamento.
+- **Arquivos Afetados:** `src/cognition/llm_extractor.py` (Modificação),
+  `tests/test_llm_extractor.py` (Modificação).
+- **Critérios de Conclusão:** entidades sempre em caixa alta total, sem dispersão
+  residual por capitalização.
 
 ---
 
 ## 🛡️ Restrições de Deploy e Critérios de Aceitação (Definition of Done)
 
-1. **Gate de CI Estrito:** a suíte expande para **111+ testes verdes**.
-2. **Fallback Garantido:** sem LLM configurado, a ingestão heurística permanece
-   funcional (nenhum ciclo produz zero fatos).
+1. **Zero Quebra de Contrato:** compatibilidade com `/api/graph/topology` (Next.js).
+2. **Quórum Intacto:** triangulação obrigatória fixada em 3 domínios.
 
 ---
 
@@ -63,3 +59,4 @@ colisão de triplas semanticamente equivalentes e destravando `verified_facts`.
 - `v1.9.0-alpha` — Produção visual (scaffold Next.js, chat real, ForceGraph, CORS Vercel).
 - `v1.10.0-alpha` — Malha de seeds (allowlist tech) + canonicalização léxica.
 - `v1.11.0-alpha` — Resolução vetorial de entidades (`EntityResolver`).
+- `v1.12.0-alpha` — Schema canônico via LLM (`LLMCanonicalExtractor` + `/api/extract`).

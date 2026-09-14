@@ -22,9 +22,9 @@ def test_llm_extractor_canonical_schema(monkeypatch):
     results = extractor.extract_canonical_triplets("Texto qualquer de entrada para o processamento.")
 
     assert len(results) == 1
-    assert results[0]["subject"] == "Ia Generativa"
+    assert results[0]["subject"] == "IA GENERATIVA"
     assert results[0]["predicate"] == "UTILIZA"
-    assert results[0]["object"] == "Transformers"
+    assert results[0]["object"] == "TRANSFORMERS"
 
 
 def test_llm_extractor_empty_fallback(monkeypatch):

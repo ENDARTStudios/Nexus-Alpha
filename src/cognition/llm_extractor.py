@@ -77,9 +77,9 @@ class LLMCanonicalExtractor:
                 if not subject or not obj:
                     continue
                 validated.append({
-                    "subject": subject.title(),
+                    "subject": subject.upper(),
                     "predicate": predicate,
-                    "object": obj.title(),
+                    "object": obj.upper(),
                     "confidence": round(float(item.get("confidence", 0.9)), 2),
                 })
 
