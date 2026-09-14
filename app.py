@@ -15,13 +15,14 @@ import time
 from contextlib import asynccontextmanager
 from typing import List, Optional
 
-from fastapi import FastAPI, Header, HTTPException
+from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from src.database.graph_connector import GraphConnector
 from src.database.vector_connector import VectorConnector
 from src.miner.quarantine import QuarantineStore
+from src.security.rate_limiter import InMemoryRateLimiter
 
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -29,6 +30,8 @@ logger = logging.getLogger("nexus.core")
 
 
 API_SECRET_TOKEN = os.environ.get("NEXUS_API_TOKEN", "ChaveSecretaPadraoParaDesenvolvimento")
+
+rate_limiter = InMemoryRateLimiter(requests_limit=5, window_seconds=60)
 
 
 class EntityItem(BaseModel):
@@ -259,8 +262,14 @@ def extract_endpoint(payload: ExtractRequest) -> dict:
 
 
 @app.post("/api/chat")
-async def chat_endpoint(payload: ChatRequest) -> dict:
+async def chat_endpoint(payload: ChatRequest, request: Request) -> dict:
     """Atendimento conversacional: recupera contexto híbrido e responde ao cliente."""
+    client_ip = request.client.host if request.client else "unknown"
+    if not rate_limiter.is_allowed(client_ip):
+        raise HTTPException(
+            status_code=429,
+            detail="Muitas requisições. O Córtex está se consolidando, tente novamente em um minuto.",
+        )
     service = get_chat_service()
     result = await service.answer(payload.message, payload.session_id)
     sources = result["sources"]

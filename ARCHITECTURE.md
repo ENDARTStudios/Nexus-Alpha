@@ -104,8 +104,9 @@ agentes independentes:
 *   **`src/security/` (Camada de Defesa):** executa a quarentena e a blindagem
     contra falsas informações por triangulação cruzada (`triangulation.py`),
     exigindo confirmação em múltiplos domínios independentes. Inclui o
-    `log_sanitizer.py` (mascara credenciais com `[MASKED]` em logs públicos) e o
-    `interceptor.py` (rejeita payloads >1MB e bloqueia brute-force).
+    `log_sanitizer.py` (mascara credenciais com `[MASKED]` em logs públicos), o
+    `interceptor.py` (rejeita payloads >1MB e bloqueia brute-force) e o
+    `rate_limiter.py` (barreira deslizante de 5 req/min por IP no `/api/chat`).
 
 *   **`src/database/` (Camada de Persistência):** conectores assíncronos oficiais —
     `graph_connector.py` (Neo4j / Cypher) e `vector_connector.py` (Qdrant /
