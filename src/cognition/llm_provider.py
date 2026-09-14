@@ -77,7 +77,7 @@ class OpenAICompatibleLLM:
         base_url: Optional[str] = None,
         api_key: Optional[str] = None,
         model: Optional[str] = None,
-        timeout: float = 45.0,
+        timeout: float = 120.0,
     ) -> None:
         self.base_url = (base_url or os.environ.get("NEXUS_LLM_BASE_URL") or "").rstrip("/")
         self.api_key = api_key if api_key is not None else (os.environ.get("NEXUS_LLM_API_KEY") or "")
