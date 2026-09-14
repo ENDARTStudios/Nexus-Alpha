@@ -56,3 +56,10 @@ def test_llm_extractor_parses_markdown_fenced_json(monkeypatch):
     results = extractor.extract_canonical_triplets("Texto longo o suficiente para o extrator processar.")
     assert len(results) == 1
     assert results[0]["predicate"] == "PRODUZ"
+
+
+def test_clean_json_strips_surrounding_prose():
+    raw = 'Claro! Aqui está o resultado: {"triplets": [{"subject": "a", "predicate": "UTILIZA", "object": "b"}]} Fim.'
+    cleaned = LLMCanonicalExtractor._clean_json(raw)
+    assert cleaned.startswith("{") and cleaned.endswith("}")
+    assert '"triplets"' in cleaned

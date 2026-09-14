@@ -44,6 +44,11 @@ class LLMCanonicalExtractor:
             text = text.split("```json", 1)[1].split("```", 1)[0].strip()
         elif "```" in text:
             text = text.split("```", 1)[1].split("```", 1)[0].strip()
+        # Fallback: isola o primeiro objeto JSON balanceado, descartando prosa residual.
+        start = text.find("{")
+        end = text.rfind("}")
+        if start != -1 and end != -1 and end > start:
+            text = text[start : end + 1]
         return text
 
     def extract_canonical_triplets(self, text: str) -> List[Dict[str, Any]]:
