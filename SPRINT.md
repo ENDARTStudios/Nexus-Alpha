@@ -6,13 +6,36 @@ ou introduzir dependências que não estejam explicitamente mapeadas neste docum
 
 ---
 
-## 📅 Sprint Atual: `v1.12.0-alpha` — Memória Episódica Durável (Neo4j)
+## ✅ Sprint Concluída / ENCERRADA (CLOSED): `v1.12.0-beta` — Memória Episódica Durável
 
-- **Status:** 🟢 Planejada / Em Execução
+- **Status:** 🟣 CONCLUÍDA / ENCERRADA
 - **Impacto:** Alto (o hipocampo sobrevive a restarts do Space)
 - **Complexidade:** Média (modelo `:Episodio` + agregação + retenção)
+- **Entregas:** `:Episodio` durável (`fact_hash + day`, MERGE idempotente); índices
+  (`created_at`, `last_seen_at`, `status`, `fact_hash`); leitura durável com fallback
+  (`source`); retenção 30d/10k; marcação de consolidados; `cognitive_health` no
+  `/api/metrics`; `scripts/stress_episodes.py`.
+- **Evidência:** 422 episódios sobreviveram a um restart do Space; estresse de 1.000 nós
+  (≈1.100 nós/s, leitura <0,2s) com a retenção limpando os sintéticos corretamente.
+- **DoD:** 146 testes verdes + allowlist do proxy (7/7) + anti-leak.
+- **Decisão executiva:** **NÃO** criar cron separado de consolidação — o worker de 6h já
+  consolida; um cron extra duplicaria `replays`/peso hebbiano e criaria corrida no Neo4j.
 
-### 🎯 Funcionalidade Alvo e Escopo
+---
+
+## 🧊 Scope Freeze — próximo ciclo (`v1.13.0`)
+
+**Congelamento de infraestrutura por 2–3 ciclos (12–18h) em produção.** A próxima
+evolução não é infraestrutura, mas **qualidade semântica**:
+
+1. Canonicalização/entity linking de entidades (sinônimos reais).
+2. Embeddings contextuais mais ricos (trocar o modelo base se necessário).
+3. Refino do prompt do CoT para reduzir falsos positivos na extração de triplas.
+
+Nenhuma alteração de código até a observabilidade confirmar a estabilidade da retenção
+automática.
+
+### 🎯 Funcionalidade Alvo e Escopo (histórico desta sprint encerrada)
 
 Persistir episódios no Neo4j para que a memória episódica **não se perca** quando o
 Space reinicia (o bucket em `data/` é somente-leitura e o `$TMPDIR` é efêmero).

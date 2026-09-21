@@ -148,7 +148,63 @@ agentes independentes:
 
 ---
 
-## 🛰️ 5. Camadas de Alcance e Tooling Opcional
+## 🧠 5. Modelo Cognitivo Persistente (Memória Durável)
+
+Arquitetura de memória inspirada no cérebro (córtex/hipocampo), implementada de
+forma **original** em `src/brain/` — sem cópia de dados de atlas externos.
+
+```text
+[ Miner ] ──► [ Grafo Neo4j (:Conceito / :Fato) ] ──► [ Cérebro ] ──► [ Frontend ]
+                        ▲                                    │
+                        └──── consolidação (Hebbian) ◄───────┘
+```
+
+### Camadas de memória
+| Memória | Região (referência) | Onde vive | Semântica |
+|---|---|---|---|
+| Working | Córtex Pré-Frontal | RAM (decaimento) | slots ativos por minutos |
+| Episódica | Hipocampo | **Neo4j `:Episodio`** (durável) + JSONL volátil | fatos vividos no dia |
+| Semântica | Córtex Temporal | Neo4j `:Fato` / `:RELACIONA` | conhecimento consolidado |
+
+### Persistência e idempotência
+- Chave composta **`fact_hash + day`** (`MERGE`), com
+  `fact_hash = sha256(subject|predicate|object)` normalizado (strip por campo + lower).
+- Repetição do mesmo fato no mesmo dia **incrementa `replays`** (não cria micro-eventos).
+- Índices: `created_at`, `last_seen_at`, `status`, `fact_hash`.
+
+### Limites operacionais (regra de ouro)
+| Limite | Valor | Onde |
+|---|---|---|
+| Episódios retidos | **30 dias OU 10.000 nós** | `GraphConnector.prune_episodes` (no ciclo de consolidação) |
+| Quórum de triangulação | **3 fontes distintas** | `NEXUS_VERIFY_QUORUM` / `settings.yaml` |
+| Slots de working memory | 7 | `BrainMemorySystem` |
+
+### Fallback de leitura
+`GET /api/brain/episodes` tenta o **Neo4j** primeiro; se vazio/indisponível, cai para
+a memória **volátil**. O payload informa a origem no campo `source`
+(`"neo4j"` ou `"volatile"`).
+
+### Saúde cognitiva (`/api/metrics`)
+```json
+"cognitive_health": {
+  "episodic_persistence_rate": 0.98,
+  "hebbian_consistency_check": true,
+  "retention_pressure": "low"
+}
+```
+`retention_pressure` = `low` (<50%), `medium` (<80%) ou `high` (>=80% de 10k).
+
+### Troubleshooting — "Space Restarted"
+- **Esperado:** working memory zera e o JSONL volátil zera (efêmeros por design).
+- **NÃO esperado:** `episodes` ir a 0 → significa Neo4j indisponível. Cheque
+  `/api/metrics` (`hebbian_consistency_check=false` indica queda do grafo) e a
+  instância AuraDB.
+- **Recuperação:** episódios e fatos consolidados **permanecem no Neo4j**; basta
+  restabelecer a conexão — nenhuma ação manual é necessária.
+
+---
+
+## 🛰️ 6. Camadas de Alcance e Tooling Opcional
 
 Além do pipeline principal, o ecossistema admite camadas **opcionais** que ampliam
 o alcance sem violar o pilar Custo Zero. Todas degradam graciosamente: quando o
@@ -179,7 +235,7 @@ backend não está instalado, o minerador segue com o scraper estático.
 
 ---
 
-## 🏗️ 6. Stack e Infraestrutura (Zero Cost)
+## 🏗️ 7. Stack e Infraestrutura (Zero Cost)
 
 | Componente | Papel | Camada/Arquivo |
 |---|---|---|
@@ -191,7 +247,7 @@ backend não está instalado, o minerador segue com o scraper estático.
 
 ---
 
-## 📜 7. Como Executar
+## 📜 8. Como Executar
 
 ```bash
 # Ciclo completo local

@@ -203,6 +203,7 @@ SCHEMA_STATEMENTS = [
     "CREATE CONSTRAINT fonte_url IF NOT EXISTS FOR (f:FonteWeb) REQUIRE f.url IS UNIQUE",
     "CREATE INDEX conceito_busca IF NOT EXISTS FOR (c:Conceito) ON (c.nome)",
     "CREATE INDEX episodio_created_at IF NOT EXISTS FOR (e:Episodio) ON (e.created_at)",
+    "CREATE INDEX episodio_last_seen IF NOT EXISTS FOR (e:Episodio) ON (e.last_seen_at)",
     "CREATE INDEX episodio_status IF NOT EXISTS FOR (e:Episodio) ON (e.status)",
     "CREATE INDEX episodio_fact_hash IF NOT EXISTS FOR (e:Episodio) ON (e.fact_hash)",
 ]
@@ -377,6 +378,7 @@ class GraphConnector:
             "hebbian": 0,
             "episodes": 0,
             "last_episode": None,
+            "ok": False,
         }
         try:
             if self.driver is None:
@@ -394,6 +396,7 @@ class GraphConnector:
                     "hebbian": int(record["hebbian"] or 0),
                     "episodes": int(record["episodes"] or 0),
                     "last_episode": record["last_episode"],
+                    "ok": True,
                 }
         except Exception as exc:
             logger.warning("Falha no snapshot do grafo: %s", exc)

@@ -82,6 +82,18 @@ class FakeConnector:
             "links": [],
         }
 
+    async def graph_snapshot(self):
+        return {
+            "concepts": 3,
+            "facts": 10,
+            "verified": 2,
+            "consolidated": 1,
+            "hebbian": 1,
+            "episodes": 5,
+            "last_episode": "2026-09-21T00:00:00+00:00",
+            "ok": True,
+        }
+
     async def count_concepts(self) -> int:
         return 3
 
@@ -120,4 +132,13 @@ def test_metrics_endpoint(monkeypatch):
     body = response.json()
     assert body["facts"] == 3
     assert body["vectors"] == 7
+    assert body["episodes"] == 5
     assert "quarantine" in body
+    health = body["cognitive_health"]
+    assert set(health) == {
+        "episodic_persistence_rate",
+        "hebbian_consistency_check",
+        "retention_pressure",
+    }
+    assert health["hebbian_consistency_check"] is True
+    assert health["retention_pressure"] == "low"

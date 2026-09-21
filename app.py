@@ -33,6 +33,9 @@ API_SECRET_TOKEN = os.environ.get("NEXUS_API_TOKEN", "ChaveSecretaPadraoParaDese
 
 rate_limiter = InMemoryRateLimiter(requests_limit=5, window_seconds=60)
 
+EPISODE_RETENTION_MAX = 10000
+_brain_reads = {"durable": 0, "volatile": 0}
+
 
 class EntityItem(BaseModel):
     subject: str
@@ -192,22 +195,34 @@ def health_check() -> dict:
 
 @app.get("/api/metrics")
 async def metrics() -> dict:
-    """Métricas para o dashboard/frontend (grafo, vetores e quarentena)."""
-    facts = await get_graph_connector().count_concepts()
-    verified = await get_graph_connector().count_verified()
+    """Métricas do pipeline + saúde cognitiva (grafo, vetores, quarentena, memória)."""
+    graph = get_graph_connector()
+    snapshot = await graph.graph_snapshot()
     vectors = get_vector_connector().count()
     try:
         quarantined = len(get_quarantine().list_all())
     except Exception as exc:
         logger.warning("Falha ao ler quarentena: %s", exc)
         quarantined = 0
+
+    reads = _brain_reads["durable"] + _brain_reads["volatile"]
+    persistence_rate = round(_brain_reads["durable"] / reads, 2) if reads else 1.0
+    ratio = snapshot["episodes"] / EPISODE_RETENTION_MAX
+    pressure = "low" if ratio < 0.5 else ("medium" if ratio < 0.8 else "high")
+
     return {
         "status": "online",
         "timestamp": int(time.time()),
-        "facts": facts,
-        "verified_facts": verified,
+        "facts": snapshot["concepts"],
+        "verified_facts": snapshot["verified"],
         "vectors": vectors,
         "quarantine": quarantined,
+        "episodes": snapshot["episodes"],
+        "cognitive_health": {
+            "episodic_persistence_rate": persistence_rate,
+            "hebbian_consistency_check": bool(snapshot.get("ok")),
+            "retention_pressure": pressure,
+        },
     }
 
 
@@ -331,7 +346,9 @@ async def brain_episodes(limit: int = 20) -> dict:
     limit = max(1, min(int(limit), 100))
     durable = await get_graph_connector().recent_episodes(limit=limit)
     if durable:
+        _brain_reads["durable"] += 1
         return {"items": durable, "source": "neo4j"}
+    _brain_reads["volatile"] += 1
     return {"items": get_brain().recent_episodes(limit=limit), "source": "volatile"}
 
 

@@ -15,8 +15,20 @@ Nexus-Alpha é uma inteligência artificial autônoma focada em mineração sem�
 | **Miner** | Web scraping assíncrono + anti-bloqueio + proxy rotation | `src/miner/web_miner.py`, `anti_block.py` |
 | **Cognition** | Chain-of-Thought + RAG ativo + NER (spaCy + fallback regex) | `src/cognition/reasoning_engine.py`, `rag_engine.py`, `nlp_extractor.py` |
 | **Memory** | Grafo (Neo4j) + Vetor (Qdrant/Milvus) + Memória local híbrida | `src/database/graph_connector.py`, `vector_connector.py` |
+| **Brain** | Memória cognitiva (working/episódica/semântica) + Hebbian + consolidação | `src/brain/memory.py`, `regions.py` |
 | **Security** | Filtro anti-fake-news por triangulação + sanitizador de logs + quarentena | `src/security/triangulation.py`, `log_sanitizer.py`, `interceptor.py` |
 | **Reflection** | Auto-reflexão noturna + desempate web para contradições | `src/cognition/reflection.py` |
+
+### 🧠 Modelo Cognitivo Persistente
+
+Memória inspirada no cérebro (córtex/hipocampo), durável no Neo4j:
+
+- **Working** (RAM, decai) → **Episódica** (`:Episodio`, `fact_hash + day`, MERGE idempotente) → **Semântica** (`:Fato`/`:RELACIONA`, consolidação Hebbiana).
+- **Limites:** episódios retidos por **30 dias ou 10.000 nós**; quórum de triangulação **3**; 7 slots de working memory.
+- **Fallback:** `/api/brain/episodes` lê o Neo4j e, se indisponível, cai para a memória volátil (campo `source`).
+- **Saúde cognitiva:** `GET /api/metrics` → `cognitive_health` (`episodic_persistence_rate`, `hebbian_consistency_check`, `retention_pressure`).
+- **Restart do Space:** efêmeros zeram; episódios/fatos consolidados **persistem**.
+- **Estresse:** `python scripts/stress_episodes.py [N]` (insere N episódios sintéticos, mede e valida a retenção).
 
 ## 🚀 Execução Local
 
