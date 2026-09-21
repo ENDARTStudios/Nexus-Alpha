@@ -6,48 +6,40 @@ ou introduzir dependências que não estejam explicitamente mapeadas neste docum
 
 ---
 
-## 📅 Sprint Atual: `v1.9.0-alpha` — Cérebro Espelhado (Memória Cognitiva)
+## 📅 Sprint Atual: `v1.10.0-alpha` — Painel Cérebro (Observabilidade Read-Only)
 
 - **Status:** 🟢 Planejada / Em Execução
-- **Impacto:** Alto (arquitetura cognitiva: working/episódica/semântica + consolidação)
-- **Complexidade:** Média (Hebbian, replay de episódios e associação inversa)
+- **Impacto:** Alto (observabilidade da memória cognitiva sem risco de efeitos colaterais)
+- **Complexidade:** Baixa (contrato de API + componente read-only)
 
 ### 🎯 Funcionalidade Alvo e Escopo
 
-Espelhar a **lógica cognitiva** do cérebro humano sobre o grafo de conhecimento
-(memória hierárquica córtex/hipocampo, *Hebbian learning*, consolidação em
-"sono" e associação inversa automática).
+Expor o cérebro em produção no frontend, **sem** criar cron de consolidação
+separado (decisão: o worker de 6h já consolida; um cron extra duplicaria
+`replays`/peso hebbiano e criaria corrida de escrita no Neo4j).
 
-> **Nota de viabilidade:** o conectoma humano literal (86 bi de neurônios, BigBrain
-> ~1 TB) **não** é acessível/copiável e não caberia na infra gratuita. Referências
-> conceituais dos atlas (EBRAINS Julich-Brain/BigBrain, Allen Human Brain Atlas,
-> Scalable Brain Atlas do INCF) são usadas apenas como **taxonomia de regiões** —
-> nenhum dado foi copiado.
+### 📋 Tarefas Mapeadas (GitHub Issues)
 
-### 📋 Tarefas Mapeadas (Mapeamento de GitHub Issues)
+#### [Issue #032] — Contrato Normalizado `/api/brain/stats` + `/api/brain/episodes`
+- **Descrição:** normalizar o payload (working/episódica/consolidação/grafo/vetores)
+  e listar episódios recentes com status (`novo`/`repetido`/`consolidado`).
+- **Arquivos Afetados:** `app.py`, `src/brain/memory.py`,
+  `src/database/graph_connector.py` (`count_facts`, `count_consolidated`).
+- **Critérios:** payload **somente-leitura**, sem segredos (neo4j/password/token).
 
-#### [Issue #030] — Sistema de Memória Cerebral
-- **Descrição:** `WorkingMemory` (slots com decaimento), `EpisodicMemory` (log
-  temporal append-only) e `BrainMemorySystem` (consolidação + Hebbian).
-- **Arquivos Afetados:** `src/brain/regions.py`, `src/brain/memory.py`,
-  `tests/test_brain_memory.py` (Criação).
-- **Critérios de Conclusão:** consolidação promove fatos repetidos e cria a
-  associação inversa correspondente.
-
-#### [Issue #031] — Persistência Semântica e Endpoints
-- **Descrição:** `GraphConnector.consolidate_facts` (Hebbian: `replays`/`peso`) e
-  rotas `/api/brain/stats|activate|episode|consolidate`.
-- **Arquivos Afetados:** `src/database/graph_connector.py`, `app.py`,
-  `scripts/worker_cycle.py` (Modificação).
-- **Critérios de Conclusão:** cada ingestão vira episódio; cada ciclo roda a
-  consolidação.
+#### [Issue #033] — Painel `BrainPanel` (read-only)
+- **Descrição:** hook `useBrainStats`/`useBrainEpisodes` (polling de 60s) e painel
+  com skeletons, status de consolidação e tabela de episódios.
+- **Arquivos Afetados:** `src/frontend/lib/brain.ts`,
+  `src/frontend/components/BrainPanel.tsx`, `src/app/page.tsx`.
+- **Critérios:** build Next.js verde; sem botão de consolidação nesta versão.
 
 ---
 
 ## 🛡️ Critérios de Aceitação (Definition of Done)
 
-1. **Gate de CI:** suíte em **137 testes verdes** + anti-leak verde.
-2. **Degradação Graciosa:** sem Neo4j, a consolidação retorna 0 sem quebrar.
+1. **Gate de CI:** suíte em **141 testes verdes** (inclui contrato + anti-vazamento).
+2. **Read-Only:** nenhuma rota nova escreve no grafo.
 
 ---
 
@@ -60,3 +52,5 @@ Espelhar a **lógica cognitiva** do cérebro humano sobre o grafo de conheciment
 - `v1.6.0-alpha` — Extração LLM canônica (`LLMCanonicalExtractor` + `/api/extract`).
 - `v1.7.0-alpha` — Consolidação, caixa alta total e rate limiting.
 - `v1.8.0-alpha` — Motor GraphRAG (subgrafos 1–2 saltos no chat).
+- `v1.9.0-alpha` — Cérebro espelhado (working/episódica/semântica + Hebbian).
+

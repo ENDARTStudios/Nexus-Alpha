@@ -101,6 +101,12 @@ VERIFIED_QUERY = (
     "MATCH (fa:Fato) WHERE fa.verificado = true RETURN count(fa) AS total"
 )
 
+COUNT_FACTS_QUERY = "MATCH (fa:Fato) RETURN count(fa) AS total"
+
+CONSOLIDATED_QUERY = (
+    "MATCH ()-[r:RELACIONA]->() WHERE r.consolidado = true RETURN count(r) AS total"
+)
+
 CONSOLIDATION_QUERY = """
 UNWIND $facts AS item
 MERGE (s:Conceito {nome: item.subject})
@@ -256,6 +262,26 @@ class GraphConnector:
         except Exception as exc:
             logger.warning("Falha ao contar fatos verificados: %s", exc)
             return 0
+
+    async def _count(self, query: str, label: str) -> int:
+        try:
+            if self.driver is None:
+                await self.connect()
+            async with self.driver.session() as session:
+                result = await session.run(query)
+                record = await result.single()
+                return int(record["total"]) if record else 0
+        except Exception as exc:
+            logger.warning("Falha ao contar %s: %s", label, exc)
+            return 0
+
+    async def count_facts(self) -> int:
+        """Total de nós :Fato (triplas registradas)."""
+        return await self._count(COUNT_FACTS_QUERY, "fatos")
+
+    async def count_consolidated(self) -> int:
+        """Total de arestas consolidadas (Hebbian: repetição >= limiar)."""
+        return await self._count(CONSOLIDATED_QUERY, "consolidados")
 
     async def consolidate_facts(self, facts: list[dict[str, Any]]) -> int:
         """Consolidação semântica (Hebbian): fortalece arestas repetidas.

@@ -3,6 +3,7 @@
 import React from "react";
 
 import ChatWidget from "@/components/ChatWidget";
+import BrainPanel from "@/components/BrainPanel";
 import KnowledgeGraph from "@/components/KnowledgeGraph";
 
 export default function AuditPage() {
@@ -39,6 +40,9 @@ export default function AuditPage() {
             <KnowledgeGraph />
           </div>
         </section>
+
+        {/* Painel do Cérebro (read-only) */}
+        <BrainPanel />
       </div>
 
       {/* Roda do Sistema */}

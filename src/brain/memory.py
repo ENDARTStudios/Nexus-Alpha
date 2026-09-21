@@ -23,8 +23,10 @@ import os
 import tempfile
 import time
 from dataclasses import asdict, dataclass, field
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable, Optional
+from urllib.parse import urlparse
 
 from .regions import region_for
 
@@ -152,6 +154,13 @@ class EpisodicMemory:
             return 0
         with self.path.open("r", encoding="utf-8") as fh:
             return sum(1 for line in fh if line.strip())
+
+    def last_timestamp(self) -> Optional[str]:
+        """ISO-8601 do episódio mais recente (None se vazio)."""
+        replay = self.replay(limit=1)
+        if not replay:
+            return None
+        return datetime.fromtimestamp(replay[-1]["timestamp"], tz=timezone.utc).isoformat()
 
     def prune(self) -> int:
         """Mantém apenas as ``max_entries`` mais recentes. Retorna quantos removeu."""
@@ -282,3 +291,39 @@ class BrainMemorySystem:
             "min_replays": self.min_replays,
             "hebbian_pairs": len(self.coactivations),
         }
+
+    def recent_episodes(self, limit: int = 20) -> list[dict[str, Any]]:
+        """Episódios recentes normalizados para o painel (read-only)."""
+        tally = self.tally_replays(limit=2000)
+        items: list[dict[str, Any]] = []
+        for episode in reversed(self.episodic.replay(limit=limit)):
+            content = episode.get("content") or {}
+            entities = content.get("extracted_entities") or []
+            first = entities[0] if entities else {}
+            subject = str(first.get("subject", "")).strip()
+            predicate = str(first.get("predicate", "")).strip()
+            obj = str(first.get("object", "")).strip()
+            replays = tally.get((subject.upper(), predicate.upper(), obj.upper()), 1)
+            if replays >= self.min_replays:
+                status = "consolidado"
+            elif replays > 1:
+                status = "repetido"
+            else:
+                status = "novo"
+            source_url = content.get("source_url", "")
+            items.append({
+                "id": f"ep_{int(episode.get('timestamp', 0) * 1000)}",
+                "created_at": datetime.fromtimestamp(
+                    episode.get("timestamp", 0), tz=timezone.utc
+                ).isoformat(),
+                "kind": episode.get("kind"),
+                "source_domain": urlparse(source_url).netloc or None,
+                "subject": subject,
+                "predicate": predicate,
+                "object": obj,
+                "status": status,
+                "replays": replays,
+                "weight": round(replays * 0.1, 2),
+                "entities": len(entities),
+            })
+        return items

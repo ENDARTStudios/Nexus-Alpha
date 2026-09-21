@@ -285,8 +285,44 @@ async def ingest_data(
 
 @app.get("/api/brain/stats")
 async def brain_stats() -> dict:
-    """Estado da memória cerebral (working/episódica/semântica)."""
-    return get_brain().stats()
+    """Contrato normalizado do painel Cérebro (read-only; sem segredos)."""
+    brain = get_brain()
+    base = brain.stats()
+    graph = get_graph_connector()
+    return {
+        "working_memory": {
+            "active_slots": len(base["working_active"]),
+            "active_concepts": base["working_active"],
+            "capacity": base["working_capacity"],
+            "decay_policy": "temporal",
+            "region": base["working_region"],
+        },
+        "episodic_memory": {
+            "episodes": base["episodes"],
+            "last_episode_at": brain.episodic.last_timestamp(),
+            "region": base["episodic_region"],
+        },
+        "consolidation": {
+            "candidates": len(brain.consolidation_candidates()),
+            "consolidated": await graph.count_consolidated(),
+            "min_replays": base["min_replays"],
+            "region": base["semantic_region"],
+        },
+        "graph": {
+            "concepts": await graph.count_concepts(),
+            "facts": await graph.count_facts(),
+            "verified_facts": await graph.count_verified(),
+            "hebbian_pairs": base["hebbian_pairs"],
+        },
+        "vectors": {"count": get_vector_connector().count()},
+    }
+
+
+@app.get("/api/brain/episodes")
+async def brain_episodes(limit: int = 20) -> dict:
+    """Últimos episódios (hipocampo) normalizados para o painel."""
+    limit = max(1, min(int(limit), 100))
+    return {"items": get_brain().recent_episodes(limit=limit)}
 
 
 @app.post("/api/brain/activate")
