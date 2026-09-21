@@ -305,8 +305,8 @@ async def brain_stats() -> dict:
             "region": base["working_region"],
         },
         "episodic_memory": {
-            "episodes": base["episodes"],
-            "last_episode_at": brain.episodic.last_timestamp(),
+            "episodes": snapshot["episodes"] or base["episodes"],
+            "last_episode_at": snapshot["last_episode"] or brain.episodic.last_timestamp(),
             "region": base["episodic_region"],
         },
         "consolidation": {

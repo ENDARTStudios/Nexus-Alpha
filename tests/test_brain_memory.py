@@ -186,7 +186,15 @@ class FakeBrainFull(FakeBrain):
 
 class FakeGraphCounts:
     async def graph_snapshot(self):
-        return {"concepts": 875, "facts": 569, "verified": 2, "consolidated": 1, "hebbian": 4}
+        return {
+            "concepts": 875,
+            "facts": 569,
+            "verified": 2,
+            "consolidated": 1,
+            "hebbian": 4,
+            "episodes": 24,
+            "last_episode": "2026-09-21T00:00:00+00:00",
+        }
 
     async def recent_episodes(self, limit=20):
         return []

@@ -120,7 +120,9 @@ CALL { MATCH ()-[r:RELACIONA]->()
        RETURN count(r) AS relations,
               sum(CASE WHEN r.consolidado THEN 1 ELSE 0 END) AS consolidated,
               sum(CASE WHEN coalesce(r.replays, 0) >= 2 THEN 1 ELSE 0 END) AS hebbian }
-RETURN concepts, facts, verified, consolidated, hebbian
+CALL { MATCH (e:Episodio)
+       RETURN count(e) AS episodes, toString(max(e.created_at)) AS last_episode }
+RETURN concepts, facts, verified, consolidated, hebbian, episodes, last_episode
 """
 
 EPISODE_MERGE_QUERY = """
@@ -367,7 +369,15 @@ class GraphConnector:
 
     async def graph_snapshot(self) -> dict[str, int]:
         """Todos os contadores em UMA consulta (evita corrida/cold-start no Space)."""
-        empty = {"concepts": 0, "facts": 0, "verified": 0, "consolidated": 0, "hebbian": 0}
+        empty = {
+            "concepts": 0,
+            "facts": 0,
+            "verified": 0,
+            "consolidated": 0,
+            "hebbian": 0,
+            "episodes": 0,
+            "last_episode": None,
+        }
         try:
             if self.driver is None:
                 await self.connect()
@@ -382,6 +392,8 @@ class GraphConnector:
                     "verified": int(record["verified"] or 0),
                     "consolidated": int(record["consolidated"] or 0),
                     "hebbian": int(record["hebbian"] or 0),
+                    "episodes": int(record["episodes"] or 0),
+                    "last_episode": record["last_episode"],
                 }
         except Exception as exc:
             logger.warning("Falha no snapshot do grafo: %s", exc)
