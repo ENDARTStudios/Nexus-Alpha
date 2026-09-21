@@ -103,6 +103,7 @@ async def test_consolidate_strengthens_and_creates_inverse(tmp_path):
 def test_inverse_of_unknown_predicate():
     assert BrainMemorySystem.inverse_of("USA") is None
     assert BrainMemorySystem.inverse_of("pertence_a") == "CONTIENE"
+    assert BrainMemorySystem.inverse_of("distribuir") == "DISTRIBUIDO_POR"
 
 
 def test_brain_stats_exposes_regions(tmp_path):
