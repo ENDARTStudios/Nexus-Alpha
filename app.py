@@ -66,6 +66,15 @@ class ExtractRequest(BaseModel):
     text: str = Field(min_length=20, max_length=20000)
 
 
+class BrainEpisodeRequest(BaseModel):
+    kind: str = Field(default="external", max_length=64)
+    concepts: List[str] = Field(default_factory=list)
+
+
+class BrainActivateRequest(BaseModel):
+    concepts: List[str] = Field(default_factory=list)
+
+
 _graph_connector: Optional[GraphConnector] = None
 _vector_connector: Optional[VectorConnector] = None
 _quarantine: Optional[QuarantineStore] = None
@@ -115,6 +124,18 @@ def get_entity_resolver():
 
         _entity_resolver = EntityResolver()
     return _entity_resolver
+
+
+_brain = None
+
+
+def get_brain():
+    global _brain
+    if _brain is None:
+        from src.brain import BrainMemorySystem
+
+        _brain = BrainMemorySystem(graph=get_graph_connector())
+    return _brain
 
 
 def get_chat_service():
@@ -238,6 +259,16 @@ async def ingest_data(
 
     db_status = "cluster-active" if success else "demo-memory"
     verified = await get_graph_connector().count_verified()
+    try:
+        get_brain().record_episode(
+            "ingest",
+            {
+                "source_url": payload.source_url,
+                "extracted_entities": payload_dict["extracted_entities"],
+            },
+        )
+    except Exception as exc:
+        logger.warning("Falha ao registrar episódio no hipocampo: %s", exc)
     return {
         "status": "success" if success else "partial_success",
         "message": (
@@ -250,6 +281,36 @@ async def ingest_data(
         "vectors_indexed": vectors_indexed,
         "verified_facts": verified,
     }
+
+
+@app.get("/api/brain/stats")
+async def brain_stats() -> dict:
+    """Estado da memória cerebral (working/episódica/semântica)."""
+    return get_brain().stats()
+
+
+@app.post("/api/brain/activate")
+async def brain_activate(payload: BrainActivateRequest) -> dict:
+    """Ativa conceitos na memória de trabalho (slots com decaimento)."""
+    brain = get_brain()
+    active = brain.attend(payload.concepts)
+    return {"status": "ok", "active": active, "region": "Córtex Pré-Frontal"}
+
+
+@app.post("/api/brain/episode")
+async def brain_episode(payload: BrainEpisodeRequest) -> dict:
+    """Registra um episódio (hipocampo virtual) para consolidação posterior."""
+    brain = get_brain()
+    episode = brain.record_episode(
+        payload.kind, {"extracted_entities": [{"subject": c, "predicate": "CONECTA_A", "object": "MEMÓRIA"} for c in payload.concepts]}
+    )
+    return {"status": "ok", "episode": {"timestamp": episode.timestamp, "kind": episode.kind}}
+
+
+@app.post("/api/brain/consolidate")
+async def brain_consolidate() -> dict:
+    """Ciclo de 'sono': promove fatos repetidos e fortalece arestas (Hebbian)."""
+    return await get_brain().consolidate()
 
 
 @app.post("/api/extract")

@@ -147,6 +147,15 @@ async def run_cycle() -> None:
             sent += 1
         logger.info("Ingestão concluída: %d fonte(s) enviada(s).", sent)
 
+        # Ciclo de "sono": consolidação semântica (Hebbian) no córtex do Space
+        try:
+            cons = await client.post(
+                f"{api_base}/api/brain/consolidate", headers=headers, timeout=120.0
+            )
+            logger.info("Consolidação cerebral: %s — %s", cons.status_code, cons.text[:200])
+        except Exception as exc:
+            logger.warning("Consolidação cerebral falhou: %s", exc)
+
 
 if __name__ == "__main__":
     asyncio.run(run_cycle())

@@ -30,6 +30,9 @@ config/secrets.yaml
 *.log
 logs/
 
+# Dados de runtime (quarentena, memória episódica)
+data/
+
 # Docker / build
 *.tar
 *.image

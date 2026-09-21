@@ -8,6 +8,7 @@ from __future__ import annotations
 import asyncio
 import logging
 import os
+import time
 from typing import Any, Optional
 
 import yaml
@@ -99,6 +100,20 @@ COUNT_QUERY = "MATCH (c:Conceito) RETURN count(c) AS total"
 VERIFIED_QUERY = (
     "MATCH (fa:Fato) WHERE fa.verificado = true RETURN count(fa) AS total"
 )
+
+CONSOLIDATION_QUERY = """
+UNWIND $facts AS item
+MERGE (s:Conceito {nome: item.subject})
+  ON CREATE SET s.criado_em = timestamp()
+MERGE (o:Conceito {nome: item.object})
+  ON CREATE SET o.criado_em = timestamp()
+MERGE (s)-[r:RELACIONA {predicate: item.predicate}]->(o)
+  SET r.replays = coalesce(r.replays, 0) + item.replays,
+      r.peso = coalesce(r.peso, 0.0) + item.replays * 0.1,
+      r.consolidado = true,
+      r.consolidated_at = $timestamp
+RETURN count(item) AS total_processado
+"""
 
 SCHEMA_STATEMENTS = [
     "CREATE CONSTRAINT conceito_nome IF NOT EXISTS FOR (c:Conceito) REQUIRE c.nome IS UNIQUE",
@@ -240,6 +255,29 @@ class GraphConnector:
                 return int(record["total"]) if record else 0
         except Exception as exc:
             logger.warning("Falha ao contar fatos verificados: %s", exc)
+            return 0
+
+    async def consolidate_facts(self, facts: list[dict[str, Any]]) -> int:
+        """Consolidação semântica (Hebbian): fortalece arestas repetidas.
+
+        Cada item: ``{subject, predicate, object, replays}``. Incrementa ``replays``
+        e ``peso`` da aresta ``:RELACIONA`` correspondente. Retorna o total processado.
+        """
+        if not facts:
+            return 0
+        try:
+            if self.driver is None:
+                await self.connect()
+            async with self.driver.session() as session:
+                result = await session.run(
+                    CONSOLIDATION_QUERY, facts=facts, timestamp=int(time.time())
+                )
+                record = await result.single()
+                total = int(record["total_processado"]) if record else 0
+                logger.info("Consolidação Hebbiana: %d fato(s) fortalecido(s).", total)
+                return total
+        except Exception as exc:
+            logger.warning("Falha na consolidação semântica: %s", exc)
             return 0
 
     async def __aenter__(self) -> "GraphConnector":
