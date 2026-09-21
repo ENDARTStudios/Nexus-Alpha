@@ -56,6 +56,16 @@ def test_episodic_prune(tmp_path):
     assert em.count() == 2
 
 
+def test_episodic_falls_back_when_preferred_dir_unwritable(tmp_path, monkeypatch):
+    blocker = tmp_path / "arquivo_qualquer"
+    blocker.write_text("sou um arquivo, nao diretorio", encoding="utf-8")
+    monkeypatch.setenv("NEXUS_BRAIN_DIR", str(blocker / "brain"))
+    em = EpisodicMemory()
+    em.record("t", {"a": 1})
+    assert em.count() == 1
+    assert str(blocker) not in str(em.path)
+
+
 def test_consolidation_promotes_repeated_facts(tmp_path):
     brain = BrainMemorySystem(
         episodic=EpisodicMemory(path=tmp_path / "ep.jsonl"), min_replays=2, graph=FakeGraph()

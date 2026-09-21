@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import logging
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
@@ -19,9 +20,22 @@ DEFAULT_DIR = Path("data/quarentena")
 
 class QuarantineStore:
     def __init__(self, base_dir: Path | str = DEFAULT_DIR) -> None:
-        self.base_dir = Path(base_dir)
-        self.base_dir.mkdir(parents=True, exist_ok=True)
+        self.base_dir = self._resolve_writable(Path(base_dir))
         self.file_path = self.base_dir / "quarentena.jsonl"
+
+    @staticmethod
+    def _resolve_writable(preferred: Path) -> Path:
+        """Usa ``preferred`` se gravável; senão cai para o temp (Space com bucket RO)."""
+        for candidate in (preferred, Path(tempfile.gettempdir()) / "nexus_quarentena"):
+            try:
+                candidate.mkdir(parents=True, exist_ok=True)
+                probe = candidate / ".write_probe"
+                probe.write_text("ok", encoding="utf-8")
+                probe.unlink()
+                return candidate
+            except Exception:
+                continue
+        return Path(tempfile.gettempdir())
 
     def put(self, payload: dict[str, Any], reason: str, score: float) -> None:
         record = {

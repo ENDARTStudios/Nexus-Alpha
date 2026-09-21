@@ -19,6 +19,8 @@ from __future__ import annotations
 
 import json
 import logging
+import os
+import tempfile
 import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -28,6 +30,25 @@ from .regions import region_for
 
 
 logger = logging.getLogger(__name__)
+
+
+def resolve_writable_dir(preferred: Path, fallback_name: str = "nexus_brain") -> Path:
+    """Devolve o primeiro diretório gravável entre o preferido e o temp do sistema.
+
+    Necessário porque o Space pode ter um volume/bucket somente-leitura montado em
+    ``data/``; nesse caso caímos para ``$TMPDIR`` sem quebrar o pipeline.
+    """
+    candidates = [preferred, Path(tempfile.gettempdir()) / fallback_name]
+    for candidate in candidates:
+        try:
+            candidate.mkdir(parents=True, exist_ok=True)
+            probe = candidate / ".write_probe"
+            probe.write_text("ok", encoding="utf-8")
+            probe.unlink()
+            return candidate
+        except Exception:
+            continue
+    return Path(tempfile.gettempdir())
 
 
 INVERSE_PREDICATES: dict[str, str] = {
@@ -99,7 +120,15 @@ class WorkingMemory:
 class EpisodicMemory:
     """Log temporal append-only (hipocampo virtual)."""
 
-    def __init__(self, path: Path | str = "data/brain/episodes.jsonl", max_entries: int = 5000) -> None:
+    def __init__(
+        self,
+        path: Optional[Path | str] = None,
+        max_entries: int = 5000,
+    ) -> None:
+        if path is None:
+            base = Path(os.environ.get("NEXUS_BRAIN_DIR", "data/brain"))
+            base = resolve_writable_dir(base)
+            path = base / "episodes.jsonl"
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self.max_entries = max_entries
