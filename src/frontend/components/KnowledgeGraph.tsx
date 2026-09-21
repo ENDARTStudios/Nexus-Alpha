@@ -3,6 +3,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 
+import { nexusUrl } from '../lib/nexus';
+
 // Força o carregamento dinâmico (Lazy Loading) do cliente para evitar quebras de SSR (Server-Side Rendering)
 const ForceGraph2D = React.lazy(() => import("react-force-graph-2d"));
 
@@ -36,9 +38,8 @@ export default function KnowledgeGraph() {
   useEffect(() => {
     let cancelled = false;
     const fetchGraph = async () => {
-      const base = process.env.NEXT_PUBLIC_NEXUS_API_URL ?? "";
       try {
-        const response = await fetch(`${base}/api/graph/topology`);
+        const response = await fetch(nexusUrl('/graph/topology'));
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data: GraphData = await response.json();
         if (!cancelled) setGraphData(data);

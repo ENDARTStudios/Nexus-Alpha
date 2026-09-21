@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-const API_BASE = process.env.NEXT_PUBLIC_NEXUS_API_URL ?? "";
+import { nexusUrl } from "./nexus";
 
 export interface BrainStats {
   working_memory: {
@@ -53,7 +53,7 @@ interface HookState<T> {
 }
 
 async function fetchJson<T>(path: string): Promise<T> {
-  const response = await fetch(`${API_BASE}${path}`);
+  const response = await fetch(nexusUrl(path));
   if (!response.ok) {
     throw new Error(`HTTP ${response.status}`);
   }

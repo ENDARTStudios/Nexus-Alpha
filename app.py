@@ -289,6 +289,7 @@ async def brain_stats() -> dict:
     brain = get_brain()
     base = brain.stats()
     graph = get_graph_connector()
+    snapshot = await graph.graph_snapshot()
     return {
         "working_memory": {
             "active_slots": len(base["working_active"]),
@@ -304,15 +305,15 @@ async def brain_stats() -> dict:
         },
         "consolidation": {
             "candidates": len(brain.consolidation_candidates()),
-            "consolidated": await graph.count_consolidated(),
+            "consolidated": snapshot["consolidated"],
             "min_replays": base["min_replays"],
             "region": base["semantic_region"],
         },
         "graph": {
-            "concepts": await graph.count_concepts(),
-            "facts": await graph.count_facts(),
-            "verified_facts": await graph.count_verified(),
-            "hebbian_pairs": base["hebbian_pairs"],
+            "concepts": snapshot["concepts"],
+            "facts": snapshot["facts"],
+            "verified_facts": snapshot["verified"],
+            "hebbian_pairs": snapshot["hebbian"],
         },
         "vectors": {"count": get_vector_connector().count()},
     }

@@ -185,17 +185,8 @@ class FakeBrainFull(FakeBrain):
 
 
 class FakeGraphCounts:
-    async def count_concepts(self):
-        return 875
-
-    async def count_facts(self):
-        return 569
-
-    async def count_verified(self):
-        return 2
-
-    async def count_consolidated(self):
-        return 1
+    async def graph_snapshot(self):
+        return {"concepts": 875, "facts": 569, "verified": 2, "consolidated": 1, "hebbian": 4}
 
 
 class FakeVectorCounts:
@@ -229,7 +220,7 @@ def test_brain_stats_normalized_contract(monkeypatch):
     assert body["consolidation"]["candidates"] == 1
     assert body["consolidation"]["consolidated"] == 1
     assert body["consolidation"]["min_replays"] == 3
-    assert body["graph"] == {"concepts": 875, "facts": 569, "verified_facts": 2, "hebbian_pairs": 1}
+    assert body["graph"] == {"concepts": 875, "facts": 569, "verified_facts": 2, "hebbian_pairs": 4}
     assert body["vectors"]["count"] == 115
 
 

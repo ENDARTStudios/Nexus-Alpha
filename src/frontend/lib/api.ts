@@ -1,3 +1,5 @@
+import { nexusUrl } from "./nexus";
+
 export interface ChatResponse {
   status?: string;
   reply: string;
@@ -9,13 +11,11 @@ export interface ChatResponse {
   verified?: boolean;
 }
 
-const API_BASE = process.env.NEXT_PUBLIC_NEXUS_API_URL ?? "";
-
 export async function sendChatMessage(
   message: string,
   sessionId: string,
 ): Promise<ChatResponse> {
-  const response = await fetch(`${API_BASE}/api/chat`, {
+  const response = await fetch(nexusUrl("/chat"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message, session_id: sessionId }),

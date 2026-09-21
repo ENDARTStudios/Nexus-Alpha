@@ -107,6 +107,22 @@ CONSOLIDATED_QUERY = (
     "MATCH ()-[r:RELACIONA]->() WHERE r.consolidado = true RETURN count(r) AS total"
 )
 
+HEBBIAN_QUERY = (
+    "MATCH ()-[r:RELACIONA]->() WHERE coalesce(r.replays, 0) >= 2 RETURN count(r) AS total"
+)
+
+SNAPSHOT_QUERY = """
+CALL { MATCH (c:Conceito) RETURN count(c) AS concepts }
+CALL { MATCH (fa:Fato)
+       RETURN count(fa) AS facts,
+              sum(CASE WHEN fa.verificado THEN 1 ELSE 0 END) AS verified }
+CALL { MATCH ()-[r:RELACIONA]->()
+       RETURN count(r) AS relations,
+              sum(CASE WHEN r.consolidado THEN 1 ELSE 0 END) AS consolidated,
+              sum(CASE WHEN coalesce(r.replays, 0) >= 2 THEN 1 ELSE 0 END) AS hebbian }
+RETURN concepts, facts, verified, consolidated, hebbian
+"""
+
 CONSOLIDATION_QUERY = """
 UNWIND $facts AS item
 MERGE (s:Conceito {nome: item.subject})
@@ -282,6 +298,32 @@ class GraphConnector:
     async def count_consolidated(self) -> int:
         """Total de arestas consolidadas (Hebbian: repetição >= limiar)."""
         return await self._count(CONSOLIDATED_QUERY, "consolidados")
+
+    async def count_hebbian(self) -> int:
+        """Arestas reforçadas por repetição (replays >= 2) — derivado do grafo."""
+        return await self._count(HEBBIAN_QUERY, "pares hebbianos")
+
+    async def graph_snapshot(self) -> dict[str, int]:
+        """Todos os contadores em UMA consulta (evita corrida/cold-start no Space)."""
+        empty = {"concepts": 0, "facts": 0, "verified": 0, "consolidated": 0, "hebbian": 0}
+        try:
+            if self.driver is None:
+                await self.connect()
+            async with self.driver.session() as session:
+                result = await session.run(SNAPSHOT_QUERY)
+                record = await result.single()
+                if record is None:
+                    return empty
+                return {
+                    "concepts": int(record["concepts"] or 0),
+                    "facts": int(record["facts"] or 0),
+                    "verified": int(record["verified"] or 0),
+                    "consolidated": int(record["consolidated"] or 0),
+                    "hebbian": int(record["hebbian"] or 0),
+                }
+        except Exception as exc:
+            logger.warning("Falha no snapshot do grafo: %s", exc)
+            return empty
 
     async def consolidate_facts(self, facts: list[dict[str, Any]]) -> int:
         """Consolidação semântica (Hebbian): fortalece arestas repetidas.
