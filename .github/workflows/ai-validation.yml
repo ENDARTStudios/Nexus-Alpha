@@ -50,3 +50,13 @@ jobs:
           exit 1
         fi
         echo "Esteira validada. Código em conformidade com as regras de governança."
+
+    - name: 7. Configurar Node (validação do proxy)
+      uses: actions/setup-node@v4
+      with:
+        node-version: "20"
+
+    - name: 8. Validar Allowlist do Proxy (Node)
+      run: |
+        echo "Verificando a política de rotas do proxy (anti-relay)..."
+        node --test src/app/api/nexus/policy.test.mjs

@@ -1,6 +1,10 @@
 import type { NextRequest } from "next/server";
 
+import { isAllowed } from "../policy.mjs";
+
 // Proxy server-side: mantém o Space PRIVADO e nunca expõe segredos ao browser.
+// SEGURANÇA: allowlist explícita (policy.mjs). Como o proxy injeta credenciais,
+// ele NUNCA pode atuar como relay aberto — rotas administrativas retornam 403.
 // Variáveis (somente no servidor/Vercel — NUNCA em NEXT_PUBLIC_*):
 //   NEXUS_SPACE_URL   ex.: https://usuario-space.hf.space
 //   HF_TOKEN          token do Hugging Face (autentica o Space privado)
@@ -11,6 +15,10 @@ const HF_TOKEN = process.env.HF_TOKEN ?? "";
 const NEXUS_API_TOKEN = process.env.NEXUS_API_TOKEN ?? "";
 
 async function forward(request: NextRequest, path: string[]): Promise<Response> {
+  // Allowlist primeiro: bloqueia relay mesmo sem configuração.
+  if (!isAllowed(request.method, path)) {
+    return Response.json({ error: "forbidden_route" }, { status: 403 });
+  }
   if (!SPACE_URL) {
     return Response.json({ error: "missing_config" }, { status: 500 });
   }
