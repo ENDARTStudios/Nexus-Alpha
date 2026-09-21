@@ -188,6 +188,15 @@ class FakeGraphCounts:
     async def graph_snapshot(self):
         return {"concepts": 875, "facts": 569, "verified": 2, "consolidated": 1, "hebbian": 4}
 
+    async def recent_episodes(self, limit=20):
+        return []
+
+    async def mark_episodes_status(self, fact_hashes, status="consolidado"):
+        return len(fact_hashes)
+
+    async def prune_episodes(self, days=30, max_count=10000):
+        return 0
+
 
 class FakeVectorCounts:
     def count(self):
@@ -241,3 +250,50 @@ def test_brain_public_payloads_do_not_leak_secrets(monkeypatch):
         assert "hf_" not in text
         assert "api_key" not in text
         assert "token" not in text
+
+
+def test_fact_hash_is_stable_and_case_insensitive():
+    from src.brain.memory import fact_hash
+
+    a = fact_hash("IA", "UTILIZA", "Dados")
+    b = fact_hash(" ia ", "utiliza", " dados ")
+    assert a == b
+    assert len(a) == 64
+
+
+def test_episode_payloads_have_fact_hash_day_and_domain(tmp_path):
+    from src.brain.memory import BrainMemorySystem, EpisodicMemory
+
+    brain = BrainMemorySystem(episodic=EpisodicMemory(path=tmp_path / "ep.jsonl"))
+    payloads = brain.episode_payloads(
+        [{"subject": "IA", "predicate": "utiliza", "object": "Dados"}],
+        "https://pt.wikipedia.org/wiki/IA",
+    )
+    assert len(payloads) == 1
+    item = payloads[0]
+    assert item["predicate"] == "UTILIZA"
+    assert item["source_domain"] == "pt.wikipedia.org"
+    assert len(item["fact_hash"]) == 64
+    assert len(item["day"]) == 10
+    assert item["status"] == "novo"
+
+
+def test_brain_episodes_prefers_durable_store(monkeypatch):
+    class DurableGraph(FakeGraphCounts):
+        async def recent_episodes(self, limit=20):
+            return [{"id": "ep_durable", "status": "consolidado", "replays": 7}]
+
+    monkeypatch.setattr(app_module, "get_brain", lambda: FakeBrain())
+    monkeypatch.setattr(app_module, "get_graph_connector", lambda: DurableGraph())
+    monkeypatch.setattr(app_module, "get_vector_connector", lambda: FakeVectorCounts())
+    body = TestClient(app_module.app).get("/api/brain/episodes").json()
+    assert body["source"] == "neo4j"
+    assert body["items"][0]["id"] == "ep_durable"
+
+
+def test_consolidate_reports_retention_and_marks(monkeypatch):
+    _patch_deps(monkeypatch)
+    body = TestClient(app_module.app).post("/api/brain/consolidate").json()
+    assert body["status"] == "ok"
+    assert "episodes_marked" in body
+    assert "pruned_episodes" in body

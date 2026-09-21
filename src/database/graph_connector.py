@@ -123,6 +123,65 @@ CALL { MATCH ()-[r:RELACIONA]->()
 RETURN concepts, facts, verified, consolidated, hebbian
 """
 
+EPISODE_MERGE_QUERY = """
+UNWIND $episodes AS item
+MERGE (e:Episodio {fact_hash: item.fact_hash, day: item.day})
+  ON CREATE SET e.id = item.id,
+                e.created_at = datetime(item.created_at),
+                e.last_seen_at = datetime(item.created_at),
+                e.source_domain = item.source_domain,
+                e.subject = item.subject,
+                e.predicate = item.predicate,
+                e.object = item.object,
+                e.status = item.status,
+                e.replays = 1,
+                e.weight = 0.1
+  ON MATCH SET  e.replays = e.replays + 1,
+                e.last_seen_at = datetime(item.created_at),
+                e.status = item.status,
+                e.weight = (e.replays + 1) * 0.1
+RETURN count(e) AS total_processado
+"""
+
+EPISODE_RECENT_QUERY = """
+MATCH (e:Episodio)
+RETURN e.id AS id,
+       toString(e.created_at) AS created_at,
+       e.source_domain AS source_domain,
+       e.subject AS subject,
+       e.predicate AS predicate,
+       e.object AS object,
+       e.status AS status,
+       e.replays AS replays,
+       e.weight AS weight
+ORDER BY e.last_seen_at DESC
+LIMIT $limit
+"""
+
+EPISODE_PRUNE_AGE_QUERY = """
+MATCH (e:Episodio)
+WHERE e.created_at < datetime() - duration({days: $days})
+WITH collect(e) AS old
+FOREACH (x IN old | DETACH DELETE x)
+RETURN size(old) AS removed
+"""
+
+EPISODE_PRUNE_COUNT_QUERY = """
+MATCH (e:Episodio)
+WITH e ORDER BY e.last_seen_at DESC
+SKIP $max_count
+WITH collect(e) AS extra
+FOREACH (x IN extra | DETACH DELETE x)
+RETURN size(extra) AS removed
+"""
+
+EPISODE_MARK_QUERY = """
+UNWIND $hashes AS h
+MATCH (e:Episodio {fact_hash: h})
+SET e.status = $status
+RETURN count(e) AS total
+"""
+
 CONSOLIDATION_QUERY = """
 UNWIND $facts AS item
 MERGE (s:Conceito {nome: item.subject})
@@ -141,6 +200,9 @@ SCHEMA_STATEMENTS = [
     "CREATE CONSTRAINT conceito_nome IF NOT EXISTS FOR (c:Conceito) REQUIRE c.nome IS UNIQUE",
     "CREATE CONSTRAINT fonte_url IF NOT EXISTS FOR (f:FonteWeb) REQUIRE f.url IS UNIQUE",
     "CREATE INDEX conceito_busca IF NOT EXISTS FOR (c:Conceito) ON (c.nome)",
+    "CREATE INDEX episodio_created_at IF NOT EXISTS FOR (e:Episodio) ON (e.created_at)",
+    "CREATE INDEX episodio_status IF NOT EXISTS FOR (e:Episodio) ON (e.status)",
+    "CREATE INDEX episodio_fact_hash IF NOT EXISTS FOR (e:Episodio) ON (e.fact_hash)",
 ]
 
 
@@ -324,6 +386,72 @@ class GraphConnector:
         except Exception as exc:
             logger.warning("Falha no snapshot do grafo: %s", exc)
             return empty
+
+    async def persist_episodes(self, episodes: list[dict[str, Any]]) -> int:
+        """Episódios duráveis com MERGE idempotente (agregado por fact_hash+day)."""
+        if not episodes:
+            return 0
+        try:
+            if self.driver is None:
+                await self.connect()
+            async with self.driver.session() as session:
+                result = await session.run(EPISODE_MERGE_QUERY, episodes=episodes)
+                record = await result.single()
+                total = int(record["total_processado"]) if record else 0
+                logger.info("Episódios persistentes: %d registrado(s)/agregado(s).", total)
+                return total
+        except Exception as exc:
+            logger.warning("Falha ao persistir episódios: %s", exc)
+            return 0
+
+    async def recent_episodes(self, limit: int = 20) -> list[dict[str, Any]]:
+        """Lê os episódios duráveis mais recentes (lista vazia se indisponível)."""
+        try:
+            if self.driver is None:
+                await self.connect()
+            async with self.driver.session() as session:
+                result = await session.run(EPISODE_RECENT_QUERY, limit=limit)
+                return [dict(record) async for record in result]
+        except Exception as exc:
+            logger.warning("Falha ao ler episódios duráveis: %s", exc)
+            return []
+
+    async def prune_episodes(self, days: int = 30, max_count: int = 10000) -> int:
+        """Retenção: remove por idade e depois por volume. Retorna o total removido."""
+        removed = 0
+        try:
+            if self.driver is None:
+                await self.connect()
+            async with self.driver.session() as session:
+                for query, params in (
+                    (EPISODE_PRUNE_AGE_QUERY, {"days": days}),
+                    (EPISODE_PRUNE_COUNT_QUERY, {"max_count": max_count}),
+                ):
+                    result = await session.run(query, **params)
+                    record = await result.single()
+                    removed += int(record["removed"]) if record else 0
+            if removed:
+                logger.info("Retenção de episódios: %d removido(s).", removed)
+        except Exception as exc:
+            logger.warning("Falha na retenção de episódios: %s", exc)
+        return removed
+
+    async def mark_episodes_status(self, fact_hashes: list[str], status: str = "consolidado") -> int:
+        """Atualiza o status de episódios duráveis (ex.: após consolidação)."""
+        if not fact_hashes:
+            return 0
+        try:
+            if self.driver is None:
+                await self.connect()
+            async with self.driver.session() as session:
+                result = await session.run(
+                    EPISODE_MARK_QUERY, hashes=fact_hashes, status=status
+                )
+                record = await result.single()
+                return int(record["total"]) if record else 0
+        except Exception as exc:
+            logger.warning("Falha ao marcar episódios: %s", exc)
+            return 0
 
     async def consolidate_facts(self, facts: list[dict[str, Any]]) -> int:
         """Consolidação semântica (Hebbian): fortalece arestas repetidas.

@@ -260,13 +260,19 @@ async def ingest_data(
     db_status = "cluster-active" if success else "demo-memory"
     verified = await get_graph_connector().count_verified()
     try:
-        get_brain().record_episode(
+        brain = get_brain()
+        brain.record_episode(
             "ingest",
             {
                 "source_url": payload.source_url,
                 "extracted_entities": payload_dict["extracted_entities"],
             },
         )
+        episode_payloads = brain.episode_payloads(
+            payload_dict["extracted_entities"], payload.source_url
+        )
+        if episode_payloads:
+            await get_graph_connector().persist_episodes(episode_payloads)
     except Exception as exc:
         logger.warning("Falha ao registrar episódio no hipocampo: %s", exc)
     return {
@@ -321,9 +327,12 @@ async def brain_stats() -> dict:
 
 @app.get("/api/brain/episodes")
 async def brain_episodes(limit: int = 20) -> dict:
-    """Últimos episódios (hipocampo) normalizados para o painel."""
+    """Últimos episódios: lê o durável (Neo4j) e cai para o volátil se vazio."""
     limit = max(1, min(int(limit), 100))
-    return {"items": get_brain().recent_episodes(limit=limit)}
+    durable = await get_graph_connector().recent_episodes(limit=limit)
+    if durable:
+        return {"items": durable, "source": "neo4j"}
+    return {"items": get_brain().recent_episodes(limit=limit), "source": "volatile"}
 
 
 @app.post("/api/brain/activate")
@@ -346,8 +355,17 @@ async def brain_episode(payload: BrainEpisodeRequest) -> dict:
 
 @app.post("/api/brain/consolidate")
 async def brain_consolidate() -> dict:
-    """Ciclo de 'sono': promove fatos repetidos e fortalece arestas (Hebbian)."""
-    return await get_brain().consolidate()
+    """Ciclo de 'sono': promove fatos repetidos, fortalece arestas (Hebbian) e retém."""
+    from src.brain.memory import fact_hash
+
+    brain = get_brain()
+    graph = get_graph_connector()
+    report = await brain.consolidate()
+    candidates = brain.consolidation_candidates()
+    hashes = [fact_hash(c["subject"], c["predicate"], c["object"]) for c in candidates]
+    report["episodes_marked"] = await graph.mark_episodes_status(hashes, "consolidado")
+    report["pruned_episodes"] = await graph.prune_episodes()
+    return report
 
 
 @app.post("/api/extract")

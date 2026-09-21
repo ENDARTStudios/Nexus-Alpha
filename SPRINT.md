@@ -6,50 +6,42 @@ ou introduzir dependências que não estejam explicitamente mapeadas neste docum
 
 ---
 
-## 📅 Sprint Atual: `v1.11.0-alpha` — Acesso Seguro do Frontend (Proxy Vercel)
+## 📅 Sprint Atual: `v1.12.0-alpha` — Memória Episódica Durável (Neo4j)
 
 - **Status:** 🟢 Planejada / Em Execução
-- **Impacto:** Altíssimo (destrava BrainPanel, grafo e chat sem expor o Space)
-- **Complexidade:** Média (rota proxy server-side + consolidação de métricas)
+- **Impacto:** Alto (o hipocampo sobrevive a restarts do Space)
+- **Complexidade:** Média (modelo `:Episodio` + agregação + retenção)
 
 ### 🎯 Funcionalidade Alvo e Escopo
 
-Manter o Space **privado** e criar um **proxy server-side** (`/api/nexus/*`) que
-injeta `Authorization: Bearer <HF_TOKEN>` + `X-Nexus-Token: <NEXUS_API_TOKEN>`.
-O browser nunca vê credencial alguma.
+Persistir episódios no Neo4j para que a memória episódica **não se perca** quando o
+Space reinicia (o bucket em `data/` é somente-leitura e o `$TMPDIR` é efêmero).
+
+**Anti-inflação:** agregação por `fact_hash` + `day` (MERGE idempotente) — o mesmo
+fato no mesmo dia incrementa `replays` em vez de criar micro-eventos.
 
 ### 📋 Tarefas Mapeadas (GitHub Issues)
 
-#### [Issue #034] — Proxy catch-all `/api/nexus/[...path]`
-- **Descrição:** rota Next.js que encaminha GET/POST ao Space privado com os tokens
-  server-side; frontend passa a usar `nexusUrl()` (proxy por padrão, direto só se
-  `NEXT_PUBLIC_NEXUS_API_URL` estiver definido).
-- **Arquivos Afetados:** `src/app/api/nexus/[...path]/route.ts`,
-  `src/frontend/lib/nexus.ts`, `src/frontend/lib/brain.ts`,
-  `src/frontend/lib/api.ts`, `src/frontend/components/KnowledgeGraph.tsx`.
-- **Critérios:** Space permanece privado; nenhuma resposta contém segredos.
+#### [Issue #036] — Modelo `:Episodio` + persistência idempotente
+- **Descrição:** `fact_hash = sha256(subject|predicate|object)` normalizado; MERGE
+  por `(fact_hash, day)`; status agregado.
+- **Arquivos Afetados:** `src/database/graph_connector.py`,
+  `src/brain/memory.py` (`fact_hash`, `episode_payloads`), `app.py`.
+- **Critérios:** repetição no mesmo dia vira `replays`; `MERGE` idempotente.
 
-#### [Issue #035] — Métricas duráveis e atômicas
-- **Descrição:** `hebbian_pairs` deixa de usar memória volátil e passa a derivar do
-  grafo; todos os contadores em **uma única consulta** (`graph_snapshot`), evitando
-  zeros transitórios no cold-start do Space.
-- **Arquivos Afetados:** `src/database/graph_connector.py`, `app.py`,
-  `tests/test_brain_memory.py`.
-- **Critérios:** contadores consistentes e persistentes entre restarts.
-
-### 🔑 Variáveis (Vercel — somente servidor, NUNCA em `NEXT_PUBLIC_*`)
-```
-NEXUS_SPACE_URL=https://<user>-<space>.hf.space
-HF_TOKEN=hf_xxx
-NEXUS_API_TOKEN=xxx
-```
+#### [Issue #037] — Leitura durável, índices e retenção
+- **Descrição:** `/api/brain/episodes` lê o Neo4j (fallback volátil); índices por
+  `created_at`/`status`/`fact_hash`; retenção 30 dias OU 10.000 episódios no
+  ciclo de consolidação; marcar episódios consolidados.
+- **Arquivos Afetados:** `src/database/graph_connector.py`, `app.py`.
+- **Critérios:** episódios persistem após restart; retenção poda sem destruir o grafo.
 
 ---
 
 ## 🛡️ Critérios de Aceitação (Definition of Done)
 
-1. **Gate de CI:** suíte em **141 testes verdes** (contrato + anti-vazamento).
-2. **Space Privado:** nenhum endpoint público novo; proxy é o único ponto de saída.
+1. **Gate de CI:** suíte em **146 testes verdes** (inclui degradação offline).
+2. **Contadores:** hebbian/consolidado permanecem derivados do grafo.
 
 ---
 
@@ -64,4 +56,5 @@ NEXUS_API_TOKEN=xxx
 - `v1.8.0-alpha` — Motor GraphRAG (subgrafos 1–2 saltos no chat).
 - `v1.9.0-alpha` — Cérebro espelhado (working/episódica/semântica + Hebbian).
 - `v1.10.0-alpha` — Painel Cérebro (contrato normalizado + `BrainPanel` read-only).
+- `v1.11.0-alpha` — Proxy server-side (Space privado) + métricas duráveis + allowlist.
 

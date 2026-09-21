@@ -17,6 +17,7 @@ Tudo em stdlib; a persistência semântica é delegada ao ``GraphConnector``.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import os
@@ -32,6 +33,12 @@ from .regions import region_for
 
 
 logger = logging.getLogger(__name__)
+
+
+def fact_hash(subject: str, predicate: str, obj: str) -> str:
+    """Hash estável e idempotente de uma tripla (chave de agregação durável)."""
+    raw = "|".join(part.strip() for part in (subject, predicate, obj)).lower()
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()
 
 
 def resolve_writable_dir(preferred: Path, fallback_name: str = "nexus_brain") -> Path:
@@ -291,6 +298,43 @@ class BrainMemorySystem:
             "min_replays": self.min_replays,
             "hebbian_pairs": len(self.coactivations),
         }
+
+    def episode_payloads(
+        self,
+        entities: Iterable[dict[str, Any]],
+        source_url: str = "",
+        status: str = "novo",
+    ) -> list[dict[str, Any]]:
+        """Normaliza entidades em registros de ``:Episodio`` (persistência durável).
+
+        A agregação no grafo é por ``fact_hash`` + ``day`` (MERGE idempotente),
+        então repetições do mesmo fato no mesmo dia viram ``replays`` — sem
+        inflar o banco com micro-eventos.
+        """
+        created = datetime.now(timezone.utc)
+        created_iso = created.isoformat()
+        day = created.strftime("%Y-%m-%d")
+        domain = urlparse(source_url).netloc or None
+        payloads: list[dict[str, Any]] = []
+        for item in entities or []:
+            subject = str(item.get("subject", "")).strip()
+            predicate = str(item.get("predicate", "")).strip().upper()
+            obj = str(item.get("object", "")).strip()
+            if not (subject and predicate and obj):
+                continue
+            digest = fact_hash(subject, predicate, obj)
+            payloads.append({
+                "id": f"ep_{int(created.timestamp() * 1000)}_{digest[:8]}",
+                "fact_hash": digest,
+                "day": day,
+                "created_at": created_iso,
+                "source_domain": domain,
+                "subject": subject,
+                "predicate": predicate,
+                "object": obj,
+                "status": status,
+            })
+        return payloads
 
     def recent_episodes(self, limit: int = 20) -> list[dict[str, Any]]:
         """Episódios recentes normalizados para o painel (read-only)."""
