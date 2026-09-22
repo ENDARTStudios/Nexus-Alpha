@@ -57,6 +57,12 @@ EXTRA_MAP: dict[str, str] = {
     "friendly": "É_AMIGÁVEL",
     "user friendly": "É_AMIGÁVEL",
     "userfriendly": "É_AMIGÁVEL",
+    # CONECTA_A (voz reflexiva — "conecta-se a" é a forma dominante em texto minerado;
+    # o fold de _normalize apaga o hífen, então a chave explícita é obrigatória)
+    "conecta se": "CONECTA_A",
+    "conecta se a": "CONECTA_A",
+    # UTILIZA (voz reflexiva — "utiliza-se"; "usa-se" já vem do canonicalizer)
+    "utiliza se": "UTILIZA",
 }
 
 _PREDICATE_MAP: Optional[dict[str, str]] = None

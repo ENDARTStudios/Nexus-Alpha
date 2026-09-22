@@ -71,3 +71,12 @@ def test_guard_accepts_mapped_and_classifies_valid_verbs():
     assert validate_predicate("ter") == (None, "unmapped_predicate")
     assert validate_predicate("zapearia") == (None, "invalid_predicate")
     assert validate_predicate("") == (None, "invalid_predicate")
+
+
+def test_reflexive_voice_maps_to_controlled():
+    # #042: voz reflexiva ("-se") é a forma dominante em texto minerado PT.
+    assert map_predicate("conecta-se a") == ("CONECTA_A", "ok")
+    assert map_predicate("conecta se") == ("CONECTA_A", "ok")
+    assert map_predicate("utiliza-se") == ("UTILIZA", "ok")
+    assert validate_predicate("conecta-se a") == ("CONECTA_A", "ok")
+    assert validate_predicate("utiliza-se") == ("UTILIZA", "ok")
