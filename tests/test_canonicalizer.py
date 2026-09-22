@@ -30,3 +30,36 @@ def test_acronyms_collide_with_full_names():
     assert a["subject"] == b["subject"]
     assert a["predicate"] == b["predicate"]
     assert a["object"] == b["object"]
+
+
+def test_expanded_entity_synonyms_collapse():
+    c = SemanticCanonicalizer()
+    for variant in ["ia", "AI", "artificial intelligence", "Inteligência Artificial", "inteligencia artificial"]:
+        assert c.canonicalize_entity(variant) == "INTELIGÊNCIA ARTIFICIAL"
+
+
+def test_domain_synonyms_map_to_controlled_entities():
+    c = SemanticCanonicalizer()
+    assert c.canonicalize_entity("nlp") == "PROCESSAMENTO DE LINGUAGEM NATURAL"
+    assert c.canonicalize_entity("pln") == "PROCESSAMENTO DE LINGUAGEM NATURAL"
+    assert c.canonicalize_entity("computer vision") == "VISÃO COMPUTACIONAL"
+    assert c.canonicalize_entity("visão computacional") == "VISÃO COMPUTACIONAL"
+    assert c.canonicalize_entity("genai") == "IA GENERATIVA"
+    assert c.canonicalize_entity("rede_neural") == "REDES NEURAIS"
+
+
+def test_predicate_synonyms_collapse_to_controlled():
+    c = SemanticCanonicalizer()
+    for verb in ["usa", "emprega", "utiliza", "usar", "use"]:
+        assert c.canonicalize_predicate(verb) == "UTILIZA"
+    for verb in ["cria", "gera", "produz"]:
+        assert c.canonicalize_predicate(verb) == "PRODUZ"
+    for verb in ["contém", "contem", "inclui"]:
+        assert c.canonicalize_predicate(verb) == "CONTIENE"
+    assert c.canonicalize_predicate("pertence_a") == "PERTENCE_A"
+
+
+def test_normalization_strips_spaces_and_punctuation():
+    c = SemanticCanonicalizer()
+    assert c.canonicalize_entity("  redes   neurais  ") == "REDES NEURAIS"
+    assert c.canonicalize_entity("ALGORITMO QUÂNTICO.") == "ALGORITMO QUÂNTICO"

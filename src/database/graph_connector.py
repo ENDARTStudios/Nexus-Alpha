@@ -368,8 +368,13 @@ class GraphConnector:
         """Arestas reforçadas por repetição (replays >= 2) — derivado do grafo."""
         return await self._count(HEBBIAN_QUERY, "pares hebbianos")
 
-    async def graph_snapshot(self) -> dict[str, int]:
-        """Todos os contadores em UMA consulta (evita corrida/cold-start no Space)."""
+    async def graph_snapshot(self, retries: int = 2) -> dict[str, Any]:
+        """Todos os contadores em UMA consulta (evita corrida/cold-start no Space).
+
+        Faz até ``retries`` tentativas para absorver transientes de cold-start
+        (ex.: o pool de conexões do AuraDB ainda aquecendo), evitando falso-positivo
+        no alerta ``hebbian_consistency_check``.
+        """
         empty = {
             "concepts": 0,
             "facts": 0,
@@ -380,27 +385,32 @@ class GraphConnector:
             "last_episode": None,
             "ok": False,
         }
-        try:
-            if self.driver is None:
-                await self.connect()
-            async with self.driver.session() as session:
-                result = await session.run(SNAPSHOT_QUERY)
-                record = await result.single()
-                if record is None:
-                    return empty
-                return {
-                    "concepts": int(record["concepts"] or 0),
-                    "facts": int(record["facts"] or 0),
-                    "verified": int(record["verified"] or 0),
-                    "consolidated": int(record["consolidated"] or 0),
-                    "hebbian": int(record["hebbian"] or 0),
-                    "episodes": int(record["episodes"] or 0),
-                    "last_episode": record["last_episode"],
-                    "ok": True,
-                }
-        except Exception as exc:
-            logger.warning("Falha no snapshot do grafo: %s", exc)
-            return empty
+        for attempt in range(1, max(1, retries) + 1):
+            try:
+                if self.driver is None:
+                    await self.connect()
+                async with self.driver.session() as session:
+                    result = await session.run(SNAPSHOT_QUERY)
+                    record = await result.single()
+                    if record is None:
+                        return empty
+                    return {
+                        "concepts": int(record["concepts"] or 0),
+                        "facts": int(record["facts"] or 0),
+                        "verified": int(record["verified"] or 0),
+                        "consolidated": int(record["consolidated"] or 0),
+                        "hebbian": int(record["hebbian"] or 0),
+                        "episodes": int(record["episodes"] or 0),
+                        "last_episode": record["last_episode"],
+                        "ok": True,
+                    }
+            except Exception as exc:
+                logger.warning(
+                    "Falha no snapshot do grafo (tentativa %d/%d): %s", attempt, retries, exc
+                )
+                if attempt < retries:
+                    await asyncio.sleep(0.5)
+        return empty
 
     async def persist_episodes(self, episodes: list[dict[str, Any]]) -> int:
         """Episódios duráveis com MERGE idempotente (agregado por fact_hash+day)."""
