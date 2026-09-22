@@ -12,11 +12,49 @@ from __future__ import annotations
 
 import logging
 import re
+import unicodedata
 from typing import Any
 
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+
+# Artigos iniciais removidos da chave de lookup (mesmo conjunto do extrator,
+# v1.13.0 item 3-lite #041: "A IA" e "IA" precisam colidir).
+LEADING_ARTICLES = frozenset({
+    "o", "a", "os", "as", "um", "uma", "uns", "umas",
+    "the", "an", "this", "that", "these", "those",
+})
+
+
+def fold_lookup_key(text: str) -> str:
+    """Chave determinística de lookup: minúsculas, sem acentos, sem artigos iniciais.
+
+    ``_`` e ``-`` viram espaço (ex.: ``rede_neural``, ``conecta-se a``), pontuação
+    é removida e espaços são colapsados. Usada tanto para consultar quanto para
+    construir os dicionários — por isso variantes equivalentes sempre colidem.
+    """
+    folded = unicodedata.normalize("NFKD", (text or "").strip().lower())
+    folded = "".join(ch for ch in folded if not unicodedata.combining(ch))
+    folded = re.sub(r"[_-]+", " ", folded)
+    folded = re.sub(r"[^\w\s]", "", folded)
+    folded = re.sub(r"\s+", " ", folded).strip()
+    tokens = folded.split(" ")
+    while len(tokens) > 1 and tokens[0] in LEADING_ARTICLES:
+        tokens.pop(0)
+    return " ".join(tokens)
+
+
+def _dedupe_folded(mapping: dict[str, str], name: str) -> dict[str, str]:
+    """Reconstrói o dicionário com chaves foldadas; falha alto em colisão conflitante."""
+    folded: dict[str, str] = {}
+    for key, value in mapping.items():
+        new_key = fold_lookup_key(key)
+        if new_key in folded and folded[new_key] != value:
+            raise ValueError(f"Colisão de chave foldada em {name}: {new_key!r}")
+        folded[new_key] = value
+    return folded
 
 
 # Vocabulário controlado de predicados (alinhado ao LLMCanonicalExtractor).
@@ -156,27 +194,36 @@ class SemanticCanonicalizer:
             "deriva": "DERIVA_DE", "derivam": "DERIVA_DE", "deriva de": "DERIVA_DE",
         }
 
+        # v1.13.0 #041: dicionários indexados pela chave foldada — variantes
+        # com/sem acento, com/sem artigo inicial e com `_`/`-` colidem no lookup.
+        self.entity_synonyms = _dedupe_folded(self.entity_synonyms, "entity_synonyms")
+        self.predicate_synonyms = _dedupe_folded(self.predicate_synonyms, "predicate_synonyms")
+
     def clean_string(self, text: str) -> str:
-        """Normaliza a chave de lookup: minúsculas, `_`→espaço e sem pontuação."""
+        """Chave determinística de lookup (minúsculas, sem acentos/artigos)."""
         if not text:
             return ""
-        text = (text or "").strip().lower()
-        text = re.sub(r"[_]+", " ", text)
-        text = re.sub(r"[^\w\s\-]", "", text)
-        return re.sub(r"\s+", " ", text).strip()
+        return fold_lookup_key(text)
 
-    def _normalize_term(self, raw: str) -> str:
-        """Normaliza espaços/pontuação preservando o conteúdo, em caixa alta."""
-        text = re.sub(r"[_]+", " ", raw or "")
-        text = re.sub(r"\s+", " ", text).strip()
-        text = text.strip(" .,;:!?()[]{}\"'`-")
-        return text.upper()
+    @staticmethod
+    def _display_from_normalized(normalized: str) -> str:
+        """Forma canônica determinística para entidades fora do dicionário (#041).
+
+        Trade-off aprovado: desconhecidas equivalentes colapsam para a mesma
+        string (UPPER, como os canônicos conhecidos; acentos foldados). Para
+        preservar acentos de um termo, cadastrá-lo em ``entity_synonyms``.
+        """
+        return (normalized or "").upper()
 
     def canonicalize_entity(self, raw: str) -> str:
-        cleaned = self.clean_string(raw)
-        if cleaned in self.entity_synonyms:
-            return self.entity_synonyms[cleaned]
-        return self._normalize_term(raw)
+        """Sinônimo conhecido → valor canônico; desconhecido → forma determinística."""
+        normalized = self.clean_string(raw)
+        if not normalized:
+            return ""
+        resolved = self.entity_synonyms.get(normalized)
+        if resolved:
+            return resolved
+        return self._display_from_normalized(normalized)
 
     def canonicalize_predicate(self, raw: str) -> str:
         cleaned = self.clean_string(raw)

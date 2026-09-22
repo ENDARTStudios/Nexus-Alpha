@@ -17,7 +17,9 @@ def test_fallback_unknown_terms():
     canonicalizer = SemanticCanonicalizer()
     raw = {"subject": "algoritmo quântico", "predicate": "acelera", "object": "processamento"}
     result = canonicalizer.canonicalize_triplet(raw)
-    assert result["subject"] == "ALGORITMO QUÂNTICO"
+    # #041: desconhecidas colapsam para forma determinística UPPER foldada
+    # (trade-off aprovado: acentos preservados só via dicionário).
+    assert result["subject"] == "ALGORITMO QUANTICO"
     assert result["predicate"] == "ACELERA"
 
 
@@ -62,4 +64,54 @@ def test_predicate_synonyms_collapse_to_controlled():
 def test_normalization_strips_spaces_and_punctuation():
     c = SemanticCanonicalizer()
     assert c.canonicalize_entity("  redes   neurais  ") == "REDES NEURAIS"
-    assert c.canonicalize_entity("ALGORITMO QUÂNTICO.") == "ALGORITMO QUÂNTICO"
+    assert c.canonicalize_entity("ALGORITMO QUÂNTICO.") == "ALGORITMO QUANTICO"
+
+
+def test_accent_variants_collapse_for_unknown_entities():
+    # #041: variantes que diferem SÓ por acento colapsam (José/Jose, São Paulo/Sao Paulo, João/Joao).
+    c = SemanticCanonicalizer()
+    assert c.canonicalize_entity("José") == c.canonicalize_entity("Jose")
+    assert c.canonicalize_entity("São Paulo") == c.canonicalize_entity("Sao Paulo")
+    assert c.canonicalize_entity("João") == c.canonicalize_entity("Joao")
+    assert c.canonicalize_entity("São Paulo") == "SAO PAULO"
+
+
+def test_non_accent_token_differences_do_not_collapse():
+    # Limitação honesta (#041): tokens distintos ("Clube" vs "Club") NÃO colapsam
+    # por fold — exigem alias no dicionário ou entity linking vetorial (item 2).
+    c = SemanticCanonicalizer()
+    assert c.canonicalize_entity("Futebol Clube") != c.canonicalize_entity("Futebol Club")
+
+
+def test_leading_articles_stripped_before_lookup():
+    # #041: mesma regra do EntityExtractor — "A IA" ≡ "IA".
+    c = SemanticCanonicalizer()
+    assert c.canonicalize_entity("A IA") == "INTELIGÊNCIA ARTIFICIAL"
+    assert c.canonicalize_entity("a inteligência artificial") == "INTELIGÊNCIA ARTIFICIAL"
+    assert c.canonicalize_entity("the algorithm") == "ALGORITMO"
+    assert c.canonicalize_entity("Os dados") == "DADOS"
+
+
+def test_hyphen_and_underscore_form_same_lookup_key():
+    # #041: clean_string dobra hífen/underscore para espaço.
+    c = SemanticCanonicalizer()
+    assert c.clean_string("conecta-se a") == "conecta se a"
+    assert c.canonicalize_entity("rede-neural") == "REDES NEURAIS"
+    assert c.canonicalize_entity("redes_neurais_artificiais") == "REDES NEURAIS"
+
+
+def test_folded_dictionary_has_no_conflicting_collisions():
+    # Reconstrução com chaves foldadas no __init__ não pode mapear para valores distintos.
+    c = SemanticCanonicalizer()
+    assert c.entity_synonyms["inteligencia artificial"] == "INTELIGÊNCIA ARTIFICIAL"
+    assert c.entity_synonyms["visao computacional"] == "VISÃO COMPUTACIONAL"
+    assert c.predicate_synonyms["contem"] == "CONTIENE"
+    assert c.predicate_synonyms["e"] == "SER"
+    assert c.predicate_synonyms["usa se"] == "UTILIZA"
+
+
+def test_empty_entity_resolves_to_empty():
+    c = SemanticCanonicalizer()
+    assert c.canonicalize_entity("") == ""
+    assert c.canonicalize_entity("   ") == ""
+    assert c.clean_string("") == ""

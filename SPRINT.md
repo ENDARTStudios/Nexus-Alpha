@@ -125,6 +125,48 @@ fato no mesmo dia incrementa `replays` em vez de criar micro-eventos.
 
 ---
 
+## v1.13.0 (item 3-lite) — Refino determinístico de extração
+
+### Decisão executiva
+- Ponto único de alavanca: normalização no choke point do ingest (`/api/ingest` →
+  `refine_triple` → `chave` do Neo4j). Nada no Cypher dobra acentos/remove artigos.
+- Sem LLM, sem baixar quórum (mantido em 3), sem promover fato por embedding
+  (regra de ouro: embedding só como sugestão, item 2).
+- Fallback determinístico para entidades desconhecidas (#041): colapsar é
+  obrigatório; acentos de desconhecidas são foldados (trade-off aprovado —
+  acentos se preservam via alias no dicionário, não via original arbitrário).
+- Limitação honesta: tokens distintos (`Clube` vs `Club`) NÃO colapsam por fold;
+  exigem alias ou item 2.
+
+### Tarefas mapeadas
+| Issue | Descrição | Arquivos afetados |
+|---|---|---|
+| #041 | Fold NFKD + artigos iniciais + hífen na chave de lookup; dicionários reconstruídos com chaves foldadas (falha alto em colisão); fallback determinístico UPPER | `src/cognition/canonicalizer.py`, `tests/test_canonicalizer.py` |
+| #042 | Refiner via `map_predicate`; EXTRA_MAP reflexivo (`conecta se[a]`, `utiliza se`); teste golden cross-extractor | `src/cognition/triple_refiner.py`, `src/cognition/predicate_mapper.py`, `tests/test_predicate_mapper.py`, `tests/test_extraction_equivalence.py` |
+| #043 | Guard `validate_predicate` (numérico/URL/stopword/não-verbal vs `unmapped`) + guard no `EntityExtractor` (spaCy e fallback) + observabilidade de rejeição | `src/cognition/predicate_mapper.py`, `src/cognition/extractor.py`, `app.py`, `tests/test_extractor.py`, `tests/test_triple_refiner.py`, `tests/test_graph_topology.py` |
+| #044 | (backlog) Expandir `EXTRA_MAP` a partir de `top_unmapped_predicates` | futuro |
+
+### Fora de escopo
+- Alterar `requirements-dev.txt`, `.github/workflows/`, quórum, `TriangulationFilter`
+  (content-blind, fora do path de produção), `EntityResolver` no ingest (item 2),
+  `graph_connector.py`, recanonicalização de nós históricos (`scripts/recanonicalize_facts.py` futuro).
+
+### Definition of Done
+- `python -m pytest -q` verde (195); `git diff -- requirements-dev.txt .github/workflows/` vazio.
+- Golden: `usa`/`utiliza`/`UTILIZA` → `UTILIZA`; `conecta-se a` → `CONECTA_A`;
+  `José`≡`Jose`; `A IA`≡`IA`; `zapearia`→`invalid_predicate`, `publicar`→`unmapped_predicate`.
+- Anti-leak: nenhum segredo nos arquivos/payloads/testes.
+- **Nota de fragmentação:** a `chave` do `:Fato` é calculada no ingest — nós
+  históricos fragmentados NÃO se fundem sozinhos. A subida de
+  `cross_source_matches`/`verified_facts` só é mensurável após **re-ingest
+  controlado** (backup → zerar → deploy → worker com seeds → comparar
+  `raw_triples`/`canonical_triples`/`rejected_noise`/`cross_source_matches`/`verified_facts`).
+  Sem re-ingest, métrica flat não invalida o código.
+- Gate de treino (inalterado): `records >= 50`, `verified_facts >= 10`, sem
+  segredos, YAML válido → só então smoke Kaggle (`epochs 1, batch 2, grad_accum 2, max_samples 100`).
+
+---
+
 ## 📜 Histórico de Sprints Concluídas
 
 - `v1.2.0-alpha` — Correção de `/health` e TLS `neo4j+s://` do AuraDB.
