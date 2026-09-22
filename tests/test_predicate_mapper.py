@@ -5,6 +5,7 @@ from src.cognition.predicate_mapper import (
     map_predicate,
     normalize_predicate_key,
     predicate_map,
+    validate_predicate,
 )
 
 
@@ -46,3 +47,27 @@ def test_controlled_vocabulary_is_bounded_and_unique():
     assert len(CONTROLLED_PREDICATES) <= MAX_CONTROLLED_PREDICATES
     assert len(set(CONTROLLED_PREDICATES)) == len(CONTROLLED_PREDICATES)
     assert predicate_map()
+
+
+def test_guard_rejects_numeric_url_stopword_and_nonverbal():
+    assert validate_predicate("1912") == (None, "numeric_predicate")
+    assert validate_predicate("século XX") == (None, "numeric_predicate")
+    assert validate_predicate("https://exemplo.com/artigo") == (None, "url_or_code_predicate")
+    assert validate_predicate("github.com") == (None, "url_or_code_predicate")
+    assert validate_predicate("the") == (None, "stopword_predicate")
+    assert validate_predicate("de") == (None, "stopword_predicate")
+    assert validate_predicate("YEAR") == (None, "nonverbal_predicate")
+    assert validate_predicate("THROUGH") == (None, "nonverbal_predicate")
+    assert validate_predicate("STORY") == (None, "nonverbal_predicate")
+    assert validate_predicate("CODER") == (None, "nonverbal_predicate")
+    assert validate_predicate("DEEPR") == (None, "nonverbal_predicate")
+
+
+def test_guard_accepts_mapped_and_classifies_valid_verbs():
+    assert validate_predicate("utiliza") == ("UTILIZA", "ok")
+    assert validate_predicate("preservir") == ("PRESERVA", "ok")
+    assert validate_predicate("publicar") == (None, "unmapped_predicate")
+    assert validate_predicate("descrever") == (None, "unmapped_predicate")
+    assert validate_predicate("ter") == (None, "unmapped_predicate")
+    assert validate_predicate("zapearia") == (None, "invalid_predicate")
+    assert validate_predicate("") == (None, "invalid_predicate")

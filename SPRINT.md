@@ -190,3 +190,29 @@ Mapear os predicados mais frequentes de `top_unmapped_predicates` (20 itens) com
 teste por par `raw → canonical`. Se `canonical_triples ↑` mas
 `cross_source_matches` ficar estável, o gargalo passa a ser entidade/segmentação.
 
+---
+
+## v1.13.0 — #043: Guard determinístico de predicado no EntityExtractor
+
+### Diagnóstico (medido)
+O `predicate_mapper` só recuperou +2 triplas. Os rejeitados mais frequentes eram
+**não-verbos** (`YEAR`, `THROUGH`, `STORY`, `CODER`, `DEEPR`) — o spaCy PT aplicado
+a conteúdo EN/misto emite substantivos/funções como predicado. O gargalo é
+**segmentação/seleção de predicado**, não vocabulário.
+
+### Escopo
+- `predicate_mapper.validate_predicate(raw) -> (canonical | None, reason)`:
+  guard puro, determinístico, com motivos
+  `numeric_predicate`, `url_or_code_predicate`, `stopword_predicate`,
+  `nonverbal_predicate`, `unmapped_predicate`, `invalid_predicate`.
+- `EntityExtractor` aplica o guard **na origem** (não gera tripla inválida) e
+  expõe `rejection_reasons` para log.
+- `triple_refiner.refine_triple_ex` usa o mesmo guard (protege o grafo server-side).
+- Métricas: `extraction_quality.rejection_reasons` granular +
+  `top_invalid_predicates` (além de `top_unmapped_predicates`).
+
+### Invariantes mantidas
+- Sem LLM, sem embedding promotor, sem mudança de quórum (3).
+- `unmapped_predicate` fica reservado a **verbos legítimos** fora do vocabulário
+  (backlog #044); lixo vira `invalid_predicate`/`nonverbal_predicate`.
+

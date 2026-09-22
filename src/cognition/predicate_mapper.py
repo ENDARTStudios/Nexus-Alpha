@@ -105,10 +105,105 @@ def map_predicate(raw: str) -> tuple[Optional[str], str]:
     if not key:
         return None, "unmapped_predicate"
 
+    canonical = _lookup(key)
+    if canonical in CONTROLLED_PREDICATES:
+        return canonical, "ok"
+    return None, "unmapped_predicate"
+
+
+def _lookup(key: str) -> Optional[str]:
     mapping = predicate_map()
     canonical = mapping.get(key)
     if canonical is None:
         canonical = mapping.get(_singularize(key))
+    return canonical
+
+
+# --- Guard determinístico de predicado (#043) ------------------------------
+# Rejeita tokens que NUNCA são predicado (numérico, URL/código, stopword,
+# não-verbal evidente) antes de virar tripla. Distingue "verbo legítimo fora do
+# vocabulário" (unmapped → backlog #044) de "lixo" (invalid → descartado).
+
+_URL_CODE_RE = re.compile(
+    r"(https?://|www\.|\.(com|org|net|io|dev|py|js|json|html|md)\b"
+    r"|[\\/@#]|[_=<>{}()\[\]|]|::|=>|->)"
+)
+
+_NUMERIC_RE = re.compile(
+    r"^(\d+|s[eé]culo(\s+[ivxlcdm\d]+)?|century|d[eé]cada|decade)$"
+)
+
+# Preposições/artigos/auxiliares isolados (PT/EN). "é/são/is/are" NÃO entram aqui:
+# são mapeados para SER pelo dicionário.
+STOPWORD_PREDICATES = frozenset({
+    "the", "a", "an", "of", "in", "on", "at", "by", "for", "with", "from", "to",
+    "and", "or", "as", "than", "into", "over", "under", "about", "after",
+    "o", "os", "as", "um", "uma", "uns", "umas", "de", "do", "da", "dos", "das",
+    "em", "no", "na", "nos", "nas", "por", "com", "para", "sem", "sobre",
+    "entre", "ao", "aos", "que", "e", "ou", "se", "como", "mais", "menos",
+})
+
+# Tokens claramente não-verbais observados em produção (spaCy PT sobre EN/misto).
+NONVERBAL_TOKENS = frozenset({
+    "year", "years", "through", "story", "stories", "coder", "deepr", "deep",
+    "code", "data", "thing", "things", "people", "time", "way", "day", "work",
+    "part", "number", "world", "life", "hand", "place", "week", "case", "point",
+})
+
+# Lemas verbais comuns (PT/EN) — usados só para CLASSIFICAR (não para mapear).
+# Um token aqui fora do vocabulário vira "unmapped_predicate" (candidato ao #044).
+KNOWN_VERB_LEMMAS = frozenset({
+    # PT
+    "ser", "estar", "ter", "haver", "fazer", "poder", "dever", "ir", "vir", "dar",
+    "ver", "saber", "querer", "usar", "utilizar", "empregar", "adotar", "criar",
+    "produzir", "gerar", "executar", "processar", "conectar", "associar", "vincular",
+    "pertencer", "conter", "incluir", "definir", "aprender", "distribuir", "difundir",
+    "popularizar", "influenciar", "impactar", "possuir", "derivar", "permitir",
+    "representar", "constituir", "publicar", "descrever", "passar", "treinar",
+    "otimizar", "reduzir", "aumentar", "melhorar", "aplicar", "construir",
+    "desenvolver", "implementar", "requerer", "precisar", "reconhecer",
+    "identificar", "classificar", "prever", "detectar", "transformar", "combinar",
+    "dividir", "analisar", "preservar", "teorizar",
+    # EN
+    "be", "is", "are", "have", "has", "do", "make", "use", "utilize", "employ",
+    "adopt", "create", "produce", "generate", "execute", "process", "connect",
+    "associate", "link", "belong", "contain", "include", "define", "learn",
+    "distribute", "influence", "possess", "derive", "allow", "represent",
+    "constitute", "publish", "describe", "pass", "train", "optimize", "reduce",
+    "increase", "improve", "apply", "build", "develop", "implement", "require",
+    "recognize", "identify", "classify", "predict", "detect", "transform",
+    "combine", "divide", "analyze", "run", "support", "provide", "enable",
+})
+
+
+def validate_predicate(raw: str) -> tuple[Optional[str], str]:
+    """Guard determinístico: decide se ``raw`` pode ser predicado de uma tripla.
+
+    Retorna ``(canonical | None, reason)`` com ``reason`` em:
+    ``ok``, ``numeric_predicate``, ``url_or_code_predicate``, ``stopword_predicate``,
+    ``nonverbal_predicate``, ``unmapped_predicate``, ``invalid_predicate``.
+    """
+    text = (raw or "").strip()
+    if not text:
+        return None, "invalid_predicate"
+
+    lowered = text.lower()
+    if _NUMERIC_RE.match(lowered):
+        return None, "numeric_predicate"
+    if _URL_CODE_RE.search(text):
+        return None, "url_or_code_predicate"
+
+    key = _normalize(text)
+    if not key or len(key) < 2:
+        return None, "invalid_predicate"
+    if key in STOPWORD_PREDICATES:
+        return None, "stopword_predicate"
+    if key in NONVERBAL_TOKENS:
+        return None, "nonverbal_predicate"
+
+    canonical = _lookup(key)
     if canonical in CONTROLLED_PREDICATES:
         return canonical, "ok"
-    return None, "unmapped_predicate"
+    if key in KNOWN_VERB_LEMMAS or _singularize(key) in KNOWN_VERB_LEMMAS:
+        return None, "unmapped_predicate"
+    return None, "invalid_predicate"

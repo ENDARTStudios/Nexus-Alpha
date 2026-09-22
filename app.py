@@ -135,9 +135,27 @@ _extraction_stats = {
     "canonical_triples": 0,
     "rejected_noise": 0,
     "duplicate_canonical_triples": 0,
-    "reasons": {"missing_entity": 0, "unmapped_predicate": 0, "self_loop": 0},
+    "reasons": {
+        "numeric_predicate": 0,
+        "url_or_code_predicate": 0,
+        "stopword_predicate": 0,
+        "nonverbal_predicate": 0,
+        "invalid_predicate": 0,
+        "unmapped_predicate": 0,
+        "missing_entity": 0,
+        "self_loop": 0,
+    },
 }
 _unmapped_predicates: "collections.Counter[str]" = collections.Counter()
+_invalid_predicates: "collections.Counter[str]" = collections.Counter()
+
+_INVALID_REASONS = {
+    "numeric_predicate",
+    "url_or_code_predicate",
+    "stopword_predicate",
+    "nonverbal_predicate",
+    "invalid_predicate",
+}
 
 _rejection_quarantine = None
 
@@ -255,6 +273,10 @@ async def metrics() -> dict:
                 {"predicate": predicate, "count": count}
                 for predicate, count in _unmapped_predicates.most_common(10)
             ],
+            "top_invalid_predicates": [
+                {"predicate": predicate, "count": count}
+                for predicate, count in _invalid_predicates.most_common(10)
+            ],
             "quarantine": get_rejection_quarantine().stats(),
             "cross_source_matches": snapshot.get("cross_source", 0),
             "potential_verified_before_quorum": snapshot.get("cross_source", 0),
@@ -289,6 +311,10 @@ async def ingest_data(
                 raw_predicate = str(entity.get("predicate", "")).strip()
                 if raw_predicate:
                     _unmapped_predicates[raw_predicate.upper()] += 1
+            elif reason in _INVALID_REASONS:
+                raw_predicate = str(entity.get("predicate", "")).strip()
+                if raw_predicate:
+                    _invalid_predicates[raw_predicate.upper()] += 1
             try:
                 quarantine.record(entity, reason, payload.source_url)
             except Exception as exc:

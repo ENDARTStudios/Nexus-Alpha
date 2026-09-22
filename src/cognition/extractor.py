@@ -10,10 +10,13 @@ regex-heurístico para que o pipeline continue funcional.
 """
 from __future__ import annotations
 
+import collections
 import logging
 import re
 from dataclasses import dataclass, asdict
 from typing import Any, Optional
+
+from .predicate_mapper import validate_predicate
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +46,7 @@ class EntityExtractor:
         self.model_name = model
         self.enable_fallback = enable_fallback
         self._nlp = None
+        self.rejection_reasons: collections.Counter = collections.Counter()
         try:
             import spacy  # type: ignore
             self._nlp = spacy.load(model)
@@ -137,8 +141,9 @@ class EntityExtractor:
             root = next((t for t in sent if t.dep_ == "ROOT"), None)
             if root is None or root.pos_ not in ("VERB", "AUX"):
                 continue
-            predicate = root.lemma_.upper()
-            if not any(ch.isalpha() for ch in predicate):
+            predicate, predicate_reason = validate_predicate(root.lemma_)
+            if not predicate:
+                self.rejection_reasons[predicate_reason] += 1
                 continue
             subj_tok = next(
                 (c for c in root.children if c.dep_ in ("nsubj", "nsubj:pass")), None
@@ -179,11 +184,15 @@ class EntityExtractor:
             subj, pred, obj = (g.strip() for g in match.groups())
             subj = self._normalize_term(subj)
             obj = self._normalize_term(obj)
+            predicate, predicate_reason = validate_predicate(pred)
+            if not predicate:
+                self.rejection_reasons[predicate_reason] += 1
+                continue
             triples.append(Triple(
                 subject=subj,
-                predicate=pred.upper(),
+                predicate=predicate,
                 object=obj,
-                confidence=self._confidence_for(subj, obj, pred),
+                confidence=self._confidence_for(subj, obj, predicate),
             ))
             if len(triples) >= max_triples:
                 break
@@ -200,7 +209,13 @@ class EntityExtractor:
         text = payload.get("content") or payload.get("title") or ""
         triples = self.extract(text)
         payload["extracted_entities"] = [t.to_dict() for t in triples]
-        logger.info("Extrator produziu %d tripletas.", len(triples))
+        rejected = sum(self.rejection_reasons.values())
+        logger.info(
+            "Extrator produziu %d tripletas (%d predicados rejeitados pelo guard: %s).",
+            len(triples),
+            rejected,
+            dict(self.rejection_reasons),
+        )
         return payload
 
 

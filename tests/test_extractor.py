@@ -50,3 +50,15 @@ def test_normalize_term_strips_leading_articles():
     assert EntityExtractor._normalize_term("uma rede neural") == "rede neural"
     assert EntityExtractor._normalize_term("A AGI") == "AGI"
     assert EntityExtractor._normalize_term("Inteligência Artificial") == "Inteligência Artificial"
+
+
+def test_extractor_applies_predicate_guard_in_fallback():
+    extractor = EntityExtractor(enable_fallback=True)
+    triples = extractor.extract("Inteligência Artificial usa dados.")
+    assert triples
+    assert triples[0].predicate == "UTILIZA"
+
+
+def test_extractor_exposes_rejection_counter():
+    extractor = EntityExtractor(enable_fallback=True)
+    assert dict(extractor.rejection_reasons) == {}

@@ -152,6 +152,7 @@ def test_metrics_endpoint(monkeypatch):
         "duplicate_canonical_triples",
         "rejection_reasons",
         "top_unmapped_predicates",
+        "top_invalid_predicates",
         "quarantine",
         "cross_source_matches",
         "potential_verified_before_quorum",

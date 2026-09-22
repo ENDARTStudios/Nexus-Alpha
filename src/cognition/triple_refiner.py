@@ -24,7 +24,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 from .canonicalizer import SemanticCanonicalizer
-from .predicate_mapper import CONTROLLED_PREDICATES, map_predicate
+from .predicate_mapper import CONTROLLED_PREDICATES, map_predicate, validate_predicate
 
 logger = logging.getLogger(__name__)
 
@@ -139,7 +139,7 @@ def refine_triple_ex(
     if not subject:
         return None, "missing_entity"
 
-    predicate, reason = map_predicate(raw_predicate)
+    predicate, reason = validate_predicate(raw_predicate)
     if not predicate:
         return None, reason
 
