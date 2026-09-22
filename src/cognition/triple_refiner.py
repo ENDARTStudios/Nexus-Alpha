@@ -25,8 +25,22 @@ from typing import Any, Optional
 
 from .canonicalizer import SemanticCanonicalizer
 from .predicate_mapper import CONTROLLED_PREDICATES, map_predicate, validate_predicate
+from .span_validator import fold_span, validate_entity_span
 
 logger = logging.getLogger(__name__)
+
+_KNOWN_ENTITIES: Optional[frozenset[str]] = None
+
+
+def _known_entities(canonicalizer: SemanticCanonicalizer) -> frozenset[str]:
+    """Whitelist de spans do dicionário canônico (chaves/valores foldados)."""
+    global _KNOWN_ENTITIES
+    if _KNOWN_ENTITIES is None:
+        synonyms = getattr(canonicalizer, "entity_synonyms", {}) or {}
+        keys = set(synonyms.keys())
+        keys.update(fold_span(value) for value in synonyms.values())
+        _KNOWN_ENTITIES = frozenset(k for k in keys if k)
+    return _KNOWN_ENTITIES
 
 
 UI_MARKERS = (
@@ -128,24 +142,36 @@ def refine_triple_ex(
 ) -> tuple[Optional[dict[str, Any]], str]:
     """Como :func:`refine_triple`, mas devolve também o motivo (reason).
 
-    Motivos: ``ok``, ``missing_entity``, ``unmapped_predicate``, ``self_loop``.
+    Motivos de predicado: ``ok``, ``missing_entity``, ``unmapped_predicate``,
+    ``invalid_predicate``, ``modal_predicate``, ``ambiguous_predicate``.
+    Motivos de span (#050): ``object_date_like``, ``object_prepositional_phrase``,
+    ``object_adverbial_phrase``, ``object_pronoun``, ``object_clause_fragment``,
+    ``subject_quantifier_phrase``, ``subject_too_long``, etc.
     """
     canonicalizer = canonicalizer or SemanticCanonicalizer()
     raw_subject = str(raw.get("subject", ""))
     raw_predicate = str(raw.get("predicate", ""))
     raw_object = str(raw.get("object", ""))
 
-    subject = link_entity(raw_subject, canonicalizer)
-    if not subject:
-        return None, "missing_entity"
-
     predicate, reason = validate_predicate(raw_predicate)
     if not predicate:
         return None, reason
 
+    subject = link_entity(raw_subject, canonicalizer)
+    if not subject:
+        return None, "missing_entity"
+
     obj = link_entity(raw_object, canonicalizer)
     if not obj:
         return None, "missing_entity"
+
+    known = _known_entities(canonicalizer)
+    valid_subject, subject_reason = validate_entity_span(raw_subject, "subject", known)
+    if not valid_subject:
+        return None, subject_reason
+    valid_object, object_reason = validate_entity_span(raw_object, "object", known)
+    if not valid_object:
+        return None, object_reason
 
     if subject == obj:
         return None, "self_loop"

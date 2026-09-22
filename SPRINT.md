@@ -355,3 +355,37 @@ domínios independentes").
 - `verified_facts` passa a significar **domínio independente**; se cair, é a métrica
   ficando honesta (não regressão).
 
+---
+
+## v1.13.0 — #050: Validador determinístico de span de entidade
+
+### Motivação
+O audit (#046) mostrou objetos que são **fragmentos**, não entidades: `EM 1959`,
+`COM ISSO`, `APOS A PUBLICACAO EM 1986`, `COMO OBJETIVO`. Triplas assim são
+impossíveis de corroborar.
+
+### Escopo
+- `src/cognition/span_validator.py` — puro e determinístico:
+  `validate_entity_span(span, role, known_entities)` /
+  `reject_reason_for_span(...)`. Regras: data/ano, numérico, locução
+  preposicional/adverbial, pronome, fragmento oracional, quantificador (sujeito),
+  stopword inicial, comprimento excessivo, pontuação/código. Whitelist do
+  dicionário canônico (`known_entities`).
+- `triple_refiner.refine_triple_ex` valida subject/object (sobre o span bruto)
+  **antes** de gravar; motivo vai para quarentena/métricas (dinâmico).
+- **Sem** LLM, **sem** embedding, **sem** `torch`/`llamafactory`.
+
+### Dry-run (read-only, 106 fatos atuais)
+```text
+facts_total = 106  |  would_pass = 67  |  would_reject = 39
+reject_reasons = { object_date_like:14, object_prepositional_phrase:14,
+                   subject_quantifier_phrase:8, object_adverbial_phrase:1,
+                   object_generic_phrase:2 }
+```
+`EM 1959`, `COM ISSO`, `APOS A PUBLICACAO EM 1986`, `MAIORIA ...` são rejeitados;
+entidades legítimas (`Inteligência Artificial`, `Santos FC`) passam.
+
+### Observação
+Validador v1 **conservador**; fatos borderline (`OBJETIVO --APRENDE--> REGRA GERAL
+QUE MAPEIA`) ainda passam e podem ser tratados em iteração futura.
+
