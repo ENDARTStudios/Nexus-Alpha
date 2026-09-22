@@ -68,6 +68,63 @@ fato no mesmo dia incrementa `replays` em vez de criar micro-eventos.
 
 ---
 
+## v1.14.0 — Integração LlamaFactory (opt-in)
+
+### Decisão executiva
+- O freeze de `v1.13.0` é levantado **apenas** para este escopo aditivo e opt-in.
+- Itens de qualidade semântica de `v1.13.0` permanecem no backlog e não são removidos.
+- LlamaFactory **não** entra no runtime principal nem no CI.
+- Fine-tuning roda externamente, preferencialmente em Kaggle/GPU, com Python 3.11–3.13.
+
+### Escopo
+- Exportar fatos verificados do grafo para dataset SFT no formato Alpaca/JSONL.
+- Gerar configuração LoRA/SFT YAML compatível com LlamaFactory.
+- Criar CLI wrapper opt-in em `scripts/train_lora.py`.
+- Não implementar serving, merge de adapter ou integração com `llm_provider.py`.
+
+### Tarefas mapeadas
+| Issue | Descrição | Arquivos afetados |
+|---|---|---|
+| #038 | Exportação de fatos verificados para dataset Alpaca/JSONL | `src/training/dataset.py`, `src/database/graph_connector.py`, `scripts/train_lora.py` |
+| #039 | Geração de configuração LoRA/SFT para LlamaFactory | `src/training/config.py`, `config/llamafactory/sft_lora.yaml`, `scripts/train_lora.py` |
+| #040 | CLI wrapper opt-in + testes sem dependência de torch/llamafactory | `scripts/train_lora.py`, `src/training/runner.py`, `tests/test_training_sft.py`, `requirements-llamafactory.txt` |
+
+### Arquivos novos
+- `requirements-llamafactory.txt`
+- `src/training/__init__.py`
+- `src/training/dataset.py`
+- `src/training/config.py`
+- `src/training/runner.py`
+- `scripts/train_lora.py`
+- `config/llamafactory/sft_lora.yaml`
+- `tests/test_training_sft.py`
+
+### Arquivos alterados
+- `SPRINT.md`
+- `src/database/graph_connector.py`
+- `.gitignore`
+- `README.md`
+
+### Fora de escopo
+- Alterar `requirements-dev.txt`.
+- Alterar `.github/workflows/`.
+- Importar `torch` ou `llamafactory` no runtime normal.
+- Instalar LlamaFactory no CI.
+- Fazer serving/merge do adapter fine-tuned.
+- Baixar quórum de verificação para aumentar dataset.
+
+### Definition of Done
+- `python -m pytest -q` permanece verde, incluindo novos testes.
+- `git diff -- requirements-dev.txt .github/workflows/` fica vazio.
+- `python scripts/train_lora.py export --limit 100` gera:
+  - `data/sft/nexus_verified_facts.jsonl`
+  - `data/sft/dataset_info.json`
+- `python scripts/train_lora.py config` gera YAML válido em `config/llamafactory/sft_lora.yaml`.
+- `python scripts/train_lora.py train`, sem LlamaFactory instalado, retorna erro amigável, sem traceback cru.
+- Nenhum segredo aparece nos arquivos novos ou nos payloads/testes.
+
+---
+
 ## 📜 Histórico de Sprints Concluídas
 
 - `v1.2.0-alpha` — Correção de `/health` e TLS `neo4j+s://` do AuraDB.

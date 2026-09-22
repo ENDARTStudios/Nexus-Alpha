@@ -115,14 +115,15 @@ SNAPSHOT_QUERY = """
 CALL { MATCH (c:Conceito) RETURN count(c) AS concepts }
 CALL { MATCH (fa:Fato)
        RETURN count(fa) AS facts,
-              sum(CASE WHEN fa.verificado THEN 1 ELSE 0 END) AS verified }
+              sum(CASE WHEN fa.verificado THEN 1 ELSE 0 END) AS verified,
+              sum(CASE WHEN coalesce(fa.confirmacoes, 0) >= 2 THEN 1 ELSE 0 END) AS cross_source }
 CALL { MATCH ()-[r:RELACIONA]->()
        RETURN count(r) AS relations,
               sum(CASE WHEN r.consolidado THEN 1 ELSE 0 END) AS consolidated,
               sum(CASE WHEN coalesce(r.replays, 0) >= 2 THEN 1 ELSE 0 END) AS hebbian }
 CALL { MATCH (e:Episodio)
        RETURN count(e) AS episodes, toString(max(e.created_at)) AS last_episode }
-RETURN concepts, facts, verified, consolidated, hebbian, episodes, last_episode
+RETURN concepts, facts, verified, cross_source, consolidated, hebbian, episodes, last_episode
 """
 
 EPISODE_MERGE_QUERY = """
@@ -191,11 +192,30 @@ MERGE (s:Conceito {nome: item.subject})
 MERGE (o:Conceito {nome: item.object})
   ON CREATE SET o.criado_em = timestamp()
 MERGE (s)-[r:RELACIONA {predicate: item.predicate}]->(o)
-  SET r.replays = item.replays,
-      r.peso = item.replays * 0.1,
+  SET r.replays = coalesce(r.replays, 0) + item.replays,
+      r.peso = coalesce(r.peso, 0.0) + item.replays * 0.1,
       r.consolidado = true,
       r.consolidated_at = $timestamp
 RETURN count(item) AS total_processado
+"""
+
+# --- Exportação para fine-tuning opt-in (v1.14.0) ---
+# Ajustado ao schema atual: propriedades em português em :Fato
+# (sujeito/predicado/objeto/verificado/confirmacoes/chave).
+EXPORT_FACTS_QUERY = """
+MATCH (f:Fato)
+WHERE f.verificado = true
+OPTIONAL MATCH (src:FonteWeb)-[:CONFIRMA]->(f)
+WITH f, collect(DISTINCT coalesce(src.domain, src.url)) AS source_domains
+RETURN
+  f.sujeito AS subject,
+  f.predicado AS predicate,
+  f.objeto AS object,
+  coalesce(f.fact_hash, f.chave, '') AS fact_hash,
+  coalesce(f.confirmacoes, f.confirmations, size(source_domains)) AS confirmations,
+  source_domains
+ORDER BY confirmations DESC, subject, predicate, object
+LIMIT $limit
 """
 
 EPISODE_TALLY_QUERY = """
@@ -388,6 +408,7 @@ class GraphConnector:
             "concepts": 0,
             "facts": 0,
             "verified": 0,
+            "cross_source": 0,
             "consolidated": 0,
             "hebbian": 0,
             "episodes": 0,
@@ -407,6 +428,7 @@ class GraphConnector:
                         "concepts": int(record["concepts"] or 0),
                         "facts": int(record["facts"] or 0),
                         "verified": int(record["verified"] or 0),
+                        "cross_source": int(record["cross_source"] or 0),
                         "consolidated": int(record["consolidated"] or 0),
                         "hebbian": int(record["hebbian"] or 0),
                         "episodes": int(record["episodes"] or 0),
@@ -524,6 +546,26 @@ class GraphConnector:
         except Exception as exc:
             logger.warning("Falha na consolidação semântica: %s", exc)
             return 0
+
+    async def export_verified_facts(self, limit: int = 100) -> list[dict[str, Any]]:
+        """Exporta fatos verificados para preparação opt-in de dataset SFT.
+
+        Degrada graciosamente para [] em falha de conexão/query, seguindo o padrão
+        dos demais leitores do conector (v1.14.0).
+        """
+        if limit <= 0:
+            return []
+        try:
+            if self.driver is None:
+                await self.connect()
+            async with self.driver.session() as session:
+                result = await session.run(
+                    EXPORT_FACTS_QUERY, limit=int(limit)
+                )
+                return [record.data() async for record in result]
+        except Exception as exc:
+            logger.warning("Falha ao exportar fatos verificados: %s", exc)
+            return []
 
     async def __aenter__(self) -> "GraphConnector":
         await self.connect()

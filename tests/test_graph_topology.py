@@ -87,6 +87,7 @@ class FakeConnector:
             "concepts": 3,
             "facts": 10,
             "verified": 2,
+            "cross_source": 4,
             "consolidated": 1,
             "hebbian": 1,
             "episodes": 5,
@@ -142,3 +143,16 @@ def test_metrics_endpoint(monkeypatch):
     }
     assert health["hebbian_consistency_check"] is True
     assert health["retention_pressure"] == "low"
+
+    quality = body["extraction_quality"]
+    assert set(quality) == {
+        "raw_triples",
+        "canonical_triples",
+        "rejected_noise",
+        "duplicate_canonical_triples",
+        "cross_source_matches",
+        "potential_verified_before_quorum",
+        "verified_facts",
+    }
+    assert quality["cross_source_matches"] == 4
+    assert quality["verified_facts"] == 2

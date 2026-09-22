@@ -82,6 +82,36 @@ Os 86 testes cobrem: miner, cognition, RAG, NLP, triangulation, reflection, memo
 - **Grafo:** Neo4j AuraDB Free (`graph_connector.py`).
 - **Computação de Ajuste:** Kaggle Notebooks (30h GPU/semana) ou Hugging Face Spaces (CPU).
 
+### Fine-tuning opt-in (LlamaFactory)
+
+A Nexus-Alpha pode exportar fatos verificados do grafo para um dataset Alpaca/JSONL e gerar configuração LoRA/SFT para treino externo com LlamaFactory.
+
+Este fluxo é **opt-in** e não faz parte do runtime principal nem do CI.
+
+Ambiente recomendado para treino:
+- Python 3.11–3.13
+- GPU, por exemplo Kaggle T4/P100
+- Dependências separadas:
+
+```bash
+pip install -r requirements-llamafactory.txt
+```
+
+Uso local para preparar artefatos:
+
+```bash
+python scripts/train_lora.py export --limit 100
+python scripts/train_lora.py config
+```
+
+Para treinar apenas quando LlamaFactory estiver instalado no ambiente opt-in:
+
+```bash
+python scripts/train_lora.py train
+```
+
+Sem LlamaFactory instalado, o comando `train` retorna erro amigável e não quebra o runtime da Nexus-Alpha.
+
 ## 📁 Estrutura do Repositório
 
 ```

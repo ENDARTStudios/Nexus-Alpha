@@ -129,6 +129,14 @@ def get_entity_resolver():
     return _entity_resolver
 
 
+_extraction_stats = {
+    "raw_triples": 0,
+    "canonical_triples": 0,
+    "rejected_noise": 0,
+    "duplicate_canonical_triples": 0,
+}
+
+
 _brain = None
 
 
@@ -223,6 +231,15 @@ async def metrics() -> dict:
             "hebbian_consistency_check": bool(snapshot.get("ok")),
             "retention_pressure": pressure,
         },
+        "extraction_quality": {
+            "raw_triples": _extraction_stats["raw_triples"],
+            "canonical_triples": _extraction_stats["canonical_triples"],
+            "rejected_noise": _extraction_stats["rejected_noise"],
+            "duplicate_canonical_triples": _extraction_stats["duplicate_canonical_triples"],
+            "cross_source_matches": snapshot.get("cross_source", 0),
+            "potential_verified_before_quorum": snapshot.get("cross_source", 0),
+            "verified_facts": snapshot["verified"],
+        },
     }
 
 
@@ -235,12 +252,26 @@ async def ingest_data(
         raise HTTPException(status_code=401, detail="Token de autorização inválido.")
 
     payload_dict = payload.model_dump()
+    from src.cognition.triple_refiner import refine_triple
+
     canonicalizer = get_canonicalizer()
-    resolver = get_entity_resolver()
-    payload_dict["extracted_entities"] = [
-        resolver.resolve_triplet(canonicalizer.canonicalize_triplet(entity))
-        for entity in payload_dict.get("extracted_entities", [])
-    ]
+    raw_entities = payload_dict.get("extracted_entities", [])
+    _extraction_stats["raw_triples"] += len(raw_entities)
+    refined_entities = []
+    seen_canonical = set()
+    for entity in raw_entities:
+        refined = refine_triple(entity, canonicalizer)
+        if refined is None:
+            _extraction_stats["rejected_noise"] += 1
+            continue
+        key = (refined["subject"], refined["predicate"], refined["object"])
+        if key in seen_canonical:
+            _extraction_stats["duplicate_canonical_triples"] += 1
+            continue
+        seen_canonical.add(key)
+        refined_entities.append(refined)
+    _extraction_stats["canonical_triples"] += len(refined_entities)
+    payload_dict["extracted_entities"] = refined_entities
 
     success = False
     try:
@@ -254,8 +285,8 @@ async def ingest_data(
         from src.cognition.embeddings import hash_embedding
 
         text = " ".join(
-            f"{e.subject} {e.predicate} {e.object}"
-            for e in payload.extracted_entities
+            f"{e['subject']} {e['predicate']} {e['object']}"
+            for e in refined_entities
         ) or (payload.title or payload.source_url)
         vector_db = get_vector_connector()
         vector = hash_embedding(text, vector_db.embedding_dim)
@@ -298,7 +329,7 @@ async def ingest_data(
             else "Dados retidos em quarentena local devido a indisponibilidade temporária do Neo4j."
         ),
         "db_status": db_status,
-        "entities_processed": len(payload.extracted_entities),
+        "entities_processed": len(refined_entities),
         "vectors_indexed": vectors_indexed,
         "verified_facts": verified,
     }

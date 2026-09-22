@@ -1,0 +1,14 @@
+# Dependências opcionais para fine-tuning com LlamaFactory.
+#
+# NÃO instalar no CI nem no runtime principal da Nexus-Alpha.
+# Requer ambiente separado com Python 3.11–3.13 e GPU, por exemplo Kaggle.
+#
+# Instalação manual/opt-in:
+#   pip install -r requirements-llamafactory.txt
+#
+# Uso típico:
+#   python scripts/train_lora.py export --limit 100
+#   python scripts/train_lora.py config
+#   python scripts/train_lora.py train
+
+llamafactory==0.9.5
