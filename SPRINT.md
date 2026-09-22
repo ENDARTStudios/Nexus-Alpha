@@ -426,3 +426,39 @@ observabilidade (#052)**.
 - `true_unique = 66` ⇒ **cobertura de corpus (#048)**.
 - `canonical_to_fact_gap = 12 (> 5)` parcialmente explicado ⇒ **#052 (observabilidade) tem prioridade**.
 
+---
+
+## v1.13.0 — #052: Observabilidade/contabilidade do ingest
+
+### Motivação
+O #051 revelou gap `canonical(78) → facts(66)` causado por contagem de **ocorrências**
+canônicas, não de **chaves distintas**.
+
+### Escopo
+- `app.py`: classe `IngestAccounting` — `record_payload()` e `snapshot()`.
+  Distingue **ocorrência canônica** de **chave canônica distinta** e classifica
+  duplicação em `duplicate_same_source_url`, `duplicate_same_domain`,
+  `duplicate_cross_domain`. Set de chaves **limitado** (10k); acima disso,
+  `accounting_mode = approximate_overflow`.
+- `/api/metrics`: bloco `ingestion_accounting`
+  (`raw_triples`, `canonical_triples`, `distinct_canonical_keys`,
+  `duplicate_canonical_occurrences`, `persisted_facts`, `canonical_to_fact_gap`,
+  `unaccounted_raw`, `merged_into_existing_fact`, `new_facts_created`,
+  `process_started_at`, `last_ingest_at`, `accounting_mode`).
+- `tests/test_ingest_accounting.py`: duplicata intra-URL, mesmo domínio,
+  cross-domain, reconciliação e anti-leak.
+
+### Definições-chave
+```text
+canonical_triples                 = ocorrências refinadas (conta duplicatas)
+distinct_canonical_keys           = chaves canônicas distintas
+duplicate_canonical_occurrences   = canonical_triples - distinct_canonical_keys
+canonical_to_fact_gap             = distinct_canonical_keys - persisted_facts
+verified_facts sobe SÓ por duplicate_cross_domain (nunca same_domain/same_url)
+```
+O campo legado `extraction_quality.duplicate_canonical_triples` (dedup intra-payload)
+é preservado.
+
+### Fora de escopo
+Mudança de quórum, promoção por embedding, expansão de seeds, treino LlamaFactory.
+

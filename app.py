@@ -12,15 +12,17 @@ import collections
 import hashlib
 import logging
 import os
+import threading
 import time
 from contextlib import asynccontextmanager
+from datetime import datetime, timezone
 from typing import List, Optional
 
 from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from src.database.graph_connector import GraphConnector
+from src.database.graph_connector import GraphConnector, domain_from_url
 from src.database.vector_connector import VectorConnector
 from src.miner.quarantine import QuarantineStore
 from src.security.rate_limiter import InMemoryRateLimiter
@@ -160,6 +162,104 @@ _INVALID_REASONS = {
 _rejection_quarantine = None
 
 
+class IngestAccounting:
+    """Contabilidade auditável do ingest (#052).
+
+    Distingue **ocorrência canônica** de **chave canônica distinta** e classifica
+    duplicações em três tipos: mesma URL, mesmo domínio e cross-domain. Só
+    ``duplicate_cross_domain`` representa corroboração real (não promove quórum).
+    """
+
+    def __init__(self, max_keys: int = 10000) -> None:
+        self.max_keys = max_keys
+        self._lock = threading.Lock()
+        self.reset()
+
+    def reset(self) -> None:
+        self._seen: dict[tuple, dict[str, set]] = {}
+        self._occurrences = 0
+        self.duplicate_same_source_url = 0
+        self.duplicate_same_domain = 0
+        self.duplicate_cross_domain = 0
+        self.merged_into_existing_fact = 0
+        self.new_facts_created = 0
+        self.rejected_after_canonical = 0
+        self.process_started_at = datetime.now(timezone.utc).isoformat()
+        self.last_ingest_at = None
+
+    @property
+    def distinct_canonical_keys(self) -> int:
+        return len(self._seen)
+
+    @property
+    def accounting_mode(self) -> str:
+        return "bounded_exact" if len(self._seen) < self.max_keys else "approximate_overflow"
+
+    def record_payload(
+        self, occurrences: List[dict], source_url: str, domain: str
+    ) -> List[dict]:
+        """Registra as triplas refinadas de UM payload e devolve as aceitas (dedup)."""
+        with self._lock:
+            seen_payload: set[tuple] = set()
+            accepted: List[dict] = []
+            for refined in occurrences:
+                key = (refined["subject"], refined["predicate"], refined["object"])
+                if key in seen_payload:
+                    self.duplicate_same_source_url += 1
+                    continue
+                seen_payload.add(key)
+                accepted.append(refined)
+
+            for refined in accepted:
+                key = (refined["subject"], refined["predicate"], refined["object"])
+                entry = self._seen.get(key)
+                if entry is None:
+                    if len(self._seen) < self.max_keys:
+                        self._seen[key] = {"urls": {source_url}, "domains": {domain}}
+                    self.new_facts_created += 1
+                else:
+                    self.merged_into_existing_fact += 1
+                    if source_url in entry["urls"]:
+                        self.duplicate_same_source_url += 1
+                    elif domain in entry["domains"]:
+                        self.duplicate_same_domain += 1
+                    else:
+                        self.duplicate_cross_domain += 1
+                    entry["urls"].add(source_url)
+                    entry["domains"].add(domain)
+
+            self._occurrences += len(occurrences)
+            self.last_ingest_at = datetime.now(timezone.utc).isoformat()
+            return accepted
+
+    def snapshot(
+        self, raw_triples: int, rejected_noise: int, persisted_facts: int
+    ) -> dict:
+        distinct = self.distinct_canonical_keys
+        duplicate_occurrences = max(0, self._occurrences - distinct)
+        return {
+            "raw_triples": raw_triples,
+            "canonical_triples": self._occurrences,
+            "distinct_canonical_keys": distinct,
+            "duplicate_canonical_occurrences": duplicate_occurrences,
+            "persisted_facts": persisted_facts,
+            "canonical_to_fact_gap": distinct - persisted_facts,
+            "unaccounted_raw": max(0, raw_triples - distinct - rejected_noise - duplicate_occurrences),
+            "duplicate_same_source_url": self.duplicate_same_source_url,
+            "duplicate_same_domain": self.duplicate_same_domain,
+            "duplicate_cross_domain": self.duplicate_cross_domain,
+            "rejected_after_canonical": self.rejected_after_canonical,
+            "merged_into_existing_fact": self.merged_into_existing_fact,
+            "new_facts_created": self.new_facts_created,
+            "process_started_at": self.process_started_at,
+            "last_ingest_at": self.last_ingest_at,
+            "accounting_mode": self.accounting_mode,
+        }
+
+
+_ingest_accounting = IngestAccounting()
+
+
 def get_rejection_quarantine():
     global _rejection_quarantine
     if _rejection_quarantine is None:
@@ -288,6 +388,11 @@ async def metrics() -> dict:
             "max_domain_confirmations": snapshot.get("max_confirmacoes", 0),
             "verified_facts_domain_independent": snapshot["verified"],
         },
+        "ingestion_accounting": _ingest_accounting.snapshot(
+            raw_triples=_extraction_stats["raw_triples"],
+            rejected_noise=_extraction_stats["rejected_noise"],
+            persisted_facts=snapshot.get("facts", 0),
+        ),
     }
 
 
@@ -305,8 +410,7 @@ async def ingest_data(
     canonicalizer = get_canonicalizer()
     raw_entities = payload_dict.get("extracted_entities", [])
     _extraction_stats["raw_triples"] += len(raw_entities)
-    refined_entities = []
-    seen_canonical = set()
+    occurrences = []
     quarantine = get_rejection_quarantine()
     for entity in raw_entities:
         refined, reason = refine_triple_ex(entity, canonicalizer)
@@ -326,13 +430,13 @@ async def ingest_data(
             except Exception as exc:
                 logger.warning("Falha na quarentena de rejeitados: %s", exc)
             continue
-        key = (refined["subject"], refined["predicate"], refined["object"])
-        if key in seen_canonical:
-            _extraction_stats["duplicate_canonical_triples"] += 1
-            continue
-        seen_canonical.add(key)
-        refined_entities.append(refined)
+        occurrences.append(refined)
+
+    refined_entities = _ingest_accounting.record_payload(
+        occurrences, payload.source_url, domain_from_url(payload.source_url)
+    )
     _extraction_stats["canonical_triples"] += len(refined_entities)
+    _extraction_stats["duplicate_canonical_triples"] += len(occurrences) - len(refined_entities)
     payload_dict["extracted_entities"] = refined_entities
 
     success = False
