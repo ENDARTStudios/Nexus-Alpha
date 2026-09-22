@@ -191,11 +191,20 @@ MERGE (s:Conceito {nome: item.subject})
 MERGE (o:Conceito {nome: item.object})
   ON CREATE SET o.criado_em = timestamp()
 MERGE (s)-[r:RELACIONA {predicate: item.predicate}]->(o)
-  SET r.replays = coalesce(r.replays, 0) + item.replays,
-      r.peso = coalesce(r.peso, 0.0) + item.replays * 0.1,
+  SET r.replays = item.replays,
+      r.peso = item.replays * 0.1,
       r.consolidado = true,
       r.consolidated_at = $timestamp
 RETURN count(item) AS total_processado
+"""
+
+EPISODE_TALLY_QUERY = """
+MATCH (e:Episodio)
+WITH e.subject AS subject, e.predicate AS predicate, e.object AS object,
+     sum(e.replays) AS replays
+WHERE replays >= $min_replays
+RETURN subject, predicate, object, replays
+ORDER BY replays DESC
 """
 
 SCHEMA_STATEMENTS = [
@@ -439,6 +448,21 @@ class GraphConnector:
                 return [dict(record) async for record in result]
         except Exception as exc:
             logger.warning("Falha ao ler episódios duráveis: %s", exc)
+            return []
+
+    async def episode_tally(self, min_replays: int = 3) -> list[dict[str, Any]]:
+        """Candidatos à consolidação, derivados do tally DURÁVEL dos episódios.
+
+        Fonte autoritativa (Neo4j) → consolidação idempotente (sem inflar replays).
+        """
+        try:
+            if self.driver is None:
+                await self.connect()
+            async with self.driver.session() as session:
+                result = await session.run(EPISODE_TALLY_QUERY, min_replays=min_replays)
+                return [dict(record) async for record in result]
+        except Exception as exc:
+            logger.warning("Falha no tally de episódios: %s", exc)
             return []
 
     async def prune_episodes(self, days: int = 30, max_count: int = 10000) -> int:

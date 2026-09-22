@@ -128,6 +128,8 @@ def test_region_for_unknown_type_raises():
 
 
 class FakeBrain:
+    min_replays = 3
+
     def __init__(self):
         from types import SimpleNamespace
 
@@ -194,10 +196,17 @@ class FakeGraphCounts:
             "hebbian": 4,
             "episodes": 24,
             "last_episode": "2026-09-21T00:00:00+00:00",
+            "ok": True,
         }
 
     async def recent_episodes(self, limit=20):
         return []
+
+    async def episode_tally(self, min_replays=3):
+        return [{"subject": "IA", "predicate": "UTILIZA", "object": "DADOS", "replays": 5}]
+
+    async def consolidate_facts(self, facts):
+        return len(facts)
 
     async def mark_episodes_status(self, fact_hashes, status="consolidado"):
         return len(fact_hashes)

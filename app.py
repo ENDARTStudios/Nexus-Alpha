@@ -372,17 +372,36 @@ async def brain_episode(payload: BrainEpisodeRequest) -> dict:
 
 @app.post("/api/brain/consolidate")
 async def brain_consolidate() -> dict:
-    """Ciclo de 'sono': promove fatos repetidos, fortalece arestas (Hebbian) e retém."""
-    from src.brain.memory import fact_hash
+    """Ciclo de 'sono': consolida a partir do tally DURÁVEL (idempotente) e retém."""
+    from src.brain.memory import INVERSE_PREDICATES, fact_hash
 
     brain = get_brain()
     graph = get_graph_connector()
-    report = await brain.consolidate()
-    candidates = brain.consolidation_candidates()
+    candidates = await graph.episode_tally(min_replays=brain.min_replays)
+
+    inverses: list[dict] = []
+    for fact in candidates:
+        inverse = INVERSE_PREDICATES.get(str(fact.get("predicate", "")).upper())
+        if inverse:
+            inverses.append({
+                "subject": fact["object"],
+                "predicate": inverse,
+                "object": fact["subject"],
+                "replays": fact["replays"],
+            })
+
+    consolidated = await graph.consolidate_facts(candidates + inverses)
     hashes = [fact_hash(c["subject"], c["predicate"], c["object"]) for c in candidates]
-    report["episodes_marked"] = await graph.mark_episodes_status(hashes, "consolidado")
-    report["pruned_episodes"] = await graph.prune_episodes()
-    return report
+    return {
+        "status": "ok",
+        "source": "neo4j_tally",
+        "candidates": len(candidates),
+        "inverses": len(inverses),
+        "consolidated": consolidated,
+        "min_replays": brain.min_replays,
+        "episodes_marked": await graph.mark_episodes_status(hashes, "consolidado"),
+        "pruned_episodes": await graph.prune_episodes(),
+    }
 
 
 @app.post("/api/extract")
