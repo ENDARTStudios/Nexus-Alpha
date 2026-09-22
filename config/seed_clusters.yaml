@@ -1,0 +1,70 @@
+version: 1
+
+# Clusters curados para corroboração cross-domain REAL (#048).
+# Regras: >= 3 domínios distintos por cluster; >= 2 publishers; ao menos 1 fora de
+# wikipedia.org; URLs validadas (HTTPS, HTTP 200, texto extraível). Fatos duráveis
+# (fundação, estádio, ídolos) — sem datas isoladas como objeto (span validator #050).
+defaults:
+  min_distinct_domains: 3
+  min_distinct_publishers: 2
+  require_non_wikipedia_publisher: true
+
+clusters:
+  - id: santos_fc
+    topic: "Santos FC (clube, história, identidade)"
+    expected_predicate: POSSUIR
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Santos_FC
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+      - url: https://en.wikipedia.org/wiki/Santos_FC
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+      - url: https://www.santosfc.com.br/institucional/historia
+        domain: santosfc.com.br
+        publisher: Santos FC
+      - url: https://ge.globo.com/futebol/times/santos/
+        domain: ge.globo.com
+        publisher: Globo
+
+  - id: estadio_urbano_caldeira
+    topic: "Estádio Urbano Caldeira (Vila Belmiro)"
+    expected_predicate: LOCALIZADO_EM
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+      - url: https://en.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+      - url: https://ge.globo.com/futebol/times/santos/
+        domain: ge.globo.com
+        publisher: Globo
+
+  - id: pele_santos
+    topic: "Pelé e sua associação ao Santos FC"
+    expected_predicate: DEFENDEU
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Pel%C3%A9
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+      - url: https://en.wikipedia.org/wiki/Pel%C3%A9
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+      - url: https://www.santosfc.com.br/institucional/historia
+        domain: santosfc.com.br
+        publisher: Santos FC
+
+  - id: garrincha_botafogo
+    topic: "Garrincha e o Botafogo"
+    expected_predicate: DEFENDEU
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Garrincha
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+      - url: https://en.wikipedia.org/wiki/Garrincha
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+      - url: https://www.botafogo.com.br/
+        domain: botafogo.com.br
+        publisher: Botafogo

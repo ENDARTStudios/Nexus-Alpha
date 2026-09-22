@@ -492,3 +492,33 @@ Logo, **cross-domain era impossível por construção** — o corpus só podia s
 - **#054** — Ontologia temporal (`:Ano`/`:Periodo`; `OCORREU_EM`) para fatos datados.
 - **#055** — Integração com a API REST do Almanaque (fonte estruturada primária).
 
+---
+
+## v1.13.0 — #048: Clusters curados de domínios independentes (futebol)
+
+### Escopo
+- `config/seed_clusters.yaml`: 4 clusters (Santos FC, Estádio Urbano Caldeira,
+  Pelé/Santos, Garrincha/Botafogo). Cada cluster com **>=3 domínios**, **>=2
+  publishers** e **>=1 publisher fora de Wikipedia**. URLs validadas manualmente
+  (HTTPS/200/texto): `pt.wikipedia.org`, `en.wikipedia.org`, `santosfc.com.br`,
+  `ge.globo.com`, `botafogo.com.br`.
+- `src/miner/seed_loader.py`: `load_seed_clusters`, `validate_seed_clusters`,
+  `cluster_to_seeds`, `manifest_health` (determinístico, PyYAML).
+- `scripts/worker_cycle.py`: **complementa** as seeds atuais com os clusters
+  (não remove nada).
+- `tests/test_seed_clusters.py`: validação estrutural, HTTPS, domínio proibido,
+  Wikipedia-only, duplicatas, anti-leak.
+
+### Descartados na validação
+- `almanaquedosclubes.com/clubes/santos` → **404**; raiz com apenas ~368 palavras.
+- `cbf.com.br` → **ConnectError** (bloqueia).
+
+### Invariantes
+- Quórum 3; sem embedding/LLM; sem alterar predicate mapper/span validator/canonicalizer.
+- `#053` (independência por publisher) permanece dívida: `pt.`/`en.wikipedia.org`
+  ainda contam como 2 hosts (mesmo publisher).
+
+### Critério de sucesso
+`ingestion_accounting.duplicate_cross_domain > 0` e/ou
+`verification.facts_with_two_or_more_domains > 0` após ciclo manual do worker.
+

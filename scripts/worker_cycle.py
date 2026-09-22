@@ -13,6 +13,7 @@ import asyncio
 import logging
 import os
 import time
+from pathlib import Path
 from urllib.parse import quote
 
 import httpx
@@ -20,6 +21,7 @@ import httpx
 from src.cognition.reasoning_engine import ReasoningEngine
 from src.cognition.extractor import EntityExtractor
 from src.cognition.rag_engine import RAGEngine
+from src.miner.seed_loader import cluster_to_seeds, load_seed_clusters, manifest_health, validate_seed_clusters
 from src.miner.web_miner import WebMiner
 from src.miner.security_protocol import SecurityProtocol
 
@@ -72,6 +74,22 @@ def _to_urls(queries: list[str]) -> list[str]:
     return urls
 
 
+def _load_cluster_urls() -> list[str]:
+    """URLs dos clusters curados (#048), validadas estruturalmente."""
+    path = Path(__file__).resolve().parent.parent / "config" / "seed_clusters.yaml"
+    try:
+        data = load_seed_clusters(path)
+        errors = validate_seed_clusters(data)
+        if errors:
+            logger.warning("seed_clusters.yaml inválido (%d erros): %s", len(errors), errors[:5])
+            return []
+        logger.info("Clusters curados: %s", manifest_health(data))
+        return cluster_to_seeds(data)
+    except Exception as exc:
+        logger.warning("Falha ao carregar clusters: %s", exc)
+        return []
+
+
 async def run_cycle() -> None:
     token = os.environ.get("NEXUS_API_TOKEN", "")
     api_base = os.environ.get("HF_SPACE_URL", "").rstrip("/")
@@ -90,6 +108,10 @@ async def run_cycle() -> None:
     rag = RAGEngine(miner=miner, security=security, extractor=extractor, top_k=40)
 
     target_urls = _to_urls(plan.target_queries)
+    cluster_urls = _load_cluster_urls()
+    if cluster_urls:
+        target_urls += [u for u in cluster_urls if u not in target_urls]
+        logger.info("Clusters curados: +%d URLs -> %d no total.", len(cluster_urls), len(target_urls))
     logger.info("Minerando %d URLs (com seeds Wikipédia).", len(target_urls))
     sources = await rag.fetch_and_verify(target_urls)
 
