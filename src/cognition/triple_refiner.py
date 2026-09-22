@@ -13,10 +13,20 @@ de triangulação permanece 3. Embedding só entrará como sugestão (item 2).
 """
 from __future__ import annotations
 
+import collections
+import hashlib
+import json
+import logging
 import re
+import tempfile
+from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any, Optional
 
-from .canonicalizer import CONTROLLED_PREDICATES, SemanticCanonicalizer
+from .canonicalizer import SemanticCanonicalizer
+from .predicate_mapper import CONTROLLED_PREDICATES, map_predicate
+
+logger = logging.getLogger(__name__)
 
 
 UI_MARKERS = (
@@ -62,7 +72,7 @@ def filter_noisy_sentence(sentence: str) -> Optional[str]:
 
 def _has_controlled_predicate(text: str, canonicalizer: SemanticCanonicalizer) -> bool:
     for token in re.findall(r"[^\W_]+", (text or "").lower()):
-        if canonicalizer.predicate_synonyms.get(token) in CONTROLLED_PREDICATES:
+        if map_predicate(token)[0]:
             return True
     return False
 
@@ -88,9 +98,7 @@ def score_candidate_sentence(sentence: str, canonicalizer: Optional[SemanticCano
 
 def normalize_predicate(predicate: str, canonicalizer: Optional[SemanticCanonicalizer] = None) -> Optional[str]:
     """Mapeia o predicado ao vocabulário controlado; ``None`` se não pertencer."""
-    canonicalizer = canonicalizer or SemanticCanonicalizer()
-    canonical = canonicalizer.canonicalize_predicate(predicate)
-    return canonical if canonical in CONTROLLED_PREDICATES else None
+    return map_predicate(predicate)[0]
 
 
 def _is_valid_term(term: str) -> bool:
@@ -115,18 +123,32 @@ def link_entity(entity: str, canonicalizer: Optional[SemanticCanonicalizer] = No
     return canonical if _is_valid_term(canonical) else None
 
 
-def refine_triple(raw: dict[str, Any], canonicalizer: Optional[SemanticCanonicalizer] = None) -> Optional[dict[str, Any]]:
-    """Refina uma tripla bruta; devolve ``None`` se for ruído/rejeitada."""
+def refine_triple_ex(
+    raw: dict[str, Any], canonicalizer: Optional[SemanticCanonicalizer] = None
+) -> tuple[Optional[dict[str, Any]], str]:
+    """Como :func:`refine_triple`, mas devolve também o motivo (reason).
+
+    Motivos: ``ok``, ``missing_entity``, ``unmapped_predicate``, ``self_loop``.
+    """
     canonicalizer = canonicalizer or SemanticCanonicalizer()
     raw_subject = str(raw.get("subject", ""))
     raw_predicate = str(raw.get("predicate", ""))
     raw_object = str(raw.get("object", ""))
 
     subject = link_entity(raw_subject, canonicalizer)
-    predicate = normalize_predicate(raw_predicate, canonicalizer)
+    if not subject:
+        return None, "missing_entity"
+
+    predicate, reason = map_predicate(raw_predicate)
+    if not predicate:
+        return None, reason
+
     obj = link_entity(raw_object, canonicalizer)
-    if not subject or not predicate or not obj or subject == obj:
-        return None
+    if not obj:
+        return None, "missing_entity"
+
+    if subject == obj:
+        return None, "self_loop"
 
     try:
         confidence = float(raw.get("confidence", 0.5))
@@ -146,4 +168,72 @@ def refine_triple(raw: dict[str, Any], canonicalizer: Optional[SemanticCanonical
     }
     if "source_url" in raw:
         refined["source_url"] = raw["source_url"]
+    return refined, "ok"
+
+
+def refine_triple(raw: dict[str, Any], canonicalizer: Optional[SemanticCanonicalizer] = None) -> Optional[dict[str, Any]]:
+    """Refina uma tripla bruta; devolve ``None`` se for ruído/rejeitada."""
+    refined, _reason = refine_triple_ex(raw, canonicalizer)
     return refined
+
+
+class RejectionQuarantine:
+    """Quarentena **volátil** (``/tmp``) e **limitada** de triplas rejeitadas.
+
+    Uso restrito a análise/expansão do ``PREDICATE_MAP``:
+    - nunca é exposta ao frontend público;
+    - nunca promove fato para o grafo;
+    - teto de registros com rotação simples por tamanho.
+    """
+
+    def __init__(self, path: Optional[Path | str] = None, max_records: int = 10000) -> None:
+        base = Path(path) if path is not None else Path(tempfile.gettempdir()) / "nexus_quarantine"
+        try:
+            base.mkdir(parents=True, exist_ok=True)
+        except Exception:  # pragma: no cover - ambiente read-only
+            base = Path(tempfile.gettempdir())
+        self.file_path = base / "rejected_triples.jsonl"
+        self.max_records = max_records
+        self._count = self._current_count()
+        self.reasons: collections.Counter = collections.Counter()
+
+    def _current_count(self) -> int:
+        try:
+            with self.file_path.open("r", encoding="utf-8") as fh:
+                return sum(1 for _ in fh)
+        except FileNotFoundError:
+            return 0
+        except Exception:
+            return 0
+
+    def record(self, raw: dict[str, Any], reason: str, source_domain: str = "") -> None:
+        if self._count >= self.max_records:
+            self._rotate()
+        entry = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "reason": reason,
+            "raw_subject": str(raw.get("subject", "")),
+            "raw_predicate": str(raw.get("predicate", "")),
+            "raw_object": str(raw.get("object", "")),
+            "source_domain": source_domain,
+            "sentence_hash": hashlib.sha256(
+                f"{raw.get('subject')}|{raw.get('predicate')}|{raw.get('object')}".encode()
+            ).hexdigest()[:16],
+        }
+        try:
+            with self.file_path.open("a", encoding="utf-8") as fh:
+                fh.write(json.dumps(entry, ensure_ascii=False) + "\n")
+            self._count += 1
+            self.reasons[reason] += 1
+        except Exception as exc:  # pragma: no cover - IO defensivo
+            logger.warning("Falha ao gravar quarentena de rejeitados: %s", exc)
+
+    def _rotate(self) -> None:
+        try:
+            self.file_path.replace(self.file_path.with_name(self.file_path.name + ".1"))
+        except Exception:  # pragma: no cover
+            pass
+        self._count = 0
+
+    def stats(self) -> dict[str, int]:
+        return {"total": int(sum(self.reasons.values())), **{k: int(v) for k, v in self.reasons.items()}}

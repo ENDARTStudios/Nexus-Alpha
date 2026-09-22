@@ -161,3 +161,32 @@ git commit
 A v1.14.0 permanece inerte no runtime do Space (o `Dockerfile` instala apenas
 `requirements-hf.txt`).
 
+---
+
+## v1.13.0 — item 3.1: Predicate Mapper determinístico + quarentena
+
+### Motivação (medida)
+O refinador (item 3-lite) removeu ruído, mas a extração heurística ainda produzia
+predicados fora do vocabulário controlado (`PRESERVIR`, `TEÓRICAR`, `AMIGÁVEL`…),
+derrubando ~94% das triplas e travando a corroboração cross-source.
+
+### Escopo
+- `src/cognition/predicate_mapper.py`: `map_predicate(raw) -> (canonical | None, reason)`
+  com normalização (minúsculas, sem acento, sem pontuação) e vocabulário controlado
+  **auditável e limitado** (<= 30).
+- `src/cognition/triple_refiner.py`: `refine_triple_ex` com motivo
+  (`ok`/`missing_entity`/`unmapped_predicate`/`self_loop`) + `RejectionQuarantine`
+  **volátil** (`/tmp`), **limitada** (10k, rotação) e **nunca promovida ao grafo**.
+- `app.py`: métricas `extraction_quality.rejection_reasons`,
+  `top_unmapped_predicates` e `quarantine`.
+
+### Regras mantidas
+- **Não** usar embedding para promover fato (não altera quórum).
+- Quórum de triangulação permanece **3**.
+- Sem dependência pesada nova no runtime.
+
+### Backlog determinístico
+Mapear os predicados mais frequentes de `top_unmapped_predicates` (20 itens) com
+teste por par `raw → canonical`. Se `canonical_triples ↑` mas
+`cross_source_matches` ficar estável, o gargalo passa a ser entidade/segmentação.
+

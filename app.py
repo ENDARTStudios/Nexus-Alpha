@@ -8,6 +8,7 @@ de abrir/fechar um driver a cada requisição.
 """
 from __future__ import annotations
 
+import collections
 import hashlib
 import logging
 import os
@@ -134,7 +135,20 @@ _extraction_stats = {
     "canonical_triples": 0,
     "rejected_noise": 0,
     "duplicate_canonical_triples": 0,
+    "reasons": {"missing_entity": 0, "unmapped_predicate": 0, "self_loop": 0},
 }
+_unmapped_predicates: "collections.Counter[str]" = collections.Counter()
+
+_rejection_quarantine = None
+
+
+def get_rejection_quarantine():
+    global _rejection_quarantine
+    if _rejection_quarantine is None:
+        from src.cognition.triple_refiner import RejectionQuarantine
+
+        _rejection_quarantine = RejectionQuarantine()
+    return _rejection_quarantine
 
 
 _brain = None
@@ -236,6 +250,12 @@ async def metrics() -> dict:
             "canonical_triples": _extraction_stats["canonical_triples"],
             "rejected_noise": _extraction_stats["rejected_noise"],
             "duplicate_canonical_triples": _extraction_stats["duplicate_canonical_triples"],
+            "rejection_reasons": dict(_extraction_stats["reasons"]),
+            "top_unmapped_predicates": [
+                {"predicate": predicate, "count": count}
+                for predicate, count in _unmapped_predicates.most_common(10)
+            ],
+            "quarantine": get_rejection_quarantine().stats(),
             "cross_source_matches": snapshot.get("cross_source", 0),
             "potential_verified_before_quorum": snapshot.get("cross_source", 0),
             "verified_facts": snapshot["verified"],
@@ -252,17 +272,27 @@ async def ingest_data(
         raise HTTPException(status_code=401, detail="Token de autorização inválido.")
 
     payload_dict = payload.model_dump()
-    from src.cognition.triple_refiner import refine_triple
+    from src.cognition.triple_refiner import refine_triple_ex
 
     canonicalizer = get_canonicalizer()
     raw_entities = payload_dict.get("extracted_entities", [])
     _extraction_stats["raw_triples"] += len(raw_entities)
     refined_entities = []
     seen_canonical = set()
+    quarantine = get_rejection_quarantine()
     for entity in raw_entities:
-        refined = refine_triple(entity, canonicalizer)
+        refined, reason = refine_triple_ex(entity, canonicalizer)
         if refined is None:
             _extraction_stats["rejected_noise"] += 1
+            _extraction_stats["reasons"][reason] = _extraction_stats["reasons"].get(reason, 0) + 1
+            if reason == "unmapped_predicate":
+                raw_predicate = str(entity.get("predicate", "")).strip()
+                if raw_predicate:
+                    _unmapped_predicates[raw_predicate.upper()] += 1
+            try:
+                quarantine.record(entity, reason, payload.source_url)
+            except Exception as exc:
+                logger.warning("Falha na quarentena de rejeitados: %s", exc)
             continue
         key = (refined["subject"], refined["predicate"], refined["object"])
         if key in seen_canonical:
