@@ -211,7 +211,59 @@ def audit(
         "near_matches": near,
         "near_match_rate_high": round(near["high"] / one_domain_count, 4) if one_domain_count else 0.0,
         "potential_verified_if_linking": potential_verified_if_linking,
+        "potential_verified_if_aliasing": potential_verified_if_linking,
         "mismatch_types": mismatch_types,
         "top_examples": examples,
         "parameters": {"quorum": quorum, "high": high, "medium": medium},
+    }
+
+
+def domain_coverage(facts: list[dict[str, Any]]) -> dict[str, Any]:
+    """Cobertura por domínio (host) dos fatos — read-only."""
+    by_domain: collections.Counter = collections.Counter()
+    all_hosts: set[str] = set()
+    one = multi = 0
+    for fact in facts:
+        domains = sorted({str(d).strip().lower() for d in (fact.get("domains") or []) if d})
+        all_hosts.update(domains)
+        if len(domains) == 1:
+            by_domain[domains[0]] += 1
+            one += 1
+        elif len(domains) >= 2:
+            multi += 1
+    return {
+        "facts_total": len(facts),
+        "domains_total": len(all_hosts),
+        "facts_by_domain": dict(by_domain.most_common()),
+        "facts_with_one_domain": one,
+        "facts_with_two_or_more_domains": multi,
+    }
+
+
+def reconcile_pipeline(
+    raw_triples: int,
+    canonical_triples: int,
+    rejected_noise: int,
+    persisted_facts: int,
+    same_domain_multi_url_merge: int = 0,
+) -> dict[str, Any]:
+    """Reconcilia ``raw → canonical → facts`` (#051).
+
+    O gap ``canonical - persisted`` é explicado por triplas canônicas repetidas
+    entre payloads/domínios que o ``MERGE`` colapsa em um único ``:Fato``.
+    """
+    gap = max(0, canonical_triples - persisted_facts)
+    unaccounted = max(0, raw_triples - canonical_triples - rejected_noise)
+    return {
+        "raw_triples": raw_triples,
+        "canonical_triples": canonical_triples,
+        "rejected_noise": rejected_noise,
+        "persisted_facts": persisted_facts,
+        "canonical_to_fact_gap": gap,
+        "unaccounted_raw": unaccounted,
+        "gap_explanations": {
+            "same_domain_multi_url_merge": same_domain_multi_url_merge,
+            "cross_payload_duplicate_canonical": gap,
+            "unaccounted": unaccounted,
+        },
     }

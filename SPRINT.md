@@ -389,3 +389,40 @@ entidades legítimas (`Inteligência Artificial`, `Santos FC`) passam.
 Validador v1 **conservador**; fatos borderline (`OBJETIVO --APRENDE--> REGRA GERAL
 QUE MAPEIA`) ainda passam e podem ser tratados em iteração futura.
 
+---
+
+## v1.13.0 — #051: Auditoria read-only pós-limpeza (diagnóstico de alavanca)
+
+### Escopo (read-only, sem deploy)
+- `src/cognition/cross_source_audit.py`: `domain_coverage()`, `reconcile_pipeline()`,
+  e `potential_verified_if_aliasing` no relatório.
+- `scripts/audit_post_clean.py`: reconcile + cobertura + near-match + predicate health.
+- `tests/test_cross_source_audit_post_clean.py`.
+
+### Resultado (66 fatos limpos)
+```text
+pipeline_reconciliation = { raw:209, canonical:78, rejected:130, persisted:66,
+                            canonical_to_fact_gap:12, unaccounted_raw:1,
+                            same_domain_multi_url_merge:1 }
+domain_coverage = { facts_total:66, domains_total:13, one_domain:66, multi_domain:0 }
+near_matches = { high:0, medium:0, low:0 }
+potential_verified_if_aliasing = 0
+mismatch_types = { subject_variant:0, object_variant:0, predicate_variant:0, true_unique:66 }
+predicate_health = { unmapped:49, modal:26, ambiguous:11,
+  top_unmapped: DESCREVER 6, DAR 4, VIR 3, DIVIDIR 2, CONSTRUIR 2, IR 2,
+                PERMITIR 2, IMPLEMENTAR 2, IDENTIFICAR 2, ANALISAR 2 }
+```
+
+### Diagnóstico do gap canonical→facts
+`19` URLs distintas confirmam `66` fatos (`14` URLs confirmam >1 fato) e há `0`
+chaves duplicadas. O gap de `12` vem de triplas canônicas **repetidas entre payloads
+com a mesma `source_url`** (o `MERGE` reusa `FonteWeb`/`:Fato` sem nova confirmação).
+`canonical_triples` conta **por payload**, não por chave distinta → **lacuna de
+observabilidade (#052)**.
+
+### Alavanca indicada
+- near-match `high = 0` ⇒ **não** é aliasing de entidade/objeto (#047).
+- `top_unmapped` sem verbos claros recorrentes (`>=3`) ⇒ **não** é predicate mapper (#045).
+- `true_unique = 66` ⇒ **cobertura de corpus (#048)**.
+- `canonical_to_fact_gap = 12 (> 5)` parcialmente explicado ⇒ **#052 (observabilidade) tem prioridade**.
+
