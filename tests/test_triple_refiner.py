@@ -82,7 +82,7 @@ def test_refine_triple_ex_reports_reasons():
     refined, reason = refine_triple_ex({"subject": "AI", "predicate": "usa", "object": "redes_neurais"})
     assert refined is not None and reason == "ok"
 
-    _, reason = refine_triple_ex({"subject": "AI", "predicate": "publicar", "object": "dados"})
+    _, reason = refine_triple_ex({"subject": "AI", "predicate": "descrever", "object": "dados"})
     assert reason == "unmapped_predicate"
 
     _, reason = refine_triple_ex({"subject": "AI", "predicate": "zapearia", "object": "dados"})
