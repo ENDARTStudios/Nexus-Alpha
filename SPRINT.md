@@ -138,3 +138,26 @@ fato no mesmo dia incrementa `replays` em vez de criar micro-eventos.
 - `v1.10.0-alpha` — Painel Cérebro (contrato normalizado + `BrainPanel` read-only).
 - `v1.11.0-alpha` — Proxy server-side (Space privado) + métricas duráveis + allowlist.
 
+---
+
+## ⚠️ Exceção de governança — commit `2a41622`
+
+O commit `2a41622` misturou escopos ao incluir arquivos da v1.14.0 (LlamaFactory opt-in)
+e do item 3-lite da v1.13.0 no mesmo commit.
+
+**Decisão:** manter o commit por segurança operacional — já foi enviado ao remoto
+(`push`) e o CI está verde. Não será revertido nem reescrito (sem `force-push`).
+
+**A partir do próximo commit:** voltar à regra de **1 item por commit** e evitar
+`git add -A` sem inspeção prévia. Fluxo padrão:
+
+```powershell
+git status
+git add <paths específicos>
+git diff --cached
+git commit
+```
+
+A v1.14.0 permanece inerte no runtime do Space (o `Dockerfile` instala apenas
+`requirements-hf.txt`).
+
