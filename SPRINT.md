@@ -295,3 +295,40 @@ que o deploy do Space envia a árvore de trabalho (disco), não o commit.
 **Decisão:** manter (sem reverter). Próximas mudanças voltam à regra de **1 item por
 commit** com staging explícito (sem `git add -A`).
 
+---
+
+## v1.13.0 — #046: Auditoria de near-match cross-source (metric-only)
+
+### Escopo (read-only)
+- `src/cognition/cross_source_audit.py` — funções puras (similaridade lexical,
+  classificação de near-match, relatório) — **nunca** promove fato nem altera
+  `confirmacoes`; sem Qdrant (vetores stale).
+- `scripts/audit_cross_source.py` — CLI read-only sobre `:Fato`/`:FonteWeb`.
+- `tests/test_cross_source_audit.py` — puros, sem Neo4j.
+
+### Resultado (pós-reset, 106 fatos)
+```text
+facts_total = 106  |  one_domain = 106  |  two_or_more_domains = 0
+near_matches.high = 0  |  near_match_rate_high = 0.0
+potential_verified_if_linking = 0
+mismatch_types = { subject_variant:0, object_variant:0, predicate_variant:0, true_unique:106 }
+```
+
+### Achados importantes
+1. **`confirmacoes` conta URLs, não domínios.** O único fato "cross-source" tinha
+   `confirmacoes=4` com **4 URLs do mesmo domínio** (`pt.wikipedia.org`). Logo,
+   `cross_source_matches` (confirmacoes>=2) **superestima** independência. A
+   auditoria por domínio (host) é a medida correta → **0**.
+2. **Objetos extraídos são fragmentos, não entidades** — amostra real:
+   `ARTHUR SAMUEL --DEFINE--> EM 1959`, `ALGORITMO BACKPROPAGATION --UTILIZA--> COM ISSO`,
+   `AREA DE REDES NEURAIS --POSSUIR--> APOS A PUBLICACAO EM 1986`,
+   `SERVICO DE STREAMING DE MUSICA --PRODUZ--> EM 2015`.
+   Datas, orações e locuções adverbiais como objeto → triplas sem valor semântico,
+   impossíveis de corroborar por construção.
+
+### Leitura
+`mismatch_types` é 100% `true_unique`, mas a causa **não é falta de corpus nem falta
+de aliasing** — é **qualidade da extração (span do objeto/sujeito)**. Antes de #047
+(aliasing) ou #048 (seeds), o gargalo é **validação de objeto**: rejeitar objetos
+que sejam data, oração ou locução preposicional.
+
