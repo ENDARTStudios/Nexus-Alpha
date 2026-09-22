@@ -462,3 +462,33 @@ O campo legado `extraction_quality.duplicate_canonical_triples` (dedup intra-pay
 ### Fora de escopo
 Mudança de quórum, promoção por embedding, expansão de seeds, treino LlamaFactory.
 
+---
+
+## v1.13.0 — #056: Domain reputation determinística (pré-requisito do #048)
+
+### Motivação
+Ao preparar o #048, medi o `SecurityProtocol`: **todo publisher comum (`.com`,
+`.com.br`) recebe score 0.60 < 0.70 e vai para quarentena** no `fetch_and_verify`,
+antes do ingest. Só `.edu`/`.gov`/`.ac.`/`.org` (0.9) e tech domains (0.8) passavam.
+Logo, **cross-domain era impossível por construção** — o corpus só podia ser Wikipedia.
+
+### Escopo
+- `src/miner/security_protocol.py`: `REPUTABLE_PUBLISHERS` (allowlist curada:
+  acervo do projeto, imprensa esportiva/geral, instituições do futebol, clubes
+  oficiais) com match por **domínio registrável** (`host == d` ou `host.endswith("."+d)`)
+  → score **0.85** (≥ limiar 0.70).
+- `tests/test_domain_reputation.py` (publishers reputáveis não-quarentenados,
+  match de subdomínio, tech/high-trust inalterados, desconhecidos/baixa-confiança
+  seguem bloqueados, sem segredos/sociais).
+
+### Invariantes
+- **Quórum mantido (3)**; `.org`/`.edu`/`.gov` seguem 0.9; desconhecidos `.com`
+  seguem 0.6 (quarentena); baixa-confiança (reddit/medium/wordpress) seguem 0.4.
+- Sem embedding, sem LLM.
+
+### Dívidas registradas (não implementadas)
+- **#053** — Independência editorial por publisher/eTLD+1 (hoje é por host;
+  `pt.` vs `en.wikipedia.org` contam como 2).
+- **#054** — Ontologia temporal (`:Ano`/`:Periodo`; `OCORREU_EM`) para fatos datados.
+- **#055** — Integração com a API REST do Almanaque (fonte estruturada primária).
+

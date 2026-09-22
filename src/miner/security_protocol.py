@@ -20,6 +20,30 @@ LOW_TRUST_PATTERNS = (
     "blogspot.com", "tumblr.com", "substack.com",
 )
 
+# #056: publishers reputáveis não-`.org` que não podem ser bloqueados para
+# quarentena (falso negativo que zerava a corroboração cross-domain). Match por
+# domínio registrável (host == d ou host.endswith("." + d)). Determinístico e
+# auditável — sem embedding. Acervo do projeto + imprensa + instituições do futebol.
+REPUTABLE_PUBLISHERS = (
+    # Acervo-alvo do projeto
+    "almanaquedosclubes.com",
+    # Imprensa esportiva / geral (Brasil e internacional)
+    "globo.com", "lance.com.br", "espn.com.br", "espn.com", "uol.com.br",
+    "folha.uol.com.br", "estadao.com.br", "cnnbrasil.com.br", "bbc.com",
+    "bbc.co.uk", "reuters.com", "apnews.com", "theguardian.com",
+    # Instituições do futebol
+    "fifa.com", "cbf.com.br", "conmebol.com", "uefa.com", "concacaf.com",
+    # Clubes oficiais
+    "santosfc.com.br", "flamengo.com.br", "botafogo.com.br", "gremio.net",
+    "internacional.com.br", "corinthians.com.br", "palmeiras.com.br",
+    "saopaulofc.net", "cruzeiro.com.br", "atletico.com.br", "vasco.com.br",
+    "fluminense.com.br",
+)
+
+
+def _is_reputable_publisher(host: str) -> bool:
+    return any(host == d or host.endswith("." + d) for d in REPUTABLE_PUBLISHERS)
+
 SENSATIONAL_KEYWORDS = {
     "inacreditável", "urgente", "escândalo", "misterioso", "chocante",
     "imperdível", "surpreendente", "absurdo", "revelado", "exclusivo",
@@ -44,6 +68,8 @@ class SecurityProtocol:
         host = urlparse(url).netloc.lower()
         if any(tld in host for tld in HIGH_TRUST_TLDS):
             return 0.9
+        if _is_reputable_publisher(host):
+            return 0.85
         if any(domain in host for domain in TRUSTED_TECH_DOMAINS):
             return 0.8
         if any(pat in host for pat in LOW_TRUST_PATTERNS):
