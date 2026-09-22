@@ -522,3 +522,28 @@ Logo, **cross-domain era impossível por construção** — o corpus só podia s
 `ingestion_accounting.duplicate_cross_domain > 0` e/ou
 `verification.facts_with_two_or_more_domains > 0` após ciclo manual do worker.
 
+### Resultado em produção (worker_dispatch com clusters)
+```text
+BASELINE: duplicate_cross_domain=0  facts_with_multi_domain=0  max_domain_conf=1  verified=0
+POST    : duplicate_cross_domain=0  facts_with_multi_domain=0  max_domain_conf=1  verified=0
+          distinct=108  persisted=108  gap=0  unaccounted=0
+          duplicate_same_source_url=80  duplicate_same_domain=5
+```
+`cross_domain` **não subiu** → **Cenário 3** (domínios distintos, canonical não casa).
+
+### Causa raiz (logs do worker)
+1. **#056 funcionou** (bloqueio de reputação resolvido): as páginas não-wiki foram
+   buscadas — `santosfc.com.br` (301→200), `ge.globo.com` (301→200), `botafogo.com.br` (200).
+2. **Mas retornaram `entities_processed: 0`** — o refino rejeitou **todas** as triplas
+   (páginas JS/listing/texto não-declarativo). Não-viraram `:Fato`.
+3. As wiki PT/EN **geraram triplas**, porém **diferentes** entre si
+   (mesmo fato com entidade/objeto em superfícies distintas: PT vs EN, sinônimos).
+   Como o `#051` mostrou `near_match.high = 0` lexicalmente, a variação é
+   **semântica** (tradução/sinônimo) — não resolvível por canonicalização/lexical.
+
+### Leitura
+O gargalo final **não é cobertura de domínios** nem reputação de fonte: é
+**equivalência semântica entre fontes** (entidade/objeto em superfícies distintas).
+Próximos candidatos (com evidência limpa): **item 2 — entity linking (diagnóstico,
+sem promover fato)** ou **#047 — aliasing curado**.
+
