@@ -258,3 +258,40 @@ a conteúdo EN/misto emite substantivos/funções como predicado. O gargalo é
 - `unmapped_predicate` fica reservado a **verbos legítimos** fora do vocabulário
   (backlog #044); lixo vira `invalid_predicate`/`nonverbal_predicate`.
 
+---
+
+## v1.13.0 — #044: expansão conservadora do predicate mapper (aliases PT)
+
+### Contexto
+Após o #043, `top_invalid_predicates` ficou vazio e os rejeitados passaram a ser
+**verbos legítimos**. `verified_facts` foi de 2 → 3, `cross_source_matches` de 10 → 11.
+
+### Escopo
+Aliases determinísticos de alta confiança em `src/cognition/predicate_mapper.py`:
+- `ter/tem/tinha/teve/temos/terei/teria/terão` → **POSSUIR**
+- `incluir/inclui/incluiu/incluindo/incluído` → **CONTIENE**
+- `aplicar/aplica/aplicou/aplicando/aplicado` → **UTILIZA**
+- `publicar/publica/publicou/publicando/publicado` → **PRODUZ**
+- `desenvolver/desenvolve/desenvolveu/desenvolvendo/desenvolvido` → **PRODUZ**
+
+Rejeições com motivo próprio (não mapeadas):
+- **`modal_predicate`**: `poder/pode/poderia/…`, `dever/deve/deveria/…`
+- **`ambiguous_predicate`**: `passar/passou/…`, `aumentar/aumentou/…`
+- `descrever/descreve/descreveu` → seguem `unmapped_predicate` (meta-relação).
+
+### Nota de contrato
+O motivo de sucesso do mapper permanece `"ok"` (consistente com os testes
+committed de voz reflexiva). O `rejection_reasons` ganhou as chaves
+`modal_predicate`/`ambiguous_predicate` sem alterar `app.py` (o contador é dinâmico).
+
+---
+
+## ⚠️ Exceção de governança — commit `712724d`
+
+O commit `712724d` (hotfix do guard: nomes canônicos com `_`) foi enviado junto com
+os commits `ae3ceea` (#041) e `8088295` (#042) para **alinhar Space e `main`**, já
+que o deploy do Space envia a árvore de trabalho (disco), não o commit.
+
+**Decisão:** manter (sem reverter). Próximas mudanças voltam à regra de **1 item por
+commit** com staging explícito (sem `git add -A`).
+

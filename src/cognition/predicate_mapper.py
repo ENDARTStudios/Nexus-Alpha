@@ -63,7 +63,56 @@ EXTRA_MAP: dict[str, str] = {
     "conecta se a": "CONECTA_A",
     # UTILIZA (voz reflexiva — "utiliza-se"; "usa-se" já vem do canonicalizer)
     "utiliza se": "UTILIZA",
+    # POSSUIR (posse/atribuição básica)
+    "ter": "POSSUIR",
+    "tem": "POSSUIR",
+    "tinha": "POSSUIR",
+    "teve": "POSSUIR",
+    "temos": "POSSUIR",
+    "terei": "POSSUIR",
+    "teria": "POSSUIR",
+    "terao": "POSSUIR",
+    "possuir": "POSSUIR",
+    # CONTIENE (composição/membership)
+    "incluir": "CONTIENE",
+    "inclui": "CONTIENE",
+    "incluiu": "CONTIENE",
+    "incluindo": "CONTIENE",
+    "incluido": "CONTIENE",
+    "incluem": "CONTIENE",
+    # UTILIZA (uso/aplicação de método, tecnologia, modelo)
+    "aplicar": "UTILIZA",
+    "aplica": "UTILIZA",
+    "aplicou": "UTILIZA",
+    "aplicando": "UTILIZA",
+    "aplicado": "UTILIZA",
+    "aplicam": "UTILIZA",
+    # PRODUZ (produção de artigo/documento e de artefato)
+    "publicar": "PRODUZ",
+    "publica": "PRODUZ",
+    "publicou": "PRODUZ",
+    "publicando": "PRODUZ",
+    "publicado": "PRODUZ",
+    "publicam": "PRODUZ",
+    "desenvolver": "PRODUZ",
+    "desenvolve": "PRODUZ",
+    "desenvolveu": "PRODUZ",
+    "desenvolvendo": "PRODUZ",
+    "desenvolvido": "PRODUZ",
+    "desenvolvem": "PRODUZ",
 }
+
+# Modais: expressam modalidade/possibilidade, não afirmam fato → nunca mapear.
+MODAL_PREDICATES = frozenset({
+    "poder", "pode", "podia", "poderia", "poderao", "podem", "puder", "podendo",
+    "dever", "deve", "devia", "deveria", "devem", "devera", "deverao", "devendo",
+})
+
+# Ambíguos: genéricos demais sem objeto/contexto → rejeitar com motivo próprio.
+AMBIGUOUS_PREDICATES = frozenset({
+    "passar", "passa", "passou", "passando", "passam",
+    "aumentar", "aumenta", "aumentou", "aumentando", "aumentam",
+})
 
 _PREDICATE_MAP: Optional[dict[str, str]] = None
 
@@ -114,6 +163,10 @@ def map_predicate(raw: str) -> tuple[Optional[str], str]:
     canonical = _lookup(key)
     if canonical in CONTROLLED_PREDICATES:
         return canonical, "ok"
+    if key in MODAL_PREDICATES or _singularize(key) in MODAL_PREDICATES:
+        return None, "modal_predicate"
+    if key in AMBIGUOUS_PREDICATES or _singularize(key) in AMBIGUOUS_PREDICATES:
+        return None, "ambiguous_predicate"
     return None, "unmapped_predicate"
 
 
@@ -187,7 +240,8 @@ def validate_predicate(raw: str) -> tuple[Optional[str], str]:
 
     Retorna ``(canonical | None, reason)`` com ``reason`` em:
     ``ok``, ``numeric_predicate``, ``url_or_code_predicate``, ``stopword_predicate``,
-    ``nonverbal_predicate``, ``unmapped_predicate``, ``invalid_predicate``.
+    ``nonverbal_predicate``, ``modal_predicate``, ``ambiguous_predicate``,
+    ``unmapped_predicate``, ``invalid_predicate``.
     """
     text = (raw or "").strip()
     if not text:
@@ -217,7 +271,13 @@ def validate_predicate(raw: str) -> tuple[Optional[str], str]:
     if key in NONVERBAL_TOKENS:
         return None, "nonverbal_predicate"
 
-    # 3) Verbo legítimo fora do vocabulário (backlog #044) vs lixo.
+    # 3) Modais/ambíguos têm motivo próprio (nunca mapeados).
+    if key in MODAL_PREDICATES or _singularize(key) in MODAL_PREDICATES:
+        return None, "modal_predicate"
+    if key in AMBIGUOUS_PREDICATES or _singularize(key) in AMBIGUOUS_PREDICATES:
+        return None, "ambiguous_predicate"
+
+    # 4) Verbo legítimo fora do vocabulário (backlog #045) vs lixo.
     if key in KNOWN_VERB_LEMMAS or _singularize(key) in KNOWN_VERB_LEMMAS:
         return None, "unmapped_predicate"
     return None, "invalid_predicate"

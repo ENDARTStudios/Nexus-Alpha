@@ -66,11 +66,47 @@ def test_guard_rejects_numeric_url_stopword_and_nonverbal():
 def test_guard_accepts_mapped_and_classifies_valid_verbs():
     assert validate_predicate("utiliza") == ("UTILIZA", "ok")
     assert validate_predicate("preservir") == ("PRESERVA", "ok")
-    assert validate_predicate("publicar") == (None, "unmapped_predicate")
+    assert validate_predicate("publicar") == ("PRODUZ", "ok")
+    assert validate_predicate("ter") == ("POSSUIR", "ok")
     assert validate_predicate("descrever") == (None, "unmapped_predicate")
-    assert validate_predicate("ter") == (None, "unmapped_predicate")
     assert validate_predicate("zapearia") == (None, "invalid_predicate")
     assert validate_predicate("") == (None, "invalid_predicate")
+
+
+def test_high_confidence_pt_aliases_map_to_controlled():
+    assert map_predicate("TER") == ("POSSUIR", "ok")
+    assert map_predicate("tem") == ("POSSUIR", "ok")
+    assert map_predicate("tinha") == ("POSSUIR", "ok")
+    assert map_predicate("INCLUIR") == ("CONTIENE", "ok")
+    assert map_predicate("inclui") == ("CONTIENE", "ok")
+    assert map_predicate("APLICAR") == ("UTILIZA", "ok")
+    assert map_predicate("aplicou") == ("UTILIZA", "ok")
+    assert map_predicate("PUBLICAR") == ("PRODUZ", "ok")
+    assert map_predicate("publicou") == ("PRODUZ", "ok")
+    assert map_predicate("DESENVOLVER") == ("PRODUZ", "ok")
+    assert map_predicate("desenvolveu") == ("PRODUZ", "ok")
+
+
+def test_modals_and_ambiguous_are_rejected_with_specific_reason():
+    assert map_predicate("PODER") == (None, "modal_predicate")
+    assert map_predicate("pode") == (None, "modal_predicate")
+    assert map_predicate("DEVER") == (None, "modal_predicate")
+    assert map_predicate("deve") == (None, "modal_predicate")
+    assert map_predicate("PASSAR") == (None, "ambiguous_predicate")
+    assert map_predicate("passou") == (None, "ambiguous_predicate")
+    assert map_predicate("AUMENTAR") == (None, "ambiguous_predicate")
+    assert map_predicate("aumentou") == (None, "ambiguous_predicate")
+    assert map_predicate("DESCREVER") == (None, "unmapped_predicate")
+    assert validate_predicate("poder") == (None, "modal_predicate")
+    assert validate_predicate("passar") == (None, "ambiguous_predicate")
+
+
+def test_valid_controlled_predicates_stay_valid():
+    for predicate in (
+        "UTILIZA", "CONECTA_A", "DISTRIBUIR", "PRESERVA",
+        "TEORIZA", "É_AMIGÁVEL", "INFLUENCIA", "FUNDOU",
+    ):
+        assert validate_predicate(predicate) == (predicate, "ok")
 
 
 def test_controlled_names_with_underscore_survive_guard():

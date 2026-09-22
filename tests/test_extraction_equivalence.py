@@ -40,10 +40,53 @@ def test_reflexive_predicate_converges_to_controlled():
 
 def test_unmapped_verb_reports_reason_without_promoting():
     refined, reason = refine_triple_ex(
-        {"subject": "IA", "predicate": "publicar", "object": "dados"}
+        {"subject": "IA", "predicate": "descrever", "object": "dados"}
     )
     assert refined is None
     assert reason == "unmapped_predicate"
+
+
+def test_utiliza_family_converges_to_single_predicate():
+    # #044: usa/utiliza/aplica (+ flexões) devem colidir em UTILIZA.
+    for predicate in ("usa", "utiliza", "UTILIZA", "aplica", "aplicou"):
+        refined = refine_triple(
+            {"subject": "Inteligência Artificial", "predicate": predicate, "object": "aprendizado profundo"}
+        )
+        assert refined is not None
+        assert (refined["subject"], refined["predicate"], refined["object"]) == (
+            "INTELIGÊNCIA ARTIFICIAL",
+            "UTILIZA",
+            "APRENDIZADO PROFUNDO",
+        )
+
+
+def test_possuir_family_converges_to_single_predicate():
+    # #044: tem/possui/possuem devem colidir em POSSUIR.
+    for predicate in ("tem", "possui", "possuem"):
+        refined = refine_triple(
+            {"subject": "Santos FC", "predicate": predicate, "object": "Estádio Urbano Caldeira"}
+        )
+        assert refined is not None
+        assert (refined["subject"], refined["predicate"], refined["object"]) == (
+            "SANTOS FC",
+            "POSSUIR",
+            "ESTADIO URBANO CALDEIRA",
+        )
+
+
+def test_modals_do_not_promote():
+    # #044: modais/ambíguos nunca viram fato.
+    for predicate, reason in (
+        ("poder", "modal_predicate"),
+        ("deve", "modal_predicate"),
+        ("passar", "ambiguous_predicate"),
+        ("aumentou", "ambiguous_predicate"),
+    ):
+        refined, got = refine_triple_ex(
+            {"subject": "IA", "predicate": predicate, "object": "dados"}
+        )
+        assert refined is None
+        assert got == reason
 
 
 def test_garbage_predicate_reports_invalid_not_unmapped():
