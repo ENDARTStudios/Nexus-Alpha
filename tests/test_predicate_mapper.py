@@ -73,6 +73,14 @@ def test_guard_accepts_mapped_and_classifies_valid_verbs():
     assert validate_predicate("") == (None, "invalid_predicate")
 
 
+def test_controlled_names_with_underscore_survive_guard():
+    # Regressão de produção: nomes canônicos com "_" eram rejeitados como código.
+    assert validate_predicate("CONECTA_A") == ("CONECTA_A", "ok")
+    assert validate_predicate("PERTENCE_A") == ("PERTENCE_A", "ok")
+    assert validate_predicate("DERIVA_DE") == ("DERIVA_DE", "ok")
+    assert validate_predicate("É_AMIGÁVEL") == ("É_AMIGÁVEL", "ok")
+
+
 def test_reflexive_voice_maps_to_controlled():
     # #042: voz reflexiva ("-se") é a forma dominante em texto minerado PT.
     assert map_predicate("conecta-se a") == ("CONECTA_A", "ok")

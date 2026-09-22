@@ -16,7 +16,7 @@ import re
 from dataclasses import dataclass, asdict
 from typing import Any, Optional
 
-from .predicate_mapper import validate_predicate
+from .predicate_mapper import INVALID_PREDICATE_REASONS, validate_predicate
 
 logger = logging.getLogger(__name__)
 
@@ -142,9 +142,11 @@ class EntityExtractor:
             if root is None or root.pos_ not in ("VERB", "AUX"):
                 continue
             predicate, predicate_reason = validate_predicate(root.lemma_)
-            if not predicate:
+            if predicate_reason in INVALID_PREDICATE_REASONS:
                 self.rejection_reasons[predicate_reason] += 1
                 continue
+            if predicate is None:
+                predicate = root.lemma_.strip().upper()
             subj_tok = next(
                 (c for c in root.children if c.dep_ in ("nsubj", "nsubj:pass")), None
             )
@@ -185,9 +187,11 @@ class EntityExtractor:
             subj = self._normalize_term(subj)
             obj = self._normalize_term(obj)
             predicate, predicate_reason = validate_predicate(pred)
-            if not predicate:
+            if predicate_reason in INVALID_PREDICATE_REASONS:
                 self.rejection_reasons[predicate_reason] += 1
                 continue
+            if predicate is None:
+                predicate = pred.strip().upper()
             triples.append(Triple(
                 subject=subj,
                 predicate=predicate,

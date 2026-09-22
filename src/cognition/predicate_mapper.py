@@ -193,13 +193,23 @@ def validate_predicate(raw: str) -> tuple[Optional[str], str]:
     if not text:
         return None, "invalid_predicate"
 
-    lowered = text.lower()
-    if _NUMERIC_RE.match(lowered):
+    key = _normalize(text)
+
+    # 1) Mapeamento controlado tem precedência: nomes canônicos contêm "_"
+    #    (CONECTA_A, PERTENCE_A, É_AMIGÁVEL) e não podem ser confundidos com
+    #    artefatos de código pelo regex de URL/código.
+    upper = text.upper()
+    if upper in CONTROLLED_PREDICATES:
+        return upper, "ok"
+    canonical = _lookup(key) if key else None
+    if canonical in CONTROLLED_PREDICATES:
+        return canonical, "ok"
+
+    # 2) Rejeições estruturais.
+    if _NUMERIC_RE.match(text.lower()):
         return None, "numeric_predicate"
     if _URL_CODE_RE.search(text):
         return None, "url_or_code_predicate"
-
-    key = _normalize(text)
     if not key or len(key) < 2:
         return None, "invalid_predicate"
     if key in STOPWORD_PREDICATES:
@@ -207,9 +217,19 @@ def validate_predicate(raw: str) -> tuple[Optional[str], str]:
     if key in NONVERBAL_TOKENS:
         return None, "nonverbal_predicate"
 
-    canonical = _lookup(key)
-    if canonical in CONTROLLED_PREDICATES:
-        return canonical, "ok"
+    # 3) Verbo legítimo fora do vocabulário (backlog #044) vs lixo.
     if key in KNOWN_VERB_LEMMAS or _singularize(key) in KNOWN_VERB_LEMMAS:
         return None, "unmapped_predicate"
     return None, "invalid_predicate"
+
+
+# Motivos que caracterizam predicado INVÁLIDO (o extrator descarta na origem).
+# ``unmapped_predicate`` fica de fora: verbo legítimo fora do vocabulário segue
+# para o servidor (quarentena) e alimenta o backlog #044.
+INVALID_PREDICATE_REASONS = frozenset({
+    "numeric_predicate",
+    "url_or_code_predicate",
+    "stopword_predicate",
+    "nonverbal_predicate",
+    "invalid_predicate",
+})
