@@ -332,3 +332,26 @@ de aliasing** — é **qualidade da extração (span do objeto/sujeito)**. Antes
 (aliasing) ou #048 (seeds), o gargalo é **validação de objeto**: rejeitar objetos
 que sejam data, oração ou locução preposicional.
 
+---
+
+## v1.13.0 — #049: Corroboração por domínio distinto (protocolo de verificação)
+
+### Motivação
+`confirmacoes` contava **URLs**, não domínios: 4 páginas de `pt.wikipedia.org`
+inflavam `confirmacoes=4`. Isso viola o contrato anti-fake-news ("corroborado por
+domínios independentes").
+
+### Escopo (commit único)
+- `graph_connector.domain_from_url()` — host minúsculo, sem `www.`, sem path/query/porta.
+- `INGEST_QUERY`: grava `f.domain = $domain` em `:FonteWeb` e passa a contar
+  `count(DISTINCT ff.domain)` (antes `count(DISTINCT ff)`).
+- `SNAPSHOT_QUERY`: expõe `max_confirmacoes`.
+- `app.py /api/metrics`: bloco `verification`
+  (`quorum`, `facts_with_multi_domain`, `max_domain_confirmations`,
+  `verified_facts_domain_independent`).
+
+### Invariantes
+- **Quórum mantido em 3** (não baixar).
+- `verified_facts` passa a significar **domínio independente**; se cair, é a métrica
+  ficando honesta (não regressão).
+

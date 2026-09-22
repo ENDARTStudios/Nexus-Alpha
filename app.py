@@ -282,6 +282,12 @@ async def metrics() -> dict:
             "potential_verified_before_quorum": snapshot.get("cross_source", 0),
             "verified_facts": snapshot["verified"],
         },
+        "verification": {
+            "quorum": graph.verify_quorum,
+            "facts_with_multi_domain": snapshot.get("cross_source", 0),
+            "max_domain_confirmations": snapshot.get("max_confirmacoes", 0),
+            "verified_facts_domain_independent": snapshot["verified"],
+        },
     }
 
 

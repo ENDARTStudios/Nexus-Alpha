@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import pytest
 
-from src.database.graph_connector import GraphConnector, INGEST_QUERY
+from src.database.graph_connector import GraphConnector, INGEST_QUERY, domain_from_url
 
 
 def test_ingest_query_is_apoc_free():
@@ -75,3 +75,21 @@ def test_verify_quorum_invalid_falls_back_to_three(tmp_path, monkeypatch):
     cfg.write_text("database:\n  graph:\n    uri: 'bolt://localhost:7687'\n", encoding="utf-8")
     monkeypatch.setenv("NEXUS_VERIFY_QUORUM", "abc")
     assert GraphConnector(config_path=str(cfg)).verify_quorum == 3
+
+
+def test_domain_from_url_normalizes_host():
+    assert domain_from_url("https://www.exemplo.com/path") == "exemplo.com"
+    assert domain_from_url("http://exemplo.com/outro-path") == "exemplo.com"
+    assert domain_from_url("https://exemplo.com?x=1") == "exemplo.com"
+    assert domain_from_url("https://exemplo.com#frag") == "exemplo.com"
+    assert domain_from_url("exemplo.com/a") == "exemplo.com"
+    assert domain_from_url("https://docs.pytorch.org/tutorials") == "docs.pytorch.org"
+    assert domain_from_url("https://pt.wikipedia.org/wiki/Aprendizado_de_m%C3%A1quina") == "pt.wikipedia.org"
+    assert domain_from_url("") == ""
+
+
+def test_ingest_query_confirms_by_distinct_domain_not_url():
+    # #049: várias páginas do mesmo domínio contam como UMA confirmação.
+    assert "count(DISTINCT ff.domain)" in INGEST_QUERY
+    assert "count(DISTINCT ff)" not in INGEST_QUERY
+    assert "f.domain = $domain" in INGEST_QUERY

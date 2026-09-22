@@ -76,6 +76,8 @@ async def test_topology_builds_nodes_and_links():
 
 
 class FakeConnector:
+    verify_quorum = 3
+
     async def topology(self, limit: int = 100):
         return {
             "nodes": [{"id": "X", "group": 1, "val": 15}],
@@ -88,6 +90,7 @@ class FakeConnector:
             "facts": 10,
             "verified": 2,
             "cross_source": 4,
+            "max_confirmacoes": 4,
             "consolidated": 1,
             "hebbian": 1,
             "episodes": 5,
@@ -160,3 +163,11 @@ def test_metrics_endpoint(monkeypatch):
     }
     assert quality["cross_source_matches"] == 4
     assert quality["verified_facts"] == 2
+
+    verification = body["verification"]
+    assert verification == {
+        "quorum": 3,
+        "facts_with_multi_domain": 4,
+        "max_domain_confirmations": 4,
+        "verified_facts_domain_independent": 2,
+    }

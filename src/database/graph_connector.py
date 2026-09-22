@@ -10,6 +10,7 @@ import logging
 import os
 import time
 from typing import Any, Optional
+from urllib.parse import urlparse
 
 import yaml
 from neo4j import AsyncGraphDatabase, AsyncDriver
@@ -20,11 +21,28 @@ from ..miner.security_protocol import SecurityProtocol
 logger = logging.getLogger(__name__)
 
 
+def domain_from_url(url: str) -> str:
+    """Domínio normalizado de uma URL para corroboração **por domínio distinto**.
+
+    Minúsculo, sem ``www.``, apenas o host (ignora path/query/fragment e porta).
+    Várias páginas do mesmo domínio contam como **uma** confirmação (#049).
+    """
+    raw = (url or "").strip().lower()
+    if not raw:
+        return ""
+    if "://" not in raw:
+        raw = "http://" + raw
+    host = urlparse(raw).netloc.rsplit("@", 1)[-1].split(":")[0]
+    if host.startswith("www."):
+        host = host[4:]
+    return host
+
+
 INGEST_QUERY = """
 MERGE (f:FonteWeb {url: $source_url})
   ON CREATE SET f.primeira_verificacao = $timestamp
   ON MATCH   SET f.ultima_verificacao  = $timestamp
-SET f.domain_score = $domain_score
+SET f.domain_score = $domain_score, f.domain = $domain
 
 WITH f
 UNWIND $entities AS item
@@ -47,7 +65,7 @@ MERGE (o)-[:MINERADO_DE]->(f)
 
 WITH DISTINCT fato
 MATCH (ff:FonteWeb)-[:CONFIRMA]->(fato)
-WITH fato, count(DISTINCT ff) AS confirmacoes
+WITH fato, count(DISTINCT ff.domain) AS confirmacoes
 SET fato.confirmacoes = confirmacoes, fato.verificado = (confirmacoes >= $quorum)
 RETURN count(fato) AS total_processado
 """
@@ -116,14 +134,15 @@ CALL { MATCH (c:Conceito) RETURN count(c) AS concepts }
 CALL { MATCH (fa:Fato)
        RETURN count(fa) AS facts,
               sum(CASE WHEN fa.verificado THEN 1 ELSE 0 END) AS verified,
-              sum(CASE WHEN coalesce(fa.confirmacoes, 0) >= 2 THEN 1 ELSE 0 END) AS cross_source }
+              sum(CASE WHEN coalesce(fa.confirmacoes, 0) >= 2 THEN 1 ELSE 0 END) AS cross_source,
+              coalesce(max(fa.confirmacoes), 0) AS max_confirmacoes }
 CALL { MATCH ()-[r:RELACIONA]->()
        RETURN count(r) AS relations,
               sum(CASE WHEN r.consolidado THEN 1 ELSE 0 END) AS consolidated,
               sum(CASE WHEN coalesce(r.replays, 0) >= 2 THEN 1 ELSE 0 END) AS hebbian }
 CALL { MATCH (e:Episodio)
        RETURN count(e) AS episodes, toString(max(e.created_at)) AS last_episode }
-RETURN concepts, facts, verified, cross_source, consolidated, hebbian, episodes, last_episode
+RETURN concepts, facts, verified, cross_source, max_confirmacoes, consolidated, hebbian, episodes, last_episode
 """
 
 EPISODE_MERGE_QUERY = """
@@ -409,6 +428,7 @@ class GraphConnector:
             "facts": 0,
             "verified": 0,
             "cross_source": 0,
+            "max_confirmacoes": 0,
             "consolidated": 0,
             "hebbian": 0,
             "episodes": 0,
@@ -429,6 +449,7 @@ class GraphConnector:
                         "facts": int(record["facts"] or 0),
                         "verified": int(record["verified"] or 0),
                         "cross_source": int(record["cross_source"] or 0),
+                        "max_confirmacoes": int(record["max_confirmacoes"] or 0),
                         "consolidated": int(record["consolidated"] or 0),
                         "hebbian": int(record["hebbian"] or 0),
                         "episodes": int(record["episodes"] or 0),
@@ -598,6 +619,7 @@ class GraphConnector:
                     source_url=source_url,
                     timestamp=payload.get("timestamp"),
                     domain_score=domain_score,
+                    domain=domain_from_url(source_url),
                     entities=entities,
                     quorum=self.verify_quorum,
                 )
