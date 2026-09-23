@@ -547,3 +547,94 @@ O gargalo final **não é cobertura de domínios** nem reputação de fonte: é
 Próximos candidatos (com evidência limpa): **item 2 — entity linking (diagnóstico,
 sem promover fato)** ou **#047 — aliasing curado**.
 
+---
+
+## #057 — Entity linking read-only: diagnóstico de equivalência semântica
+
+**Status:** ✅ concluída (código) · relatório gerado
+
+### Por quê
+O `#048` provou que **cobertura de domínios não é mais o gargalo** (fontes
+buscadas, `gap=0`, `cross_domain=0`). O gargalo restante é **equivalência
+semântica entre fontes**. O `#057` mede isso **sem tocar no grafo**.
+
+### Regras de ouro
+- similaridade **sugere** vínculo; **não** verifica fato, **não** altera quórum,
+  **não** grava `:Fato`, **não** muda `confirmacoes`, **não** mescla nós.
+- **Qdrant ignorado por completo** (vetores stale, sem `run_id` confiável).
+- `medium` é **upper bound teórico**; só `high` alimenta revisão de alias curado.
+- candidato exige `left.domains ∩ right.domains == ∅`, domínios não vazios e
+  `fact_hash` distintos.
+- predicado diferente **nunca** vira `high`.
+- alias determinístico exige sigla expandida **no outro campo** + núcleo comum.
+- Cypher do CLI validado por `assert_read_only_cypher` (bloqueia
+  `MERGE/CREATE/SET/DELETE/REMOVE/DROP`).
+
+### Arquivos
+- `src/cognition/entity_linking_audit.py` (puro, sem Neo4j/Qdrant)
+- `scripts/audit_entity_linking.py` (CLI read-only → `reports/`)
+- `tests/test_entity_linking_audit.py` (13 testes, sintéticos)
+- `reports/.gitignore` (`*` + `!.gitignore` — relatório nunca commita)
+
+### Não altera
+`app.py`, `graph_connector.py`, `worker_cycle.py`, `predicate_mapper.py`,
+`span_validator.py`, `canonicalizer.py`, `triple_refiner.py`,
+`config/seed_clusters.yaml`, `requirements*`, `.github/workflows/`, Qdrant.
+
+### DoD
+`python -m pytest -q` verde · `git diff -- requirements-dev.txt .github/workflows/`
+vazio · relatório em `reports/entity_linking_audit_*.json` com
+`candidate_pairs` / `potential_verified_if_*_aliasing` / `mismatch_types` /
+`domain_coverage` / `examples` / `promote_automatically=false`.
+
+### Leitura esperada
+- **Cenário 1** (`high >= 3` e `potential_high >= 1`) → `#047` aliasing curado.
+- **Cenário 2** (só `medium`) → inspeção manual dos top 20 exemplos.
+- **Cenário 3** (tudo zerado) → `#058`/`#055` — problema é extração/fonte.
+- **Cenário 4** (candidatos só PT/EN) → `#048.1` — trocar URLs não-wiki improdutivas.
+
+### Resultado
+Relatório: `reports/entity_linking_audit_2026-09-23.json` (local, gitignored).
+```text
+facts_total 108 · domains_total 13 · facts_with_2plus_domains 0
+candidate_pairs: high=0  medium=0  low=0
+potential_verified_if_high_aliasing   = 0
+potential_verified_if_medium_aliasing = 0
+mismatch_types: true_unique = 108 (demais = 0)
+examples = []
+domain_coverage.facts_by_domain:
+  pt.wikipedia.org 66 · en.wikipedia.org 20 · demais 13 domínios tech = 22
+  santosfc.com.br / ge.globo.com / botafogo.com.br = 0 fatos
+```
+
+### Veredito: **Cenário 3**
+Assinatura exata (`high=0`, `medium=0`, `mismatch_types=true_unique`).
+Diagnóstico read-only adicional (3.425 pares cross-domain elegíveis; 400 com
+predicado igual) mostra que **não é limiar**: o par "mais quente" com predicado
+igual tem `subj_sim=0.17` / `obj_sim=0.61` (`APRENDIZADO POR DICIONARIO ESPARSO
+--UTILIZA--> VARIOS CONTEXTOS` vs `COMPATIBLE TO --UTILIZA--> VARIOUS APPLICATIONS`).
+
+**Causa raiz mais profunda — a extração não produz fatos de conhecimento:**
+```text
+PELE --POSSUIR--> NESSE TORNEIO
+PELE --POSSUIR--> GRANDE ATUACAO
+GARRINCHA --EXECUTA--> TREINO
+SANTOS --POSSUIR--> OUTRAS CINCO LOJAS FISICAS LOCALIZADAS
+SANTOS WILL --UTILIZA--> IN PROFESSIONAL      (en.wikipedia, ruído)
+```
+Só **13/108** fatos citam futebol e todos são **fragmentos SVO heurísticos**
+(sem entidade coerente: falta `Pelé --DEFENDEU--> Santos FC`). 100 sujeitos
+distintos para 108 fatos → quase 1 fato por sujeito, sem redundância para
+corroborar. Entity linking **não tem o que linkar**.
+
+### Próximo issue (decisão do usuário)
+- **#058** — melhorar extração de páginas declarativas e/ou trocar URLs não-wiki
+  improdutivas dos clusters; ou
+- **#055** — API REST do Almanaque como fonte estruturada (evita parsing JS/listing).
+
+`#047` (aliasing curado) **não é o próximo passo** — não há pares candidatos.
+
+### Invariantes
+Quórum 3; sem embedding/LLM; sem promoção automática; gate de treino bloqueado
+(`verified_facts_domain_independent = 0` < 10).
+
