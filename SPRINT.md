@@ -761,3 +761,53 @@ predicados de forma ambígua. Verbos sem mapeamento claro (`contratou`,
 re-ingest controlado via worker para medir `verified_facts_domain_independent`
 e avaliar o gate de treino; se divergência de entidades persistir → `#047`.
 
+---
+
+## #058.2 — Span quality v2 (H3 fragment rejection)
+
+**Status:** ✅ concluída (código + testes)
+
+### Por quê
+Inspeção 2 (`reports/inspection_2_croslingual.json`) provou **Cenário C** no
+re-ingest pós-#045.1: `both_domains=0`, `shared_canonical_keys=0/44`,
+`cross_candidates=0`. Das 63 linhas de divergência PT↔EN, a classificação
+manual corrigiu o auto-rótulo H1→**H3 dominante**: spans são fragmentos
+sintáticos (`E O`, `AND`, `ENFIM`, `TO TWO`, `ALTHOUGH GARRINCHA`,
+`PELE SAID HE`), não aliases de entidade. `#047` não ataca a causa raiz.
+
+### Regras de ouro
+- **lista fechada** de palavras fechadas PT/EN, discurso e relativos — sem
+  heurística estatística, sem LLM/embedding;
+- regras mais específicas (prep/pronomes/quantificador) **antes** do catch-all
+  de palavras fechadas (motivos de rejeição estáveis para a contabilidade);
+- whitelist `known_entities` continua sobrescrevendo (inalterado);
+- **não tocar**: quórum, `extractor.py`, `canonicalizer.py`,
+  `predicate_mapper.py`, `triple_refiner.py`, `app.py`, `graph_connector.py`,
+  `requirements*`, `.github/workflows/`, `llm_provider.py`, `src/training/`,
+  Qdrant, seeds YAML.
+
+### Arquivos
+- `src/cognition/span_validator.py` — v2: `_START_PREP`+EN, `_PRONOUNS`+EN,
+  `_FUNCTION_WORDS` (catch-all `E O`), `_DISCOURSE`/`_DISCOURSE_START`
+  (`ENFIM`, `PRIMEIRO`), `_RELATIVE_MID_RE` + `_CLAUSE_MARKERS` EN
+  (span v2 borderline `REGRA GERAL QUE MAPEIA`)
+- `tests/test_span_validator.py` — +6 testes (fragmentos H3 da Inspeção 2,
+  starts EN, discurso, relativa interna, entidades legítimas, integração
+  `refine_triple_ex`) → 14 no arquivo
+- `SPRINT.md`, `docs/TASKS.md` — registro
+
+### DoD
+`python -m pytest -q` verde (**285**, base 279) · `git diff -- requirements-dev.txt
+.github/workflows/` vazio · motivos novos reutilizam vocabulário existente
+(`*_generic_phrase`, `subject_starts_with_stopword`, `*_clause_fragment`,
+`object_prepositional_phrase`) · golden da Inspeção 2:
+`"e o"→subject_generic_phrase`, `"although Garrincha"→subject_starts_with_stopword`,
+`"REGRA GERAL QUE MAPEIA"→object_clause_fragment`.
+
+### Leitura
+H3 é agora bloqueado no choke point do refino. `PAULO` truncado
+(`São Paulo`) é bug de **boundary do extractor** (fallback regex) — fora do
+escopo #058.2; `PELE SAID HE` (cauda verbal) ainda passa se o primeiro token
+for entidade real. Re-executar Inspeção 2 após re-ingest para medir queda de
+near-misses. `#047` só volta se sobrarem pares com entidade limpa idêntica.
+
