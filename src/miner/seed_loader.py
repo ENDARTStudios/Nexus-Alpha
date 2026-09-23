@@ -20,6 +20,7 @@ FORBIDDEN_DOMAINS = (
     "twitter.com", "x.com", "facebook.com", "instagram.com", "tiktok.com",
     "youtube.com", "reddit.com", "medium.com", "blogspot.com", "wordpress.com",
     "tumblr.com", "substack.com",
+    "bet365.com", "sportingbet.com", "betano.com", "betfair.com",
 )
 
 SECRET_MARKERS = (

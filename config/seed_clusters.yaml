@@ -1,9 +1,13 @@
 version: 1
 
-# Clusters curados para corroboração cross-domain REAL (#048).
+# Clusters curados para corroboração cross-domain REAL (#048, audit #058).
 # Regras: >= 3 domínios distintos por cluster; >= 2 publishers; ao menos 1 fora de
-# wikipedia.org; URLs validadas (HTTPS, HTTP 200, texto extraível). Fatos duráveis
+# wikipedia.org; URLs validadas (HTTPS, HTTP 200 auditado em #058). Fatos duráveis
 # (fundação, estádio, ídolos) — sem datas isoladas como objeto (span validator #050).
+#
+# Auditoria #058 (2026-09-23): 22 URLs avaliadas → 8 produtivas (todas wikipedia),
+# 4 fracas, 10 improdutivas. **Nenhuma fonte não-wiki de futebol é produtiva** —
+# anotado honestamente por fonte; não forçamos URL lixo (404/JS descartadas).
 defaults:
   min_distinct_domains: 3
   min_distinct_publishers: 2
@@ -17,15 +21,19 @@ clusters:
       - url: https://pt.wikipedia.org/wiki/Santos_FC
         domain: pt.wikipedia.org
         publisher: Wikimedia
+        productivity: productive
       - url: https://en.wikipedia.org/wiki/Santos_FC
         domain: en.wikipedia.org
         publisher: Wikimedia
+        productivity: productive
       - url: https://www.santosfc.com.br/institucional/historia
         domain: santosfc.com.br
         publisher: Santos FC
+        productivity: unproductive  # 200, mas 0 triplas canônicas (redirect p/ Zito)
       - url: https://ge.globo.com/futebol/times/santos/
         domain: ge.globo.com
         publisher: Globo
+        productivity: unproductive  # 200, listing JS → 0 triplas
 
   - id: estadio_urbano_caldeira
     topic: "Estádio Urbano Caldeira (Vila Belmiro)"
@@ -34,12 +42,15 @@ clusters:
       - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira
         domain: pt.wikipedia.org
         publisher: Wikimedia
+        productivity: productive
       - url: https://en.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira
         domain: en.wikipedia.org
         publisher: Wikimedia
+        productivity: productive
       - url: https://ge.globo.com/futebol/times/santos/
         domain: ge.globo.com
         publisher: Globo
+        productivity: unproductive  # 200, listing JS → 0 triplas (único não-wiki do cluster)
 
   - id: pele_santos
     topic: "Pelé e sua associação ao Santos FC"
@@ -48,12 +59,15 @@ clusters:
       - url: https://pt.wikipedia.org/wiki/Pel%C3%A9
         domain: pt.wikipedia.org
         publisher: Wikimedia
+        productivity: productive
       - url: https://en.wikipedia.org/wiki/Pel%C3%A9
         domain: en.wikipedia.org
         publisher: Wikimedia
+        productivity: productive
       - url: https://www.santosfc.com.br/institucional/historia
         domain: santosfc.com.br
         publisher: Santos FC
+        productivity: unproductive  # 200, mas 0 triplas canônicas
 
   - id: garrincha_botafogo
     topic: "Garrincha e o Botafogo"
@@ -62,9 +76,16 @@ clusters:
       - url: https://pt.wikipedia.org/wiki/Garrincha
         domain: pt.wikipedia.org
         publisher: Wikimedia
+        productivity: weak  # 2 triplas canônicas, 0 football hits
       - url: https://en.wikipedia.org/wiki/Garrincha
         domain: en.wikipedia.org
         publisher: Wikimedia
+        productivity: productive
+      - url: https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # 9 triplas, 8 football verbs — reforço do cluster (#058)
       - url: https://www.botafogo.com.br/
         domain: botafogo.com.br
         publisher: Botafogo
+        productivity: weak  # 200, 1 tripla canônica

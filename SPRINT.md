@@ -638,3 +638,69 @@ corroborar. Entity linking **não tem o que linkar**.
 Quórum 3; sem embedding/LLM; sem promoção automática; gate de treino bloqueado
 (`verified_facts_domain_independent = 0` < 10).
 
+---
+
+## #058 — Source extractability hardening / substituição de URLs improdutivas
+
+**Status:** ✅ concluída (código + auditoria) · manifest atualizado
+
+### Por quê
+O `#057` provou **Cenário 3**: a extração gera fragmentos SVO heurísticos
+(`PELE --POSSUIR--> NESSE TORNEIO`), sem entidade coerente de futebol. O `#048.1`
+(auditoria de produtividade das URLs dos clusters) foi incorporado ao mesmo issue:
+medir quais fontes produzem triplas e substituir as que não produzem.
+
+### Regras de ouro
+- auditoria **read-only** (sem Neo4j, sem Qdrant, sem `/api/ingest`, sem promoção);
+- classificação `productive | weak | unproductive` é **só diagnóstica** — não altera
+  quórum, `confirmacoes` nem `:Fato`;
+- **não modifica** `extractor.py` (expansão de `DEFAULT_PREDICATES` seria ambígua
+  → `#045.1`); verbos esportivos medidos via `FOOTBALL_VERBS`/`football_verb_hits`;
+- **proibido** tocar em `app.py`, `graph_connector.py`, `predicate_mapper.py`,
+  `canonicalizer.py`, `span_validator.py`, `triple_refiner.py`, `requirements*`,
+  `.github/workflows/`, `llm_provider.py`, `src/training/`, Qdrant;
+- domínios de aposta adicionados a `FORBIDDEN_DOMAINS` (`bet365`, `sportingbet`,
+  `betano`, `betfair`).
+
+### Arquivos
+- `src/miner/source_productivity.py` (puro: sentenças, verbos, classificação,
+  `payload_telemetry`, `summarize`)
+- `scripts/audit_source_productivity.py` (CLI read-only → `reports/`)
+- `tests/test_source_productivity_audit.py` (17 testes, sintéticos)
+- `config/seed_clusters.yaml` (anotação `productivity` por fonte + refuerço
+  `Botafogo_de_Futebol_e_Regatas` no cluster `garrincha_botafogo`)
+- `scripts/worker_cycle.py` (1 log estruturado JSON por payload via
+  `payload_telemetry`)
+- `src/miner/seed_loader.py` (domínios de aposta em `FORBIDDEN_DOMAINS`)
+
+### Não altera
+`app.py`, `graph_connector.py`, `predicate_mapper.py`, `span_validator.py`,
+`canonicalizer.py`, `triple_refiner.py`, `extractor.py`, `requirements*`,
+`.github/workflows/`, `llm_provider.py`, `src/training/`, Qdrant.
+
+### DoD
+`python -m pytest -q` verde (273) · `git diff -- requirements-dev.txt
+.github/workflows/` vazio · relatório em `reports/source_productivity_audit_*.json`
+com `summary.quality` / `rejection_reasons` / `productive_urls` /
+`unproductive_urls` / `truthfulness_note.read_only=true` · manifest anotado.
+
+### Resultado da auditoria (#058, 2026-09-23)
+```text
+22 URLs avaliadas → productive 8 · weak 4 · unproductive 10
+Productive (todas wikipedia): pt/en Santos, pt/en Pelé, pt/en Estádio Urbano
+  Caldeira, pt/en Garrincha, pt Botafogo_de_Futebol_e_Regatas
+Weak: pt Garrincha, ge.globo botafogo, botafogo.com.br, lance.com.br
+Unproductive (exemplos): almanaquedosclubes (404), en Botafogo_F.C. (404),
+  santosfc.com.br/institucional/historia (0 triplas), ge.globo santos (0 triplas),
+  cbf.com.br (ConnectError), fifa.com (JS shell)
+Top rejeições: invalid_predicate 303 · missing_entity 41 · subject_generic 11
+total_canonical_triples 78 · total_football_related_hits 25
+```
+
+### Leitura
+**Nenhuma fonte não-wiki de futebol é produtiva** — as 8 produtivas são
+Wikipedia. O dominante `invalid_predicate` (303) confirma o `#045` (vocabulário
+de predicados não cobre verbos esportivos). Manifest anotado honestamente; URLs
+404/JS não foram forçadas. Próximo: `#045.1` (vocabulário esportivo) ou `#047`
+(aliasing — se o `#058` mudar a assinatura de candidatos).
+

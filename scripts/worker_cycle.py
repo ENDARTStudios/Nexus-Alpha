@@ -10,6 +10,7 @@ A cada 6h (ou manualmente):
 from __future__ import annotations
 
 import asyncio
+import json
 import logging
 import os
 import time
@@ -22,6 +23,7 @@ from src.cognition.reasoning_engine import ReasoningEngine
 from src.cognition.extractor import EntityExtractor
 from src.cognition.rag_engine import RAGEngine
 from src.miner.seed_loader import cluster_to_seeds, load_seed_clusters, manifest_health, validate_seed_clusters
+from src.miner.source_productivity import payload_telemetry
 from src.miner.web_miner import WebMiner
 from src.miner.security_protocol import SecurityProtocol
 
@@ -161,6 +163,22 @@ async def run_cycle() -> None:
         sent = 0
         for payload in payloads:
             payload.setdefault("timestamp", int(time.time()))
+            tel = payload_telemetry(payload)
+            logger.info(
+                "telemetria %s",
+                json.dumps(
+                    {
+                        "url": payload.get("source_url"),
+                        "quality": tel.get("extractive_quality"),
+                        "canonical_triples": tel.get("canonical_triples"),
+                        "raw_triples": tel.get("raw_triples"),
+                        "football_related_hits": tel.get("football_related_hits"),
+                        "football_verb_hits": tel.get("football_verb_hits"),
+                        "notes": tel.get("notes"),
+                    },
+                    ensure_ascii=False,
+                ),
+            )
             response = await client.post(api_url, json=payload, headers=headers, timeout=30.0)
             logger.info(
                 "Resposta [%s]: %s — %s",
