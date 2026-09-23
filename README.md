@@ -73,6 +73,13 @@ Os 86 testes cobrem: miner, cognition, RAG, NLP, triangulation, reflection, memo
 - `.github/workflows/ai-validation.yml` — CI: pytest + auditoria anti-leak + conformidade `SPRINT.md`.
 - `HANDOVER_PROMPT.md` — instruções de onboarding para novos agentes/desenvolvedores.
 - `vercel.json` + `public/robots.txt` — blindagem contra scrapers e bloqueio de rotas públicas sensíveis (`/api/`, `/_next/image*`).
+- **`docs/`** — documentação completa do projeto, indexada em [`docs/README.md`](docs/README.md):
+  produto ([`PRD.md`](docs/PRD.md)), arquitetura ([`ARCHITECTURE.md`](docs/ARCHITECTURE.md)),
+  API ([`API.md`](docs/API.md)), regras ([`RULES.md`](docs/RULES.md)), decisões
+  ([`ADR.md`](docs/ADR.md)), memória ([`MEMORY.md`](docs/MEMORY.md)), operação
+  ([`MONITORING.md`](docs/MONITORING.md), [`BACKUP_DR.md`](docs/BACKUP_DR.md),
+  [`PRODUCTION_DEPLOY.md`](docs/PRODUCTION_DEPLOY.md)) e processo
+  ([`ONBOARDING.md`](docs/ONBOARDING.md), [`ITERATION.md`](docs/ITERATION.md)).
 
 ## 🧪 Infraestrutura Gratuita (Zero Cost)
 
