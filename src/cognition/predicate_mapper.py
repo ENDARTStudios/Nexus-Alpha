@@ -24,6 +24,12 @@ EXTRA_PREDICATES: tuple[str, ...] = (
     "PRESERVA",     # X preserva Y (ex.: regularização preserva generalização)
     "TEORIZA",      # X teoriza Y (texto acadêmico)
     "É_AMIGÁVEL",   # X é amigável a Y (tech/docs: friendly, user-friendly)
+    # #045.1 — vocabulário esportivo (lista fechada; sem JOGOU_POR/DISPUTOU_TITULO)
+    "DEFENDEU",     # relação jogador↔clube (defendeu / jogou por / vestiu / joined)
+    "VENCEU",       # título/competição (venceu / ganhou / conquistou / won)
+    "LOCALIZADO_EM",  # clube/estádio↔cidade (fica em / sediado em / located in)
+    "DISPUTOU",     # competição (disputou / participou / competed)
+    "TREINOU",      # técnico↔clube (treinou / comandou / coached)
 )
 
 CONTROLLED_PREDICATES: tuple[str, ...] = tuple(BASE_PREDICATES) + EXTRA_PREDICATES
@@ -100,6 +106,102 @@ EXTRA_MAP: dict[str, str] = {
     "desenvolvendo": "PRODUZ",
     "desenvolvido": "PRODUZ",
     "desenvolvem": "PRODUZ",
+    # SER (passado de "ser" — em DEFAULT_PREDICATES; alta confiança #045.1)
+    "foi": "SER",
+    "era": "SER",
+    "eram": "SER",
+    "was": "SER",
+    "were": "SER",
+    # CONECTA_A (EN)
+    "connects": "CONECTA_A",
+    "connected": "CONECTA_A",
+    "connect": "CONECTA_A",
+    # EXECUTA (processa/processam — DEFAULT_PREDICATES; alta confiança)
+    "processa": "EXECUTA",
+    "processam": "EXECUTA",
+    "process": "EXECUTA",
+    "processes": "EXECUTA",
+    "processed": "EXECUTA",
+    # --- #045.1 — verbos esportivos (mapeamento conservador; sem equívoco vago) ---
+    # DEFENDEU — relação jogador↔clube
+    "defendeu": "DEFENDEU",
+    "defende": "DEFENDEU",
+    "defender": "DEFENDEU",
+    "defenderam": "DEFENDEU",
+    "jogou por": "DEFENDEU",
+    "joga por": "DEFENDEU",
+    "jogou pelo": "DEFENDEU",
+    "joga pelo": "DEFENDEU",
+    "jogou": "DEFENDEU",
+    "joga": "DEFENDEU",
+    "jogar": "DEFENDEU",
+    "vestiu": "DEFENDEU",
+    "veste": "DEFENDEU",
+    "vestiram": "DEFENDEU",
+    "vestir": "DEFENDEU",
+    "played for": "DEFENDEU",
+    "plays for": "DEFENDEU",
+    "playing for": "DEFENDEU",
+    "joined": "DEFENDEU",
+    "joins": "DEFENDEU",
+    "join": "DEFENDEU",
+    "joining": "DEFENDEU",
+    # VENCEU — título/competição
+    "venceu": "VENCEU",
+    "vence": "VENCEU",
+    "vencer": "VENCEU",
+    "venceram": "VENCEU",
+    "ganhou": "VENCEU",
+    "ganha": "VENCEU",
+    "ganharam": "VENCEU",
+    "ganhar": "VENCEU",
+    "conquistou": "VENCEU",
+    "conquista": "VENCEU",
+    "conquistaram": "VENCEU",
+    "conquistar": "VENCEU",
+    "won": "VENCEU",
+    "wins": "VENCEU",
+    "win": "VENCEU",
+    # LOCALIZADO_EM — clube/estádio↔cidade
+    "localiza se em": "LOCALIZADO_EM",
+    "localiza em": "LOCALIZADO_EM",
+    "localizado em": "LOCALIZADO_EM",
+    "localizada em": "LOCALIZADO_EM",
+    "localizam se em": "LOCALIZADO_EM",
+    "fica em": "LOCALIZADO_EM",
+    "ficam em": "LOCALIZADO_EM",
+    "ficara em": "LOCALIZADO_EM",
+    "situado em": "LOCALIZADO_EM",
+    "situada em": "LOCALIZADO_EM",
+    "sediado em": "LOCALIZADO_EM",
+    "sediada em": "LOCALIZADO_EM",
+    "located in": "LOCALIZADO_EM",
+    "based in": "LOCALIZADO_EM",
+    # DISPUTOU — competição
+    "disputou": "DISPUTOU",
+    "disputa": "DISPUTOU",
+    "disputar": "DISPUTOU",
+    "disputaram": "DISPUTOU",
+    "participou": "DISPUTOU",
+    "participa": "DISPUTOU",
+    "participar": "DISPUTOU",
+    "participaram": "DISPUTOU",
+    "competed": "DISPUTOU",
+    "competes": "DISPUTOU",
+    "compete": "DISPUTOU",
+    # TREINOU — técnico↔clube
+    "treinou": "TREINOU",
+    "treina": "TREINOU",
+    "treinar": "TREINOU",
+    "treinaram": "TREINOU",
+    "comandou": "TREINOU",
+    "comanda": "TREINOU",
+    "comandar": "TREINOU",
+    "comandaram": "TREINOU",
+    "coached": "TREINOU",
+    "coaches": "TREINOU",
+    "coach": "TREINOU",
+    "coaching": "TREINOU",
 }
 
 # Modais: expressam modalidade/possibilidade, não afirmam fato → nunca mapear.
@@ -223,6 +325,13 @@ KNOWN_VERB_LEMMAS = frozenset({
     "desenvolver", "implementar", "requerer", "precisar", "reconhecer",
     "identificar", "classificar", "prever", "detectar", "transformar", "combinar",
     "dividir", "analisar", "preservar", "teorizar",
+    # Verbos causais legítimos em DEFAULT_PREDICATES sem canônico claro → quarentena
+    # (flexões: o guard recebe a forma crua, não o infinitivo)
+    "causa", "causes", "causar", "resulta", "results", "resultar", "result",
+    # #045.1 — verbos esportivos legítimos sem mapeamento claro → quarentena
+    # (infinitivo + pretérito: o guard fallback recebe a forma flexionada crua)
+    "contratar", "contratou", "liderar", "liderou", "atuuar", "atuou", "marcar",
+    "pontuar", "campeoar", "assinar", "assinou", "transferir", "transferiu",
     # EN
     "be", "is", "are", "have", "has", "do", "make", "use", "utilize", "employ",
     "adopt", "create", "produce", "generate", "execute", "process", "connect",
@@ -232,6 +341,8 @@ KNOWN_VERB_LEMMAS = frozenset({
     "increase", "improve", "apply", "build", "develop", "implement", "require",
     "recognize", "identify", "classify", "predict", "detect", "transform",
     "combine", "divide", "analyze", "run", "support", "provide", "enable",
+    # #045.1 — EN sport verbs sem mapeamento claro → quarentena
+    "score", "scored", "captain", "captained", "sign", "signed", "transfer",
 })
 
 

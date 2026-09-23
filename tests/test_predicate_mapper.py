@@ -124,3 +124,80 @@ def test_reflexive_voice_maps_to_controlled():
     assert map_predicate("utiliza-se") == ("UTILIZA", "ok")
     assert validate_predicate("conecta-se a") == ("CONECTA_A", "ok")
     assert validate_predicate("utiliza-se") == ("UTILIZA", "ok")
+
+
+# --- #045.1 — vocabulário esportivo (lista fechada) -------------------------
+
+def test_sport_vocabulary_is_bounded_and_unique():
+    from src.cognition.predicate_mapper import EXTRA_PREDICATES
+    assert "DEFENDEU" in EXTRA_PREDICATES
+    assert "VENCEU" in EXTRA_PREDICATES
+    assert "LOCALIZADO_EM" in EXTRA_PREDICATES
+    assert "DISPUTOU" in EXTRA_PREDICATES
+    assert "TREINOU" in EXTRA_PREDICATES
+    assert len(CONTROLLED_PREDICATES) <= MAX_CONTROLLED_PREDICATES
+    assert len(set(CONTROLLED_PREDICATES)) == len(CONTROLLED_PREDICATES)
+
+
+def test_sport_verbs_map_to_controlled():
+    assert map_predicate("defendeu") == ("DEFENDEU", "ok")
+    assert map_predicate("jogou por") == ("DEFENDEU", "ok")
+    assert map_predicate("vestiu") == ("DEFENDEU", "ok")
+    assert map_predicate("venceu") == ("VENCEU", "ok")
+    assert map_predicate("conquistou") == ("VENCEU", "ok")
+    assert map_predicate("ganhou") == ("VENCEU", "ok")
+    assert map_predicate("fica em") == ("LOCALIZADO_EM", "ok")
+    assert map_predicate("localiza-se em") == ("LOCALIZADO_EM", "ok")
+    assert map_predicate("sediado em") == ("LOCALIZADO_EM", "ok")
+    assert map_predicate("disputou") == ("DISPUTOU", "ok")
+    assert map_predicate("participou") == ("DISPUTOU", "ok")
+    assert map_predicate("treinou") == ("TREINOU", "ok")
+    assert map_predicate("comandou") == ("TREINOU", "ok")
+
+
+def test_sport_verbs_en_map_to_controlled():
+    assert map_predicate("played for") == ("DEFENDEU", "ok")
+    assert map_predicate("joined") == ("DEFENDEU", "ok")
+    assert map_predicate("won") == ("VENCEU", "ok")
+    assert map_predicate("located in") == ("LOCALIZADO_EM", "ok")
+    assert map_predicate("competed") == ("DISPUTOU", "ok")
+    assert map_predicate("coached") == ("TREINOU", "ok")
+
+
+def test_guard_accepts_sport_verbs_and_default_predicates():
+    assert validate_predicate("defendeu") == ("DEFENDEU", "ok")
+    assert validate_predicate("jogou por") == ("DEFENDEU", "ok")
+    assert validate_predicate("foi") == ("SER", "ok")
+    assert validate_predicate("was") == ("SER", "ok")
+    assert validate_predicate("processa") == ("EXECUTA", "ok")
+    assert validate_predicate("connects") == ("CONECTA_A", "ok")
+
+
+def test_golden_cross_domain_sport_verbs_collapse_to_same_predicate():
+    # #045.1: mesma relação expressa por verbos/idiomas diferentes colapsa.
+    from src.cognition.triple_refiner import refine_triple_ex
+
+    a, reason_a = refine_triple_ex(
+        {"subject": "Pelé", "predicate": "defendeu", "object": "Santos FC"}
+    )
+    b, reason_b = refine_triple_ex(
+        {"subject": "Pelé", "predicate": "jogou por", "object": "Santos Futebol Clube"}
+    )
+    assert reason_a == "ok" and reason_b == "ok"
+    assert a["predicate"] == b["predicate"] == "DEFENDEU"
+    assert a["subject"] == b["subject"] == "PELE"
+
+    c, reason_c = refine_triple_ex(
+        {"subject": "Pele", "predicate": "played for", "object": "Santos FC"}
+    )
+    assert reason_c == "ok"
+    assert c["predicate"] == "DEFENDEU"
+
+
+def test_unmapped_sport_verbs_quarantine_as_unmapped_not_invalid():
+    # Verbos esportivos legítimos sem mapeamento claro → quarentena (#044/#045),
+    # nunca lixo (#043 invalid_predicate).
+    for verb in ("contratou", "liderou", "atuou", "scored", "captained", "causa", "resulta"):
+        canonical, reason = validate_predicate(verb)
+        assert canonical is None, verb
+        assert reason == "unmapped_predicate", (verb, reason)

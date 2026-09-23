@@ -17,7 +17,8 @@ o gargalo é **equivalência semântica entre fontes** — ver [`RESEARCH.md`](.
 ### Prioridade máxima (próximo ciclo)
 | # | Tarefa | Justificativa (evidência) |
 |---|---|---|
-| #047 | Aliasing curado de entidades | PT/EN geram triplas distintas do mesmo fato; `near_match.high=0` lexical → variação semântica |
+| — | Re-ingest controlado via worker pós-#045.1 | medir `verified_facts_domain_independent` (alvo ≥10 para gate de treino) |
+| #047 | Aliasing curado de entidades | PT/EN geram triplas distintas do mesmo fato; `near_match.high=0` lexical → variação semântica; pós-#045.1 restam `missing_entity=55` |
 | item 2 | Entity linking **diagnóstico** (sem promover fato) | medir `potential_verified_if_linking` antes de qualquer promoção |
 | — | Validador de span v2 (fatos borderline) | `OBJETIVO --APRENDE--> REGRA GERAL QUE MAPEIA` ainda passa no v1 |
 
@@ -46,6 +47,9 @@ o gargalo é **equivalência semântica entre fontes** — ver [`RESEARCH.md`](.
 | #052 | Contabilidade de ingest (`IngestAccounting`) | v1.13.0 | ✅ concluída |
 | #056 | Domain reputation determinística (allowlist curada) | v1.13.0 | ✅ concluída |
 | #048 | Clusters curados de domínios independentes (futebol) | v1.13.0 | ✅ concluída — resultado: gargalo é semântico |
+| #057 | Qualidade de extração: Cenário 3 medido | v1.13.0 | ✅ concluída |
+| #058 | Source productivity audit + URLs improdutivas | v1.13.0 | ✅ concluída — `invalid_predicate=303` dominante |
+| #045.1 | Expand Sport Predicate Vocabulary (lista fechada) | v1.13.0 | ✅ concluída — `invalid_predicate 303→0`, 279 testes |
 | #045 | (implícito) predicate mapper — reabrir só se `top_unmapped` voltar a ter verbos claros ≥3 | — | 🧊 aguardando métrica |
 | #053 | Independência editorial por publisher/eTLD+1 | dívida | 📌 backlog |
 | #054 | Ontologia temporal (`:Ano`/`:Periodo`, `OCORREU_EM`) | dívida | 📌 backlog |

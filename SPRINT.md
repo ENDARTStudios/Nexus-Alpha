@@ -704,3 +704,60 @@ de predicados não cobre verbos esportivos). Manifest anotado honestamente; URLs
 404/JS não foram forçadas. Próximo: `#045.1` (vocabulário esportivo) ou `#047`
 (aliasing — se o `#058` mudar a assinatura de candidatos).
 
+---
+
+## #045.1 — Expand Sport Predicate Vocabulary
+
+**Status:** ✅ concluída (código + testes + auditoria)
+
+### Por quê
+O `#058` mediu `invalid_predicate=303` como rejeição dominante. Diagnóstico:
+`DEFAULT_PREDICATES` (`foi`, `was`, `processa`, `causa`, `resulta`, …) e verbos
+esportivos (`defendeu`, `jogou por`, `venceu`, …) não tinham canônico → lixo.
+O guard rodava em fallback regex (spaCy indisponível em CI) e descartava tudo.
+
+### Regras de ouro (aprovadas pelo usuário)
+- **lista fechada** — nada de predicados novos vagos (`JOGOU_POR`,
+  `DISPUTOU_TITULO` proibidos); 5 novos canônicos: `DEFENDEU`, `VENCEU`,
+  `LOCALIZADO_EM`, `DISPUTOU`, `TREINOU` (vocabulário = 23 ≤ 30, únicos);
+- equívoco vago → cai em `unmapped_predicate` (quarentena `#044`), **nunca**
+  `invalid_predicate` (`#043`);
+- normalização prévia (lowercase, sem acentos) antes do lookup;
+- golden cross-domain obrigatório (verbos/idiomas distintos → mesmo canônico);
+- **não tocar**: quórum, embeddings, LLM, CI/CD, requirements, `app.py`,
+  `graph_connector.py`, `extractor.py`, seeds/clusters YAML.
+
+### Arquivos
+- `src/cognition/predicate_mapper.py` — `EXTRA_PREDICATES` +5, `EXTRA_MAP`
+  (verbos esportivos PT/EN + fix `foi|was→SER`, `processa→EXECUTA`,
+  `connects→CONECTA_A`), `KNOWN_VERB_LEMMAS` (flexões crua + esportivos
+  sem mapeamento → quarentena)
+- `tests/test_predicate_mapper.py` — 6 testes novos (vocabulário limitado,
+  verbos PT, verbos EN, guard, golden cross-domain via `refine_triple_ex`,
+  quarentena de ambíguos) → 20 no arquivo
+- `SPRINT.md`, `docs/TASKS.md` — registro
+
+### Não altera
+`extractor.py`, `canonicalizer.py`, `span_validator.py`, `triple_refiner.py`,
+`app.py`, `graph_connector.py`, `requirements*`, `.github/workflows/`,
+`llm_provider.py`, `src/training/`, Qdrant, seeds YAML.
+
+### DoD
+`python -m pytest -q` verde (**279**) · `git diff -- requirements-dev.txt
+.github/workflows/` vazio · golden cross-domain: `defendeu` e `jogou por` →
+`DEFENDEU` · vocabulário ≤30 únicos · métricas pós-#045.1 (auditoria
+read-only em `reports/source_productivity_audit_post045.json`):
+- `invalid_predicate`: **303 → 0** (redução 100%, alvo <50%) ✅
+- `canonical_triples`: **78 → 128** (↑64%) ✅
+- `football_hits`: **25 → 59** (↑136%) ✅
+- `quality`: productive 8→9, unproductive 10→9
+- restantes dominantes: `missing_entity=55`, `subject_generic=15`
+  (gargalo de entity linking → próximo issue)
+
+### Leitura
+O vocabulário fechado zerou `invalid_predicate` sem ampliar o espaço de
+predicados de forma ambígua. Verbos sem mapeamento claro (`contratou`,
+`liderou`, `causa`, `scored`) caem corretamente em quarentena. Próximo ciclo:
+re-ingest controlado via worker para medir `verified_facts_domain_independent`
+e avaliar o gate de treino; se divergência de entidades persistir → `#047`.
+
