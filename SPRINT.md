@@ -890,3 +890,63 @@ Aliases colapsam pares PT/EN limpos; boundary fix remove caudas verbais e
 conectivos antes do refino. Re-ingest controlado **somente depois** destes
 testes verdes — aí medir `verified_facts_domain_independent` e decidir gate.
 
+---
+
+## #058.3 — Cross-lingual extraction parity audit (read-only)
+
+**Status:** ✅ concluída (código + testes + relatório)
+
+### Por quê
+Re-ingest pós-#047 terminou em **Cenário C** (`duplicate_cross_domain=0`,
+`facts_with_two_or_more_domains=0`, `verified_facts_domain_independent=0`).
+Faltava evidência de **onde** a cadeia PT/EN diverge antes de virar tripla
+canônica partilhada: fetch, extração, refino, alias ou fallback
+`demo-memory`. Prioridade declarada: investigar fallback demo-memory primeiro.
+
+### Regras de ouro
+- read-only: sem Neo4j/Qdrant write, sem `/api/ingest`, sem reset, sem
+  promover fato, sem alterar quórum;
+- matriz de causa-raiz fechada (`extraction_absence | predicate_divergence |
+  entity_divergence | span_rejection | fallback_contamination |
+  true_content_difference`) com hint de próximo issue;
+- parser de log tolera mojibake do separador GH (`200 \xd4\xc7\xf6 {...}`);
+- self-check AST do script (sem caçar literais de marcador no próprio fonte);
+- **não tocar**: `app.py`, `graph_connector.py`, `worker_cycle.py`,
+  `predicate_mapper.py`, `span_validator.py`, `canonicalizer.py`,
+  `triple_refiner.py`, `entity_aliases.yaml`, seeds, workflows,
+  `requirements*`.
+
+### Arquivos
+- `src/cognition/extraction_parity_audit.py` — módulo puro (matriz, fold NFKD,
+  `parse_worker_ingest_log`, `classify_pair`, `build_parity_report`)
+- `scripts/audit_extraction_parity.py` — CLI read-only (`--log/--dry-run/
+  --no-graph/--out`), grafo SELECT-only, dry-run offline de extração
+- `tests/test_extraction_parity_audit.py` — 15 testes (matriz, log parse,
+  read-only AST, helpers)
+- `SPRINT.md`, `docs/TASKS.md`, `docs/TESTING.md` — registro
+
+### Resultado (relatório `reports/extraction_parity_pt_en_2026-09-24.json`)
+- 6 alvos, 12 fontes; PT e EN ambos com canônicas em **6/6**;
+- **0** colisões exatas, **1** near-collision (`near_collision_structural`);
+- causa-raiz: `entity_divergence=4`, `predicate_divergence=1`,
+  `true_content_difference=1`;
+- hints: `#047.1` ×4, `#045.2` ×1 (Pelé), `#055/#048.2/#065` ×1 (Santos);
+- **fallback log**: 2/30 `partial_success` + `db_status=demo-memory`
+  (`arxiv.org/abs/2303.08774`, `en.wikipedia.org/wiki/Pelé`),
+  `entities_processed=0`, `fallback_written_to_graph=false` →
+  `masked_extraction_failure=2`, prioridade **`high_#058.4`**
+  (não `#063`: nada foi gravado no grafo).
+
+### DoD
+`python -m pytest -q` verde (**325**, base 310) ·
+`git diff -- requirements-dev.txt .github/workflows/` vazio · staging explícito
+· mensagem `feat(observability): add cross-lingual extraction parity audit` ·
+relatório gerado · quórum 3 · sem treino · sem seeds alteradas.
+
+### Leitura / próximo issue
+Evidência apoia **`#058.4`** (extração EN mascarada por demo-memory) como
+prioridade de fallback; paralelamente **`#047.1`** (entity divergence em 4
+alvos) e **`#045.2`** (predicate divergence Pelé). Registrar dívida
+**`#064`** (concept reconciliation) sem executar. **Não treinar** até
+`verified_facts_domain_independent ≥ 10` + records ≥ 50.
+
