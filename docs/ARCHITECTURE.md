@@ -66,7 +66,7 @@ motivos de rejeição tipados (`ok`, `unmapped_predicate`, `invalid_predicate`,
 
 | Falha | Comportamento | Evidência no payload/métricas |
 |---|---|---|
-| Neo4j indisponível | ingest responde com persistência em memória | `db_status: "demo-memory"` |
+| Neo4j indisponível | ingest não grava; resposta `demo-memory` + `failed`/`degraded` (#058.4; flag `NEXUS_ALLOW_DEMO_FALLBACK` default `false`) | `db_status: "demo-memory"` |
 | Qdrant indisponível | vetores in-process | `vector_connector` fallback |
 | `/api/brain/episodes` sem grafo | leitura da memória volátil | campo `source: "volatile"` |
 | Fato sem quórum | **quarentena**, nunca descarte | `quarantine` em `/api/metrics` |

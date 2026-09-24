@@ -184,6 +184,18 @@ async def run_cycle() -> None:
                 "Resposta [%s]: %s — %s",
                 payload.get("source_url"), response.status_code, response.text,
             )
+            try:
+                body = response.json()
+                if isinstance(body, dict) and body.get("status") in {"degraded", "failed"}:
+                    logger.warning(
+                        "Ingest degradado [%s]: status=%s entities=%s masked=%s",
+                        payload.get("source_url"),
+                        body.get("status"),
+                        body.get("entities_processed"),
+                        body.get("masked_extraction_failure"),
+                    )
+            except Exception:
+                pass
             sent += 1
         logger.info("Ingestão concluída: %d fonte(s) enviada(s).", sent)
 

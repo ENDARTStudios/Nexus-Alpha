@@ -151,6 +151,20 @@ _extraction_stats = {
 _unmapped_predicates: "collections.Counter[str]" = collections.Counter()
 _invalid_predicates: "collections.Counter[str]" = collections.Counter()
 
+_fallback_stats = {
+    "demo_memory_events": 0,
+    "masked_extraction_failures": 0,
+    "fallback_promoted_to_graph": 0,
+    "sources_with_zero_entities": 0,
+}
+
+
+def _demo_fallback_allowed() -> bool:
+    """NEXUS_ALLOW_DEMO_FALLBACK: default false (produção)."""
+    raw = os.environ.get("NEXUS_ALLOW_DEMO_FALLBACK", "").strip().lower()
+    return raw in {"1", "true", "yes", "on"}
+
+
 _INVALID_REASONS = {
     "numeric_predicate",
     "url_or_code_predicate",
@@ -381,6 +395,15 @@ async def metrics() -> dict:
             "cross_source_matches": snapshot.get("cross_source", 0),
             "potential_verified_before_quorum": snapshot.get("cross_source", 0),
             "verified_facts": snapshot["verified"],
+            "fallback_events": _fallback_stats["demo_memory_events"],
+            "masked_extraction_failures": _fallback_stats["masked_extraction_failures"],
+        },
+        "fallback_health": {
+            "demo_memory_events": _fallback_stats["demo_memory_events"],
+            "masked_extraction_failures": _fallback_stats["masked_extraction_failures"],
+            "fallback_promoted_to_graph": _fallback_stats["fallback_promoted_to_graph"],
+            "sources_with_zero_entities": _fallback_stats["sources_with_zero_entities"],
+            "allow_demo_fallback": _demo_fallback_allowed(),
         },
         "verification": {
             "quorum": graph.verify_quorum,
@@ -446,58 +469,102 @@ async def ingest_data(
         logger.warning("Neo4j indisponível (%s) — modo demo em memória.", exc)
         success = False
 
-    vectors_indexed = 0
-    try:
-        from src.cognition.embeddings import hash_embedding
+    entities_processed = len(refined_entities)
+    demo_fallback = not success
+    allow_demo = _demo_fallback_allowed()
+    masked_failure = demo_fallback and entities_processed == 0
 
-        text = " ".join(
-            f"{e['subject']} {e['predicate']} {e['object']}"
-            for e in refined_entities
-        ) or (payload.title or payload.source_url)
-        vector_db = get_vector_connector()
-        vector = hash_embedding(text, vector_db.embedding_dim)
-        point_id = int(
-            hashlib.sha256(f"{payload.source_url}:{payload.timestamp}".encode()).hexdigest()[:8],
-            16,
-        ) % (10 ** 8)
-        if vector_db.store_memory(
-            point_id=point_id,
-            vector=vector,
-            payload={"text": text, "url": payload.source_url, "title": payload.title},
-        ):
-            vectors_indexed = 1
-    except Exception as exc:
-        logger.warning("Memória vetorial indisponível (%s) — ingestão apenas no grafo.", exc)
+    if demo_fallback:
+        _fallback_stats["demo_memory_events"] += 1
+    if entities_processed == 0:
+        _fallback_stats["sources_with_zero_entities"] += 1
+    if masked_failure:
+        _fallback_stats["masked_extraction_failures"] += 1
+
+    vectors_indexed = 0
+    if success:
+        try:
+            from src.cognition.embeddings import hash_embedding
+
+            text = " ".join(
+                f"{e['subject']} {e['predicate']} {e['object']}"
+                for e in refined_entities
+            ) or (payload.title or payload.source_url)
+            vector_db = get_vector_connector()
+            vector = hash_embedding(text, vector_db.embedding_dim)
+            point_id = int(
+                hashlib.sha256(f"{payload.source_url}:{payload.timestamp}".encode()).hexdigest()[:8],
+                16,
+            ) % (10 ** 8)
+            if vector_db.store_memory(
+                point_id=point_id,
+                vector=vector,
+                payload={"text": text, "url": payload.source_url, "title": payload.title},
+            ):
+                vectors_indexed = 1
+        except Exception as exc:
+            logger.warning("Memória vetorial indisponível (%s) — ingestão apenas no grafo.", exc)
 
     db_status = "cluster-active" if success else "demo-memory"
     verified = await get_graph_connector().count_verified()
-    try:
-        brain = get_brain()
-        brain.record_episode(
-            "ingest",
-            {
-                "source_url": payload.source_url,
-                "extracted_entities": payload_dict["extracted_entities"],
-            },
+
+    if success:
+        status = "success"
+        message = "Dados processados e inseridos no Neo4j AuraDB real."
+    elif not allow_demo:
+        # Produção: fallback demo não é aceito como sucesso silencioso (#058.4).
+        status = "failed"
+        if entities_processed == 0:
+            message = (
+                "Extração sem entidades e fallback demo-memory desabilitado "
+                "(NEXUS_ALLOW_DEMO_FALLBACK=false)."
+            )
+        else:
+            message = (
+                "Neo4j indisponível e fallback demo-memory desabilitado "
+                "(NEXUS_ALLOW_DEMO_FALLBACK=false)."
+            )
+    elif entities_processed == 0:
+        # Nunca partial_success com entities=0 (#058.4 — masked extraction failure).
+        status = "degraded"
+        message = (
+            "Fallback demo-memory sem entidades extraídas "
+            "(NEXUS_ALLOW_DEMO_FALLBACK=true)."
         )
-        episode_payloads = brain.episode_payloads(
-            payload_dict["extracted_entities"], payload.source_url
+    else:
+        status = "partial_success"
+        message = (
+            "Dados retidos em quarentena local devido a indisponibilidade "
+            "temporária do Neo4j."
         )
-        if episode_payloads:
-            await get_graph_connector().persist_episodes(episode_payloads)
-    except Exception as exc:
-        logger.warning("Falha ao registrar episódio no hipocampo: %s", exc)
+
+    if success:
+        try:
+            brain = get_brain()
+            brain.record_episode(
+                "ingest",
+                {
+                    "source_url": payload.source_url,
+                    "extracted_entities": payload_dict["extracted_entities"],
+                },
+            )
+            episode_payloads = brain.episode_payloads(
+                payload_dict["extracted_entities"], payload.source_url
+            )
+            if episode_payloads:
+                await get_graph_connector().persist_episodes(episode_payloads)
+        except Exception as exc:
+            logger.warning("Falha ao registrar episódio no hipocampo: %s", exc)
+
     return {
-        "status": "success" if success else "partial_success",
-        "message": (
-            "Dados processados e inseridos no Neo4j AuraDB real."
-            if success
-            else "Dados retidos em quarentena local devido a indisponibilidade temporária do Neo4j."
-        ),
+        "status": status,
+        "message": message,
         "db_status": db_status,
-        "entities_processed": len(refined_entities),
+        "entities_processed": entities_processed,
         "vectors_indexed": vectors_indexed,
         "verified_facts": verified,
+        "masked_extraction_failure": masked_failure,
+        "allow_demo_fallback": allow_demo,
     }
 
 

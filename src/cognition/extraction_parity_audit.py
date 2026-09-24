@@ -372,6 +372,7 @@ def parse_worker_ingest_log(text: str) -> dict[str, dict[str, Any]]:
                 "raw_triples": None,
                 "canonical_triples": None,
                 "notes": "",
+                "masked_extraction_failure": False,
             },
         )
         entry["fetch_status"] = code
@@ -385,7 +386,14 @@ def parse_worker_ingest_log(text: str) -> dict[str, dict[str, Any]]:
         entry["db_status"] = str(body.get("db_status") or "")
         if body.get("entities_processed") is not None:
             entry["entities_processed"] = int(body.get("entities_processed") or 0)
-        if entry["db_status"] == "demo-memory" or entry["ingest_status"] == "partial_success":
+        if body.get("masked_extraction_failure") is not None:
+            entry["masked_extraction_failure"] = bool(body.get("masked_extraction_failure"))
+        fallback_statuses = {"partial_success", "degraded", "failed"}
+        if (
+            entry["db_status"] == "demo-memory"
+            or entry["ingest_status"] in fallback_statuses
+            or entry.get("masked_extraction_failure")
+        ):
             entry["fallback_used"] = True
             entry["fallback_type"] = "demo-memory"
             # Escrita no grafo exige refined entities + cluster-active.
@@ -424,6 +432,7 @@ def parse_worker_ingest_log(text: str) -> dict[str, dict[str, Any]]:
                 "raw_triples": None,
                 "canonical_triples": None,
                 "notes": "",
+                "masked_extraction_failure": False,
             },
         )
         entry["quality"] = str(body.get("quality") or "")

@@ -10,7 +10,7 @@ sem quórum vai para quarentena, não para o lixo.
 
 | Falha | Comportamento | Sinal observável |
 |---|---|---|
-| Neo4j indisponível | ingest continua com persistência em memória | `db_status: "demo-memory"` na resposta |
+| Neo4j indisponível | ingest não grava; status `failed` (default) ou `degraded`/`partial_success` se `NEXUS_ALLOW_DEMO_FALLBACK=true` | `db_status: "demo-memory"` na resposta; nunca `partial_success` com `entities=0` (#058.4) |
 | Qdrant indisponível | vetores em memória (in-process) | `vector_connector` em modo fallback |
 | `/api/brain/episodes` sem grafo | leitura da memória volátil | `source: "volatile"` |
 | spaCy ausente/falhou | extração heurística (`extractor.py`) | worker segue; CI roda sem spaCy |

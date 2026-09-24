@@ -22,7 +22,11 @@ Agregado de observabilidade. Blocos (detalhes em [`ANALYTICS.md`](./ANALYTICS.md
 `cognitive_health` (`episodic_persistence_rate`, `hebbian_consistency_check`,
 `retention_pressure`) · `extraction_quality` (`rejection_reasons`,
 `top_unmapped_predicates`, `top_invalid_predicates`,
-`duplicate_canonical_triples` legado) · `verification` (`quorum`,
+`duplicate_canonical_triples` legado, `fallback_events`,
+`masked_extraction_failures`) · `fallback_health` (`demo_memory_events`,
+`masked_extraction_failures`, `fallback_promoted_to_graph`,
+`sources_with_zero_entities`, `allow_demo_fallback`; #058.4) ·
+`verification` (`quorum`,
 `facts_with_multi_domain`, `max_domain_confirmations`,
 `verified_facts_domain_independent`) · `ingestion_accounting` (`raw_triples`,
 `canonical_triples`, `distinct_canonical_keys`, `duplicate_*`,
@@ -36,8 +40,12 @@ Agregado de observabilidade. Blocos (detalhes em [`ANALYTICS.md`](./ANALYTICS.md
 `source_url`, `timestamp`, `domain_score`, `extracted_entities[]`) →
 `refine_triple` determinístico → grafo/quarentena.
 - `interceptor.py`: payload > 1MB → rejeitado; brute-force > 10 → bloqueado.
-- Degradação: sem Neo4j responde com `db_status: "demo-memory"`.
-- Resposta inclui contadores de ingest da requisição.
+- Degradação: sem Neo4j responde com `db_status: "demo-memory"`; **nunca**
+  `partial_success` com `entities_processed=0` (#058.4) — status vira
+  `degraded` (se `NEXUS_ALLOW_DEMO_FALLBACK=true`) ou `failed` (default
+  produção). Flag `NEXUS_ALLOW_DEMO_FALLBACK` default `false`.
+- Resposta inclui contadores de ingest da requisição e
+  `masked_extraction_failure` / `allow_demo_fallback`.
 
 ### `POST /api/extract`
 Extração canônica de triplas a partir de texto (usa

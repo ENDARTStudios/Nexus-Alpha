@@ -148,7 +148,7 @@ def test_metrics_endpoint(monkeypatch):
     assert health["retention_pressure"] == "low"
 
     quality = body["extraction_quality"]
-    assert set(quality) == {
+    assert set(quality) >= {
         "raw_triples",
         "canonical_triples",
         "rejected_noise",
@@ -160,6 +160,16 @@ def test_metrics_endpoint(monkeypatch):
         "cross_source_matches",
         "potential_verified_before_quorum",
         "verified_facts",
+        "fallback_events",
+        "masked_extraction_failures",
+    }
+    assert "fallback_health" in body
+    assert set(body["fallback_health"]) >= {
+        "demo_memory_events",
+        "masked_extraction_failures",
+        "fallback_promoted_to_graph",
+        "sources_with_zero_entities",
+        "allow_demo_fallback",
     }
     assert quality["cross_source_matches"] == 4
     assert quality["verified_facts"] == 2

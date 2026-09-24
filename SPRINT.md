@@ -950,3 +950,38 @@ alvos) e **`#045.2`** (predicate divergence Pelé). Registrar dívida
 **`#064`** (concept reconciliation) sem executar. **Não treinar** até
 `verified_facts_domain_independent ≥ 10` + records ≥ 50.
 
+## #058.4 — Fallback transparency (status honesto + métricas)
+
+**Status:** ✅ concluída (código + testes + docs)
+
+### Por quê
+Parity audit (#058.3) mostrou 2/30 ingestões com `partial_success` +
+`db_status=demo-memory` + `entities_processed=0` — falha de extração mascarada
+como sucesso parcial. Invariante: fallback nunca grava `:Fato`/vetor/quórum e
+nunca reporta `partial_success` com 0 entidades.
+
+### Escopo
+- `app.py`: status `degraded` (flag on) / `failed` (default) para demo+entities=0;
+  nunca `partial_success` nesse caso; flag `NEXUS_ALLOW_DEMO_FALLBACK` default
+  `false`; métricas `fallback_health` + `extraction_quality.fallback_events/
+  masked_extraction_failures`; resposta expõe `masked_extraction_failure` e
+  `allow_demo_fallback`; vetor/episódio só gravam se `success`.
+- `extraction_parity_audit.py`: parser reconhece `degraded`/`failed` e
+  `masked_extraction_failure` no corpo da resposta.
+- `worker_cycle.py`: warning log em status `degraded`/`failed`.
+- `tests/test_fallback_transparency.py`: 6 casos (status, invariantes de
+  escrita, flag, métricas, anti-leak, caminho saudável).
+- Docs: `ANALYTICS.md`, `API.md`, `TESTING.md`, `ERROR_HANDLING.md`,
+  `ARCHITECTURE.md`, `TASKS.md`.
+
+### DoD
+`python -m pytest -q` verde · `git diff -- requirements-dev.txt
+.github/workflows/` vazio · staging explícito · mensagem
+`fix(observability): surface demo-memory fallback as masked extraction failure`
+· quórum 3 · sem treino · sem seeds alteradas · sem `git add -A`.
+
+### Fora de escopo
+`predicate_mapper.py`, `canonicalizer.py`, `span_validator.py`,
+`entity_aliases.yaml`, `config/seed_clusters.yaml`, `src/training/`, workflows,
+`requirements-dev.txt`.
+

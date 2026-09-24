@@ -59,10 +59,27 @@ Wikipedia = 4) — métrica corrigida para host/distrito.
 | `top_unmapped_predicates` | verbos legítimos fora do vocabulário — alimenta #044/#045 |
 | `top_invalid_predicates` | lixo não-verbal — deve tender a vazio (guard #043) |
 | `duplicate_canonical_triples` | dedup intra-payload (legado, preservado) |
+| `fallback_events` | ingestões que caíram em `demo-memory` (#058.4) |
+| `masked_extraction_failures` | fallback com `entities_processed=0` — nunca `partial_success` (#058.4) |
 
 Interpretação (histórico): `top_invalid` vazio + rejeitados verbos legítimos ⇒
 gargalo não é vocabulário; `top_unmapped` sem verbo recorrente (≥3) ⇒ não é
 predicate mapper.
+
+## 4b. `fallback_health` — o fallback demo está honesto? (#058.4)
+
+| Métrica | Definição | Alvo |
+|---|---|---|
+| `demo_memory_events` | ingestões com `db_status=demo-memory` | investigar se > 0 em produção |
+| `masked_extraction_failures` | demo + `entities=0` (extração mascarada) | **0** em produção |
+| `fallback_promoted_to_graph` | fallback que gravou `:Fato`/vínculo | **0** (contaminação = bug) |
+| `sources_with_zero_entities` | payloads sem entidade canônica após refino | tender a 0 |
+| `allow_demo_fallback` | flag `NEXUS_ALLOW_DEMO_FALLBACK` (default `false`) | `false` em produção |
+
+**Decisão associada:** `masked_extraction_failures > 0` ⇒ status da resposta é
+`degraded`/`failed` (nunca `partial_success`); investigar extração antes de
+re-ingest. Flag `NEXUS_ALLOW_DEMO_FALLBACK=true` só em dev/local — em produção
+o fallback vira `failed` e não grava vetor/episódio.
 
 ## 5. `quarantine`
 

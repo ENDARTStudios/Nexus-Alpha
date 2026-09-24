@@ -20,7 +20,7 @@ python -m pytest tests/test_predicate_mapper.py -v   # arquivo específico
 | Cognition | `test_cognition.py`, `test_nlp_extractor.py`, `test_extractor.py`, `test_predicate_mapper.py`, `test_triple_refiner.py`, `test_canonicalizer.py`, `test_span_validator.py`, `test_extraction_equivalence.py`, `test_entity_aliasing.py`, `test_boundary_fix.py`, `test_entity_resolver.py`, `test_llm_extractor.py`, `test_reasoning_engine.py`, `test_rag*`/`test_graph_rag.py`, `test_chat_service.py`, `test_cross_source_audit*.py`, `test_inspect_cross_lingual_divergence.py`, `test_extraction_parity_audit.py` | golden tests determinísticos (ex.: `usa`/`UTILIZA`→`UTILIZA`, `conecta-se a`→`CONECTA_A`, aliases #047 PT/EN → canônico curado; #058.3 matriz de paridade PT/EN) |
 | Database/Memory | `test_graph_connector.py`, `test_vector.py`, `test_memory.py`, `test_brain_memory.py`, `test_graph_topology.py`, `test_embeddings.py` | fakes de Neo4j/Qdrant; idempotência `fact_hash+day` |
 | Security | `test_triangulation.py`, `test_security_sanitizer.py`, `test_proxy.py`, `test_rate_limiter.py`, `test_quarantine.py` | inclui anti-leak (nenhum segredo em saídas) |
-| API/Integração | `test_main.py`, `test_chat_api.py`, `test_ingest_accounting.py` | degradação offline incluída (`demo-memory`) |
+| API/Integração | `test_main.py`, `test_chat_api.py`, `test_ingest_accounting.py`, `test_fallback_transparency.py` | degradação offline incluída (`demo-memory`); #058.4: status `degraded`/`failed`, nunca `partial_success` com `entities=0` |
 | Simulation | `test_simulation.py` | determinismo por seed |
 | Training (opt-in) | `test_training_sft.py` | **sem** torch/llamafactory |
 
@@ -31,7 +31,9 @@ python -m pytest tests/test_predicate_mapper.py -v   # arquivo específico
 2. **Caminho de erro**: cada handler tem teste (quarentena, payload >1MB,
    rate limit, brute-force).
 3. **Degradação**: sem Neo4j/Qdrant/spaCy o comportamento é definido e
-   testado (`db_status: "demo-memory"`, `source: "volatile"`).
+   testado (`db_status: "demo-memory"`, `source: "volatile"`). Fallback com
+   `entities=0` reporta `degraded`/`failed` (nunca `partial_success`) —
+   `test_fallback_transparency.py` (#058.4).
 4. **Anti-leak**: nenhum teste imprime/persiste segredo; `test_ingest_accounting.py`
    e `test_seed_clusters.py` carregam o padrão.
 5. **Estrutural de config**: seeds/allowlists validadas por teste antes de

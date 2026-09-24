@@ -262,6 +262,34 @@ def test_classify_log_fallback_contamination_when_written():
     assert analysis["priority"] == "high"
 
 
+def test_parse_worker_log_detects_degraded_and_failed_status():
+    """#058.4 — parser reconhece status novos degraded/failed sem gravação."""
+    log = (
+        "INFO:nexus.worker:Resposta [https://en.wikipedia.org/wiki/Pel%C3%A9]: 200 — "
+        '{"status":"failed","message":"x","db_status":"demo-memory",'
+        '"entities_processed":0,"vectors_indexed":0,"verified_facts":0,'
+        '"masked_extraction_failure":true,"allow_demo_fallback":false}\n'
+        "INFO:nexus.worker:Resposta [https://arxiv.org/abs/2303.08774]: 200 — "
+        '{"status":"degraded","message":"y","db_status":"demo-memory",'
+        '"entities_processed":0,"vectors_indexed":0,"verified_facts":0,'
+        '"masked_extraction_failure":true,"allow_demo_fallback":true}\n'
+    )
+    entries = parse_worker_ingest_log(log)
+    for url in (
+        "https://en.wikipedia.org/wiki/Pel%C3%A9",
+        "https://arxiv.org/abs/2303.08774",
+    ):
+        assert url in entries
+        entry = entries[url]
+        assert entry["fallback_used"] is True
+        assert entry["masked_extraction_failure"] is True
+        assert entry["fallback_written_to_graph"] is False
+        analysis = classify_log_fallback(entry)
+        assert analysis["masked_extraction_failure"] is True
+        assert analysis["priority"] == "high"
+        assert analysis["next_issue_hint"] == "#058.4"
+
+
 def test_build_parity_report_summary_counts():
     report = build_parity_report(
         [
