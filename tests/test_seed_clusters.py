@@ -57,6 +57,33 @@ def test_manifest_text_has_no_secret_markers():
         assert marker not in text, marker
 
 
+def test_garrincha_botafogo_has_productive_en_source():
+    """#048.4 — cluster Botafogo cobre EN canônica produtiva (validada offline)."""
+    cluster = next(
+        (c for c in _data()["clusters"] if c["id"] == "garrincha_botafogo"),
+        None,
+    )
+    assert cluster is not None
+    urls = [s["url"] for s in cluster["sources"]]
+    assert "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas" in urls
+    en = next(s for s in cluster["sources"] if s["domain"] == "en.wikipedia.org" and "Botafogo" in s["url"])
+    assert en["domain"] == "en.wikipedia.org"
+    assert en["publisher"] == "Wikimedia"
+    domains = {s["domain"] for s in cluster["sources"]}
+    publishers = {s["publisher"] for s in cluster["sources"]}
+    assert len(domains) >= 3
+    assert len(publishers) >= 2
+    assert any("wikipedia" not in p.lower() for p in publishers)
+    assert len(urls) == len(set(urls))
+
+
+def test_no_seed_references_stale_botafogo_404_url():
+    """#048.3/#048.4 — URL EN 404 histórica não pode voltar ao manifesto."""
+    text = MANIFEST.read_text(encoding="utf-8")
+    assert "Botafogo_F.C._%28Rio_de_Janeiro%29" not in text
+    assert "Botafogo_F.C._(Rio_de_Janeiro)" not in text
+
+
 def _base_cluster(**over):
     cluster = {
         "id": "c1", "topic": "t",

@@ -1262,3 +1262,54 @@ quórum 3 · sem treino · sem seeds alteradas · sem `git add -A`.
 `app.py`, `graph_connector.py`, `worker_cycle.py`, `requirements-dev.txt`,
 workflows.
 
+## #048.4 — Add productive EN Botafogo source to cluster
+
+**Status:** ✅ concluída (corpus; 1 item = 1 commit)
+
+### Por quê
+O cluster `garrincha_botafogo` não tinha página EN dedicada ao Botafogo —
+sem ela, o pipeline não extrai fatos EN do Botafogo para colapsar com os
+fatos PT, e o aliasing do #047 fica subutilizado. #048.3 corrigiu os
+alvos de auditoria; este issue completa a cobertura de fonte no manifest.
+
+### Escopo
+- `config/seed_clusters.yaml`: nova fonte em `garrincha_botafogo` —
+  `https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas`
+  (domain `en.wikipedia.org`, publisher `Wikimedia`, `productive`).
+- `tests/test_seed_clusters.py`: 2 testes novos — fonte EN canônica
+  presente + ausência da URL 404 histórica no manifesto.
+- Não tocar: scripts de auditoria (#048.3), `worker_cycle.py`, `app.py`,
+  workflows, `requirements-dev.txt`.
+
+### Evidência (validação offline #048.3/#058.5)
+HTTP 200 · `cleaned=41234` · `sentences=325/172` · `raw_triples=15` ·
+`canonical_triples=10` · não-404.
+
+### Estado do cluster após #048.4
+```text
+domínios: pt.wikipedia.org, en.wikipedia.org, botafogo.com.br (3 ✓)
+publishers: Wikimedia, Botafogo (2 ✓, 1 fora de wiki ✓)
+URLs: 5, únicas, todas HTTPS
+```
+Domínio EN já existia (Garrincha EN) → **não é domínio novo**, é mais
+uma fonte no mesmo domínio. `en.wikipedia.org` não conta como terceiro
+domínio independente.
+
+### DoD
+`python -m pytest -q` verde (366) · `git diff -- requirements-dev.txt
+.github/workflows/` vazio · manifesto contém a URL EN no cluster ·
+validator sem erros · staging explícito · mensagem
+`feat(seeds): add productive EN Botafogo source to garrincha_botafogo cluster` ·
+quórum 3 · sem treino · sem `git add -A`.
+
+### Fora de escopo
+Scripts de auditoria (já fechados em #048.3), `worker_cycle.py`,
+`app.py`, `entity_aliases.yaml`, `predicate_mapper.py`, workflows,
+`requirements-dev.txt`.
+
+### Expectativa (pós-re-ingest único)
+Sucesso mínimo: `duplicate_cross_domain > 0` (PT/EN Botafogo colapsam).
+`verified_facts_domain_independent` provavelmente continua 0 (falta
+terceira fonte não-wiki produtiva — `botafogo.com.br` é `weak`).
+**Gate de treino continua fechado. Não treinar.**
+

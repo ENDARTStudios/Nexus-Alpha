@@ -85,6 +85,10 @@ clusters:
         domain: pt.wikipedia.org
         publisher: Wikimedia
         productivity: productive  # 9 triplas, 8 football verbs — reforço do cluster (#058)
+      - url: https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # 200, raw 15, canon 10 — validado offline (#048.4)
       - url: https://www.botafogo.com.br/
         domain: botafogo.com.br
         publisher: Botafogo
