@@ -974,6 +974,12 @@ nunca reporta `partial_success` com 0 entidades.
 - Docs: `ANALYTICS.md`, `API.md`, `TESTING.md`, `ERROR_HANDLING.md`,
   `ARCHITECTURE.md`, `TASKS.md`.
 
+### DoD
+`python -m pytest -q` verde · `git diff -- requirements-dev.txt
+.github/workflows/` vazio · staging explícito · mensagem
+`fix(observability): surface demo-memory fallback as masked extraction failure`
+· quórum 3 · sem treino · sem seeds alteradas · sem `git add -A`.
+
 ## #047.1 — Expand curated entity aliases (evidência parity #058.3)
 
 **Status:** ✅ concluída (código + testes + docs)
@@ -1047,11 +1053,94 @@ Deploy único no Space → re-ingest controlado único → rerun parity +
 cross-source → classificar cenário A–E. **Não treinar. Não ampliar
 seeds. Não abrir #064.**
 
+---
+
+## Tríade pós-#058.4 — re-ingest controlado + rerun parity + classificação
+
+**Status:** ✅ executada (deploy único + 1 re-ingest + audits read-only)
+
+### Execução
+- Baseline: `reports/baseline_pre_triade_058.json` — 124 fatos,
+  `verified_facts_domain_independent=0`, `duplicate_cross_domain=0`.
+- Backup: `reports/aura_snapshot_pre_triade_058.json`.
+- Reset: `scripts/reset_fatos_047.py --confirm` — Fatos 124→0;
+  Conceito/FonteWeb/Episódio preservados.
+- Deploy Space (após `b2db8ee` + `48c9e2a`); `/health` 200;
+  `fallback_health` + `allow_demo_fallback=false` (#058.4).
+- Worker local: 40 URLs mineradas, 32 fontes ingeridas;
+  `status=failed` + `masked_extraction_failure=true` em extrações
+  vazias (arxiv, nist, ge.globo) — nunca `partial_success`.
+- Pós-re-ingest: **266 fatos** (124→266), Conceito 1674, Episódio 1553,
+  FonteWeb 35; `facts_with_two_or_more_domains=0`;
+  `verified_facts_domain_independent=0`; `duplicate_cross_domain=0`;
+  `facts_with_two_or_more_confirmations=3` (mesmo domínio).
+- Cross-source: `exact_cross_source_matches=0`; `true_unique=266`;
+  near_matches 0/0/0.
+
+### Rerun parity (parâmetros corretos)
+Primeiro artefato `extraction_parity_triade_058.json` usou defaults
+stale (`build_space_commit=5eb6931`, log antigo, sem `--dry-run`) —
+descartado. Rerun oficial:
+
+```text
+python scripts/audit_extraction_parity.py \
+  --log reports/worker_cycle_triade_058.log \
+  --worker-run-id triade-058 --build-space-commit 48c9e2a --dry-run \
+  --out reports/extraction_parity_triade_058_rerun.json
+```
+
+| Métrica | Baseline #058.3 | Pós-tríade |
+|---|---|---|
+| causa `entity_divergence` | 4 | **6** |
+| causa `predicate_divergence` | 1 | **0** |
+| causa `true_content_difference` | 1 | **0** |
+| near_collision | 1 | **4** |
+| exact collision | 0 | 0 |
+| fallback_used_targets | 1 | **0** |
+| hints | #047.1×4, #045.2×1, #055…×1 | **#047.1×6** |
+
+Por alvo: Pelé `predicate_divergence→near_collision_structural`
+(#045.2 fechou); Garrincha/Estádio/São Paulo →
+`near_collision_structural`; Santos `no_shared_surface→
+entity_divergence` (predicados partilhados); Botafogo permanece
+`entity_divergence` (EN `raw=1` — extração EN quase vazia).
+
+### Classificação de cenário: **B**
+
+- **A** (aliases resolveram): **não** — 0 colisões exatas,
+  0 fatos multi-domínio.
+- **B** (`entity_divergence` restante → `#047.2`): **SIM — cenário
+  dominante** (6/6 alvos, hint `#047.1`).
+- **C** (`predicate_divergence` → `#045.3`): **fechado** pelo #045.2
+  (1→0).
+- **D** (`true_content_difference` → `#055/#048.2/#065`): **saiu do
+  mapa** no rerun (Santos agora `entity_divergence`); dívida de
+  conteúdo permanece em backlog, sem hint ativo.
+- **E** (`masked>0` → #058.4): **fechado** — worker reporta
+  `failed`+`masked=true` (nunca `partial_success`); sem contaminação
+  no grafo (`fallback_written_to_graph=false`).
+
+### Gate de treino
+`verified_facts_domain_independent=0` +
+`facts_with_two_or_more_domains=0` → **permanece fechado**.
+**Não treinar. Não ampliar seeds. Não abrir #064.**
+
 ### DoD
-`python -m pytest -q` verde · `git diff -- requirements-dev.txt
-.github/workflows/` vazio · staging explícito · mensagem
-`fix(observability): surface demo-memory fallback as masked extraction failure`
-· quórum 3 · sem treino · sem seeds alteradas · sem `git add -A`.
+Parity rerun gerado · cross-source gerado · pós-re-ingest gerado ·
+341 testes verdes · `git diff -- requirements-dev.txt
+.github/workflows/` vazio · seeds intactas · staging explícito ·
+relatórios em `reports/` (gitignored).
+
+### Leitura / próximo issue (decisão do usuário)
+Cenário **B** com resíduo estrutural: aliases #047.1 melhoram
+`near_collision` (1→4) mas **não** produzem `fact_hash` cruzado —
+sujeitos canônicos são em sua maioria frases genéricas
+(`CLUBE`, `TIME SANTISTA`, `STRIKER`), não o nome da entidade.
+Botafogo EN com `raw_triples=1` sugere extração EN quase vazia.
+Opções: **`#047.2`** (nova rodada de aliases/evidência) ·
+investigar extração EN Botafogo · entity linking diagnóstico ·
+ou encerrar ciclo e reavaliar após mais ciclos de worker.
+**Não treinar até ≥10 verified + records ≥50.**
 
 ### Fora de escopo
 `predicate_mapper.py`, `canonicalizer.py`, `span_validator.py`,

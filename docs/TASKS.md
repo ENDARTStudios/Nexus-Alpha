@@ -22,6 +22,7 @@ o gargalo é **equivalência semântica entre fontes** — ver [`RESEARCH.md`](.
 | — | **#058.4** fallback transparency | ✅ **concluída** — status `degraded`/`failed` nunca `partial_success` com `entities=0`; `fallback_health`; flag default false |
 | — | **#047.1** Expand curated entity aliases | ✅ **concluída** — `evidence` em toda entrada; alvos `entity_divergence` ×4; cidade≠clube SP; negativos rigorosos |
 | — | **#045.2** Expand predicate mapper (Pelé) | ✅ **concluída** — `play for`→`DEFENDEU`; golden `fact_hash` PT/EN Pelé; modais rejeitados |
+| — | Tríade pós-#058.4 (re-ingest + rerun parity) | ✅ **Cenário B** — 266 fatos; `predicate_divergence 1→0`; near_collision 1→4; exact 0; `verified=0` (gate fechado); hint `#047.1`×6 |
 | #047 | Aliasing curado de entidades | ✅ **concluída** — dicionário bilíngue + boundary fix extractor; goldens cross-lingual verdes |
 | item 2 | Entity linking **diagnóstico** (sem promover fato) | medir `potential_verified_if_linking` antes de qualquer promoção |
 | — | ~~Validador de span v2~~ | ✅ **#058.2** — fragmentos H3 rejeitados; residual boundary fechado em **#047** |
@@ -60,6 +61,7 @@ o gargalo é **equivalência semântica entre fontes** — ver [`RESEARCH.md`](.
 | #058.4 | Fallback transparency (status honesto + `fallback_health`) | v1.13.0 | ✅ concluída — nunca `partial_success` com `entities=0`; flag `NEXUS_ALLOW_DEMO_FALLBACK` default false; métricas #058.4 |
 | #047.1 | Expand curated entity aliases (evidência parity) | v1.13.0 | ✅ concluída — `evidence` + variantes dos 4 alvos `entity_divergence`; cidade/clube SP separados |
 | #045.2 | Expand predicate mapper (Pelé PT/EN) | v1.13.0 | ✅ concluída — `play for`→`DEFENDEU`; golden `fact_hash` Pelé; sem `represented` (conflito `representa`→`SER`) |
+| — | Tríade re-ingest + parity rerun + cenário | v1.13.0 | ✅ **Cenário B** — 266 fatos; #045.2 fechou predicate; #058.4 fechou masked; entity_divergence 6/6 → decisão `#047.2` vs outra via |
 | #064 | Concept reconciliation (dívida pós-#058.3) | dívida | 📌 backlog — registrar; **não executar** até evidência adicional |
 | #045 | (implícito) predicate mapper — reabrir só se `top_unmapped` voltar a ter verbos claros ≥3 | — | 🧊 aguardando métrica |
 | #053 | Independência editorial por publisher/eTLD+1 | dívida | 📌 backlog |
