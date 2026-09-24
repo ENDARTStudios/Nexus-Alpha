@@ -185,13 +185,17 @@ def test_golden_cross_domain_sport_verbs_collapse_to_same_predicate():
     )
     assert reason_a == "ok" and reason_b == "ok"
     assert a["predicate"] == b["predicate"] == "DEFENDEU"
-    assert a["subject"] == b["subject"] == "PELE"
+    # #047: Pelé/Pele/Santos FC/Santos Futebol Clube → canônicos curados.
+    assert a["subject"] == b["subject"] == "EDSON ARANTES DO NASCIMENTO"
+    assert a["object"] == b["object"] == "SANTOS FUTEBOL CLUBE"
 
     c, reason_c = refine_triple_ex(
         {"subject": "Pele", "predicate": "played for", "object": "Santos FC"}
     )
     assert reason_c == "ok"
     assert c["predicate"] == "DEFENDEU"
+    assert c["subject"] == "EDSON ARANTES DO NASCIMENTO"
+    assert c["object"] == "SANTOS FUTEBOL CLUBE"
 
 
 def test_unmapped_sport_verbs_quarantine_as_unmapped_not_invalid():

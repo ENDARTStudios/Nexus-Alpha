@@ -1,0 +1,58 @@
+# Curated bilingual entity aliases (#047) — manual review only.
+# Embedding may suggest candidates; never auto-promote.
+# Keys are folded by fold_lookup_key (lowercase, no accents, no leading articles).
+# Anti-leak: no secrets, no internal URLs, no tokens.
+
+aliases:
+  - canonical: "SANTOS FUTEBOL CLUBE"
+    display_name: "Santos FC"
+    variants:
+      - "Santos FC"
+      - "Santos Futebol Clube"
+      - "Santos Football Club"
+      - "SFC"
+      - "Santos"
+
+  - canonical: "EDSON ARANTES DO NASCIMENTO"
+    display_name: "Pelé"
+    variants:
+      - "Pelé"
+      - "Pele"
+      - "Edson Arantes do Nascimento"
+      - "Edson Arantes"
+      - "O Rei do Futebol"
+
+  - canonical: "MANUEL FRANCISCO DOS SANTOS"
+    display_name: "Garrincha"
+    variants:
+      - "Garrincha"
+      - "Manuel Francisco dos Santos"
+      - "Mané Garrincha"
+      - "Mane Garrincha"
+      - "The Joy of the People"
+
+  - canonical: "ESTÁDIO URBANO CALDEIRA"
+    display_name: "Vila Belmiro"
+    variants:
+      - "Estádio Urbano Caldeira"
+      - "Estadio Urbano Caldeira"
+      - "Urbano Caldeira Stadium"
+      - "Vila Belmiro"
+      - "Vila Belmiro Stadium"
+
+  - canonical: "BOTAFOGO DE FUTEBOL E REGATAS"
+    display_name: "Botafogo FR"
+    variants:
+      - "Botafogo FR"
+      - "Botafogo de Futebol e Regatas"
+      - "Botafogo Football and Rowing Club"
+      - "Botafogo F.C."
+      - "General Severiano"
+
+  - canonical: "SAO PAULO"
+    display_name: "São Paulo"
+    variants:
+      - "São Paulo"
+      - "Sao Paulo"
+      - "São Paulo City"
+      - "Sao Paulo City"

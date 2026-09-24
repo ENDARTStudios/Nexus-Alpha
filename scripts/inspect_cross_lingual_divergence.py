@@ -18,9 +18,14 @@ from urllib.parse import urlparse
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from dotenv import load_dotenv
+try:
+    from dotenv import load_dotenv
 
-load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+    load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+except ImportError:
+    # CI lite (requirements-dev.txt) não inclui python-dotenv; o script
+    # pure (fact_key/classify) precisa importar sem a dependência opcional.
+    pass
 
 TARGETS = {
     "santos_fc": {

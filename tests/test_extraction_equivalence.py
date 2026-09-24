@@ -67,10 +67,11 @@ def test_possuir_family_converges_to_single_predicate():
             {"subject": "Santos FC", "predicate": predicate, "object": "Estádio Urbano Caldeira"}
         )
         assert refined is not None
+        # #047: aliases curados colapsam variantes PT/EN no canônico do YAML.
         assert (refined["subject"], refined["predicate"], refined["object"]) == (
-            "SANTOS FC",
+            "SANTOS FUTEBOL CLUBE",
             "POSSUIR",
-            "ESTADIO URBANO CALDEIRA",
+            "ESTÁDIO URBANO CALDEIRA",
         )
 
 

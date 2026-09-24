@@ -13,6 +13,8 @@ import re
 from typing import Optional
 
 
+from .extractor import is_function_word_span, rescue_truncated_toponym, strip_boundary_noise
+
 logger = logging.getLogger(__name__)
 
 
@@ -82,9 +84,13 @@ class NLPExtractor:
                 re.IGNORECASE,
             )
             for match in pattern.finditer(text):
-                subj = match.group(1).strip()
-                obj = match.group(2).strip()
+                subj = strip_boundary_noise(match.group(1).strip())
+                obj = strip_boundary_noise(match.group(2).strip())
                 if not subj or not obj:
+                    continue
+                subj = rescue_truncated_toponym(subj, text)
+                obj = rescue_truncated_toponym(obj, text)
+                if is_function_word_span(subj) or is_function_word_span(obj):
                     continue
                 if subj.lower() == core_lower or obj.lower() == core_lower:
                     out.append({

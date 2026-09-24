@@ -127,8 +127,9 @@ def test_golden_case_possuir_spans_are_canonical():
         url="https://pt.wikipedia.org/wiki/Santos_FC",
     )
     assert report["canonical_triples"] == 1
-    assert "SANTOS FC" in report["top_subjects"]
-    assert "ESTADIO URBANO CALDEIRA" in report["top_objects"]
+    # #047: aliases curados rewritam para o canônico do YAML.
+    assert "SANTOS FUTEBOL CLUBE" in report["top_subjects"]
+    assert "ESTÁDIO URBANO CALDEIRA" in report["top_objects"]
     assert report["top_predicates"] == {"POSSUIR": 1}
 
 

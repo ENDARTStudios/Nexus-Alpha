@@ -839,3 +839,54 @@ serve de base para testes de normalização do `#047`.
 .github/workflows/` vazio · staging explícito (sem `git add -A`) ·
 `reports/*.json` permanece gitignored (evidência local não versionada).
 
+---
+
+## #047 — Aliasing bilíngue curado + boundary fix
+
+**Status:** ✅ concluída (código + testes)
+
+### Por quê
+Inspeção 2 provou causa estrutural dupla: (1) fold puro não colapsa
+`Santos FC` ↔ `Santos Football Club` (0 shared keys); (2) extractor emite
+spans H3 residuais (`PELE SAID HE`, `ALTHOUGH GARRINCHA`, `E O`,
+`São Paulo`→`PAULO`). Alias passivo sozinho não resolve H3 — boundary é
+obrigatório (findings §Decisão).
+
+### Regras de ouro
+- dicionário `entity_aliases.yaml` **curado manualmente** (embedding só sugere);
+- aliases carregados **antes** do fold genérico em `canonicalize_entity`;
+- conflito foldado → `ValueError` (falha alto, nunca silencioso);
+- boundary fix determinístico (conectivo/cauda verbal + resgate `São <Term>` +
+  filtro palavra fechada) — sem LLM/embedding;
+- **não tocar**: quórum, embedding-promotion, LLM providers, seeds-clusters
+  YAML, `requirements*`, `.github/workflows/`.
+
+### Arquivos
+- `src/cognition/entity_aliases.yaml` — 6 entradas curadas (Santos FC, Pelé,
+  Garrincha, Estádio Urbano Caldeira, Botafogo, São Paulo) com variantes PT/EN
+- `src/cognition/canonicalizer.py` — `_load_entity_aliases`, merge em
+  `entity_synonyms` + consulta alias-first em `canonicalize_entity`
+- `src/cognition/extractor.py` — `strip_boundary_noise`, `rescue_truncated_toponym`,
+  `is_function_word_span` nos caminhos spaCy e fallback
+- `src/cognition/nlp_extractor.py` — mesmos helpers no fallback regex
+- `tests/test_entity_aliasing.py` — 9 testes (colapso, negativos, resíduos,
+  golden `fact_hash` cross-lingual, anti-leak YAML)
+- `tests/test_boundary_fix.py` — 9 testes (cauda verbal, conectivo, função
+  fechada, topônimo, integração extractor)
+- `tests/test_extraction_equivalence.py`, `tests/test_predicate_mapper.py`,
+  `tests/test_source_productivity_audit.py` — goldens atualizados para o
+  canônico curado (#047 reescreve `SANTOS FC`/`PELE`)
+- `scripts/inspect_cross_lingual_divergence.py` — `dotenv` opcional (CI lite)
+- `SPRINT.md`, `docs/TASKS.md`, `docs/TESTING.md` — registro
+
+### DoD
+`python -m pytest -q` verde (**310**, base 292) · `git diff -- requirements-dev.txt
+.github/workflows/` vazio · staging explícito · mensagem
+`feat(cognition): add curated cross-lingual entity aliasing and fix boundary detection residuals`
+· quórum 3 inalterado · sem embedding-promotion · sem LLM · sem seeds ampliadas.
+
+### Leitura
+Aliases colapsam pares PT/EN limpos; boundary fix remove caudas verbais e
+conectivos antes do refino. Re-ingest controlado **somente depois** destes
+testes verdes — aí medir `verified_facts_domain_independent` e decidir gate.
+

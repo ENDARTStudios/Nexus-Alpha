@@ -13,11 +13,47 @@ from __future__ import annotations
 import logging
 import re
 import unicodedata
+from pathlib import Path
 from typing import Any
 
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# #047 — dicionário bilíngue curado (revisão manual; embedding só sugere).
+_ALIASES_PATH = Path(__file__).with_name("entity_aliases.yaml")
+
+
+def _load_entity_aliases(path: Path | None = None) -> dict[str, str]:
+    """Folded variant → canônico curado. Conflito foldado falha alto."""
+    target = path or _ALIASES_PATH
+    if not target.exists():
+        return {}
+    try:
+        import yaml  # type: ignore
+    except ImportError:  # pragma: no cover - PyYAML presente no runtime
+        logger.warning("PyYAML ausente — entity_aliases.yaml ignorado.")
+        return {}
+    data = yaml.safe_load(target.read_text(encoding="utf-8")) or {}
+    out: dict[str, str] = {}
+    for entry in data.get("aliases") or []:
+        canonical = str(entry.get("canonical") or "").strip()
+        if not canonical:
+            continue
+        variants: list[str] = [canonical]
+        if entry.get("display_name"):
+            variants.append(str(entry["display_name"]))
+        variants.extend(str(v) for v in (entry.get("variants") or []))
+        for variant in variants:
+            key = fold_lookup_key(variant)
+            if not key:
+                continue
+            if key in out and out[key] != canonical:
+                raise ValueError(
+                    f"Colisão de alias foldada: {key!r} -> {out[key]!r} vs {canonical!r}"
+                )
+            out[key] = canonical
+    return out
 
 
 # Artigos iniciais removidos da chave de lookup (mesmo conjunto do extrator,
@@ -199,6 +235,18 @@ class SemanticCanonicalizer:
         self.entity_synonyms = _dedupe_folded(self.entity_synonyms, "entity_synonyms")
         self.predicate_synonyms = _dedupe_folded(self.predicate_synonyms, "predicate_synonyms")
 
+        # #047: aliases bilíngues curados entram ANTES do fold genérico e no
+        # dicionário (whitelist do span_validator via triple_refiner._known_entities).
+        self.entity_aliases: dict[str, str] = _load_entity_aliases()
+        for key, canonical in self.entity_aliases.items():
+            existing = self.entity_synonyms.get(key)
+            if existing is not None and existing != canonical:
+                raise ValueError(
+                    f"Alias #047 conflita com sinônimo base: {key!r} -> "
+                    f"{existing!r} vs {canonical!r}"
+                )
+            self.entity_synonyms[key] = canonical
+
     def clean_string(self, text: str) -> str:
         """Chave determinística de lookup (minúsculas, sem acentos/artigos)."""
         if not text:
@@ -216,10 +264,13 @@ class SemanticCanonicalizer:
         return (normalized or "").upper()
 
     def canonicalize_entity(self, raw: str) -> str:
-        """Sinônimo conhecido → valor canônico; desconhecido → forma determinística."""
+        """Alias curado (#047) → sinônimo → forma determinística."""
         normalized = self.clean_string(raw)
         if not normalized:
             return ""
+        aliased = self.entity_aliases.get(normalized)
+        if aliased:
+            return aliased
         resolved = self.entity_synonyms.get(normalized)
         if resolved:
             return resolved

@@ -20,6 +20,61 @@ from .predicate_mapper import INVALID_PREDICATE_REASONS, validate_predicate
 
 logger = logging.getLogger(__name__)
 
+# #047 — boundary fix: conectivos iniciais (H3) e caudas verbais EN/PT.
+_LEADING_CONNECTIVE_RE = re.compile(
+    r"^(?:although|though|while|whereas|and|but|or|however|therefore|"
+    r"e|ou|mas|embora|apesar(?:\s+de)?|entretanto|contudo)\s+",
+    re.IGNORECASE,
+)
+_VERBAL_TAIL_RE = re.compile(
+    r"\s+(?:said|says|say|told|tells|claimed|claims|announced|reported|"
+    r"was|were|is|are|has|have|had|"
+    r"disse|diz|afirma|afirmou|anunciou|era|foi)"
+    r"(?:\s+(?:that\s+)?(?:he|she|it|they|we|you|him|her|them|us|"
+    r"ele|ela|eles|elas|isso|isto|aquilo))?"
+    r"\s*$",
+    re.IGNORECASE,
+)
+def strip_boundary_noise(term: str) -> str:
+    """Remove conectivo inicial e cauda verbal de span cru (#047 boundary)."""
+    text = (term or "").strip()
+    if not text:
+        return ""
+    prev = None
+    while prev != text:
+        prev = text
+        text = _LEADING_CONNECTIVE_RE.sub("", text).strip()
+        text = _VERBAL_TAIL_RE.sub("", text).strip()
+    return text
+
+
+def rescue_truncated_toponym(term: str, full_text: str) -> str:
+    """Resgata topônimo ``São <Term>`` quando o span veio truncado só ``<Term>``."""
+    cleaned = (term or "").strip()
+    if not cleaned or " " in cleaned or not full_text:
+        return cleaned
+    pattern = re.compile(rf"\bS[ãa]o\s+{re.escape(cleaned)}\b")
+    match = pattern.search(full_text)
+    if match:
+        return match.group(0)
+    return cleaned
+
+
+def is_function_word_span(term: str) -> bool:
+    """Span composto só por palavras fechadas (ex.: ``E O``) — nunca entidade (#047)."""
+    tokens = (term or "").lower().split()
+    if not tokens:
+        return True
+    function_words = {
+        "e", "o", "a", "os", "as", "um", "uma", "uns", "umas", "de", "do", "da",
+        "dos", "das", "em", "no", "na", "nos", "nas", "com", "sem", "por", "para",
+        "ao", "aos", "à", "às", "que", "se", "lhe", "eles", "elas",
+        "and", "or", "but", "of", "to", "in", "on", "at", "for", "with", "by",
+        "from", "as", "the", "a", "an", "it", "its", "is", "are", "was", "were",
+        "be", "been", "this", "that", "he", "she", "they", "we", "you",
+    }
+    return all(tok in function_words for tok in tokens)
+
 
 @dataclass
 class Triple:
@@ -159,8 +214,12 @@ class EntityExtractor:
             )
             if subj_tok is None or obj_tok is None:
                 continue
-            subject = self._normalize_term(self._phrase_text(subj_tok))
-            obj = self._normalize_term(self._phrase_text(obj_tok))
+            subject = self._normalize_term(strip_boundary_noise(self._phrase_text(subj_tok)))
+            obj = self._normalize_term(strip_boundary_noise(self._phrase_text(obj_tok)))
+            subject = rescue_truncated_toponym(subject, text)
+            obj = rescue_truncated_toponym(obj, text)
+            if is_function_word_span(subject) or is_function_word_span(obj):
+                continue
             if not self._valid_term(subject) or not self._valid_term(obj):
                 continue
             triples.append(Triple(
@@ -184,8 +243,12 @@ class EntityExtractor:
         triples: list[Triple] = []
         for match in pattern.finditer(text):
             subj, pred, obj = (g.strip() for g in match.groups())
-            subj = self._normalize_term(subj)
-            obj = self._normalize_term(obj)
+            subj = self._normalize_term(strip_boundary_noise(subj))
+            obj = self._normalize_term(strip_boundary_noise(obj))
+            subj = rescue_truncated_toponym(subj, text)
+            obj = rescue_truncated_toponym(obj, text)
+            if is_function_word_span(subj) or is_function_word_span(obj):
+                continue
             predicate, predicate_reason = validate_predicate(pred)
             if predicate_reason in INVALID_PREDICATE_REASONS:
                 self.rejection_reasons[predicate_reason] += 1
