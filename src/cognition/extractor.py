@@ -265,11 +265,37 @@ class EntityExtractor:
                 break
         return triples
 
+    # #058.8 — banda sparse: com o modelo PT sobre texto EN, o spaCy devolve
+    # 1–7 triplas (vs 13–25 do regex offline) e o antigo `if not triples`
+    # nunca acionava o fallback. Corte empírico: wiki PT >= 12, EN
+    # problemático <= 7. Condição estrita `<` (fronteira congelada em teste).
+    SPACY_SPARSE_MIN = 10
+
     def extract(self, text: str, max_triples: int = 25) -> list[Triple]:
-        triples = self.extract_spacy(text, max_triples=max_triples)
-        if not triples and self.enable_fallback:
-            triples = self.extract_fallback(text, max_triples=max_triples)
-        return triples
+        spacy_triples = self.extract_spacy(text, max_triples=max_triples)
+        # Caminho denso (>= min) ou fallback desabilitado: retorno verbatim,
+        # idêntico ao anterior — o regex nem é calculado (lazy).
+        if len(spacy_triples) >= self.SPACY_SPARSE_MIN or not self.enable_fallback:
+            return spacy_triples
+        fallback_triples = self.extract_fallback(text, max_triples=max_triples)
+        # spaCy == 0: fallback puro, verbatim (banda 0 inalterada).
+        if not spacy_triples:
+            return fallback_triples
+        # Banda sparse (1..9): fallback primeiro (determinístico e já
+        # validado), depois as triplas só-spaCy; dedupe com casefold.
+        seen: set[tuple[str, str, str]] = set()
+        merged: list[Triple] = []
+        for triple in fallback_triples + spacy_triples:
+            key = (
+                triple.subject.casefold(),
+                triple.predicate.casefold(),
+                triple.object.casefold(),
+            )
+            if key in seen:
+                continue
+            seen.add(key)
+            merged.append(triple)
+        return merged[:max_triples]
 
     def enrich_payload(self, payload: dict[str, Any]) -> dict[str, Any]:
         """Adiciona extracted_entities ao NexusPayload a partir do conteúdo minerado."""
