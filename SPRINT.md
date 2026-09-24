@@ -809,5 +809,33 @@ H3 é agora bloqueado no choke point do refino. `PAULO` truncado
 (`São Paulo`) é bug de **boundary do extractor** (fallback regex) — fora do
 escopo #058.2; `PELE SAID HE` (cauda verbal) ainda passa se o primeiro token
 for entidade real. Re-executar Inspeção 2 após re-ingest para medir queda de
-near-misses. `#047` só volta se sobrarem pares com entidade limpa idêntica.
+near-misses. **Próximo issue: `#047`** (aliasing bilíngue curado + boundary fix
+do extractor) — decidido pelo usuário; re-ingest controlado só **depois**.
+
+---
+
+## Inspeção 2 — artefato de engenharia (chore tools)
+
+**Status:** ✅ versionado · read-only · sem rede no CI
+
+### Por quê
+O diagnóstico cross-lingual pós-#045.1 (`both=0`, `shared_keys=0/44`,
+63 divergências) precisa ser reproduzível sem recriar lógica ad-hoc. O script
+versionado permite auditar novos colapsos, documenta os pares analisados e
+serve de base para testes de normalização do `#047`.
+
+### Arquivos
+- `scripts/inspect_cross_lingual_divergence.py` — grafo Neo4j (SELECT) +
+  re-extração offline + decomposição campo-a-campo + classificador H1–H4
+- `tests/test_inspect_cross_lingual_divergence.py` — puros (read-only AST,
+  `fact_key`, `classify`, targets, findings doc)
+- `docs/INSPECTION_2_FINDINGS.md` — tabela de divergências revisada (H3
+  dominante, auto-H1 ingênuo), causas estruturais, decisão `#047`
+- `docs/TESTING.md` — índice de teste
+- `SPRINT.md` — registro
+
+### DoD
+`python -m pytest -q` verde (**292**) · `git diff -- requirements-dev.txt
+.github/workflows/` vazio · staging explícito (sem `git add -A`) ·
+`reports/*.json` permanece gitignored (evidência local não versionada).
 
