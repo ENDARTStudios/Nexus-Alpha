@@ -205,3 +205,40 @@ def test_unmapped_sport_verbs_quarantine_as_unmapped_not_invalid():
         canonical, reason = validate_predicate(verb)
         assert canonical is None, verb
         assert reason == "unmapped_predicate", (verb, reason)
+
+
+# --- #045.2 — predicate divergence residual (Pelé PT/EN, evidência #058.3) ---
+
+def test_play_for_base_form_maps_to_defendeu():
+    # #045.2: forma-base "play for" (faltava em #045.1).
+    assert map_predicate("play for") == ("DEFENDEU", "ok")
+    assert map_predicate("played for") == ("DEFENDEU", "ok")
+    assert validate_predicate("play for") == ("DEFENDEU", "ok")
+
+
+def test_pele_cross_lingual_full_collision_fact_hash():
+    # Golden #045.2: tripla PT/EN de Pelé colapsa em fact_hash idêntico.
+    from src.brain.memory import fact_hash
+    from src.cognition.triple_refiner import refine_triple_ex
+
+    pt, reason_pt = refine_triple_ex(
+        {"subject": "Pelé", "predicate": "defendeu", "object": "Santos FC"}
+    )
+    en, reason_en = refine_triple_ex(
+        {"subject": "Pelé", "predicate": "played for", "object": "Santos Football Club"}
+    )
+    assert reason_pt == "ok" and reason_en == "ok"
+    assert pt["subject"] == en["subject"] == "EDSON ARANTES DO NASCIMENTO"
+    assert pt["predicate"] == en["predicate"] == "DEFENDEU"
+    assert pt["object"] == en["object"] == "SANTOS FUTEBOL CLUBE"
+    assert (
+        fact_hash(pt["subject"], pt["predicate"], pt["object"])
+        == fact_hash(en["subject"], en["predicate"], en["object"])
+    )
+
+
+def test_modals_stay_rejected_after_045_2():
+    # #045.2 não reabre modais/ambíguos.
+    for verb in ("pode", "deveria", "passou", "aumentou"):
+        assert map_predicate(verb)[0] is None, verb
+

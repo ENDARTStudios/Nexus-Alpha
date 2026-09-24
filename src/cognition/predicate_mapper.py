@@ -140,6 +140,7 @@ EXTRA_MAP: dict[str, str] = {
     "vestiram": "DEFENDEU",
     "vestir": "DEFENDEU",
     "played for": "DEFENDEU",
+    "play for": "DEFENDEU",
     "plays for": "DEFENDEU",
     "playing for": "DEFENDEU",
     "joined": "DEFENDEU",

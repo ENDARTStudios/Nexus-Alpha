@@ -1014,6 +1014,39 @@ CI verde → **`#045.2`** (predicate divergence Pelé: `defendeu`/`played
 for`) → deploy único no Space → re-ingest controlado único → rerun
 parity + cross-source → classificar cenário (A–E). **Não treinar.**
 
+## #045.2 — Expand predicate mapper (divergência Pelé, evidência #058.3)
+
+**Status:** ✅ concluída (código + testes + docs)
+
+### Por quê
+Parity audit (#058.3) classificou alvo Pelé como `predicate_divergence`
+(`shared_predicates=[]` com `shared_entities` já canônicos pós-#047).
+`played for`/`defendeu` já colapsavam (#045.1); faltava a forma-base
+`play for` e o golden `fact_hash` PT/EN completo do caso residual.
+
+### Escopo
+- `predicate_mapper.py`: `play for` → `DEFENDEU` (única entrada nova;
+  vocabulário controlado inalterado — sem predicado novo).
+- `tests/test_predicate_mapper.py`: golden
+  `test_pele_cross_lingual_full_collision_fact_hash` (Pelé + Santos
+  FC/Santos Football Club → mesmo `fact_hash`); positivo `play for`;
+  negativos de modal/ambíguo reafirmados.
+- Fora de escopo: `represented` → `DEFENDEU` **não** adicionado (conflito
+  com `representa`→`SER` e sem evidência direta no relatório Pelé);
+  modais/ambíguos permanecem rejeitados; quórum 3; sem treino; seeds
+  intocadas; `entity_aliases.yaml` fechado no #047.1.
+
+### DoD
+`python -m pytest tests/test_predicate_mapper.py -q` verde ·
+`python -m pytest -q` verde · `git diff -- requirements-dev.txt
+.github/workflows/` vazio · staging explícito · mensagem
+`feat(cognition): expand predicate mapper for evidenced cross-lingual sport verbs`.
+
+### Leitura / próximo issue
+Deploy único no Space → re-ingest controlado único → rerun parity +
+cross-source → classificar cenário A–E. **Não treinar. Não ampliar
+seeds. Não abrir #064.**
+
 ### DoD
 `python -m pytest -q` verde · `git diff -- requirements-dev.txt
 .github/workflows/` vazio · staging explícito · mensagem
