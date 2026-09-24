@@ -1,7 +1,8 @@
-# Curated bilingual entity aliases (#047) — manual review only.
+# Curated bilingual entity aliases (#047 / #047.1) — manual review only.
 # Embedding may suggest candidates; never auto-promote.
 # Keys are folded by fold_lookup_key (lowercase, no accents, no leading articles).
-# Anti-leak: no secrets, no internal URLs, no tokens.
+# Anti-leak: no secrets, no internal URLs, no tokens, no http/https schemes.
+# #047.1: every entry carries evidence (parity report + reason); no generic patterns.
 
 aliases:
   - canonical: "SANTOS FUTEBOL CLUBE"
@@ -12,6 +13,12 @@ aliases:
       - "Santos Football Club"
       - "SFC"
       - "Santos"
+    evidence:
+      sources:
+        - "pt.wikipedia.org/wiki/Santos_FC"
+        - "en.wikipedia.org/wiki/Santos_FC"
+      parity_report: "reports/extraction_parity_pt_en_2026-09-24.json"
+      reason: "baseline_santos_fc_target_pt_en"
 
   - canonical: "EDSON ARANTES DO NASCIMENTO"
     display_name: "Pelé"
@@ -21,6 +28,12 @@ aliases:
       - "Edson Arantes do Nascimento"
       - "Edson Arantes"
       - "O Rei do Futebol"
+    evidence:
+      sources:
+        - "pt.wikipedia.org/wiki/Pelé"
+        - "en.wikipedia.org/wiki/Pelé"
+      parity_report: "reports/extraction_parity_pt_en_2026-09-24.json"
+      reason: "predicate_divergence_pele_defendeu_played_for"
 
   - canonical: "MANUEL FRANCISCO DOS SANTOS"
     display_name: "Garrincha"
@@ -30,6 +43,12 @@ aliases:
       - "Mané Garrincha"
       - "Mane Garrincha"
       - "The Joy of the People"
+    evidence:
+      sources:
+        - "pt.wikipedia.org/wiki/Garrincha"
+        - "en.wikipedia.org/wiki/Garrincha"
+      parity_report: "reports/extraction_parity_pt_en_2026-09-24.json"
+      reason: "entity_divergence_garrincha"
 
   - canonical: "ESTÁDIO URBANO CALDEIRA"
     display_name: "Vila Belmiro"
@@ -39,15 +58,28 @@ aliases:
       - "Urbano Caldeira Stadium"
       - "Vila Belmiro"
       - "Vila Belmiro Stadium"
+    evidence:
+      sources:
+        - "pt.wikipedia.org/wiki/Estádio_Urbano_Caldeira"
+        - "en.wikipedia.org/wiki/Vila_Belmiro"
+      parity_report: "reports/extraction_parity_pt_en_2026-09-24.json"
+      reason: "entity_divergence_estadio_vila_belmiro"
 
   - canonical: "BOTAFOGO DE FUTEBOL E REGATAS"
     display_name: "Botafogo FR"
     variants:
+      - "Botafogo"
       - "Botafogo FR"
       - "Botafogo de Futebol e Regatas"
       - "Botafogo Football and Rowing Club"
       - "Botafogo F.C."
       - "General Severiano"
+    evidence:
+      sources:
+        - "pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas"
+        - "en.wikipedia.org/wiki/Botafogo_F.C._(Rio_de_Janeiro)"
+      parity_report: "reports/extraction_parity_pt_en_2026-09-24.json"
+      reason: "entity_divergence_botafogo"
 
   - canonical: "SAO PAULO"
     display_name: "São Paulo"
@@ -56,3 +88,23 @@ aliases:
       - "Sao Paulo"
       - "São Paulo City"
       - "Sao Paulo City"
+    evidence:
+      sources:
+        - "pt.wikipedia.org/wiki/São_Paulo"
+        - "en.wikipedia.org/wiki/São_Paulo"
+      parity_report: "reports/extraction_parity_pt_en_2026-09-24.json"
+      reason: "entity_divergence_sao_paulo_city"
+
+  - canonical: "SÃO PAULO FUTEBOL CLUBE"
+    display_name: "São Paulo FC"
+    variants:
+      - "São Paulo FC"
+      - "Sao Paulo FC"
+      - "São Paulo Futebol Clube"
+      - "Sao Paulo Futebol Clube"
+    evidence:
+      sources:
+        - "pt.wikipedia.org/wiki/São_Paulo_Futebol_Clube"
+        - "en.wikipedia.org/wiki/São_Paulo_FC"
+      parity_report: "reports/extraction_parity_pt_en_2026-09-24.json"
+      reason: "entity_divergence_sao_paulo_club_vs_city"

@@ -974,6 +974,46 @@ nunca reporta `partial_success` com 0 entidades.
 - Docs: `ANALYTICS.md`, `API.md`, `TESTING.md`, `ERROR_HANDLING.md`,
   `ARCHITECTURE.md`, `TASKS.md`.
 
+## #047.1 — Expand curated entity aliases (evidência parity #058.3)
+
+**Status:** ✅ concluída (código + testes + docs)
+
+### Por quê
+Parity audit (#058.3) mostrou `entity_divergence=4/6` alvos (Garrincha,
+Estádio Urbano Caldeira/Vila Belmiro, Botafogo, São Paulo). Aliasing
+curado, determinístico e baseado em evidência — nunca intuição nem
+embedding promotor.
+
+### Escopo
+- `src/cognition/entity_aliases.yaml`: bloco `evidence` (sem schemes
+  http/https — anti-leak) em toda entrada; variante simples `Botafogo`;
+  entrada nova clube `SÃO PAULO FUTEBOL CLUBE` (cidade `SAO PAULO`
+  separada); variantes EN de Garrincha/Vila Belmiro confirmadas.
+- `src/cognition/canonicalizer.py`: sem mudança de código (loader já
+  ignora chaves extras como `evidence`).
+- `tests/test_entity_aliasing.py`: evidence obrigatório; positivos dos
+  4 alvos; negativos (Flamengo≠Fluminense, Botafogo≠Vasco,
+  SPFC≠Palmeiras, Pelé≠Garrincha, Estádio≠Maracanã, cidade≠clube);
+  goldens cross-lingual de subject/object por alvo.
+- Docs: `SPRINT.md`, `TASKS.md`.
+
+### Fora de escopo
+`predicate_mapper.py` (#045.2) · `span_validator.py` · `app.py` ·
+`graph_connector.py` · `worker_cycle.py` · `config/seed_clusters.yaml` ·
+`requirements-dev.txt` · `.github/workflows/` · quórum 3 · sem treino ·
+sem ampliar seeds · sem abrir #064.
+
+### DoD
+`python -m pytest tests/test_entity_aliasing.py -q` verde ·
+`python -m pytest -q` verde global · `git diff -- requirements-dev.txt
+.github/workflows/` vazio · seeds intactas · staging explícito ·
+mensagem `feat(cognition): expand curated entity aliases for Garrincha, Estadio, Botafogo, Sao Paulo based on parity evidence`.
+
+### Leitura / próximo issue
+CI verde → **`#045.2`** (predicate divergence Pelé: `defendeu`/`played
+for`) → deploy único no Space → re-ingest controlado único → rerun
+parity + cross-source → classificar cenário (A–E). **Não treinar.**
+
 ### DoD
 `python -m pytest -q` verde · `git diff -- requirements-dev.txt
 .github/workflows/` vazio · staging explícito · mensagem

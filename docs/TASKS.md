@@ -4,7 +4,7 @@
 > verdade de escopo (`SPRINT.md`); esta página mantém o mapa consolidado
 > #036→#056 e o estado do backlog.
 
-**Atualizado em:** 2026-09-23
+**Atualizado em:** 2026-09-24
 
 ---
 
@@ -20,6 +20,7 @@ o gargalo é **equivalência semântica entre fontes** — ver [`RESEARCH.md`](.
 | — | Re-ingest controlado via worker pós-**#047** | ✅ **Cenário C** — 124 fatos; `duplicate_cross_domain=0`; gate de treino ainda fechado |
 | — | **#058.3** parity audit | ✅ **concluída** — relatório PT/EN; prioridade `#058.4` (demo-memory mascarado); `#047.1` ×4, `#045.2` ×1 |
 | — | **#058.4** fallback transparency | ✅ **concluída** — status `degraded`/`failed` nunca `partial_success` com `entities=0`; `fallback_health`; flag default false |
+| — | **#047.1** Expand curated entity aliases | ✅ **concluída** — `evidence` em toda entrada; alvos `entity_divergence` ×4; cidade≠clube SP; negativos rigorosos |
 | #047 | Aliasing curado de entidades | ✅ **concluída** — dicionário bilíngue + boundary fix extractor; goldens cross-lingual verdes |
 | item 2 | Entity linking **diagnóstico** (sem promover fato) | medir `potential_verified_if_linking` antes de qualquer promoção |
 | — | ~~Validador de span v2~~ | ✅ **#058.2** — fragmentos H3 rejeitados; residual boundary fechado em **#047** |
@@ -56,6 +57,7 @@ o gargalo é **equivalência semântica entre fontes** — ver [`RESEARCH.md`](.
 | #047 | Aliasing curado de entidades + boundary fix | v1.13.0 | ✅ concluída — 310 testes; YAML curado + helpers no extractor/nlp |
 | #058.3 | Cross-lingual extraction parity audit (read-only) | v1.13.0 | ✅ concluída — 325 testes; 6 alvos; prioridade `high_#058.4` (2 demo-memory mascarados, não gravados) |
 | #058.4 | Fallback transparency (status honesto + `fallback_health`) | v1.13.0 | ✅ concluída — nunca `partial_success` com `entities=0`; flag `NEXUS_ALLOW_DEMO_FALLBACK` default false; métricas #058.4 |
+| #047.1 | Expand curated entity aliases (evidência parity) | v1.13.0 | ✅ concluída — `evidence` + variantes dos 4 alvos `entity_divergence`; cidade/clube SP separados |
 | #064 | Concept reconciliation (dívida pós-#058.3) | dívida | 📌 backlog — registrar; **não executar** até evidência adicional |
 | #045 | (implícito) predicate mapper — reabrir só se `top_unmapped` voltar a ter verbos claros ≥3 | — | 🧊 aguardando métrica |
 | #053 | Independência editorial por publisher/eTLD+1 | dívida | 📌 backlog |
