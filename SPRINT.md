@@ -1137,13 +1137,76 @@ Cenário **B** com resíduo estrutural: aliases #047.1 melhoram
 sujeitos canônicos são em sua maioria frases genéricas
 (`CLUBE`, `TIME SANTISTA`, `STRIKER`), não o nome da entidade.
 Botafogo EN com `raw_triples=1` sugere extração EN quase vazia.
-Opções: **`#047.2`** (nova rodada de aliases/evidência) ·
-investigar extração EN Botafogo · entity linking diagnóstico ·
-ou encerrar ciclo e reavaliar após mais ciclos de worker.
+Decisão do usuário: **`#058.5`** (forense de extração EN Botafogo),
+não `#047.2` nem entity linking nem esperar mais workers.
 **Não treinar até ≥10 verified + records ≥50.**
 
+---
+
+## #058.5 — Botafogo EN extraction forensics and targeted repair
+
+**Status:** ✅ concluída (forense read-only; causa raiz identificada)
+
+### Por quê
+Parity #058.3 + rerun pós-tríade mostraram Botafogo EN com
+`raw_triples=1` / `entity_divergence` — mas aliases sozinhos não geram
+`fact_hash` cruzado se a fonte EN não extrai triplas estruturalmente
+comparáveis. A pergunta correta não é "quais aliases faltam?" e sim
+"por que a página EN quase não produz triplas brutas válidas?".
+
+### Escopo (forense read-only)
+- `src/cognition/extraction_forensics.py`: módulo puro (sem rede/grafo/LLM);
+  `classify_diagnosis` mapeia contadores → etapa culpada em
+  `fetch | cleaning | sentence_selection | extraction | span_validation |
+  predicate_mapping | entity_aliasing | persistence | unknown`;
+  `looks_like_wikipedia_404`; `evaluate_hypotheses` (H1–H7);
+  `build_comparison` / `build_forensics_report`.
+- `scripts/audit_botafogo_en_extraction.py`: CLI read-only (AST guard);
+  fetch PT + EN seed + sonda de candidatas EN; limpador WebMiner +
+  `_strip_html`; extração offline; grava
+  `reports/botafogo_en_extraction_forensics_YYYY-MM-DD.json`.
+- `tests/test_extraction_forensics.py`: 23 testes puros (diagnóstico por
+  estágio, 404, H1–H7, comparação, script read-only, módulo sem
+  httpx/neo4j).
+- **Não** altera: seeds, workflows, `requirements-dev.txt`, runtime,
+  `entity_aliases.yaml`, `predicate_mapper.py`, `span_validator.py`.
+
+### Evidência (relatório gerado)
+- Seed EN `https://en.wikipedia.org/wiki/Botafogo_F.C._%28Rio_de_Janeiro%29`
+  → **HTTP 404**; corpo da página de erro contém
+  `"If the page has been deleted..."`.
+- Extractor minera a página 404 → `raw_triples=1` =
+  `If the page / POSSUIR / been deleted` (lixo).
+- PT saudável: HTTP 200, `raw=25`, `canonical=13`.
+- Candidatas EN (HTTP 200, ~640KB):
+  `https://en.wikipedia.org/wiki/Botafogo_FR`,
+  `https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas`.
+
+### Classificação de causa raiz
+| Campo | Valor |
+|---|---|
+| `primary_diagnosis` | **`fetch`** |
+| `next_issue_hint` | **`#048.3`** (replace unproductive EN URL) |
+| H1 (URL improdutiva/404) | **supported** |
+| H2–H7 | not supported |
+| `is_unknown` | false (issue concluído) |
+| `collision_status` | `en_fetch_failed` |
+
+### DoD
+`python -m pytest -q` verde (364) · `git diff -- requirements-dev.txt
+.github/workflows/ config/seed_clusters.yaml` vazio · staging explícito ·
+mensagem `feat(observability): add Botafogo EN extraction forensics audit` ·
+relatório gerado e exit 0 · quórum 3 · sem treino · sem seeds alteradas ·
+sem `git add -A`.
+
+### Leitura / próximo issue
+Causa raiz: **seed EN 404** → issue seguinte **`#048.3`** (trocar URL EN
+do cluster Botafogo por `Botafogo_FR` ou `Botafogo_de_Futebol_e_Regatas`).
+H2–H7 só relevantes **depois** do fix de URL + novo re-ingest/parity.
+**Não treinar. Não ampliar seeds. Não abrir #064.**
+
 ### Fora de escopo
-`predicate_mapper.py`, `canonicalizer.py`, `span_validator.py`,
-`entity_aliases.yaml`, `config/seed_clusters.yaml`, `src/training/`, workflows,
-`requirements-dev.txt`.
+`config/seed_clusters.yaml` (fix de URL é `#048.3` separado),
+`entity_aliases.yaml`, `predicate_mapper.py`, `span_validator.py`,
+`src/training/`, workflows, `requirements-dev.txt`.
 
