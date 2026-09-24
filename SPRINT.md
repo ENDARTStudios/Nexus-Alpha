@@ -1313,3 +1313,81 @@ Sucesso mínimo: `duplicate_cross_domain > 0` (PT/EN Botafogo colapsam).
 terceira fonte não-wiki produtiva — `botafogo.com.br` é `weak`).
 **Gate de treino continua fechado. Não treinar.**
 
+## #058.8 — Merge do regex fallback quando o spaCy retorna sparse
+
+**Status:** ✅ concluída (fix worker-only; validado em run único)
+
+### Por quê
+Re-ingest pós-#048.4 mostrou `duplicate_cross_domain = 0`. A causa raiz
+mecânica reconcilia todas as medições anteriores:
+
+```text
+offline (sem spaCy)        → regex puro      → EN raw 13–25
+worker (spaCy PT sobre EN) → 1–7 triplas lixo → fallback nunca dispara → EN raw 1
+```
+
+`extract()` só acionava o fallback quando o spaCy devolvia **0** triplas.
+Com o modelo `pt_core_news_sm` sobre texto EN, o spaCy devolvia 1–7
+triplas inválidas → o regex nunca rodava → o lado EN não produzia
+matéria-prima para colapsar. Explica o `entities=0` do EN Pelé (#058.3),
+o `raw=1` do #058.5 e a divergência sistemática worker-vs-offline.
+
+### Escopo (1 item = 1 commit)
+- `src/cognition/extractor.py`: constante `SPACY_SPARSE_MIN = 10`;
+  `extract()` ganha banda sparse — se `len(spacy) < 10` e fallback
+  habilitado, calcula o regex **lazy** e faz merge **fallback-primeiro**,
+  depois só-spaCy, dedupe com `casefold` nos 3 campos, cap em
+  `max_triples`. Caminho denso (`>= 10`) e banda 0 (`== 0`) retornam
+  **verbatim** (bit-a-bit idênticos ao anterior; regex não é invocado
+  no denso — comprovado por spy).
+- `tests/test_sparse_fallback_merge.py`: 10 testes — sparse(1) mescla,
+  denso(25) sem invocar fallback (spy), fronteira 9 dispara / 10 não
+  dispara (`<` congelado), banda 0 verbatim, fallback desabilitado,
+  dedupe casefold nos 3 campos, cap preserva ordem fallback-first,
+  constante == 10, caminho real sem spaCy inalterado.
+- Não tocar: `app.py`, `graph_connector.py`, `canonicalizer.py`,
+  `predicate_mapper.py`, `span_validator.py`, `triple_refiner.py`,
+  seeds, aliases, workflows, `requirements*.txt`.
+
+### Evidência (run `36064311931`, gate EN + gate PT)
+| Fonte | antes | depois |
+|---|---|---|
+| EN Pelé | 1 | **25** (canon 12) |
+| EN Garrincha | 1 | **21** (canon 13) |
+| EN Botafogo | 1 | **14** (canon 9) |
+| EN Santos | 7 | **11** (canon 11) |
+| EN AI / ML | 6 / 8 | **25 / 25** |
+| PT wiki (12 páginas) | 12–25 | **idênticos ao baseline** |
+
+Grafo: `Fato` 119 → **248** (EN 108), `canonical_to_fact_gap` 7 → **0**,
+21 pares candidatos PT/EN (antes 0) — sujeitos já colapsam
+(`manuel francisco dos santos` PT+EN), divergência restante =
+predicado/objeto. 1 masked (arxiv, `raw=1` genuíno). LLM 0/32.
+
+### Árvore de decisão pós-run
+```text
+raw EN recuperou ✅  AND  collision = 0  →  PRÓXIMO = #047.1 (aliasing)
+                                            com exemplos EN reais
+                                            (NÃO #045.3, NÃO treino)
+```
+
+### DoD
+`python -m pytest -q` verde (**376**, +10) · `git diff -- requirements-dev.txt
+.github/workflows/ config/seed_clusters.yaml` vazio · staging explícito ·
+mensagem `fix(cognition): merge regex fallback when spaCy extraction is sparse` ·
+CI verde · run único `36064311931` (enable→dispatch→log→disable, cron
+`disabled_manually`, nenhum run agendado escapou) · gates EN ≥ 10 e PT
+inalterado · quórum 3 · sem treino · sem `git add -A`.
+
+### Nota de design (dívida de calibração, P2)
+`SPACY_SPARSE_MIN = 10` é empírico (wiki PT ≥ 12, EN problemático ≤ 7).
+Se fragilizar, alternativa principiadista: limiar relativo
+`len(spacy) < f(sentenças_candidatas)` em vez de constante absoluta.
+
+### Fora de escopo
+`#047.1` (próximo issue, com evidência EN real), `#045.2`/`#045.3`,
+`entity_aliases.yaml`, `predicate_mapper.py`, `config/seed_clusters.yaml`,
+workflows, `requirements*.txt`, treino (gate ainda fechado:
+`verified_facts_domain_independent = 0 < 10`).
+
+
