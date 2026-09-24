@@ -44,17 +44,17 @@ from src.cognition.extraction_forensics import (  # noqa: E402
     evaluate_hypotheses,
 )
 
-# Alvo padrão: Botafogo (seed EN problemática + PT saudável para contraste).
+# Alvo padrão: Botafogo (PT + EN canônicas produtivas; #048.3 corrigiu a URL EN
+# que era HTTP 404 — ver #058.5).
 DEFAULT_TARGETS: dict[str, dict[str, str]] = {
     "botafogo": {
         "canonical_entity": "BOTAFOGO DE FUTEBOL E REGATAS",
         "pt": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
-        "en": "https://en.wikipedia.org/wiki/Botafogo_F.C._%28Rio_de_Janeiro%29",
-        # Candidatas EN verificadas (HTTP 200) — usadas só como evidência de
-        # correção sugerida, não substituem a seed no forense.
+        "en": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+        # Alternativa EN verificada (HTTP 200) — usada só como evidência de
+        # estabilidade do alvo.
         "en_candidates": [
             "https://en.wikipedia.org/wiki/Botafogo_FR",
-            "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
         ],
     },
 }

@@ -1210,3 +1210,55 @@ H2–H7 só relevantes **depois** do fix de URL + novo re-ingest/parity.
 `entity_aliases.yaml`, `predicate_mapper.py`, `span_validator.py`,
 `src/training/`, workflows, `requirements-dev.txt`.
 
+### Correção de escopo — #058.5 / #048.3
+O forense #058.5 identificou HTTP 404 na URL EN do Botafogo, mas essa URL
+estava apenas nos alvos default dos scripts de auditoria, não em
+`config/seed_clusters.yaml`. Portanto, a causa não afetava o worker de
+produção.
+Ações:
+- `#048.3` passa a significar: corrigir alvos de auditoria.
+- `#048.4` é criado para adicionar URL EN Botafogo produtiva ao cluster.
+- O diagnóstico de `fetch` permanece válido para os scripts, mas não deve
+  ser lido como causa raiz de `duplicate_cross_domain = 0` em produção.
+
+## #048.3 — Replace stale Botafogo EN 404 audit target
+
+**Status:** ✅ concluída (escopo corrigido: scripts de auditoria, não seeds)
+
+### Por quê
+A URL `https://en.wikipedia.org/wiki/Botafogo_F.C._%28Rio_de_Janeiro%29`
+(HTTP 404, detectada no #058.5) vivia nos `DEFAULT_TARGETS`/`TARGETS` de
+3 scripts de auditoria — contaminava diagnósticos futuros de paridade e
+divergência cross-lingual. Não estava no manifest de seeds.
+
+### Escopo
+- `scripts/audit_extraction_parity.py`: alvo EN botafogo →
+  `https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas`.
+- `scripts/inspect_cross_lingual_divergence.py`: idem.
+- `scripts/audit_botafogo_en_extraction.py`: idem; `en_candidates`
+  reduzido a `Botafogo_FR` (a canônica já é o alvo).
+- Não tocar: `config/seed_clusters.yaml`, `worker_cycle.py`, `app.py`,
+  workflows, `requirements-dev.txt`.
+
+### Evidência (validação offline, empate técnico)
+| URL | HTTP | raw | canonical |
+|---|---|---|---|
+| antiga (`Botafogo_F.C._%28…`) | **404** | 1 | 1 |
+| `Botafogo_FR` | 200 | 15 | 10 |
+| **`Botafogo_de_Futebol_e_Regatas`** (escolhida) | 200 | 15 | 10 |
+
+Escolha pela canônica (nome completo coincide com o canonical esperado;
+menos ambiguidade; casa com `entity_aliases.yaml`).
+
+### DoD
+`python -m pytest -q` verde (364) · `git diff -- requirements-dev.txt
+.github/workflows/` vazio · URL 404 ausente de `DEFAULT_TARGETS`/`TARGETS`
+em `scripts/` · staging explícito · mensagem
+`fix(audit): replace stale Botafogo EN 404 target with productive canonical URL` ·
+quórum 3 · sem treino · sem seeds alteradas · sem `git add -A`.
+
+### Fora de escopo
+`config/seed_clusters.yaml` (adição de fonte EN é `#048.4`),
+`app.py`, `graph_connector.py`, `worker_cycle.py`, `requirements-dev.txt`,
+workflows.
+

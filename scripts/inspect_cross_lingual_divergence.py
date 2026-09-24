@@ -46,7 +46,7 @@ TARGETS = {
     },
     "botafogo": {
         "pt": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
-        "en": "https://en.wikipedia.org/wiki/Botafogo_F.C._%28Rio_de_Janeiro%29",
+        "en": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
     },
 }
 
