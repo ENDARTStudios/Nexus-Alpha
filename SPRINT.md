@@ -1718,3 +1718,74 @@ unknown
   compliance) nem treino (gate `verified_facts_domain_independent = 0 < 10`);
 - evidência atual: `reports/cluster_productivity_048_5.json` (#048.5) e
   `reports/target_fact_sweep_048_5a.json` (#048.5a).
+
+## #058.11 — Diagnóstico read-only (fase 1)
+
+**Status:** ✅ fase 1 concluída —
+`scripts/audit_extraction_gap.py` → `reports/extraction_gap_058_11.json`
+(10 casos fato×URL, 54 sentenças-alvo sondadas; extractor intocado).
+
+### Distribuição das classes de causa
+
+| Nível caso (10) | classe | n |
+|---|---|---|
+| dominante | `no_relation_pattern` | 7 |
+| dominante | `predicate_unmapped` | 3 |
+
+| Nível sentença-alvo (54) | classe | n |
+|---|---|---|
+| `no_relation_pattern` | root ausente/não-verbal | **37** |
+| `no_relation_pattern` | guarda de span na extração | 4 |
+| `no_relation_pattern` | sem `nsubj` / sem `obj` | 1 / 1 |
+| `predicate_unmapped` | `invalid_predicate` / `stopword_predicate` | 10 / 1 |
+| conversão (probe) | `converted_in_probe` | **0** |
+
+Roots não-verbais dominantes: `" (NUM)`, `​ (NUM)`, `PROPN`
+(`Botafogo`×3, `Pelé`×2, `Garrincha`, `Campeonato`, `Flamengo`…) —
+definições enciclopédicas e fragmentos com raiz nominal. Verbos rejeitados:
+`restaurar`, `superar`, `acreditar`, `iniciar`, `esperar`, `velar`,
+`trabalhar`, `comemorar`, `atendir`, `for`/`returns` (EN).
+
+### Refutações (hipóteses do plano original)
+
+- **`max_triples_truncation` refutado** — cap 25→500 (em memória) aumenta
+  contagem (C1 25→57, C6 25→140, C7 25→53, C9 25→26) mas **0/10 casos**
+  passam a conter a tripla-alvo (`hits500=0`). Não aumentar `max_triples`:
+  medido, não é a causa.
+- **`sentence_score_below_threshold` refutado** — 49/54 sentenças-alvo ≥
+  0.6; e o extractor não filtra por score (só `analyze_text`).
+- **`anaphora_unresolved` / `date_or_list_contamination` /
+  `long_or_composed_sentence`** — 0 casos dominantes.
+- **`predicate_unmapped` não reabre #045.3 como fix do gap** — a única
+  tripla-alvo crua rejeitada no refino foi
+  `Pelé --MARCAR--> dos gols do Santos` (`unmapped_predicate`): não expressa
+  `--DEFENDEU-->`; os 11 verbos do probe tampouco são o verbo-fato.
+  Vocabulário acessório, nunca a causa do fato-alvo ausente.
+
+### Causa-raiz consolidada
+
+```text
+extract exige ROOT ∈ (VERB, AUX) por sentença (extractor.py:196-198).
+As sentenças que expressam os fatos-alvo são majoritariamente
+nominais/copulativas (definição enciclopédica) ou fragmentos →
+a tripla jamais nasce, com qualquer orçamento.
+```
+
+### Alavancas possíveis (fase 2 — exigem decisão do operador)
+
+- **F1 — caminho copular/nominal**: aceitar root `NOUN`/`PROPN` com filho
+  `cop` (→ `SER`). **Risco**: inflar `SER` (colide com a calibração
+  #058.10, EN share 81,4%); exige gate seletivo + dry-run com métrica
+  `ser_share` antes/depois.
+- **F2 — vocabulário (#045.3 parcial)**: só acessório — evidência atual
+  não sustenta reabertura ampla.
+- **F3 — qualidade do input de sentenças**: 37/54 raízes junk
+  (NUM/frags de split) — reduz ruído, mas sozinha não converte a definição
+  nominal.
+- **Não fazer**: aumentar `max_triples`, mexer em `SENTENCE_SCORE_THRESHOLD`,
+  fix de anáfora (sem evidência), seeds, #055, treino.
+
+### Decisão pendente
+Qual(is) alavanca(s) de F1–F3 executar e com qual gate de regressão
+(`ser_share`, `duplicate_cross_domain`, `invalid_predicate`) — operador
+define antes de qualquer edição em `extractor.py`.
