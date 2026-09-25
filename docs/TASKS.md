@@ -28,7 +28,7 @@ o gargalo é **equivalência semântica entre fontes** — ver [`RESEARCH.md`](.
 | — | **#048.4** Add productive EN Botafogo source to cluster | ✅ **concluída** — fonte EN canônica em `garrincha_botafogo` (HTTP 200, canon 10 offline); cluster 3 domínios / 2 publishers / 5 URLs; 366 testes |
 | — | **#058.8** sparse merge do fallback regex | ✅ **concluída** — `SPACY_SPARSE_MIN=10`, merge fallback-lazy-primeiro; run `36064311931`; EN Pelé 1→25, gap `canonical_to_fact_gap` 7→0; 376 testes |
 | — | **#058.9** triagem read-only dos 21 pares PT/EN | ✅ **concluída** — `predicate_mapper_gap=0`, `object_alias_missing=0`, `fix_both=21` (ruído); decisão: descartar #047.1/#045.3 → abrir **#058.10** |
-| — | **#058.10** guard `object_predicate_complement` (SER × cláusula EN) | ✅ **concluída** — 5 camadas determinísticas no `span_validator` + call-site `predicate=`; dry-run: 45/141 SER rejeitados, 0 PT, 16/19 pares EN; 380 testes |
+| — | **#058.10** guard `object_predicate_complement` (SER × cláusula EN) | ✅ **concluída** — 5 camadas determinísticas no `span_validator` + call-site `predicate=`; dry-run: 45/141 SER rejeitados, 0 PT, 16/19 pares EN; 380 testes; **Fase B validada em produção** — run `36090364284`, `opc=43`, padrões banidos 0, EN share 85,6%→81,4%, PT gate não-vazado (gap 7 = pt-IA cold-start, `unaccounted=0`); **Cenário 2 parcial** (divergência editorial real) |
 | #047 | Aliasing curado de entidades | ✅ **concluída** — dicionário bilíngue + boundary fix extractor; goldens cross-lingual verdes |
 | item 2 | Entity linking **diagnóstico** (sem promover fato) | medir `potential_verified_if_linking` antes de qualquer promoção |
 | — | ~~Validador de span v2~~ | ✅ **#058.2** — fragmentos H3 rejeitados; residual boundary fechado em **#047** |
@@ -73,12 +73,12 @@ o gargalo é **equivalência semântica entre fontes** — ver [`RESEARCH.md`](.
 | #048.4 | Add productive EN Botafogo source to cluster | v1.13.0 | ✅ concluída — `garrincha_botafogo` ganhou EN canônica (offline 200/canon 10); 2 testes novos; 366 testes |
 | #058.8 | Sparse merge do regex fallback (spaCy sparse) | v1.13.0 | ✅ concluída — `SPACY_SPARSE_MIN=10`; run único `36064311931`; `Fato` 119→248; 376 testes |
 | #058.9 | Triagem read-only dos 21 pares PT/EN | v1.13.0 | ✅ concluída — `root_cause=ruído/verdade (13/8)`, `gap_mapper=0`, `gap_alias=0`; #047.1/#045.3 descartados |
-| #058.10 | Guard `object_predicate_complement` (SER × cláusula EN) | v1.13.0 | ✅ concluída — 5 camadas em `span_validator`; dry-run 45/141 SER rejeitados, 0 PT; 380 testes |
+| #058.10 | Guard `object_predicate_complement` (SER × cláusula EN) | v1.13.0 | ✅ concluída — 5 camadas em `span_validator`; dry-run 45/141 SER rejeitados, 0 PT; 380 testes; **Fase B validada** (run `36090364284`; Cenário 2 parcial) |
 | #064 | Concept reconciliation (dívida pós-#058.3) | dívida | 📌 backlog — registrar; **não executar** até evidência adicional |
 | #045 | (implícito) predicate mapper — reabrir só se `top_unmapped` voltar a ter verbos claros ≥3 | — | 🧊 aguardando métrica |
 | #053 | Independência editorial por publisher/eTLD+1 | dívida | 📌 backlog |
 | #054 | Ontologia temporal (`:Ano`/`:Periodo`, `OCORREU_EM`) | dívida | 📌 backlog |
-| #055 | Integração API REST do Almanaque | dívida | 📌 backlog |
+| #055 | Integração API REST do Almanaque | dívida | 📌 **próximo prioritário** — API confirmada (OpenAPI 3.0.3 `/docs/json`, 87 paths, leituras públicas `/api/v1/clubs|players|competitions|rankings`); ToS: API incluída no plano **Elite** com chave individual + extração em escala/scraping proibidos → exigir decisão/licença do operador antes de consumir em escala |
 
 ## 3. Template de tarefa (padrão do repositório)
 

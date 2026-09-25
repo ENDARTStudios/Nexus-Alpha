@@ -1,0 +1,137 @@
+{
+  "audit_id": "entity_linking_audit_2026-09-25",
+  "generated_at": "2026-09-25T03:53:11.139270+00:00",
+  "build_space_commit": "85355c6 (git 134869b)",
+  "worker_run_id": "36090364284",
+  "quorum": 3,
+  "facts_total": 183,
+  "domains_total": 13,
+  "domain_coverage": {
+    "facts_total": 183,
+    "domains_total": 13,
+    "facts_by_domain": {
+      "pt.wikipedia.org": 67,
+      "en.wikipedia.org": 59,
+      "plato.stanford.edu": 11,
+      "ollama.com": 9,
+      "ibm.com": 8,
+      "scikit-learn.org": 8,
+      "paperswithcode.com": 6,
+      "geeksforgeeks.org": 4,
+      "tensorflow.org": 4,
+      "nist.gov": 2,
+      "santosfc.com.br": 2,
+      "spectrum.ieee.org": 2,
+      "huggingface.co": 1
+    },
+    "facts_with_one_domain": 183,
+    "facts_with_two_or_more_domains": 0
+  },
+  "candidate_pairs": {
+    "high": 0,
+    "medium": 0,
+    "low": 3
+  },
+  "potential_verified_if_high_aliasing": 0,
+  "potential_verified_if_medium_aliasing": 0,
+  "mismatch_types": {
+    "subject_variant": 0,
+    "object_variant": 0,
+    "predicate_variant": 0,
+    "true_unique": 183
+  },
+  "examples": [
+    {
+      "confidence": "low",
+      "type": "predicate_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "manuel francisco dos santos|DEFENDEU|primeira partida do torneio",
+        "subject": "MANUEL FRANCISCO DOS SANTOS",
+        "predicate": "DEFENDEU",
+        "object": "PRIMEIRA PARTIDA DO TORNEIO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "manuel francisco dos santos|SER|incredible player",
+        "subject": "MANUEL FRANCISCO DOS SANTOS",
+        "predicate": "SER",
+        "object": "INCREDIBLE PLAYER",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "low",
+      "type": "predicate_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "manuel francisco dos santos|EXECUTA|jogada semelhante",
+        "subject": "MANUEL FRANCISCO DOS SANTOS",
+        "predicate": "EXECUTA",
+        "object": "JOGADA SEMELHANTE",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "manuel francisco dos santos|SER|incredible player",
+        "subject": "MANUEL FRANCISCO DOS SANTOS",
+        "predicate": "SER",
+        "object": "INCREDIBLE PLAYER",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "low",
+      "type": "predicate_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "manuel francisco dos santos|EXECUTA|treino",
+        "subject": "MANUEL FRANCISCO DOS SANTOS",
+        "predicate": "EXECUTA",
+        "object": "TREINO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "manuel francisco dos santos|SER|incredible player",
+        "subject": "MANUEL FRANCISCO DOS SANTOS",
+        "predicate": "SER",
+        "object": "INCREDIBLE PLAYER",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    }
+  ],
+  "promote_automatically": false,
+  "parameters": {
+    "quorum": 3,
+    "high": 0.85,
+    "medium": 0.6,
+    "max_examples": 20,
+    "domains_require_disjoint": true,
+    "mismatch_types_scope": "fact_level_best_candidate_high_or_medium",
+    "qdrant_used": false
+  },
+  "truthfulness_note": {
+    "read_only": true,
+    "promote_automatically": false,
+    "qdrant_ignored": true,
+    "does_not_change_quorum_or_confirmacoes": true,
+    "medium_is_upper_bound": true,
+    "medium_does_not_imply_safe_aliasing": true,
+    "only_high_is_recommended_for_curated_alias_review": true,
+    "note": "Read-only; NAO promove fato, NAO altera confirmacoes/quorum, NAO usa Qdrant. medium e limite superior teorico; apenas high alimenta revisao de alias curado."
+  }
+}

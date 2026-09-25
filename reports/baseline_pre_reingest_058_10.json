@@ -1,0 +1,107 @@
+{
+  "report": "baseline_pre_reingest_058_10",
+  "generated_at": "2026-09-25T03:11:43.136939+00:00",
+  "build_space_commit": "85355c6 (git 134869b)",
+  "quorum": 3,
+  "seeds_used": "config/seed_clusters.yaml (inalterado)",
+  "workflow_before": "disabled_manually",
+  "snapshot_aura_ok": "pending_user_console_snapshot",
+  "rollback_plan": "reports/aura_snapshot_pre_reingest_058_10.json (3543 nodes / 3248 rels) + console snapshot AuraDB",
+  "warm_up_calls": "15 attempts + 2 manual (consistent facts=1694, hebbian=true, unaccounted=0)",
+  "space_health": {
+    "status_code": 200,
+    "body": "{\"status\":\"ok\"}"
+  },
+  "graph": {
+    "label_counts": {
+      "Conceito": 1694,
+      "Episodio": 1565,
+      "Fato": 248,
+      "FonteWeb": 36
+    },
+    "facts": 248,
+    "facts_with_two_or_more_confirmations": 4,
+    "facts_with_two_or_more_domains": 0,
+    "facts_with_three_or_more_domains": 0,
+    "max_domain_confirmations": 5,
+    "verified_facts_domain_independent": 0,
+    "duplicate_cross_domain": 0,
+    "ser_share": {
+      "formula": "facts with predicate in copula set / total facts",
+      "total_facts": 240,
+      "ser_facts": 135,
+      "ser_share": 0.5625,
+      "en_facts": 104,
+      "ser_en": 89,
+      "ser_share_en": 0.8558,
+      "pt_facts": 72,
+      "ser_pt": 0,
+      "ser_share_pt": 0.0
+    },
+    "facts_by_domain_top": {
+      "en.wikipedia.org": 104,
+      "pt.wikipedia.org": 72,
+      "plato.stanford.edu": 14,
+      "ibm.com": 11,
+      "ollama.com": 9,
+      "scikit-learn.org": 8,
+      "paperswithcode.com": 6,
+      "tensorflow.org": 4,
+      "geeksforgeeks.org": 4,
+      "nist.gov": 2,
+      "spectrum.ieee.org": 2,
+      "santosfc.com.br": 2,
+      "huggingface.co": 1,
+      "ge.globo.com": 1
+    }
+  },
+  "space_metrics_present": true,
+  "extraction_quality": {
+    "raw_triples": 0,
+    "canonical_triples": 0,
+    "rejected_noise": 0,
+    "rejection_reasons": {
+      "numeric_predicate": 0,
+      "url_or_code_predicate": 0,
+      "stopword_predicate": 0,
+      "nonverbal_predicate": 0,
+      "invalid_predicate": 0,
+      "unmapped_predicate": 0,
+      "missing_entity": 0,
+      "self_loop": 0
+    },
+    "top_unmapped_predicates": [],
+    "top_invalid_predicates": []
+  },
+  "verification": {
+    "quorum": 3,
+    "facts_with_multi_domain": 0,
+    "max_domain_confirmations": 1,
+    "verified_facts_domain_independent": 0
+  },
+  "cognitive_health": {
+    "episodic_persistence_rate": 1.0,
+    "hebbian_consistency_check": true,
+    "retention_pressure": "low"
+  },
+  "ingestion_accounting": {
+    "raw_triples": 0,
+    "canonical_triples": 0,
+    "distinct_canonical_keys": 0,
+    "duplicate_canonical_occurrences": 0,
+    "persisted_facts": 248,
+    "canonical_to_fact_gap": -248,
+    "unaccounted_raw": 0,
+    "duplicate_same_source_url": 0,
+    "duplicate_same_domain": 0,
+    "duplicate_cross_domain": 0,
+    "rejected_after_canonical": 0,
+    "merged_into_existing_fact": 0,
+    "new_facts_created": 0,
+    "process_started_at": "2026-09-25T03:04:08.361533+00:00",
+    "last_ingest_at": null,
+    "accounting_mode": "bounded_exact"
+  },
+  "vectors_count": 756,
+  "truthfulness_note": "Read-only baseline; no Neo4j writes, no Qdrant, no ingest."
+}

@@ -1,0 +1,30 @@
+{
+  "facts_total": 183,
+  "facts_with_one_domain": 183,
+  "facts_with_two_or_more_domains": 0,
+  "exact_cross_source_matches": 0,
+  "near_matches": {
+    "high": 0,
+    "medium": 0,
+    "low": 0
+  },
+  "near_match_rate_high": 0.0,
+  "potential_verified_if_linking": 0,
+  "potential_verified_if_aliasing": 0,
+  "mismatch_types": {
+    "subject_variant": 0,
+    "object_variant": 0,
+    "predicate_variant": 0,
+    "true_unique": 183
+  },
+  "top_examples": [],
+  "parameters": {
+    "quorum": 3,
+    "high": 0.85,
+    "medium": 0.6
+  },
+  "audit_id": "cross_source_audit_2026-09-25",
+  "generated_at": "2026-09-25T03:53:18.441707+00:00",
+  "quorum": 3,
+  "truthfulness_note": "Similaridade lexical read-only; NAO promove fato, NAO altera confirmacoes, NAO usa Qdrant/vetores stale. Sinonimos nao-lexicais nao sao detectados."
+}

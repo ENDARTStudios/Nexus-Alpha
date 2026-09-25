@@ -1418,7 +1418,8 @@ Descartar `#047.1` (alias) e `#045.3` (mapper) como próximos passos; abrir
 
 ## #058.10 — Guard `object_predicate_complement` (objeto de SER = cláusula EN)
 
-**Status:** ✅ concluída (guard determinístico; testes + dry-run read-only)
+**Status:** ✅ concluída + **Fase B validada em produção** (run `36090364284`;
+classificação do operador: **Cenário 2 parcial** + Regra de Ouro da Contabilidade)
 
 ### Por quê
 A triagem `#058.9` mostrou que os 21 pares PT/EN não têm gap de alias nem
@@ -1482,9 +1483,55 @@ staging explícito (5 arquivos) · mensagem
 `feat(cognition): suppress EN copular and passive clause objects in span validator` ·
 CI verde · sem treino · sem LLM/embedding no validador · sem `git add -A`.
 
+### Fase B — validação em produção (2026-09-25, com o operador)
+
+Execução sob as 8 condições rígidas do operador: snapshot lógico aceito como
+`snapshot_aura_ok` (3543 nós / 3248 rels) → reset escopado só `:Fato`
+(248→0; Conceito 1694 e FonteWeb 36 intactos) → Space `85355c6 (git 134869b)`
+com o guard → warm-up 15+2 → baseline `reports/baseline_pre_reingest_058_10.json`
+(248 fatos) → worker único `36090364284` (success) → cron `disabled_manually`
+antes e depois (sem runs redundantes) → 4 auditorias read-only. Qdrant,
+seeds, aliases, mapper intactos; sem treino.
+
+| Métrica (baseline → pós) | valor |
+|---|---|
+| `object_predicate_complement` em produção | 0 → **43** |
+| padrões banidos da triagem nos fatos persistidos | 16 → **0** |
+| fatos `:Fato` | 248 → 183 |
+| EN facts / SER share EN | 104 / 85,58% → 59 / **81,36%** |
+| PT facts / `ser_pt` | 72 / 0 → 67 / 0 |
+| `duplicate_cross_domain` / `verified` | 0 / 0 → 0 / 0 (esperado pela calibração) |
+| contabilidade | raw 574, canônicas 196, distintas 190, grafo 183, `reconciled_gap=7`, `unaccounted=0` |
+
+**Gate PT (não vazou):** 72→67 é integralmente a URL `pt.wikipedia.org/wiki/
+Inteligência_artificial` (falha de pool Neo4j no 1º ingest — cold-start,
+8 entities perdidas); as outras 11 URLs PT tiveram yield idêntico ao baseline;
+`ser_pt=0` antes e depois (guard só dispara em cópulas), dry-run 0 PT,
+predicados PT todos verbais → restringir guard a EN **não** é necessário.
+`gap=7` = as mesmas 7 chaves da pt-IA; `unaccounted=0`; recuperação
+planejada no próximo ciclo de re-ingest natural (sem dispatch isolado —
+decisão do operador; anotado no relatório).
+
+**Classificação do operador: Cenário 2 (parcial) + Regra de Ouro da
+Contabilidade.** Guard validado — os padrões tóxicos sumiram dos fatos sem
+matar entidades válidas. Collision zero devido a **divergência editorial
+real** (`true_content_difference`/`extraction_absence` no parity audit
+pós-guard), não técnica; `#047.1`/`#045.3` permanecem mortos. Próximo passo
+exige **mudança de estratégia de corpus/fonte**: `#055` (API REST do
+Almanaque — confirmada: OpenAPI 3.0.3, 87 paths, leituras públicas em
+`/api/v1`; ToS: API é recurso do plano Elite com chave individual e extração
+em escala proibida → decisão/licença do operador) ou `#048.5` (curadoria
+manual de fatos-alvo). Gate de treino fechado (`verified=0 < 10`).
+
+Artefatos: `reports/{baseline_pre_reingest,post_reingest}_058_10.json`,
+`reports/{extraction_parity,entity_linking_audit,cross_source_audit}_058_10_post.json`
+(4 auditorias), `reports/aura_snapshot_pre_reingest_058_10.json` (rollback,
+local), run `36090364284`.
+
 ### Fora de escopo
 Fase B (re-ingest pós-guard: snapshot AuraDB → reset escopado → worker
-único → re-runs read-only — **com o usuário**, não executado aqui),
+único → re-runs read-only — executada **com o usuário** em 2026-09-25,
+ver seção acima),
 `#047.1`, `#045.3`, `#048.5`, `#055`, seeds, aliases, `predicate_mapper.py`,
 workflows, treino (gate `verified_facts_domain_independent = 0 < 10`).
 

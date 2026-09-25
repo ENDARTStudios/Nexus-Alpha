@@ -1,0 +1,305 @@
+{
+  "report": "post_reingest_058_10",
+  "generated_at": "2026-09-25T03:52:37.583216+00:00",
+  "build_space_commit": "85355c6 (git 134869b)",
+  "baseline_timestamp": "2026-09-25T03:11:43.136939+00:00",
+  "reset_timestamp": "2026-09-25T03:26:07.991310+00:00",
+  "worker_run_id": "36090364284",
+  "worker_run_conclusion": "success (workflow_dispatch, headSha 134869b)",
+  "quorum": 3,
+  "seeds_used": "config/seed_clusters.yaml (inalterado)",
+  "workflow_before": "disabled_manually",
+  "workflow_after": "disabled_manually",
+  "snapshot_aura_ok": "logical_export_accepted_by_operator: reports/aura_snapshot_pre_reingest_058_10.json (3543 nodes / 3248 rels)",
+  "rollback_plan": "reports/aura_snapshot_pre_reingest_058_10.json (3543 nodes / 3248 rels); restaurar export logico via console AuraDB (sem CLI Aura disponivel)",
+  "warm_up_calls": "15 attempts + 2 manual (consistent facts=1694, hebbian=true, unaccounted=0)",
+  "space_health": {
+    "status_code": 200,
+    "body": "{\"status\":\"ok\"}"
+  },
+  "graph": {
+    "label_counts": {
+      "Episodio": 1748,
+      "Conceito": 1694,
+      "Fato": 183,
+      "FonteWeb": 36
+    },
+    "facts": 183,
+    "facts_with_two_or_more_confirmations": 3,
+    "facts_with_two_or_more_domains": 0,
+    "facts_with_three_or_more_domains": 0,
+    "max_domain_confirmations": 4,
+    "verified_facts_domain_independent": 0,
+    "duplicate_cross_domain": 0,
+    "ser_share": {
+      "formula": "facts with predicate in copula set / total facts",
+      "total_facts": 183,
+      "ser_facts": 91,
+      "ser_share": 0.4973,
+      "en_facts": 59,
+      "ser_en": 48,
+      "ser_share_en": 0.8136,
+      "pt_facts": 67,
+      "ser_pt": 0,
+      "ser_share_pt": 0.0,
+      "en_clause_like_residual": 0,
+      "en_clause_like_residual_examples": []
+    },
+    "facts_by_domain_top": {
+      "pt.wikipedia.org": 67,
+      "en.wikipedia.org": 59,
+      "plato.stanford.edu": 11,
+      "ollama.com": 9,
+      "ibm.com": 8,
+      "scikit-learn.org": 8,
+      "paperswithcode.com": 6,
+      "geeksforgeeks.org": 4,
+      "tensorflow.org": 4,
+      "santosfc.com.br": 2,
+      "nist.gov": 2,
+      "spectrum.ieee.org": 2,
+      "huggingface.co": 1
+    },
+    "pt_predicate_histogram": {
+      "POSSUIR": 21,
+      "UTILIZA": 9,
+      "VENCEU": 9,
+      "EXECUTA": 9,
+      "CONTIENE": 5,
+      "PRODUZ": 4,
+      "DEFENDEU": 3,
+      "DISPUTOU": 2,
+      "APRENDE": 2,
+      "DISTRIBUIR": 1,
+      "INFLUENCIA": 1,
+      "FUNDOU": 1
+    }
+  },
+  "space_metrics_present": true,
+  "extraction_quality": {
+    "raw_triples": 574,
+    "canonical_triples": 196,
+    "rejected_noise": 378,
+    "rejection_reasons": {
+      "numeric_predicate": 0,
+      "url_or_code_predicate": 0,
+      "stopword_predicate": 0,
+      "nonverbal_predicate": 0,
+      "invalid_predicate": 0,
+      "unmapped_predicate": 74,
+      "missing_entity": 67,
+      "self_loop": 0,
+      "object_date_like": 23,
+      "ambiguous_predicate": 19,
+      "object_clause_fragment": 3,
+      "modal_predicate": 26,
+      "object_prepositional_phrase": 45,
+      "subject_quantifier_phrase": 9,
+      "object_adverbial_phrase": 2,
+      "object_generic_phrase": 3,
+      "object_punctuated": 1,
+      "subject_starts_with_stopword": 16,
+      "object_predicate_complement": 43,
+      "subject_generic_phrase": 46,
+      "object_pronoun": 1
+    },
+    "object_predicate_complement": 43,
+    "top_unmapped_predicates": [
+      {
+        "predicate": "MARCAR",
+        "count": 13
+      },
+      {
+        "predicate": "VIR",
+        "count": 8
+      },
+      {
+        "predicate": "DAR",
+        "count": 7
+      },
+      {
+        "predicate": "DESCREVER",
+        "count": 6
+      },
+      {
+        "predicate": "VER",
+        "count": 3
+      },
+      {
+        "predicate": "REPRESENTAR",
+        "count": 3
+      },
+      {
+        "predicate": "RESULTS",
+        "count": 3
+      },
+      {
+        "predicate": "DIVIDIR",
+        "count": 2
+      },
+      {
+        "predicate": "CONSTRUIR",
+        "count": 2
+      },
+      {
+        "predicate": "PERMITIR",
+        "count": 2
+      }
+    ],
+    "top_invalid_predicates": []
+  },
+  "verification": {
+    "quorum": 3,
+    "facts_with_multi_domain": 0,
+    "max_domain_confirmations": 1,
+    "verified_facts_domain_independent": 0
+  },
+  "ingestion_accounting": {
+    "raw_triples": 574,
+    "canonical_triples": 196,
+    "distinct_canonical_keys": 190,
+    "duplicate_canonical_occurrences": 6,
+    "persisted_facts": 183,
+    "canonical_to_fact_gap": 7,
+    "unaccounted_raw": 0,
+    "duplicate_same_source_url": 0,
+    "duplicate_same_domain": 6,
+    "duplicate_cross_domain": 0,
+    "rejected_after_canonical": 0,
+    "merged_into_existing_fact": 6,
+    "new_facts_created": 190,
+    "process_started_at": "2026-09-25T03:04:08.361533+00:00",
+    "last_ingest_at": "2026-09-25T03:30:03.213578+00:00",
+    "accounting_mode": "bounded_exact"
+  },
+  "cognitive_health": {
+    "episodic_persistence_rate": 1.0,
+    "hebbian_consistency_check": true,
+    "retention_pressure": "low"
+  },
+  "vectors_count": 785,
+  "en_ser_share_before": 0.8558,
+  "en_ser_share_after": 0.8136,
+  "pt_gate_result": {
+    "pt_facts_before": 72,
+    "pt_facts_after": 67,
+    "ser_pt_before": 0,
+    "ser_pt_after": 0,
+    "verdict": "PT_REGRESSED_BUT_GUARD_NOT_INVOLVED",
+    "attribution": "Queda integralmente explicada por falha de extracao da URL pt.wikipedia.org/wiki/Inteligencia_artificial (1o ingest do run: 'Neo4j indisponivel' - cold-start do pool, entities=8 perdidas). As outras 11 URLs PT tiveram yield identico ao baseline (pares: 10->10, 9->9, 8->8, 8->8, 6->6, 6->6, 6->6, 6->6, 5->5, 4->4, 4->4). pt.wikipedia.org/wiki/Visao_computacional = 404 (nao contribuia no baseline).",
+    "guard_evidence": [
+      "guard escopado a copulas (ser/foi/.../being): ser_pt=0 antes e depois -> guard nao dispara em PT",
+      "dry-run #058.10: 0 rejeicoes em PT",
+      "post: rejection_reasons.object_predicate_complement=43, todos padroes EN",
+      "predicados PT todos verbais (histograma no campo graph.pt_predicate_histogram)"
+    ],
+    "conclusion": "Condition 6: guard NAO vazou para PT; restringir guard a EN NAO e necessario. Regressao PT = cold-start operacional, recuperavel re-rodando a URL pt-IA."
+  },
+  "worker_failures": [
+    {
+      "url": "https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial",
+      "kind": "status=failed",
+      "detail": "Neo4j indisponivel e fallback demo-memory desabilitado (NEXUS_ALLOW_DEMO_FALLBACK=false); entities=8 perdidas -> origem do gap=7",
+      "at": "2026-09-25T03:29:28Z"
+    },
+    {
+      "url": "https://pt.wikipedia.org/wiki/Visi%C3%A3o_computacional",
+      "kind": "http_404",
+      "detail": "status 404 nao recuperavel; nao contribuia no baseline"
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/Machine_learning",
+      "kind": "http_404",
+      "detail": "status 404 nao recuperavel"
+    },
+    {
+      "url": "https://arxiv.org/abs/2303.08774",
+      "kind": "extraction_zero",
+      "detail": "Extra sem entidades, masked=True (mesma falha do #058.8)"
+    },
+    {
+      "url": "https://ge.globo.com/futebol/times/santos/",
+      "kind": "extraction_zero",
+      "detail": "Extra sem entidades, masked=True"
+    }
+  ],
+  "gap_analysis": {
+    "distinct_canonical_keys": 190,
+    "canonical_triples": 196,
+    "duplicate_canonical_occurrences": 6,
+    "graph_facts": 183,
+    "reconciled_gap": 7,
+    "api_canonical_to_fact_gap": 7,
+    "api_semantics": "API: distinct_canonical_keys - persisted_facts(0, quirk da API); registrado como encontrado",
+    "unaccounted_raw": 0,
+    "explanation": "reconciled_gap=7: 196 canonicas - 6 dup = 190 distintas; 183 persistiram; 7 chaves perdidas = pagina pt-IA (entities=8, 'Neo4j indisponivel' no 1o ingest, cold-start do pool). unaccounted_raw=0 (contabilidade fechada).",
+    "scenario_5_signature": "reconciled_gap>0 E unaccounted_raw=0 com causa operacional identificada (cold-start pool Neo4j no 1o ingest do run)",
+    "recovery_plan": "Os 7 fatos perdidos (URL pt-IA, cold-start do pool Neo4j no 1o ingest) sao conhecidos e serao recuperados naturalmente no proximo ciclo de re-ingest (#048.5/#055 - URL reprocessada com pool aquecido). Sem dispatch isolado, por decisao do operador: run parcial seria dificil de auditar contra o baseline completo."
+  },
+  "yield_comparison_pairs_baseline_to_post": {
+    "source": "CONFIRMA pairs per URL: snapshot (baseline) vs live (post)",
+    "en": {
+      "https://en.wikipedia.org/wiki/Artificial_intelligence": [
+        18,
+        11
+      ],
+      "https://en.wikipedia.org/wiki/Machine_learning": [
+        24,
+        11
+      ],
+      "https://en.wikipedia.org/wiki/Santos_FC": [
+        15,
+        9
+      ],
+      "https://en.wikipedia.org/wiki/Garrincha": [
+        13,
+        6
+      ],
+      "https://en.wikipedia.org/wiki/Pel%C3%A9": [
+        12,
+        7
+      ],
+      "https://en.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira": [
+        18,
+        7
+      ],
+      "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas": [
+        9,
+        8
+      ],
+      "_total": [
+        109,
+        59
+      ],
+      "_note": "delta -50 vs 43 rejeicoes object_predicate_complement (resto = variancia de extracao do run)"
+    },
+    "pt": {
+      "https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial": [
+        8,
+        0
+      ],
+      "https://pt.wikipedia.org/wiki/Garrincha": [
+        10,
+        10
+      ],
+      "https://pt.wikipedia.org/wiki/Aprendizado_de_m%C3%A1quina": [
+        9,
+        9
+      ],
+      "https://pt.wikipedia.org/wiki/Processamento_de_linguagem_natural": [
+        8,
+        8
+      ],
+      "https://pt.wikipedia.org/wiki/Pel%C3%A9": [
+        8,
+        8
+      ],
+      "_total": [
+        80,
+        72
+      ],
+      "_note": "delta -8 integralmente da URL pt-IA falha (as 11 demais URLs PT identicas)"
+    }
+  },
+  "truthfulness_note": "Read-only post-reingest; no Neo4j writes from this script."
+}

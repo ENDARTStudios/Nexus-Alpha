@@ -1,0 +1,1386 @@
+{
+  "audit_id": "extraction_parity_pt_en_2026-09-25",
+  "generated_at": "2026-09-25T03:53:02.793253+00:00",
+  "build_space_commit": "85355c6 (git 134869b)",
+  "worker_run_id": "36090364284",
+  "quorum": 3,
+  "targets": [
+    {
+      "target": "Santos Fc",
+      "canonical_entity": "SANTOS FUTEBOL CLUBE",
+      "sources": [
+        {
+          "url": "https://pt.wikipedia.org/wiki/Santos_FC",
+          "final_url": "https://pt.wikipedia.org/wiki/Santos_FC",
+          "domain": "pt.wikipedia.org",
+          "language": "pt",
+          "fetch_status": 200,
+          "cleaned_text_length": 0,
+          "sentences_considered": 0,
+          "raw_triples": 25,
+          "canonical_triples": 6,
+          "rejected_reasons": {},
+          "span_rejection_count": 0,
+          "canonical_facts": [
+            {
+              "subject": "ESCUDO",
+              "predicate": "UTILIZA",
+              "object": "MESMO COM TODA ESSA ELABORACAO",
+              "fact_hash": "0eaa370da744d3e25a764dad65b0cdafc0687f4a564996caa0e4aac2d2648281",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Santos_FC",
+              "raw_subject": "ESCUDO",
+              "raw_predicate": "UTILIZA",
+              "raw_object": "MESMO COM TODA ESSA ELABORACAO"
+            },
+            {
+              "subject": "CLUBE",
+              "predicate": "POSSUIR",
+              "object": "AINDA NO AMBITO NACIONAL",
+              "fact_hash": "7885940de22bccab51ccad8a832958a362d0fe885a540d0d08ab705f4d78e287",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Santos_FC",
+              "raw_subject": "CLUBE",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "AINDA NO AMBITO NACIONAL"
+            },
+            {
+              "subject": "ALVINEGRO",
+              "predicate": "VENCEU",
+              "object": "DOIS ANOS DEPOIS",
+              "fact_hash": "d11543d206700033c275f396704b973cd3f54ba2d879e2b84042181d804fc722",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Santos_FC",
+              "raw_subject": "ALVINEGRO",
+              "raw_predicate": "VENCEU",
+              "raw_object": "DOIS ANOS DEPOIS"
+            },
+            {
+              "subject": "SANTOS FUTEBOL CLUBE",
+              "predicate": "DISPUTOU",
+              "object": "AMISTOSO",
+              "fact_hash": "c38fdd31baf62e34634af901d265ad0a8ff6f49086760727d4a3284f56fee87e",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Santos_FC",
+              "raw_subject": "SANTOS FUTEBOL CLUBE",
+              "raw_predicate": "DISPUTOU",
+              "raw_object": "AMISTOSO"
+            },
+            {
+              "subject": "VISITA AO MUSEU",
+              "predicate": "CONTIENE",
+              "object": "VESTIARIOS DOS JOGADORES SALA",
+              "fact_hash": "db9f3c970703c4189f45204653bc7a115f59cbc096dec1250fc4bca0b8a953c6",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Santos_FC",
+              "raw_subject": "VISITA AO MUSEU",
+              "raw_predicate": "CONTIENE",
+              "raw_object": "VESTIARIOS DOS JOGADORES SALA"
+            },
+            {
+              "subject": "PEIXE BALEIA MARINHEIRO PEIXEIRO PESCADOR",
+              "predicate": "POSSUIR",
+              "object": "FORTE IDENTIFICACAO COM A SUA",
+              "fact_hash": "4618e2935aa20d6d5be15767d7e5f595ff920d58f9a8936b5acbbdcc2f381915",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Santos_FC",
+              "raw_subject": "PEIXE BALEIA MARINHEIRO PEIXEIRO PESCADOR",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "FORTE IDENTIFICACAO COM A SUA"
+            }
+          ],
+          "fact_hashes": [
+            "0eaa370da744d3e25a764dad65b0cdafc0687f4a564996caa0e4aac2d2648281",
+            "4618e2935aa20d6d5be15767d7e5f595ff920d58f9a8936b5acbbdcc2f381915",
+            "7885940de22bccab51ccad8a832958a362d0fe885a540d0d08ab705f4d78e287",
+            "c38fdd31baf62e34634af901d265ad0a8ff6f49086760727d4a3284f56fee87e",
+            "d11543d206700033c275f396704b973cd3f54ba2d879e2b84042181d804fc722",
+            "db9f3c970703c4189f45204653bc7a115f59cbc096dec1250fc4bca0b8a953c6"
+          ],
+          "fallback_used": false,
+          "fallback_type": "",
+          "fallback_written_to_graph": false,
+          "entities_processed": 6,
+          "db_status": "cluster-active",
+          "ingest_status": "success"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Santos_FC",
+          "final_url": "https://en.wikipedia.org/wiki/Santos_FC",
+          "domain": "en.wikipedia.org",
+          "language": "en",
+          "fetch_status": 200,
+          "cleaned_text_length": 0,
+          "sentences_considered": 0,
+          "raw_triples": 25,
+          "canonical_triples": 9,
+          "rejected_reasons": {},
+          "span_rejection_count": 0,
+          "canonical_facts": [
+            {
+              "subject": "REGULAR KIT",
+              "predicate": "SER",
+              "object": "WHITE SHIRTS",
+              "fact_hash": "16990a0b64567df270e1e3db351ad34628a324437a2e01afa1ed9430eaa1f107",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Santos_FC",
+              "raw_subject": "REGULAR KIT",
+              "raw_predicate": "SER",
+              "raw_object": "WHITE SHIRTS"
+            },
+            {
+              "subject": "AMERICANO MOVED TO",
+              "predicate": "SER",
+              "object": "SAO PAULO",
+              "fact_hash": "8d77c42137d3c267d58c15a9a4f4c398df9117794b7a999415b09326e4d3247c",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Santos_FC",
+              "raw_subject": "AMERICANO MOVED TO",
+              "raw_predicate": "SER",
+              "raw_object": "SAO PAULO"
+            },
+            {
+              "subject": "LONGEST FOOTBALL TRIP ANY BRAZILIAN CLUB",
+              "predicate": "POSSUIR",
+              "object": "TAKEN",
+              "fact_hash": "bab0c744cd3bf37b4367e2a169bc8d4bd750dea6f69ac7c5214c8bc8008ee18b",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Santos_FC",
+              "raw_subject": "LONGEST FOOTBALL TRIP ANY BRAZILIAN CLUB",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "TAKEN"
+            },
+            {
+              "subject": "LEGACY SANTOS",
+              "predicate": "SER",
+              "object": "CHAMPION IN 1973",
+              "fact_hash": "54c94ddc867113722e4da05f42ee1fe48491880af3da5ed3465ccbb3fb6d7545",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Santos_FC",
+              "raw_subject": "LEGACY SANTOS",
+              "raw_predicate": "SER",
+              "raw_object": "CHAMPION IN 1973"
+            },
+            {
+              "subject": "SIGNIFICANTLY PASSED",
+              "predicate": "SER",
+              "object": "PAULO AND PALMEIRAS",
+              "fact_hash": "f336053e72242a016d1f9d5bfbbf904731f081586ca82caa0cb3c837714271f0",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Santos_FC",
+              "raw_subject": "SIGNIFICANTLY PASSED",
+              "raw_predicate": "SER",
+              "raw_object": "PAULO AND PALMEIRAS"
+            },
+            {
+              "subject": "RIO LOST AND",
+              "predicate": "SER",
+              "object": "OVERTAKEN ON GOAL FOR FLAMENGO",
+              "fact_hash": "925d9eacec5edbbda06f1ebe816126922b77ec2f82bbbc82c9385db25001e8ce",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Santos_FC",
+              "raw_subject": "RIO LOST AND",
+              "raw_predicate": "SER",
+              "raw_object": "OVERTAKEN ON GOAL FOR FLAMENGO"
+            },
+            {
+              "subject": "STRIKER",
+              "predicate": "SER",
+              "object": "TOP SCORER AGAIN",
+              "fact_hash": "c22537cd42966e0df872db7505c957abbcf683e136b606a64dba1edf78390f8d",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Santos_FC",
+              "raw_subject": "STRIKER",
+              "raw_predicate": "SER",
+              "raw_object": "TOP SCORER AGAIN"
+            },
+            {
+              "subject": "WIKIPEDIA CHECKED THIS",
+              "predicate": "SER",
+              "object": "LATEST ACCEPTED REVISION",
+              "fact_hash": "3b65f520bf30b50919111a32c1a870332e3379594a9c8d8bbc7cb06ae3401b10",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Santos_FC",
+              "raw_subject": "WIKIPEDIA CHECKED THIS",
+              "raw_predicate": "SER",
+              "raw_object": "LATEST ACCEPTED REVISION"
+            },
+            {
+              "subject": "CLUB",
+              "predicate": "SER",
+              "object": "FORMALLY BORN ON 14 APRIL 1912",
+              "fact_hash": "e5dade466cb905a90427e1f297b4dcc0acb2f86f12e957637ae66391f2558a70",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Santos_FC",
+              "raw_subject": "CLUB",
+              "raw_predicate": "SER",
+              "raw_object": "FORMALLY BORN ON 14 APRIL 1912"
+            }
+          ],
+          "fact_hashes": [
+            "16990a0b64567df270e1e3db351ad34628a324437a2e01afa1ed9430eaa1f107",
+            "3b65f520bf30b50919111a32c1a870332e3379594a9c8d8bbc7cb06ae3401b10",
+            "54c94ddc867113722e4da05f42ee1fe48491880af3da5ed3465ccbb3fb6d7545",
+            "8d77c42137d3c267d58c15a9a4f4c398df9117794b7a999415b09326e4d3247c",
+            "925d9eacec5edbbda06f1ebe816126922b77ec2f82bbbc82c9385db25001e8ce",
+            "bab0c744cd3bf37b4367e2a169bc8d4bd750dea6f69ac7c5214c8bc8008ee18b",
+            "c22537cd42966e0df872db7505c957abbcf683e136b606a64dba1edf78390f8d",
+            "e5dade466cb905a90427e1f297b4dcc0acb2f86f12e957637ae66391f2558a70",
+            "f336053e72242a016d1f9d5bfbbf904731f081586ca82caa0cb3c837714271f0"
+          ],
+          "fallback_used": false,
+          "fallback_type": "",
+          "fallback_written_to_graph": false,
+          "entities_processed": 9,
+          "db_status": "cluster-active",
+          "ingest_status": "success"
+        }
+      ],
+      "collision_status": "entity_divergence",
+      "root_cause_candidates": [
+        "entity_divergence"
+      ],
+      "next_issue_hint": "#047.1",
+      "priority": "medium",
+      "diagnostics": {
+        "exact_fact_hash_overlap": [],
+        "shared_predicates": [
+          "possuir"
+        ],
+        "shared_entities": [],
+        "pt_canonical": 6,
+        "en_canonical": 9,
+        "pt_raw": 25,
+        "en_raw": 25,
+        "fallback_used": false,
+        "fallback_written_to_graph": false
+      }
+    },
+    {
+      "target": "Pele",
+      "canonical_entity": "EDSON ARANTES DO NASCIMENTO",
+      "sources": [
+        {
+          "url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+          "final_url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+          "domain": "pt.wikipedia.org",
+          "language": "pt",
+          "fetch_status": 200,
+          "cleaned_text_length": 0,
+          "sentences_considered": 0,
+          "raw_triples": 25,
+          "canonical_triples": 8,
+          "rejected_reasons": {},
+          "span_rejection_count": 0,
+          "canonical_facts": [
+            {
+              "subject": "PELE E SUA EQUIPE",
+              "predicate": "VENCEU",
+              "object": "PRIMEIRO CAMPEONATO E VARIOS OUTROS",
+              "fact_hash": "4af9f15d3137cc891eb305cbd105e90838ac2bfd92012ba3384508bc438c6a4b",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+              "raw_subject": "PELE E SUA EQUIPE",
+              "raw_predicate": "VENCEU",
+              "raw_object": "PRIMEIRO CAMPEONATO E VARIOS OUTROS"
+            },
+            {
+              "subject": "PRIMEIRA DELAS",
+              "predicate": "VENCEU",
+              "object": "ALGUM DINHEIRO EXTRA",
+              "fact_hash": "b9d8d61a5c39b5058f46fa408e01ec3b544ea6280576d19b319899f69f1ba393",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+              "raw_subject": "PRIMEIRA DELAS",
+              "raw_predicate": "VENCEU",
+              "raw_object": "ALGUM DINHEIRO EXTRA"
+            },
+            {
+              "subject": "TIME DE BAURU QUE",
+              "predicate": "VENCEU",
+              "object": "PARTIDA",
+              "fact_hash": "f7c0d4809c7b0837351dc0a3b40fd1bcee11306e2c8884af983f68f11d3e10ad",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+              "raw_subject": "TIME DE BAURU QUE",
+              "raw_predicate": "VENCEU",
+              "raw_object": "PARTIDA"
+            },
+            {
+              "subject": "EDSON ARANTES DO NASCIMENTO",
+              "predicate": "POSSUIR",
+              "object": "NESSE TORNEIO",
+              "fact_hash": "fc7b1ff209b7a3005744fe0ec802122c460078cbea544e8c3b84c9c708fd864d",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+              "raw_subject": "EDSON ARANTES DO NASCIMENTO",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "NESSE TORNEIO"
+            },
+            {
+              "subject": "SANTOS FUTEBOL CLUBE",
+              "predicate": "DISPUTOU",
+              "object": "CAMPEONATO PAULISTA",
+              "fact_hash": "8f165264fea94b74f26e71ecb433ac495f446561837d95175efbd43f723635e2",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+              "raw_subject": "SANTOS FUTEBOL CLUBE",
+              "raw_predicate": "DISPUTOU",
+              "raw_object": "CAMPEONATO PAULISTA"
+            },
+            {
+              "subject": "JOGADOR",
+              "predicate": "POSSUIR",
+              "object": "COSTUME DE JOGAR COMO ARQUEIRO",
+              "fact_hash": "2b6e6e5674d20909d1c1c42c9e9b82cade9f5042f81f8bb84ffb3cce1ca62823",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+              "raw_subject": "JOGADOR",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "COSTUME DE JOGAR COMO ARQUEIRO"
+            },
+            {
+              "subject": "SANTOS FUTEBOL CLUBE",
+              "predicate": "VENCEU",
+              "object": "SEGUNDA PARTIDA",
+              "fact_hash": "e0dea818e696f5383a26a17e73f096d10c1575d68ecaa017f9c4ab93e9f48b8e",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+              "raw_subject": "SANTOS FUTEBOL CLUBE",
+              "raw_predicate": "VENCEU",
+              "raw_object": "SEGUNDA PARTIDA"
+            },
+            {
+              "subject": "BAHIA",
+              "predicate": "VENCEU",
+              "object": "SANTOS FUTEBOL CLUBE",
+              "fact_hash": "cb428ef0096a5f40eea1c52d5c91879566052470b707b21fc627a0c591aad58a",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+              "raw_subject": "BAHIA",
+              "raw_predicate": "VENCEU",
+              "raw_object": "SANTOS FUTEBOL CLUBE"
+            }
+          ],
+          "fact_hashes": [
+            "2b6e6e5674d20909d1c1c42c9e9b82cade9f5042f81f8bb84ffb3cce1ca62823",
+            "4af9f15d3137cc891eb305cbd105e90838ac2bfd92012ba3384508bc438c6a4b",
+            "8f165264fea94b74f26e71ecb433ac495f446561837d95175efbd43f723635e2",
+            "b9d8d61a5c39b5058f46fa408e01ec3b544ea6280576d19b319899f69f1ba393",
+            "cb428ef0096a5f40eea1c52d5c91879566052470b707b21fc627a0c591aad58a",
+            "e0dea818e696f5383a26a17e73f096d10c1575d68ecaa017f9c4ab93e9f48b8e",
+            "f7c0d4809c7b0837351dc0a3b40fd1bcee11306e2c8884af983f68f11d3e10ad",
+            "fc7b1ff209b7a3005744fe0ec802122c460078cbea544e8c3b84c9c708fd864d"
+          ],
+          "fallback_used": false,
+          "fallback_type": "",
+          "fallback_written_to_graph": false,
+          "entities_processed": 8,
+          "db_status": "cluster-active",
+          "ingest_status": "success"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+          "final_url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+          "domain": "en.wikipedia.org",
+          "language": "en",
+          "fetch_status": 200,
+          "cleaned_text_length": 0,
+          "sentences_considered": 0,
+          "raw_triples": 25,
+          "canonical_triples": 7,
+          "rejected_reasons": {},
+          "span_rejection_count": 0,
+          "canonical_facts": [
+            {
+              "subject": "TYPE OF INDOOR FOOTBALL CALLED FUTSAL",
+              "predicate": "SER",
+              "object": "BECOMING POPULAR IN BAURU",
+              "fact_hash": "043fc0f0376dd037596d2a98d69b9b206becccec992ddb18dd11b0a4a18b701c",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+              "raw_subject": "TYPE OF INDOOR FOOTBALL CALLED FUTSAL",
+              "raw_predicate": "SER",
+              "raw_object": "BECOMING POPULAR IN BAURU"
+            },
+            {
+              "subject": "INDUSTRIAL PORT CITY LOCATED NEAR",
+              "predicate": "SER",
+              "object": "SAO PAULO",
+              "fact_hash": "be746744b5526c33188dea7a539ae57efadf9124fdaa363b3cc1790ce7f817b0",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+              "raw_subject": "INDUSTRIAL PORT CITY LOCATED NEAR",
+              "raw_predicate": "SER",
+              "raw_object": "SAO PAULO"
+            },
+            {
+              "subject": "EARLY SOURCE FOR THIS STORY",
+              "predicate": "SER",
+              "object": "EBONY MAGAZINE IN 1975",
+              "fact_hash": "1c1adab4c26ba94bfc2d7192874191a9350d925fa8ec5efc3117d04cde10bef9",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+              "raw_subject": "EARLY SOURCE FOR THIS STORY",
+              "raw_predicate": "SER",
+              "raw_object": "EBONY MAGAZINE IN 1975"
+            },
+            {
+              "subject": "SAID THERE",
+              "predicate": "SER",
+              "object": "INCREASED SECURITY AT THE GAME",
+              "fact_hash": "0b8f4bbb4ebcc147cccd27cbc30edab9348932190dc8e6b8f2b34bb599416d7b",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+              "raw_subject": "SAID THERE",
+              "raw_predicate": "SER",
+              "raw_object": "INCREASED SECURITY AT THE GAME"
+            },
+            {
+              "subject": "EVEN THE SKY",
+              "predicate": "SER",
+              "object": "CRYING",
+              "fact_hash": "1e29ac060b5b6ad289dfcae87d30cf6a0b94318d413fed93d6c71fcb7362c2c7",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+              "raw_subject": "EVEN THE SKY",
+              "raw_predicate": "SER",
+              "raw_object": "CRYING"
+            },
+            {
+              "subject": "S RECORD",
+              "predicate": "SER",
+              "object": "67 WINS",
+              "fact_hash": "dda1637a3168f3ad5028eb036e9ff60d8d311902b2fbd66eb17ae2d43741d341",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+              "raw_subject": "S RECORD",
+              "raw_predicate": "SER",
+              "raw_object": "67 WINS"
+            },
+            {
+              "subject": "ANOTHER ONE OF HIS SIGNATURE MOVES",
+              "predicate": "SER",
+              "object": "PARADINHA",
+              "fact_hash": "a2e2d628082178f1e794b70012f20abe11227e21b0b14d1cf21532c724465e72",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+              "raw_subject": "ANOTHER ONE OF HIS SIGNATURE MOVES",
+              "raw_predicate": "SER",
+              "raw_object": "PARADINHA"
+            }
+          ],
+          "fact_hashes": [
+            "043fc0f0376dd037596d2a98d69b9b206becccec992ddb18dd11b0a4a18b701c",
+            "0b8f4bbb4ebcc147cccd27cbc30edab9348932190dc8e6b8f2b34bb599416d7b",
+            "1c1adab4c26ba94bfc2d7192874191a9350d925fa8ec5efc3117d04cde10bef9",
+            "1e29ac060b5b6ad289dfcae87d30cf6a0b94318d413fed93d6c71fcb7362c2c7",
+            "a2e2d628082178f1e794b70012f20abe11227e21b0b14d1cf21532c724465e72",
+            "be746744b5526c33188dea7a539ae57efadf9124fdaa363b3cc1790ce7f817b0",
+            "dda1637a3168f3ad5028eb036e9ff60d8d311902b2fbd66eb17ae2d43741d341"
+          ],
+          "fallback_used": false,
+          "fallback_type": "",
+          "fallback_written_to_graph": false,
+          "entities_processed": 7,
+          "db_status": "cluster-active",
+          "ingest_status": "success"
+        }
+      ],
+      "collision_status": "no_shared_surface",
+      "root_cause_candidates": [
+        "true_content_difference"
+      ],
+      "next_issue_hint": "#055/#048.2/#065",
+      "priority": "low",
+      "diagnostics": {
+        "exact_fact_hash_overlap": [],
+        "shared_predicates": [],
+        "shared_entities": [],
+        "pt_canonical": 8,
+        "en_canonical": 7,
+        "pt_raw": 25,
+        "en_raw": 25,
+        "fallback_used": false,
+        "fallback_written_to_graph": false
+      }
+    },
+    {
+      "target": "Garrincha",
+      "canonical_entity": "MANUEL FRANCISCO DOS SANTOS",
+      "sources": [
+        {
+          "url": "https://pt.wikipedia.org/wiki/Garrincha",
+          "final_url": "https://pt.wikipedia.org/wiki/Garrincha",
+          "domain": "pt.wikipedia.org",
+          "language": "pt",
+          "fetch_status": 200,
+          "cleaned_text_length": 0,
+          "sentences_considered": 0,
+          "raw_triples": 25,
+          "canonical_triples": 10,
+          "rejected_reasons": {},
+          "span_rejection_count": 0,
+          "canonical_facts": [
+            {
+              "subject": "EUROPEUS",
+              "predicate": "UTILIZA",
+              "object": "TATICA DE PARAR O JOGO",
+              "fact_hash": "d5a87da3e5d28c9e4a1b95dac306500f97571c4872e25eae2376e64d921ae5be",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Garrincha",
+              "raw_subject": "EUROPEUS",
+              "raw_predicate": "UTILIZA",
+              "raw_object": "TATICA DE PARAR O JOGO"
+            },
+            {
+              "subject": "JOELHO DIREITO",
+              "predicate": "POSSUIR",
+              "object": "VALGISMO E O ESQUERDO VARISMO",
+              "fact_hash": "b3fdddd40fa8a42de7eb1c31f4ce90e02cb36720fdb22e7d3fd72e810ec96c1d",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Garrincha",
+              "raw_subject": "JOELHO DIREITO",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "VALGISMO E O ESQUERDO VARISMO"
+            },
+            {
+              "subject": "DOIS",
+              "predicate": "POSSUIR",
+              "object": "UNICO FILHO MANUEL FRANCISCO",
+              "fact_hash": "8ad6dd835214de5f2e8b092603052d7e0cc7378104d45e586883603d8db83465",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Garrincha",
+              "raw_subject": "DOIS",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "UNICO FILHO MANUEL FRANCISCO"
+            },
+            {
+              "subject": "CRAQUE CONSOLIDADO POR PRATICAMENTE TODA",
+              "predicate": "DEFENDEU",
+              "object": "BOTAFOGO DE FUTEBOL E REGATAS",
+              "fact_hash": "a5aff26899a2ed41dcacebfcba7d8d8804152e3c795986ecd798e2fc37c496fd",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Garrincha",
+              "raw_subject": "CRAQUE CONSOLIDADO POR PRATICAMENTE TODA",
+              "raw_predicate": "DEFENDEU",
+              "raw_object": "BOTAFOGO DE FUTEBOL E REGATAS"
+            },
+            {
+              "subject": "BRASIL",
+              "predicate": "VENCEU",
+              "object": "PARTIDA",
+              "fact_hash": "7574dbc47ec52f8ab5b9675c2b24a6f80e9b022fd2f6937b615591eff7975867",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Garrincha",
+              "raw_subject": "BRASIL",
+              "raw_predicate": "VENCEU",
+              "raw_object": "PARTIDA"
+            },
+            {
+              "subject": "MANUEL FRANCISCO DOS SANTOS",
+              "predicate": "EXECUTA",
+              "object": "JOGADA SEMELHANTE",
+              "fact_hash": "cf4ea86221196174848e595556f245ded5847f188a0c239f5a851c798f0883fe",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Garrincha",
+              "raw_subject": "MANUEL FRANCISCO DOS SANTOS",
+              "raw_predicate": "EXECUTA",
+              "raw_object": "JOGADA SEMELHANTE"
+            },
+            {
+              "subject": "PONTA DIREITA",
+              "predicate": "DEFENDEU",
+              "object": "COPA DO MUNDO DE 1966",
+              "fact_hash": "8bb7cb3844fe2d27e487bec46320aa0416245dd7ed8a972fae12e3310173fc95",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Garrincha",
+              "raw_subject": "PONTA DIREITA",
+              "raw_predicate": "DEFENDEU",
+              "raw_object": "COPA DO MUNDO DE 1966"
+            },
+            {
+              "subject": "MANUEL FRANCISCO DOS SANTOS",
+              "predicate": "DEFENDEU",
+              "object": "PRIMEIRA PARTIDA DO TORNEIO",
+              "fact_hash": "6c13a534f1cdf13eb4dc9597b2b9bebae6d247dc1c65e5d5f80701a6968ad977",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Garrincha",
+              "raw_subject": "MANUEL FRANCISCO DOS SANTOS",
+              "raw_predicate": "DEFENDEU",
+              "raw_object": "PRIMEIRA PARTIDA DO TORNEIO"
+            },
+            {
+              "subject": "JOGADOR",
+              "predicate": "POSSUIR",
+              "object": "GRANDE DESTAQUE",
+              "fact_hash": "98b73453c79b5b9e5b680d4224c81c5cfc89e2da85d4f598e10107f224c9bf72",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Garrincha",
+              "raw_subject": "JOGADOR",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "GRANDE DESTAQUE"
+            },
+            {
+              "subject": "MANUEL FRANCISCO DOS SANTOS",
+              "predicate": "EXECUTA",
+              "object": "TREINO",
+              "fact_hash": "ed8f5486312ef4e0649cff48ca2b22788b304f0ef234c82e819ea5bdb408e0d9",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Garrincha",
+              "raw_subject": "MANUEL FRANCISCO DOS SANTOS",
+              "raw_predicate": "EXECUTA",
+              "raw_object": "TREINO"
+            }
+          ],
+          "fact_hashes": [
+            "6c13a534f1cdf13eb4dc9597b2b9bebae6d247dc1c65e5d5f80701a6968ad977",
+            "7574dbc47ec52f8ab5b9675c2b24a6f80e9b022fd2f6937b615591eff7975867",
+            "8ad6dd835214de5f2e8b092603052d7e0cc7378104d45e586883603d8db83465",
+            "8bb7cb3844fe2d27e487bec46320aa0416245dd7ed8a972fae12e3310173fc95",
+            "98b73453c79b5b9e5b680d4224c81c5cfc89e2da85d4f598e10107f224c9bf72",
+            "a5aff26899a2ed41dcacebfcba7d8d8804152e3c795986ecd798e2fc37c496fd",
+            "b3fdddd40fa8a42de7eb1c31f4ce90e02cb36720fdb22e7d3fd72e810ec96c1d",
+            "cf4ea86221196174848e595556f245ded5847f188a0c239f5a851c798f0883fe",
+            "d5a87da3e5d28c9e4a1b95dac306500f97571c4872e25eae2376e64d921ae5be",
+            "ed8f5486312ef4e0649cff48ca2b22788b304f0ef234c82e819ea5bdb408e0d9"
+          ],
+          "fallback_used": false,
+          "fallback_type": "",
+          "fallback_written_to_graph": false,
+          "entities_processed": 10,
+          "db_status": "cluster-active",
+          "ingest_status": "success"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Garrincha",
+          "final_url": "https://en.wikipedia.org/wiki/Garrincha",
+          "domain": "en.wikipedia.org",
+          "language": "en",
+          "fetch_status": 200,
+          "cleaned_text_length": 0,
+          "sentences_considered": 0,
+          "raw_triples": 21,
+          "canonical_triples": 6,
+          "rejected_reasons": {},
+          "span_rejection_count": 0,
+          "canonical_facts": [
+            {
+              "subject": "WHEN PELE",
+              "predicate": "SER",
+              "object": "INJURED",
+              "fact_hash": "8a528bfc8069abe99e7bcddb0c74555a1e744cdd7c0ece4a1dd96e7bd7ebf982",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Garrincha",
+              "raw_subject": "WHEN PELE",
+              "raw_predicate": "SER",
+              "raw_object": "INJURED"
+            },
+            {
+              "subject": "COMBINED MANE GARRINCHA",
+              "predicate": "SER",
+              "object": "COMMON AMONG FANS IN BRAZIL",
+              "fact_hash": "34a27c28bbd8fa964a9d2099b81884ade1d65cd2f856d80ca4174abc6f29d5a1",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Garrincha",
+              "raw_subject": "COMBINED MANE GARRINCHA",
+              "raw_predicate": "SER",
+              "raw_object": "COMMON AMONG FANS IN BRAZIL"
+            },
+            {
+              "subject": "MANUEL FRANCISCO DOS SANTOS",
+              "predicate": "SER",
+              "object": "INCREDIBLE PLAYER",
+              "fact_hash": "7580d664a3a405ec6686e461036c3fe10aa052a594d1db575e204cfb03856807",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Garrincha",
+              "raw_subject": "MANUEL FRANCISCO DOS SANTOS",
+              "raw_predicate": "SER",
+              "raw_object": "INCREDIBLE PLAYER"
+            },
+            {
+              "subject": "ONE OF THE BEST THERE",
+              "predicate": "POSSUIR",
+              "object": "EVER BEEN",
+              "fact_hash": "8e9bc9f0ff74f78dd3ca58f7dc5d1792863866be6e383508ee639bca7ea4d306",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Garrincha",
+              "raw_subject": "ONE OF THE BEST THERE",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "EVER BEEN"
+            },
+            {
+              "subject": "PITCH",
+              "predicate": "SER",
+              "object": "CIRCUS RING",
+              "fact_hash": "ef5fe6951795674cff09267937e49da907f68573b0b4fa76d04b9282a6d4e36a",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Garrincha",
+              "raw_subject": "PITCH",
+              "raw_predicate": "SER",
+              "raw_object": "CIRCUS RING"
+            },
+            {
+              "subject": "PLATE",
+              "predicate": "DEFENDEU",
+              "object": "VAIRO",
+              "fact_hash": "20700869075970a5bbf6ad85084f83a20f15241f6f22c2f5c181261edd11ea6d",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Garrincha",
+              "raw_subject": "PLATE",
+              "raw_predicate": "DEFENDEU",
+              "raw_object": "VAIRO"
+            }
+          ],
+          "fact_hashes": [
+            "20700869075970a5bbf6ad85084f83a20f15241f6f22c2f5c181261edd11ea6d",
+            "34a27c28bbd8fa964a9d2099b81884ade1d65cd2f856d80ca4174abc6f29d5a1",
+            "7580d664a3a405ec6686e461036c3fe10aa052a594d1db575e204cfb03856807",
+            "8a528bfc8069abe99e7bcddb0c74555a1e744cdd7c0ece4a1dd96e7bd7ebf982",
+            "8e9bc9f0ff74f78dd3ca58f7dc5d1792863866be6e383508ee639bca7ea4d306",
+            "ef5fe6951795674cff09267937e49da907f68573b0b4fa76d04b9282a6d4e36a"
+          ],
+          "fallback_used": false,
+          "fallback_type": "",
+          "fallback_written_to_graph": false,
+          "entities_processed": 6,
+          "db_status": "cluster-active",
+          "ingest_status": "success"
+        }
+      ],
+      "collision_status": "predicate_divergence",
+      "root_cause_candidates": [
+        "predicate_divergence"
+      ],
+      "next_issue_hint": "#045.2",
+      "priority": "medium",
+      "diagnostics": {
+        "exact_fact_hash_overlap": [],
+        "shared_predicates": [
+          "defendeu",
+          "possuir"
+        ],
+        "shared_entities": [
+          "manuel francisco dos santos"
+        ],
+        "pt_canonical": 10,
+        "en_canonical": 6,
+        "pt_raw": 25,
+        "en_raw": 21,
+        "fallback_used": false,
+        "fallback_written_to_graph": false
+      }
+    },
+    {
+      "target": "Estadio Urbano Caldeira",
+      "canonical_entity": "ESTÁDIO URBANO CALDEIRA",
+      "sources": [
+        {
+          "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira",
+          "final_url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira",
+          "domain": "pt.wikipedia.org",
+          "language": "pt",
+          "fetch_status": 200,
+          "cleaned_text_length": 0,
+          "sentences_considered": 0,
+          "raw_triples": 12,
+          "canonical_triples": 4,
+          "rejected_reasons": {},
+          "span_rejection_count": 0,
+          "canonical_facts": [
+            {
+              "subject": "SANTOS FUTEBOL CLUBE",
+              "predicate": "DISPUTOU",
+              "object": "AMISTOSO",
+              "fact_hash": "c38fdd31baf62e34634af901d265ad0a8ff6f49086760727d4a3284f56fee87e",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira",
+              "raw_subject": "SANTOS FUTEBOL CLUBE",
+              "raw_predicate": "DISPUTOU",
+              "raw_object": "AMISTOSO"
+            },
+            {
+              "subject": "VISITA AO MUSEU",
+              "predicate": "CONTIENE",
+              "object": "VESTIARIOS DOS JOGADORES SALA",
+              "fact_hash": "db9f3c970703c4189f45204653bc7a115f59cbc096dec1250fc4bca0b8a953c6",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira",
+              "raw_subject": "VISITA AO MUSEU",
+              "raw_predicate": "CONTIENE",
+              "raw_object": "VESTIARIOS DOS JOGADORES SALA"
+            },
+            {
+              "subject": "SANTOS FUTEBOL CLUBE",
+              "predicate": "POSSUIR",
+              "object": "OUTRAS CINCO LOJAS FISICAS LOCALIZADAS",
+              "fact_hash": "15314887af56927aefbecf3b401d7f7aca01bec44da1a69e9fbe8162114627eb",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira",
+              "raw_subject": "SANTOS FUTEBOL CLUBE",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "OUTRAS CINCO LOJAS FISICAS LOCALIZADAS"
+            },
+            {
+              "subject": "TIME VISITANTE",
+              "predicate": "VENCEU",
+              "object": "PARTIDA",
+              "fact_hash": "4f4a85518284ec321962df0dde5a04bf0b587427b1596cc1c3ae7bbcf9148073",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira",
+              "raw_subject": "TIME VISITANTE",
+              "raw_predicate": "VENCEU",
+              "raw_object": "PARTIDA"
+            }
+          ],
+          "fact_hashes": [
+            "15314887af56927aefbecf3b401d7f7aca01bec44da1a69e9fbe8162114627eb",
+            "4f4a85518284ec321962df0dde5a04bf0b587427b1596cc1c3ae7bbcf9148073",
+            "c38fdd31baf62e34634af901d265ad0a8ff6f49086760727d4a3284f56fee87e",
+            "db9f3c970703c4189f45204653bc7a115f59cbc096dec1250fc4bca0b8a953c6"
+          ],
+          "fallback_used": false,
+          "fallback_type": "",
+          "fallback_written_to_graph": false,
+          "entities_processed": 4,
+          "db_status": "cluster-active",
+          "ingest_status": "success"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Vila_Belmiro",
+          "final_url": "https://en.wikipedia.org/wiki/Vila_Belmiro",
+          "domain": "en.wikipedia.org",
+          "language": "en",
+          "fetch_status": 200,
+          "cleaned_text_length": 0,
+          "sentences_considered": 0,
+          "raw_triples": 0,
+          "canonical_triples": 0,
+          "rejected_reasons": {},
+          "span_rejection_count": 0,
+          "canonical_facts": [],
+          "fact_hashes": [],
+          "fallback_used": false,
+          "fallback_type": "",
+          "fallback_written_to_graph": false,
+          "entities_processed": null,
+          "db_status": "",
+          "ingest_status": ""
+        }
+      ],
+      "collision_status": "no_en_canonical_triples",
+      "root_cause_candidates": [
+        "extraction_absence"
+      ],
+      "next_issue_hint": "#058.4",
+      "priority": "high",
+      "diagnostics": {
+        "exact_fact_hash_overlap": [],
+        "shared_predicates": [],
+        "shared_entities": [],
+        "pt_canonical": 4,
+        "en_canonical": 0,
+        "pt_raw": 12,
+        "en_raw": 0,
+        "fallback_used": false,
+        "fallback_written_to_graph": false
+      }
+    },
+    {
+      "target": "Botafogo",
+      "canonical_entity": "BOTAFOGO DE FUTEBOL E REGATAS",
+      "sources": [
+        {
+          "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "final_url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "domain": "pt.wikipedia.org",
+          "language": "pt",
+          "fetch_status": 200,
+          "cleaned_text_length": 0,
+          "sentences_considered": 0,
+          "raw_triples": 25,
+          "canonical_triples": 6,
+          "rejected_reasons": {},
+          "span_rejection_count": 0,
+          "canonical_facts": [
+            {
+              "subject": "CLUBE DE FUTEBOL",
+              "predicate": "POSSUIR",
+              "object": "BANDEIRA COM FAIXAS HORIZONTAIS PRETAS",
+              "fact_hash": "404a72f08be6429e0e925f63847aa044cfe0fed8413888bc48fb948292cfedab",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "raw_subject": "CLUBE DE FUTEBOL",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "BANDEIRA COM FAIXAS HORIZONTAIS PRETAS"
+            },
+            {
+              "subject": "LISTRAS HORIZONTAIS",
+              "predicate": "POSSUIR",
+              "object": "10 CENTIMETROS DE LARGURA",
+              "fact_hash": "280ee4cedf8b666b55ff4dca5a0bde0a33bfea0ae54194aff677d5dd5d376ec6",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "raw_subject": "LISTRAS HORIZONTAIS",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "10 CENTIMETROS DE LARGURA"
+            },
+            {
+              "subject": "CAMISA AINDA VOLTARIA A TER",
+              "predicate": "EXECUTA",
+              "object": "GOL DO TITULO",
+              "fact_hash": "1bdc13f3fbc35760e33341fb575f2244fe63d57ba4e766afc591f4d211b1f9a8",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "raw_subject": "CAMISA AINDA VOLTARIA A TER",
+              "raw_predicate": "EXECUTA",
+              "raw_object": "GOL DO TITULO"
+            },
+            {
+              "subject": "PRIMEIRO DE 1996",
+              "predicate": "POSSUIR",
+              "object": "HINO DO BOTAFOGO GRAVADO",
+              "fact_hash": "55d2695d17aa7fa37647776a2a2fa7b9356f8afb0a9a1b2c1b9f93e6ba2cdf40",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "raw_subject": "PRIMEIRO DE 1996",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "HINO DO BOTAFOGO GRAVADO"
+            },
+            {
+              "subject": "COMPLEXO ESPORTIVO DE GENERAL SEVERIANO",
+              "predicate": "POSSUIR",
+              "object": "GINASIO POLIESPORTIVO DUAS QUADRAS CHURRASQUEIRA",
+              "fact_hash": "fb0e056c7ca8e540aabfd082e9ff72f6ffa0a2263de9895b1cd6b527b1c7aefe",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "raw_subject": "COMPLEXO ESPORTIVO DE GENERAL SEVERIANO",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "GINASIO POLIESPORTIVO DUAS QUADRAS CHURRASQUEIRA"
+            },
+            {
+              "subject": "CLUBE",
+              "predicate": "UTILIZA",
+              "object": "MAIS ESSAS ESTRELAS COMPLEMENTARES",
+              "fact_hash": "105a9b4f09756f832f3e92c33b58d1f7515579b9b9caa1c8f32f4826a2d9b411",
+              "domains": [
+                "pt.wikipedia.org"
+              ],
+              "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "raw_subject": "CLUBE",
+              "raw_predicate": "UTILIZA",
+              "raw_object": "MAIS ESSAS ESTRELAS COMPLEMENTARES"
+            }
+          ],
+          "fact_hashes": [
+            "105a9b4f09756f832f3e92c33b58d1f7515579b9b9caa1c8f32f4826a2d9b411",
+            "1bdc13f3fbc35760e33341fb575f2244fe63d57ba4e766afc591f4d211b1f9a8",
+            "280ee4cedf8b666b55ff4dca5a0bde0a33bfea0ae54194aff677d5dd5d376ec6",
+            "404a72f08be6429e0e925f63847aa044cfe0fed8413888bc48fb948292cfedab",
+            "55d2695d17aa7fa37647776a2a2fa7b9356f8afb0a9a1b2c1b9f93e6ba2cdf40",
+            "fb0e056c7ca8e540aabfd082e9ff72f6ffa0a2263de9895b1cd6b527b1c7aefe"
+          ],
+          "fallback_used": false,
+          "fallback_type": "",
+          "fallback_written_to_graph": false,
+          "entities_processed": 6,
+          "db_status": "cluster-active",
+          "ingest_status": "success"
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "final_url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "domain": "en.wikipedia.org",
+          "language": "en",
+          "fetch_status": 200,
+          "cleaned_text_length": 0,
+          "sentences_considered": 0,
+          "raw_triples": 14,
+          "canonical_triples": 8,
+          "rejected_reasons": {},
+          "span_rejection_count": 0,
+          "canonical_facts": [
+            {
+              "subject": "S BEST PLAYER",
+              "predicate": "SER",
+              "object": "HELENO DE FREITAS",
+              "fact_hash": "00607651131a14224354f72d82f29af7761b2cf65ca3fa9f4af676c47d08dfe5",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "raw_subject": "S BEST PLAYER",
+              "raw_predicate": "SER",
+              "raw_object": "HELENO DE FREITAS"
+            },
+            {
+              "subject": "S HOME GROUND",
+              "predicate": "SER",
+              "object": "ESTADIO OLIMPICO NILTON SANTOS",
+              "fact_hash": "73055262131573aa54fa3617a6af6dd935b90e6cada37989b0279156e40f1a7d",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "raw_subject": "S HOME GROUND",
+              "raw_predicate": "SER",
+              "raw_object": "ESTADIO OLIMPICO NILTON SANTOS"
+            },
+            {
+              "subject": "STADIUM",
+              "predicate": "SER",
+              "object": "COMMONLY CALLED ENGENHAO BY FANS",
+              "fact_hash": "fc089ddf4c0bbff5e3d56f30c28fbce3b2e71aeec8ae30c45b1f9ec1ce0ace1d",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "raw_subject": "STADIUM",
+              "raw_predicate": "SER",
+              "raw_object": "COMMONLY CALLED ENGENHAO BY FANS"
+            },
+            {
+              "subject": "WHERE IT",
+              "predicate": "SER",
+              "object": "LOCATED",
+              "fact_hash": "d5cedd13f7ddd3f7f49ec27c5c2092a903175ee319d2041cea5a64eb1186be53",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "raw_subject": "WHERE IT",
+              "raw_predicate": "SER",
+              "raw_object": "LOCATED"
+            },
+            {
+              "subject": "S MASCOT",
+              "predicate": "SER",
+              "object": "MANEQUINHO",
+              "fact_hash": "0e58428f8af5a29963a4ff3e58b29910ca7e86aea7817ce5827893b0d2dbbf68",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "raw_subject": "S MASCOT",
+              "raw_predicate": "SER",
+              "raw_object": "MANEQUINHO"
+            },
+            {
+              "subject": "FIRST MASCOT",
+              "predicate": "SER",
+              "object": "DONALD DUCK",
+              "fact_hash": "02ec024be399928461ca535aa1e359652db7ec819d59bc80541b427927e6b61d",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "raw_subject": "FIRST MASCOT",
+              "raw_predicate": "SER",
+              "raw_object": "DONALD DUCK"
+            },
+            {
+              "subject": "ARGENTINE",
+              "predicate": "DEFENDEU",
+              "object": "JOEL CARLI",
+              "fact_hash": "ea74eea1107983be3509effb7095b671df723bfd482bf2b5cb975cb6d548c213",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "raw_subject": "ARGENTINE",
+              "raw_predicate": "DEFENDEU",
+              "raw_object": "JOEL CARLI"
+            },
+            {
+              "subject": "ELECTRO CLUB",
+              "predicate": "SER",
+              "object": "FOUNDED",
+              "fact_hash": "c930d63c06c60eb4898ac8bda041dc53f327182c1e7a926161bf17c76cd7b896",
+              "domains": [
+                "en.wikipedia.org"
+              ],
+              "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "raw_subject": "ELECTRO CLUB",
+              "raw_predicate": "SER",
+              "raw_object": "FOUNDED"
+            }
+          ],
+          "fact_hashes": [
+            "00607651131a14224354f72d82f29af7761b2cf65ca3fa9f4af676c47d08dfe5",
+            "02ec024be399928461ca535aa1e359652db7ec819d59bc80541b427927e6b61d",
+            "0e58428f8af5a29963a4ff3e58b29910ca7e86aea7817ce5827893b0d2dbbf68",
+            "73055262131573aa54fa3617a6af6dd935b90e6cada37989b0279156e40f1a7d",
+            "c930d63c06c60eb4898ac8bda041dc53f327182c1e7a926161bf17c76cd7b896",
+            "d5cedd13f7ddd3f7f49ec27c5c2092a903175ee319d2041cea5a64eb1186be53",
+            "ea74eea1107983be3509effb7095b671df723bfd482bf2b5cb975cb6d548c213",
+            "fc089ddf4c0bbff5e3d56f30c28fbce3b2e71aeec8ae30c45b1f9ec1ce0ace1d"
+          ],
+          "fallback_used": false,
+          "fallback_type": "",
+          "fallback_written_to_graph": false,
+          "entities_processed": 8,
+          "db_status": "cluster-active",
+          "ingest_status": "success"
+        }
+      ],
+      "collision_status": "no_shared_surface",
+      "root_cause_candidates": [
+        "true_content_difference"
+      ],
+      "next_issue_hint": "#055/#048.2/#065",
+      "priority": "low",
+      "diagnostics": {
+        "exact_fact_hash_overlap": [],
+        "shared_predicates": [],
+        "shared_entities": [],
+        "pt_canonical": 6,
+        "en_canonical": 8,
+        "pt_raw": 25,
+        "en_raw": 14,
+        "fallback_used": false,
+        "fallback_written_to_graph": false
+      }
+    },
+    {
+      "target": "Sao Paulo",
+      "canonical_entity": "SAO PAULO",
+      "sources": [
+        {
+          "url": "https://pt.wikipedia.org/wiki/S%C3%A3o_Paulo",
+          "final_url": "https://pt.wikipedia.org/wiki/S%C3%A3o_Paulo",
+          "domain": "pt.wikipedia.org",
+          "language": "pt",
+          "fetch_status": 200,
+          "cleaned_text_length": 0,
+          "sentences_considered": 0,
+          "raw_triples": 0,
+          "canonical_triples": 0,
+          "rejected_reasons": {},
+          "span_rejection_count": 0,
+          "canonical_facts": [],
+          "fact_hashes": [],
+          "fallback_used": false,
+          "fallback_type": "",
+          "fallback_written_to_graph": false,
+          "entities_processed": null,
+          "db_status": "",
+          "ingest_status": ""
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/S%C3%A3o_Paulo",
+          "final_url": "https://en.wikipedia.org/wiki/S%C3%A3o_Paulo",
+          "domain": "en.wikipedia.org",
+          "language": "en",
+          "fetch_status": 200,
+          "cleaned_text_length": 0,
+          "sentences_considered": 0,
+          "raw_triples": 0,
+          "canonical_triples": 0,
+          "rejected_reasons": {},
+          "span_rejection_count": 0,
+          "canonical_facts": [],
+          "fact_hashes": [],
+          "fallback_used": false,
+          "fallback_type": "",
+          "fallback_written_to_graph": false,
+          "entities_processed": null,
+          "db_status": "",
+          "ingest_status": ""
+        }
+      ],
+      "collision_status": "no_canonical_triples_either_side",
+      "root_cause_candidates": [
+        "extraction_absence"
+      ],
+      "next_issue_hint": "#058.4",
+      "priority": "high",
+      "diagnostics": {
+        "exact_fact_hash_overlap": [],
+        "shared_predicates": [],
+        "shared_entities": [],
+        "pt_canonical": 0,
+        "en_canonical": 0,
+        "pt_raw": 0,
+        "en_raw": 0,
+        "fallback_used": false,
+        "fallback_written_to_graph": false
+      }
+    }
+  ],
+  "summary": {
+    "targets_total": 6,
+    "targets_with_pt_canonical": 5,
+    "targets_with_en_canonical": 4,
+    "targets_with_both_canonical": 4,
+    "targets_with_exact_collision": 0,
+    "targets_with_near_collision": 0,
+    "fallback_used_targets": 0,
+    "fallback_contamination_suspected": 0,
+    "root_cause_counts": {
+      "entity_divergence": 1,
+      "true_content_difference": 2,
+      "predicate_divergence": 1,
+      "extraction_absence": 2
+    },
+    "next_issue_hints": {
+      "#047.1": 1,
+      "#055/#048.2/#065": 2,
+      "#045.2": 1,
+      "#058.4": 2
+    }
+  },
+  "truthfulness_note": "Read-only source-level parity audit. Does not promote facts, does not change quorum/confirmacoes, does not write Neo4j/Qdrant, does not call /api/ingest. Similarity/diagnostics only.",
+  "fallback_log_analysis": {
+    "entries": 32,
+    "fallback_used": 3,
+    "fallback_written_to_graph": 0,
+    "masked_extraction_failure": 2,
+    "urls": [
+      {
+        "url": "https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial",
+        "fallback_used": true,
+        "fallback_type": "demo-memory",
+        "fallback_written_to_graph": false,
+        "entities_processed": 8,
+        "root_cause": "extraction_absence",
+        "priority": "high",
+        "next_issue_hint": "#058.4",
+        "masked_extraction_failure": false
+      },
+      {
+        "url": "https://arxiv.org/abs/2303.08774",
+        "fallback_used": true,
+        "fallback_type": "demo-memory",
+        "fallback_written_to_graph": false,
+        "entities_processed": 0,
+        "root_cause": "extraction_absence",
+        "priority": "high",
+        "next_issue_hint": "#058.4",
+        "masked_extraction_failure": true
+      },
+      {
+        "url": "https://ge.globo.com/futebol/times/santos/",
+        "fallback_used": true,
+        "fallback_type": "demo-memory",
+        "fallback_written_to_graph": false,
+        "entities_processed": 0,
+        "root_cause": "extraction_absence",
+        "priority": "high",
+        "next_issue_hint": "#058.4",
+        "masked_extraction_failure": true
+      }
+    ],
+    "priority": "high_#058.4"
+  },
+  "sources_analyzed": 12
+}
