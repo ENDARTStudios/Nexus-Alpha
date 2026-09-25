@@ -1,0 +1,1778 @@
+{
+  "audit_id": "target_fact_sweep_048_5a",
+  "generated_at": "2026-09-25T21:47:08.622445+00:00",
+  "read_only": true,
+  "promote_automatically": false,
+  "pipeline": {
+    "fetch": "httpx + WebMiner.anti_block headers (paridade com minerador)",
+    "extractor": "EntityExtractor(enable_fallback=True) + refine_triple_ex",
+    "spacy_model": "pt_core_news_sm",
+    "exact_hit_rule": "campo sujeito contem subject_any E campo objeto contem object_any E predicado em predicates_ok (vocabulario controlado)",
+    "jev": "Noul por tripla canonica, limiar 0.65, modelo jev-latest",
+    "hit_rule": "hit = exact OU jev>=limiar; triplas com objeto date-like descartadas",
+    "date_like_rule": "ano isolado, dd/mm/aaaa ou mes por extenso no objeto; 'COPA LIBERTADORES DE 2024' (entidade de competicao) NAO e date-like",
+    "ser_rule": "no maximo 1 dominio cujas triplas-alvo sejam todas SER",
+    "eligibility": ">=3 dominios com tripla-alvo, >=2 publishers, >=1 fora de Wikipedia, <=1 dominio so-SER, nenhuma URL JS-only/paywall/404, nenhuma tripla-alvo com objeto date-like"
+  },
+  "targets": [
+    {
+      "fact_id": "botafogo_localizado_rio",
+      "target_fact": {
+        "description": "Botafogo de Futebol e Regatas esta localizado/sediado no Rio de Janeiro",
+        "subject_any": [
+          "BOTAFOGO"
+        ],
+        "object_any": [
+          "RIO DE JANEIRO"
+        ]
+      },
+      "predicates_ok": [
+        "LOCALIZADO_EM",
+        "SER"
+      ],
+      "sources_tested": 6,
+      "domains_with_target_sentence": [
+        "en.wikipedia.org",
+        "ge.globo.com",
+        "pt.wikipedia.org",
+        "www.bbc.com",
+        "www.uol.com.br"
+      ],
+      "domains_with_target_canonical_triple": [],
+      "publishers_with_target_canonical_triple": [],
+      "non_wikipedia_with_target_canonical_triple": [],
+      "ser_only_domains": [],
+      "triples_per_domain": {
+        "pt.wikipedia.org": 6,
+        "en.wikipedia.org": 8,
+        "ge.globo.com": 3,
+        "www.uol.com.br": 8,
+        "www.estadao.com.br": 5,
+        "www.bbc.com": 1
+      },
+      "jev_max_per_domain": {
+        "pt.wikipedia.org": 0.03,
+        "en.wikipedia.org": 0.14,
+        "ge.globo.com": 0.02,
+        "www.uol.com.br": 0.03,
+        "www.estadao.com.br": 0.02,
+        "www.bbc.com": 0.01
+      },
+      "predicate_canonical": {},
+      "object_canonical": [],
+      "rejection_reasons": {
+        "invalid_predicate": 345,
+        "missing_entity": 12,
+        "object_prepositional_phrase": 11,
+        "unmapped_predicate": 10,
+        "stopword_predicate": 8,
+        "subject_generic_phrase": 6,
+        "ambiguous_predicate": 4,
+        "object_predicate_complement": 3,
+        "object_date_like": 2,
+        "subject_starts_with_stopword": 2,
+        "object_clause_fragment": 1,
+        "object_generic_phrase": 1,
+        "object_pronoun": 1,
+        "nonverbal_predicate": 1
+      },
+      "date_like_hits_count": 0,
+      "fetch_issues": [],
+      "eligible": false,
+      "blocking_reasons": [
+        "dominios_com_tripla_alvo<3 (0)",
+        "publishers_com_tripla_alvo<2 (0)",
+        "nenhum dominio fora de Wikipedia com tripla-alvo"
+      ],
+      "blocking_reason": "dominios_com_tripla_alvo<3 (0); publishers_com_tripla_alvo<2 (0); nenhum dominio fora de Wikipedia com tripla-alvo",
+      "per_domain": [
+        {
+          "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "final_url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "wikimedia",
+          "is_wikipedia": true,
+          "cleaned_text_length": 54233,
+          "sentences_considered": 366,
+          "raw_triples": 25,
+          "canonical_triples_reported": 6,
+          "canonical_triples": 6,
+          "rejection_reasons": {
+            "invalid_predicate": 96,
+            "object_prepositional_phrase": 6,
+            "unmapped_predicate": 5,
+            "ambiguous_predicate": 4,
+            "object_date_like": 2,
+            "subject_starts_with_stopword": 2
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": false,
+          "target_fact_sentences": 9,
+          "target_fact_sentence_samples": [
+            "Botafogo de Futebol e Regatas – Wikipédia, a enciclopédia livre Botafogo Nome Botafogo de Futebol e Regatas Alcunhas Fogo / Fogão Glorioso Estrela Solitária Bota Alvinegro carioca Alvinegro do Rio O M",
+            "Marechal Hermes Em 1977, ao perder sua sede de General Severiano, o Botafogo transferiu as atividades do futebol para o bairro de Marechal Hermes , na zona norte do Rio de Janeiro.",
+            "Inaugurado em 1941 pelo Governo do Estado do Rio de Janeiro , foi construído, originalmente, para ser utilizado pelo Canto do Rio , mas está sob concessão ao Botafogo."
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.03,
+          "jev_scores": [
+            0.03,
+            0.01,
+            0.02,
+            0.01,
+            0.01,
+            0.02
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "final_url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "wikimedia",
+          "is_wikipedia": true,
+          "cleaned_text_length": 20566,
+          "sentences_considered": 169,
+          "raw_triples": 14,
+          "canonical_triples_reported": 8,
+          "canonical_triples": 8,
+          "rejection_reasons": {
+            "invalid_predicate": 82,
+            "stopword_predicate": 6,
+            "missing_entity": 2,
+            "object_clause_fragment": 1,
+            "object_predicate_complement": 1,
+            "subject_generic_phrase": 1,
+            "unmapped_predicate": 1
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "target_fact_sentences": 4,
+          "target_fact_sentence_samples": [
+            "Botafogo FR - Wikipedia (Redirected from Botafogo de Futebol e Regatas ) Botafogo Full name Botafogo de Futebol e Regatas Nicknames Fogo (Fire) Fogão (Stove/Big Fire) Bairro (Neighborhood Club) Estrel",
+            "History Formation and merger On 1 July 1894, the Club de Regatas Botafogo was founded in Rio de Janeiro as a rowing club.",
+            "The Botafogo Football Club would soon become one of the strongest football teams in Rio de Janeiro, winning the championships of 1907, 1910, 1912 and more."
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.14,
+          "jev_scores": [
+            0.01,
+            0.02,
+            0.11,
+            0.02,
+            0.14,
+            0.02,
+            0.01,
+            0.01
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        },
+        {
+          "url": "https://ge.globo.com/blogs/completando-a-jogada/post/2024/12/02/botafogo-supera-adversidades-e-conquista-titulo-de-campeao-da-libertadores-2024.ghtml",
+          "final_url": "https://ge.globo.com/blogs/completando-a-jogada/post/2024/12/02/botafogo-supera-adversidades-e-conquista-titulo-de-campeao-da-libertadores-2024.ghtml",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "globo.com",
+          "is_wikipedia": false,
+          "cleaned_text_length": 7993,
+          "sentences_considered": 33,
+          "raw_triples": 12,
+          "canonical_triples_reported": 3,
+          "canonical_triples": 3,
+          "rejection_reasons": {
+            "invalid_predicate": 36,
+            "missing_entity": 2,
+            "object_prepositional_phrase": 2,
+            "subject_generic_phrase": 2,
+            "object_generic_phrase": 1,
+            "object_predicate_complement": 1,
+            "unmapped_predicate": 1
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "target_fact_sentences": 1,
+          "target_fact_sentence_samples": [
+            "Atlético-MG Botafogo Veja também Em alta na globo.com Jornalismo Após trocar carros em fuga, Veronica Costa é presa por tortura a ex: 'Não sou bandida' Rio de Janeiro · g1 Esporte Rafael Câmara ultrap"
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.02,
+          "jev_scores": [
+            0.02,
+            0.01,
+            0.01
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        },
+        {
+          "url": "https://www.uol.com.br/esporte/futebol/ultimas-noticias/2024/12/08/botafogo-campeao-brasileirao-2024.htm",
+          "final_url": "https://www.uol.com.br/esporte/futebol/ultimas-noticias/2024/12/08/botafogo-campeao-brasileirao-2024.htm",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "com.br",
+          "is_wikipedia": false,
+          "cleaned_text_length": 5584,
+          "sentences_considered": 65,
+          "raw_triples": 17,
+          "canonical_triples_reported": 8,
+          "canonical_triples": 8,
+          "rejection_reasons": {
+            "invalid_predicate": 33,
+            "missing_entity": 3,
+            "object_prepositional_phrase": 3,
+            "object_pronoun": 1,
+            "subject_generic_phrase": 1,
+            "unmapped_predicate": 1
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "target_fact_sentences": 2,
+          "target_fact_sentence_samples": [
+            "Botafogo vence o São Paulo e conquista o Brasileirão após 29 anos Igor Siqueira e Bruno Braz Do UOL, no Rio de Janeiro 08/12/2024 18h02 Deixe seu comentário 0:00 / 0:00 Siga o UOL Esporte no O Botafog",
+            "Continua após a publicidade Ficha técnica Botafogo 2 x 1 São Paulo Local: Estádio Nilton Santos, no Rio de Janeiro (RJ) Data/Hora: 8/12/2024, às 16h (de Brasília) Árbitro: Anderson Daronco (Fifa-RS) A"
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.03,
+          "jev_scores": [
+            0.01,
+            0.01,
+            0.01,
+            0.02,
+            0.02,
+            0.03,
+            0.02,
+            0.01
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        },
+        {
+          "url": "https://www.estadao.com.br/esportes/futebol/botafogo-e-campeao-do-brasileirao-ao-vencer-o-sao-paulo-lava-a-alma-e-iguala-o-flamengo-de-jesus/",
+          "final_url": "https://www.estadao.com.br/esportes/futebol/botafogo-e-campeao-do-brasileirao-ao-vencer-o-sao-paulo-lava-a-alma-e-iguala-o-flamengo-de-jesus/",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "com.br",
+          "is_wikipedia": false,
+          "cleaned_text_length": 5828,
+          "sentences_considered": 28,
+          "raw_triples": 8,
+          "canonical_triples_reported": 5,
+          "canonical_triples": 5,
+          "rejection_reasons": {
+            "invalid_predicate": 23,
+            "missing_entity": 1,
+            "subject_generic_phrase": 1,
+            "unmapped_predicate": 1
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "target_fact_sentences": 0,
+          "target_fact_sentence_samples": [],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.02,
+          "jev_scores": [
+            0.02,
+            0.01,
+            0.01,
+            0.01,
+            0.01
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        },
+        {
+          "url": "https://www.bbc.com/sport/football/live/cx2lwvw74j2t",
+          "final_url": "https://www.bbc.com/sport/football/live/cx2lwvw74j2t",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "bbc.com",
+          "is_wikipedia": false,
+          "cleaned_text_length": 19447,
+          "sentences_considered": 73,
+          "raw_triples": 8,
+          "canonical_triples_reported": 1,
+          "canonical_triples": 1,
+          "rejection_reasons": {
+            "invalid_predicate": 75,
+            "missing_entity": 4,
+            "stopword_predicate": 2,
+            "nonverbal_predicate": 1,
+            "object_predicate_complement": 1,
+            "subject_generic_phrase": 1,
+            "unmapped_predicate": 1
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "target_fact_sentences": 1,
+          "target_fact_sentence_samples": [
+            "Image source, Getty Images Image caption, Atletico Mineiro's Argentine head coach Gabriel Milito 20 6 Share close panel Share page Copy link About sharing BBC Sport Botafogo showcased their dominance "
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.01,
+          "jev_scores": [
+            0.01
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "fact_id": "botafogo_venceu_libertadores",
+      "target_fact": {
+        "description": "Botafogo de Futebol e Regatas venceu a Copa Libertadores",
+        "subject_any": [
+          "BOTAFOGO"
+        ],
+        "object_any": [
+          "LIBERTADORES"
+        ]
+      },
+      "predicates_ok": [
+        "SER",
+        "VENCEU"
+      ],
+      "sources_tested": 6,
+      "domains_with_target_sentence": [
+        "en.wikipedia.org",
+        "ge.globo.com",
+        "pt.wikipedia.org",
+        "www.bbc.com",
+        "www.estadao.com.br"
+      ],
+      "domains_with_target_canonical_triple": [],
+      "publishers_with_target_canonical_triple": [],
+      "non_wikipedia_with_target_canonical_triple": [],
+      "ser_only_domains": [],
+      "triples_per_domain": {
+        "pt.wikipedia.org": 6,
+        "en.wikipedia.org": 8,
+        "ge.globo.com": 3,
+        "www.uol.com.br": 8,
+        "www.estadao.com.br": 5,
+        "www.bbc.com": 1
+      },
+      "jev_max_per_domain": {
+        "pt.wikipedia.org": 0.06,
+        "en.wikipedia.org": 0.02,
+        "ge.globo.com": 0.01,
+        "www.uol.com.br": 0.03,
+        "www.estadao.com.br": 0.02,
+        "www.bbc.com": 0.01
+      },
+      "predicate_canonical": {},
+      "object_canonical": [],
+      "rejection_reasons": {
+        "invalid_predicate": 345,
+        "missing_entity": 12,
+        "object_prepositional_phrase": 11,
+        "unmapped_predicate": 10,
+        "stopword_predicate": 8,
+        "subject_generic_phrase": 6,
+        "ambiguous_predicate": 4,
+        "object_predicate_complement": 3,
+        "object_date_like": 2,
+        "subject_starts_with_stopword": 2,
+        "object_clause_fragment": 1,
+        "object_generic_phrase": 1,
+        "object_pronoun": 1,
+        "nonverbal_predicate": 1
+      },
+      "date_like_hits_count": 0,
+      "fetch_issues": [],
+      "eligible": false,
+      "blocking_reasons": [
+        "dominios_com_tripla_alvo<3 (0)",
+        "publishers_com_tripla_alvo<2 (0)",
+        "nenhum dominio fora de Wikipedia com tripla-alvo"
+      ],
+      "blocking_reason": "dominios_com_tripla_alvo<3 (0); publishers_com_tripla_alvo<2 (0); nenhum dominio fora de Wikipedia com tripla-alvo",
+      "per_domain": [
+        {
+          "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "final_url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "wikimedia",
+          "is_wikipedia": true,
+          "cleaned_text_length": 54233,
+          "sentences_considered": 366,
+          "raw_triples": 25,
+          "canonical_triples_reported": 6,
+          "canonical_triples": 6,
+          "rejection_reasons": {
+            "invalid_predicate": 96,
+            "object_prepositional_phrase": 6,
+            "unmapped_predicate": 5,
+            "ambiguous_predicate": 4,
+            "object_date_like": 2,
+            "subject_starts_with_stopword": 2
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": false,
+          "target_fact_sentences": 3,
+          "target_fact_sentence_samples": [
+            "Botafogo de Futebol e Regatas – Wikipédia, a enciclopédia livre Botafogo Nome Botafogo de Futebol e Regatas Alcunhas Fogo / Fogão Glorioso Estrela Solitária Bota Alvinegro carioca Alvinegro do Rio O M",
+            "Títulos Continentais Competição Títulos Temporadas Copa Libertadores da América 1 2024 Copa CONMEBOL 1 1993 Nacionais Competição Títulos Temporadas Campeonato Brasileiro - Série A 3 1968 , 1995 e 2024",
+            "Em dois anos no Botafogo, Oswaldo conquistou o Campeonato Carioca de 2013 e a vaga na Libertadores de 2014 , competição que a equipe não disputava havia 18 anos."
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.06,
+          "jev_scores": [
+            0.01,
+            0.02,
+            0.01,
+            0.01,
+            0.06,
+            0.01
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "final_url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "wikimedia",
+          "is_wikipedia": true,
+          "cleaned_text_length": 20566,
+          "sentences_considered": 169,
+          "raw_triples": 14,
+          "canonical_triples_reported": 8,
+          "canonical_triples": 8,
+          "rejection_reasons": {
+            "invalid_predicate": 82,
+            "stopword_predicate": 6,
+            "missing_entity": 2,
+            "object_clause_fragment": 1,
+            "object_predicate_complement": 1,
+            "subject_generic_phrase": 1,
+            "unmapped_predicate": 1
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "target_fact_sentences": 1,
+          "target_fact_sentence_samples": [
+            "Constant change of managers caused Botafogo to have the biggest title collapse in football history, as the team won only 2 of their last 17 fixtures, not only losing the title to Palmeiras but droppin"
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.02,
+          "jev_scores": [
+            0.01,
+            0.02,
+            0.02,
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.02
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        },
+        {
+          "url": "https://ge.globo.com/blogs/completando-a-jogada/post/2024/12/02/botafogo-supera-adversidades-e-conquista-titulo-de-campeao-da-libertadores-2024.ghtml",
+          "final_url": "https://ge.globo.com/blogs/completando-a-jogada/post/2024/12/02/botafogo-supera-adversidades-e-conquista-titulo-de-campeao-da-libertadores-2024.ghtml",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "globo.com",
+          "is_wikipedia": false,
+          "cleaned_text_length": 7993,
+          "sentences_considered": 33,
+          "raw_triples": 12,
+          "canonical_triples_reported": 3,
+          "canonical_triples": 3,
+          "rejection_reasons": {
+            "invalid_predicate": 36,
+            "missing_entity": 2,
+            "object_prepositional_phrase": 2,
+            "subject_generic_phrase": 2,
+            "object_generic_phrase": 1,
+            "object_predicate_complement": 1,
+            "unmapped_predicate": 1
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "target_fact_sentences": 4,
+          "target_fact_sentence_samples": [
+            "Botafogo supera adversidades e conquista título de Campeão da Libertadores 2024 | Ge TIMES Série A Série B Europa 1 de 1 Botafogo supera adversidades e conquista título de Campeão da Libertadores 2024",
+            "Acredito que este fato foi decisivo para que o Botafogo continuasse jogando em alto nível tanto na Libertadores quanto no Brasileirão.",
+            "A campanha do Botafogo na Taça Conmebol Libertadores iniciou ainda sob os impactos da queda vertiginosa de rendimento que teve no final da temporada passada."
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.01,
+          "jev_scores": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        },
+        {
+          "url": "https://www.uol.com.br/esporte/futebol/ultimas-noticias/2024/12/08/botafogo-campeao-brasileirao-2024.htm",
+          "final_url": "https://www.uol.com.br/esporte/futebol/ultimas-noticias/2024/12/08/botafogo-campeao-brasileirao-2024.htm",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "com.br",
+          "is_wikipedia": false,
+          "cleaned_text_length": 5584,
+          "sentences_considered": 65,
+          "raw_triples": 17,
+          "canonical_triples_reported": 8,
+          "canonical_triples": 8,
+          "rejection_reasons": {
+            "invalid_predicate": 33,
+            "missing_entity": 3,
+            "object_prepositional_phrase": 3,
+            "object_pronoun": 1,
+            "subject_generic_phrase": 1,
+            "unmapped_predicate": 1
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "target_fact_sentences": 0,
+          "target_fact_sentence_samples": [],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.03,
+          "jev_scores": [
+            0.02,
+            0.01,
+            0.01,
+            0.03,
+            0.02,
+            0.03,
+            0.02,
+            0.01
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        },
+        {
+          "url": "https://www.estadao.com.br/esportes/futebol/botafogo-e-campeao-do-brasileirao-ao-vencer-o-sao-paulo-lava-a-alma-e-iguala-o-flamengo-de-jesus/",
+          "final_url": "https://www.estadao.com.br/esportes/futebol/botafogo-e-campeao-do-brasileirao-ao-vencer-o-sao-paulo-lava-a-alma-e-iguala-o-flamengo-de-jesus/",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "com.br",
+          "is_wikipedia": false,
+          "cleaned_text_length": 5828,
+          "sentences_considered": 28,
+          "raw_triples": 8,
+          "canonical_triples_reported": 5,
+          "canonical_triples": 5,
+          "rejection_reasons": {
+            "invalid_predicate": 23,
+            "missing_entity": 1,
+            "subject_generic_phrase": 1,
+            "unmapped_predicate": 1
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "target_fact_sentences": 1,
+          "target_fact_sentence_samples": [
+            "Leia também Libertadores e Brasileirão em 8 dias: como Botafogo esqueceu vexame e construiu 2024 memorável Veja lista atualizada de campeões brasileiros após título do Botafogo Savarino comemora gol d"
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.02,
+          "jev_scores": [
+            0.01,
+            0.01,
+            0.02,
+            0.01,
+            0.01
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        },
+        {
+          "url": "https://www.bbc.com/sport/football/live/cx2lwvw74j2t",
+          "final_url": "https://www.bbc.com/sport/football/live/cx2lwvw74j2t",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "bbc.com",
+          "is_wikipedia": false,
+          "cleaned_text_length": 19447,
+          "sentences_considered": 73,
+          "raw_triples": 8,
+          "canonical_triples_reported": 1,
+          "canonical_triples": 1,
+          "rejection_reasons": {
+            "invalid_predicate": 75,
+            "missing_entity": 4,
+            "stopword_predicate": 2,
+            "nonverbal_predicate": 1,
+            "object_predicate_complement": 1,
+            "subject_generic_phrase": 1,
+            "unmapped_predicate": 1
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "target_fact_sentences": 6,
+          "target_fact_sentence_samples": [
+            "Atletico Mineiro 1-3 Botafogo: Copa Libertadores final history in all-Brazil clash - BBC Sport Live Reporting Report (active) Scores Line-ups Match Stats Head-to-head Summary Kick-off is at 20:00 GMT ",
+            "The Galo (rooster) returns to a Libertadores final after winning it for the first time in 2013, when legendary attacking midfielder Ronaldinho led his team to glory in their home stadium… Image source",
+            "Image source, Getty Images Image caption, Atletico Mineiro's Argentine head coach Gabriel Milito 20 6 Share close panel Share page Copy link About sharing BBC Sport Botafogo showcased their dominance "
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.01,
+          "jev_scores": [
+            0.01
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "fact_id": "botafogo_venceu_brasileirao",
+      "target_fact": {
+        "description": "Botafogo de Futebol e Regatas venceu o Campeonato Brasileiro Serie A",
+        "subject_any": [
+          "BOTAFOGO"
+        ],
+        "object_any": [
+          "BRASILEIRAO",
+          "BRASILEIRO",
+          "CAMPEONATO BRASILEIRO"
+        ]
+      },
+      "predicates_ok": [
+        "SER",
+        "VENCEU"
+      ],
+      "sources_tested": 4,
+      "domains_with_target_sentence": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org",
+        "www.estadao.com.br",
+        "www.uol.com.br"
+      ],
+      "domains_with_target_canonical_triple": [
+        "www.uol.com.br"
+      ],
+      "publishers_with_target_canonical_triple": [
+        "com.br"
+      ],
+      "non_wikipedia_with_target_canonical_triple": [
+        "com.br"
+      ],
+      "ser_only_domains": [],
+      "triples_per_domain": {
+        "pt.wikipedia.org": 9,
+        "en.wikipedia.org": 3,
+        "www.uol.com.br": 8,
+        "www.estadao.com.br": 5
+      },
+      "jev_max_per_domain": {
+        "pt.wikipedia.org": 0.03,
+        "en.wikipedia.org": 0.01,
+        "www.uol.com.br": 0.94,
+        "www.estadao.com.br": 0.03
+      },
+      "predicate_canonical": {
+        "ser": 1,
+        "venceu": 1
+      },
+      "object_canonical": [
+        "CAMPEAO BRASILEIRO",
+        "PRINCIPAL TITULO NACIONAL"
+      ],
+      "rejection_reasons": {
+        "invalid_predicate": 108,
+        "missing_entity": 7,
+        "unmapped_predicate": 4,
+        "object_prepositional_phrase": 4,
+        "stopword_predicate": 2,
+        "subject_generic_phrase": 2,
+        "subject_quantifier_phrase": 1,
+        "object_pronoun": 1
+      },
+      "date_like_hits_count": 0,
+      "fetch_issues": [],
+      "eligible": false,
+      "blocking_reasons": [
+        "dominios_com_tripla_alvo<3 (1)",
+        "publishers_com_tripla_alvo<2 (1)"
+      ],
+      "blocking_reason": "dominios_com_tripla_alvo<3 (1); publishers_com_tripla_alvo<2 (1)",
+      "per_domain": [
+        {
+          "url": "https://pt.wikipedia.org/wiki/Campeonato_Brasileiro_de_Futebol_de_2024_-_S%C3%A9rie_A",
+          "final_url": "https://pt.wikipedia.org/wiki/Campeonato_Brasileiro_de_Futebol_de_2024_-_S%C3%A9rie_A",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "wikimedia",
+          "is_wikipedia": true,
+          "cleaned_text_length": 21759,
+          "sentences_considered": 42,
+          "raw_triples": 13,
+          "canonical_triples_reported": 9,
+          "canonical_triples": 9,
+          "rejection_reasons": {
+            "invalid_predicate": 25,
+            "unmapped_predicate": 2,
+            "object_prepositional_phrase": 1,
+            "subject_quantifier_phrase": 1
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "target_fact_sentences": 5,
+          "target_fact_sentence_samples": [
+            "Campeonato Brasileiro de Futebol de 2024 - Série A – Wikipédia, a enciclopédia livre Brasileirão Betano 2024 Brasileirão 2024 - Série A Detalhes Participantes 20 Organização CBF Período 13 de abril – ",
+            "O Botafogo conquistou seu terceiro título brasileiro após vencer o São Paulo por 2–1, no Rio de Janeiro .",
+            "Regulamento Troféu do Campeonato Brasileiro de 2024, vencido pelo Botafogo A Série A de 2024 foi disputada por vinte clubes em dois turnos."
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.03,
+          "jev_scores": [
+            0.03,
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.02,
+            0.02,
+            0.01,
+            0.01
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/2024_Campeonato_Brasileiro_S%C3%A9rie_A",
+          "final_url": "https://en.wikipedia.org/wiki/2024_Campeonato_Brasileiro_S%C3%A9rie_A",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "wikimedia",
+          "is_wikipedia": true,
+          "cleaned_text_length": 20076,
+          "sentences_considered": 22,
+          "raw_triples": 6,
+          "canonical_triples_reported": 3,
+          "canonical_triples": 3,
+          "rejection_reasons": {
+            "invalid_predicate": 27,
+            "missing_entity": 3,
+            "stopword_predicate": 2
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "target_fact_sentences": 4,
+          "target_fact_sentence_samples": [
+            "2024 Campeonato Brasileiro Série A - Wikipedia Campeonato Brasileiro Série A Season 2024 Dates 13 April – 8 December 2024 Champions Botafogo (3rd title) Relegated Athletico Paranaense Criciúma Atlétic",
+            "State Team(s) 4 Rio de Janeiro Botafogo , Flamengo , Fluminense and Vasco da Gama São Paulo Corinthians , Palmeiras , Red Bull Bragantino and São Paulo 3 Rio Grande do Sul Grêmio , Internacional and J",
+            "Standings League table Pos Team Pld W D L GF GA GD Pts Qualification or relegation 1 Botafogo (C) 38 23 10 5 59 29 +30 79 Qualification for Copa Libertadores group stage 2 Palmeiras 38 22 7 9 60 33 +2"
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.01,
+          "jev_scores": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        },
+        {
+          "url": "https://www.uol.com.br/esporte/futebol/ultimas-noticias/2024/12/08/botafogo-campeao-brasileirao-2024.htm",
+          "final_url": "https://www.uol.com.br/esporte/futebol/ultimas-noticias/2024/12/08/botafogo-campeao-brasileirao-2024.htm",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "com.br",
+          "is_wikipedia": false,
+          "cleaned_text_length": 5584,
+          "sentences_considered": 65,
+          "raw_triples": 17,
+          "canonical_triples_reported": 8,
+          "canonical_triples": 8,
+          "rejection_reasons": {
+            "invalid_predicate": 33,
+            "missing_entity": 3,
+            "object_prepositional_phrase": 3,
+            "object_pronoun": 1,
+            "subject_generic_phrase": 1,
+            "unmapped_predicate": 1
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "target_fact_sentences": 3,
+          "target_fact_sentence_samples": [
+            "Botafogo vence o São Paulo e conquista o Brasileirão após 29 anos FIM DOS JOGOS DE PARIS Acompanhe em tempo real a cerimônia de encerramento das Olimpíadas 2024 Futebol É tri!",
+            "Botafogo vence o São Paulo e conquista o Brasileirão após 29 anos Igor Siqueira e Bruno Braz Do UOL, no Rio de Janeiro 08/12/2024 18h02 Deixe seu comentário 0:00 / 0:00 Siga o UOL Esporte no O Botafog",
+            "O Botafogo é campeão brasileiro."
+          ],
+          "exact_hits": [
+            {
+              "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+              "predicate": "SER",
+              "object": "CAMPEAO BRASILEIRO",
+              "confidence": 0.8,
+              "raw_subject": "Botafogo",
+              "raw_predicate": "SER",
+              "raw_object": "campeão brasileiro",
+              "extraction_confidence": 0.8
+            }
+          ],
+          "exact_hit_count": 1,
+          "jev_applied": true,
+          "jev_max": 0.94,
+          "jev_scores": [
+            0.02,
+            0.01,
+            0.02,
+            0.94,
+            0.03,
+            0.72,
+            0.02,
+            0.01
+          ],
+          "jev_hits": [
+            {
+              "triple": {
+                "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+                "predicate": "SER",
+                "object": "CAMPEAO BRASILEIRO",
+                "confidence": 0.8,
+                "raw_subject": "Botafogo",
+                "raw_predicate": "SER",
+                "raw_object": "campeão brasileiro",
+                "extraction_confidence": 0.8
+              },
+              "jev_score": 0.94
+            },
+            {
+              "triple": {
+                "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+                "predicate": "VENCEU",
+                "object": "PRINCIPAL TITULO NACIONAL",
+                "confidence": 0.8,
+                "raw_subject": "Botafogo",
+                "raw_predicate": "VENCEU",
+                "raw_object": "principal título nacional",
+                "extraction_confidence": 0.8
+              },
+              "jev_score": 0.72
+            }
+          ],
+          "hit_triples": [
+            {
+              "triple": {
+                "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+                "predicate": "SER",
+                "object": "CAMPEAO BRASILEIRO",
+                "confidence": 0.8,
+                "raw_subject": "Botafogo",
+                "raw_predicate": "SER",
+                "raw_object": "campeão brasileiro",
+                "extraction_confidence": 0.8
+              },
+              "via": "exact+jev",
+              "jev_score": 0.94
+            },
+            {
+              "triple": {
+                "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+                "predicate": "VENCEU",
+                "object": "PRINCIPAL TITULO NACIONAL",
+                "confidence": 0.8,
+                "raw_subject": "Botafogo",
+                "raw_predicate": "VENCEU",
+                "raw_object": "principal título nacional",
+                "extraction_confidence": 0.8
+              },
+              "via": "jev",
+              "jev_score": 0.72
+            }
+          ],
+          "date_like_hits": [],
+          "hit_predicates": [
+            "ser",
+            "venceu"
+          ],
+          "hit": true,
+          "ser_only_hit": false,
+          "notes": ""
+        },
+        {
+          "url": "https://www.estadao.com.br/esportes/futebol/botafogo-e-campeao-do-brasileirao-ao-vencer-o-sao-paulo-lava-a-alma-e-iguala-o-flamengo-de-jesus/",
+          "final_url": "https://www.estadao.com.br/esportes/futebol/botafogo-e-campeao-do-brasileirao-ao-vencer-o-sao-paulo-lava-a-alma-e-iguala-o-flamengo-de-jesus/",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "com.br",
+          "is_wikipedia": false,
+          "cleaned_text_length": 5828,
+          "sentences_considered": 28,
+          "raw_triples": 8,
+          "canonical_triples_reported": 5,
+          "canonical_triples": 5,
+          "rejection_reasons": {
+            "invalid_predicate": 23,
+            "missing_entity": 1,
+            "subject_generic_phrase": 1,
+            "unmapped_predicate": 1
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "target_fact_sentences": 4,
+          "target_fact_sentence_samples": [
+            "Botafogo é campeão do Brasileirão ao vencer o São Paulo, lava a alma e iguala o Flamengo de Jesus - Estadão Eleições Jornal do Carro TecMundo E-Investidor Pulsa Paladar Descubra Assine Entrar Hoje Ele",
+            "Leia também Libertadores e Brasileirão em 8 dias: como Botafogo esqueceu vexame e construiu 2024 memorável Veja lista atualizada de campeões brasileiros após título do Botafogo Savarino comemora gol d",
+            "Dali em diante, o São Paulo não ofereceu mais resistência e o Botafogo apenas fez o tempo passar, poupou alguns de seus craques e garantiu o título do Brasileirão de 2024 com um gol de Gregore nos acr"
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.03,
+          "jev_scores": [
+            0.01,
+            0.01,
+            0.03,
+            0.01,
+            0.01
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "fact_id": "pele_defendeu_santos",
+      "target_fact": {
+        "description": "Pele atuou/defendeu o Santos Futebol Clube",
+        "subject_any": [
+          "PELE",
+          "EDSON ARANTES"
+        ],
+        "object_any": [
+          "SANTOS"
+        ]
+      },
+      "predicates_ok": [
+        "DEFENDEU",
+        "SER"
+      ],
+      "sources_tested": 6,
+      "domains_with_target_sentence": [
+        "en.wikipedia.org",
+        "g1.globo.com",
+        "kids.britannica.com",
+        "pt.wikipedia.org",
+        "www.bbc.com",
+        "www.britannica.com"
+      ],
+      "domains_with_target_canonical_triple": [],
+      "publishers_with_target_canonical_triple": [],
+      "non_wikipedia_with_target_canonical_triple": [],
+      "ser_only_domains": [],
+      "triples_per_domain": {
+        "pt.wikipedia.org": 8,
+        "en.wikipedia.org": 7,
+        "g1.globo.com": 9,
+        "www.bbc.com": 9,
+        "www.britannica.com": 1,
+        "kids.britannica.com": 0
+      },
+      "jev_max_per_domain": {
+        "pt.wikipedia.org": 0.1,
+        "en.wikipedia.org": 0.03,
+        "g1.globo.com": 0.04,
+        "www.bbc.com": 0.03,
+        "www.britannica.com": 0.01,
+        "kids.britannica.com": null
+      },
+      "predicate_canonical": {},
+      "object_canonical": [],
+      "rejection_reasons": {
+        "invalid_predicate": 683,
+        "unmapped_predicate": 25,
+        "stopword_predicate": 25,
+        "object_prepositional_phrase": 12,
+        "missing_entity": 8,
+        "subject_generic_phrase": 8,
+        "object_predicate_complement": 7,
+        "ambiguous_predicate": 3,
+        "nonverbal_predicate": 3,
+        "modal_predicate": 3,
+        "subject_starts_with_stopword": 2,
+        "object_date_like": 2,
+        "object_adverbial_phrase": 1,
+        "object_clause_fragment": 1
+      },
+      "date_like_hits_count": 0,
+      "fetch_issues": [],
+      "eligible": false,
+      "blocking_reasons": [
+        "dominios_com_tripla_alvo<3 (0)",
+        "publishers_com_tripla_alvo<2 (0)",
+        "nenhum dominio fora de Wikipedia com tripla-alvo"
+      ],
+      "blocking_reason": "dominios_com_tripla_alvo<3 (0); publishers_com_tripla_alvo<2 (0); nenhum dominio fora de Wikipedia com tripla-alvo",
+      "per_domain": [
+        {
+          "url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+          "final_url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "wikimedia",
+          "is_wikipedia": true,
+          "cleaned_text_length": 124226,
+          "sentences_considered": 1003,
+          "raw_triples": 25,
+          "canonical_triples_reported": 8,
+          "canonical_triples": 8,
+          "rejection_reasons": {
+            "invalid_predicate": 106,
+            "unmapped_predicate": 12,
+            "object_prepositional_phrase": 3,
+            "ambiguous_predicate": 1,
+            "object_adverbial_phrase": 1
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": false,
+          "target_fact_sentences": 51,
+          "target_fact_sentence_samples": [
+            "Pelé – Wikipédia, a enciclopédia livre Pelé ONM OMC Pelé pela Seleção Brasileira em 1970 Informações pessoais Nome completo Edson Arantes do Nascimento Data de nascimento 23 de outubro de 1940 Local d",
+            "Revelado nas categorias de base do Bauru Atlético Clube , Pelé rapidamente se transferiu ao Santos Futebol Clube , onde começou a atuar aos quinze anos de idade, e pela Seleção Brasileira aos dezessei",
+            "Pelé foi velado em 2 e 3 de janeiro de 2023 e enterrado no Memorial Necrópole Ecumênica , em Santos ."
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.1,
+          "jev_scores": [
+            0.01,
+            0.01,
+            0.1,
+            0.04,
+            0.06,
+            0.03,
+            0.03,
+            0.02
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+          "final_url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "wikimedia",
+          "is_wikipedia": true,
+          "cleaned_text_length": 49370,
+          "sentences_considered": 402,
+          "raw_triples": 25,
+          "canonical_triples_reported": 7,
+          "canonical_triples": 7,
+          "rejection_reasons": {
+            "invalid_predicate": 230,
+            "stopword_predicate": 21,
+            "missing_entity": 6,
+            "object_predicate_complement": 5,
+            "subject_generic_phrase": 5,
+            "nonverbal_predicate": 2,
+            "subject_starts_with_stopword": 2
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "target_fact_sentences": 33,
+          "target_fact_sentence_samples": [
+            "Pelé - Wikipedia Pelé Pelé with Brazil in 1970 Born Edson Arantes do Nascimento ( 1940-10-23 ) 23 October 1940 Três Corações , Minas Gerais, Brazil Died 29 December 2022 (2022-12-29) (aged 82) São Pau",
+            "2016 ) ​ Children 7, including Edinho and Joshua Nascimento Parents Dondinho (father) Dona Celeste (mother) Relatives Zoca (brother) Association football career Position Forward Youth career 1953–1956",
+            "Pelé began playing for the Brazilian club Santos at age 15, and for the Brazil national team at 16."
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.03,
+          "jev_scores": [
+            0.01,
+            0.01,
+            0.02,
+            0.01,
+            0.01,
+            0.03,
+            0.02
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        },
+        {
+          "url": "https://g1.globo.com/sp/sao-paulo/noticia/2022/12/29/morre-pele-da-pobreza-a-gloria-a-historia-do-rei-do-futebol.ghtml",
+          "final_url": "https://g1.globo.com/sp/sao-paulo/noticia/2022/12/29/morre-pele-da-pobreza-a-gloria-a-historia-do-rei-do-futebol.ghtml",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "globo.com",
+          "is_wikipedia": false,
+          "cleaned_text_length": 26589,
+          "sentences_considered": 185,
+          "raw_triples": 22,
+          "canonical_triples_reported": 9,
+          "canonical_triples": 9,
+          "rejection_reasons": {
+            "invalid_predicate": 133,
+            "unmapped_predicate": 7,
+            "object_prepositional_phrase": 4,
+            "ambiguous_predicate": 1,
+            "object_date_like": 1
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": false,
+          "target_fact_sentences": 5,
+          "target_fact_sentence_samples": [
+            "O Santos venceu por 6 a 1, com quatro gols de Pelé - gols que não entraram nas estatísticas de sua carreira, mas lhe abriram portas importantes, passando a jogar nas partidas oficiais da equipe.",
+            "Entre eles, estavam Pelé, Garrincha e Djalma Santos.",
+            "Didi e Nilton Santos imploraram para que Pelé e Garrincha assumissem as vagas de Joel e Mazzola, respectivamente, e os dois jogadores acabaram sendo a sensação daquele Mundial."
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.04,
+          "jev_scores": [
+            0.03,
+            0.03,
+            0.03,
+            0.02,
+            0.04,
+            0.02,
+            0.01,
+            0.01,
+            0.01
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        },
+        {
+          "url": "https://www.bbc.com/portuguese/internacional-59859467",
+          "final_url": "https://www.bbc.com/portuguese/internacional-59859467",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "bbc.com",
+          "is_wikipedia": false,
+          "cleaned_text_length": 30746,
+          "sentences_considered": 191,
+          "raw_triples": 24,
+          "canonical_triples_reported": 9,
+          "canonical_triples": 9,
+          "rejection_reasons": {
+            "invalid_predicate": 136,
+            "unmapped_predicate": 5,
+            "object_prepositional_phrase": 4,
+            "modal_predicate": 3,
+            "ambiguous_predicate": 1,
+            "object_clause_fragment": 1,
+            "object_date_like": 1
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": false,
+          "target_fact_sentences": 7,
+          "target_fact_sentence_samples": [
+            "Segundo o Santos Futebol Clube, o corpo de Pelé será transportado do hospital na capital paulista até o estádio Urbano Caldeira, na Vila Belmiro, em Santos, na madrugada de segunda-feira (02/01).",
+            "Depois, haverá um cortejo pelas ruas de Santos, inclusive com passagem pelo Canal 6, onde mora a mãe de Pelé, dona Celeste.",
+            "O Santos venceu por 6 a 1, com quatro gols de Pelé - gols que não entraram nas estatísticas de sua carreira, mas lhe abriram portas importantes, passando a jogar nas partidas oficiais da equipe."
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.03,
+          "jev_scores": [
+            0.01,
+            0.02,
+            0.02,
+            0.02,
+            0.03,
+            0.02,
+            0.01,
+            0.01,
+            0.01
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        },
+        {
+          "url": "https://www.britannica.com/biography/Pele-Brazilian-football-player",
+          "final_url": "https://www.britannica.com/biography/Pele-Brazilian-football-player",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "britannica.com",
+          "is_wikipedia": false,
+          "cleaned_text_length": 12899,
+          "sentences_considered": 97,
+          "raw_triples": 4,
+          "canonical_triples_reported": 1,
+          "canonical_triples": 1,
+          "rejection_reasons": {
+            "invalid_predicate": 55,
+            "stopword_predicate": 4,
+            "missing_entity": 2,
+            "nonverbal_predicate": 1,
+            "unmapped_predicate": 1
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "target_fact_sentences": 6,
+          "target_fact_sentence_samples": [
+            "While honing his football skills in Bauru, Pelé attracted the attention of former Brazil international footballer Waldemar de Brito, who recognized Pelé’s talent and helped arrange a move to the Santo",
+            "(more) Pelé joined the Santos Football Club at age 15 and quickly emerged as one of Brazil’s brightest young stars.",
+            "With Pelé leading the attack, Santos won several regional and national championships, including nine São Paulo league championships and five Taça Brasil trophies between 1961 and 1965."
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.01,
+          "jev_scores": [
+            0.01
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        },
+        {
+          "url": "https://kids.britannica.com/kids/article/Pele/390829",
+          "final_url": "https://kids.britannica.com/kids/article/Pele/390829",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "britannica.com",
+          "is_wikipedia": false,
+          "cleaned_text_length": 4516,
+          "sentences_considered": 45,
+          "raw_triples": 6,
+          "canonical_triples_reported": 0,
+          "canonical_triples": 0,
+          "rejection_reasons": {
+            "invalid_predicate": 23,
+            "subject_generic_phrase": 3,
+            "object_predicate_complement": 2,
+            "object_prepositional_phrase": 1
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "target_fact_sentences": 1,
+          "target_fact_sentence_samples": [
+            "Pelé led Santos to many championships and broke many records."
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": false,
+          "jev_max": null,
+          "jev_scores": [],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "fact_id": "garrincha_defendeu_botafogo",
+      "target_fact": {
+        "description": "Garrincha defendeu o Botafogo de Futebol e Regatas",
+        "subject_any": [
+          "GARRINCHA",
+          "MANUEL FRANCISCO DOS SANTOS"
+        ],
+        "object_any": [
+          "BOTAFOGO"
+        ]
+      },
+      "predicates_ok": [
+        "DEFENDEU",
+        "SER"
+      ],
+      "sources_tested": 6,
+      "domains_with_target_sentence": [
+        "en.wikipedia.org",
+        "ge.globo.com",
+        "news.bbc.co.uk",
+        "pt.wikipedia.org"
+      ],
+      "domains_with_target_canonical_triple": [],
+      "publishers_with_target_canonical_triple": [],
+      "non_wikipedia_with_target_canonical_triple": [],
+      "ser_only_domains": [],
+      "triples_per_domain": {
+        "pt.wikipedia.org": 10,
+        "en.wikipedia.org": 6,
+        "www.lance.com.br": 0,
+        "www.britannica.com": 1,
+        "news.bbc.co.uk": 4,
+        "ge.globo.com": 3
+      },
+      "jev_max_per_domain": {
+        "pt.wikipedia.org": 0.51,
+        "en.wikipedia.org": 0.03,
+        "www.lance.com.br": null,
+        "www.britannica.com": 0.02,
+        "news.bbc.co.uk": 0.03,
+        "ge.globo.com": 0.03
+      },
+      "predicate_canonical": {},
+      "object_canonical": [],
+      "rejection_reasons": {
+        "invalid_predicate": 437,
+        "url_or_code_predicate": 32,
+        "missing_entity": 13,
+        "stopword_predicate": 12,
+        "unmapped_predicate": 8,
+        "object_predicate_complement": 7,
+        "subject_generic_phrase": 6,
+        "object_prepositional_phrase": 5,
+        "ambiguous_predicate": 2,
+        "nonverbal_predicate": 2,
+        "object_date_like": 1,
+        "object_pronoun": 1,
+        "subject_starts_with_stopword": 1
+      },
+      "date_like_hits_count": 0,
+      "fetch_issues": [
+        {
+          "url": "https://www.lance.com.br/lancepedia/a-historia-de-garrincha-no-botafogo.html",
+          "issue": "js_shell_no_subject",
+          "error": ""
+        }
+      ],
+      "eligible": false,
+      "blocking_reasons": [
+        "dominios_com_tripla_alvo<3 (0)",
+        "publishers_com_tripla_alvo<2 (0)",
+        "nenhum dominio fora de Wikipedia com tripla-alvo",
+        "url testada com fetch invalido (JS-only/paywall/404): 1"
+      ],
+      "blocking_reason": "dominios_com_tripla_alvo<3 (0); publishers_com_tripla_alvo<2 (0); nenhum dominio fora de Wikipedia com tripla-alvo; url testada com fetch invalido (JS-only/paywall/404): 1",
+      "per_domain": [
+        {
+          "url": "https://pt.wikipedia.org/wiki/Garrincha",
+          "final_url": "https://pt.wikipedia.org/wiki/Garrincha",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "wikimedia",
+          "is_wikipedia": true,
+          "cleaned_text_length": 46632,
+          "sentences_considered": 275,
+          "raw_triples": 25,
+          "canonical_triples_reported": 10,
+          "canonical_triples": 10,
+          "rejection_reasons": {
+            "invalid_predicate": 112,
+            "unmapped_predicate": 7,
+            "object_prepositional_phrase": 4,
+            "ambiguous_predicate": 1,
+            "object_date_like": 1,
+            "object_pronoun": 1,
+            "subject_generic_phrase": 1
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": false,
+          "target_fact_sentences": 14,
+          "target_fact_sentence_samples": [
+            "Garrincha – Wikipédia, a enciclopédia livre Mané Garrincha Garrincha na capa da revista El Gráfico de 1962 Informações pessoais Nome completo Manoel dos Santos Data de nascimento 28 de outubro de 1933",
+            "Garrincha também é pai de um filho sueco : Ulf Lindberg, fruto de um caso extraconjugal que manteve por alguns meses com uma jovem sueca da cidade de Umeå , durante uma excursão do Botafogo à Europa e",
+            "Garrincha trabalhava na fábrica Nova América, de Ademar Alves Bebiano, ex-presidente do Botafogo entre 1944 e 1947."
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.51,
+          "jev_scores": [
+            0.01,
+            0.02,
+            0.04,
+            0.51,
+            0.01,
+            0.04,
+            0.03,
+            0.01,
+            0.05,
+            0.02
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Garrincha",
+          "final_url": "https://en.wikipedia.org/wiki/Garrincha",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "wikimedia",
+          "is_wikipedia": true,
+          "cleaned_text_length": 25085,
+          "sentences_considered": 156,
+          "raw_triples": 21,
+          "canonical_triples_reported": 6,
+          "canonical_triples": 6,
+          "rejection_reasons": {
+            "invalid_predicate": 110,
+            "stopword_predicate": 9,
+            "object_predicate_complement": 7,
+            "missing_entity": 4,
+            "subject_generic_phrase": 4,
+            "nonverbal_predicate": 2
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "target_fact_sentences": 10,
+          "target_fact_sentence_samples": [
+            "Garrincha - Wikipedia Garrincha Garrincha playing for Brazil at the 1962 FIFA World Cup Personal information Full name Manuel Francisco dos Santos Date of birth ( 1933-10-28 ) 28 October 1933 Place of",
+            "At club level, Garrincha played the majority of his professional career for the Brazilian team Botafogo .",
+            "Club career Garrincha was already married and a parent when he signed for Botafogo in 1953."
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.03,
+          "jev_scores": [
+            0.01,
+            0.02,
+            0.03,
+            0.02,
+            0.01,
+            0.01
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        },
+        {
+          "url": "https://www.lance.com.br/lancepedia/a-historia-de-garrincha-no-botafogo.html",
+          "final_url": "https://www.lance.com.br/lancepedia/a-historia-de-garrincha-no-botafogo.html",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "js_shell_no_subject",
+          "publisher": "com.br",
+          "is_wikipedia": false,
+          "cleaned_text_length": 39585,
+          "sentences_considered": 14,
+          "raw_triples": 0,
+          "canonical_triples_reported": 0,
+          "canonical_triples": 0,
+          "rejection_reasons": {
+            "invalid_predicate": 138,
+            "url_or_code_predicate": 31
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "target_fact_sentences": 0,
+          "target_fact_sentence_samples": [],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": false,
+          "jev_max": null,
+          "jev_scores": [],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": "HTML servido sem o sujeito do fato (corpo JS-only/paywall)"
+        },
+        {
+          "url": "https://www.britannica.com/biography/Garrincha",
+          "final_url": "https://www.britannica.com/biography/Garrincha",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "britannica.com",
+          "is_wikipedia": false,
+          "cleaned_text_length": 3916,
+          "sentences_considered": 22,
+          "raw_triples": 4,
+          "canonical_triples_reported": 1,
+          "canonical_triples": 1,
+          "rejection_reasons": {
+            "invalid_predicate": 14,
+            "missing_entity": 3,
+            "url_or_code_predicate": 1
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "target_fact_sentences": 0,
+          "target_fact_sentence_samples": [],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.02,
+          "jev_scores": [
+            0.02
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        },
+        {
+          "url": "http://news.bbc.co.uk/sport2/hi/football/7197754.stm",
+          "final_url": "http://news.bbc.co.uk/sport2/hi/football/7197754.stm",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "co.uk",
+          "is_wikipedia": false,
+          "cleaned_text_length": 9024,
+          "sentences_considered": 50,
+          "raw_triples": 11,
+          "canonical_triples_reported": 4,
+          "canonical_triples": 4,
+          "rejection_reasons": {
+            "invalid_predicate": 42,
+            "missing_entity": 5,
+            "stopword_predicate": 3,
+            "object_prepositional_phrase": 1,
+            "subject_starts_with_stopword": 1
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "target_fact_sentences": 1,
+          "target_fact_sentence_samples": [
+            "Garrincha poses in a Botafogo shirt - he spent 12 years with them But put a ball at his feet, and the man they called Garrincha - the little bird - could just about do anything."
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.03,
+          "jev_scores": [
+            0.03,
+            0.01,
+            0.02,
+            0.01
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        },
+        {
+          "url": "https://ge.globo.com/al/arquivo/futebol/noticia/2023/10/28/garrincha-90-anos-craque-vestiu-as-camisas-de-csa-e-asa-e-seus-pais-moraram-em-quebrangulo.ghtml",
+          "final_url": "https://ge.globo.com/al/arquivo/futebol/noticia/2023/10/28/garrincha-90-anos-craque-vestiu-as-camisas-de-csa-e-asa-e-seus-pais-moraram-em-quebrangulo.ghtml",
+          "status": 200,
+          "fetch_error": "",
+          "fetch_issue": "",
+          "publisher": "globo.com",
+          "is_wikipedia": false,
+          "cleaned_text_length": 5257,
+          "sentences_considered": 21,
+          "raw_triples": 7,
+          "canonical_triples_reported": 3,
+          "canonical_triples": 3,
+          "rejection_reasons": {
+            "invalid_predicate": 21,
+            "ambiguous_predicate": 1,
+            "missing_entity": 1,
+            "subject_generic_phrase": 1,
+            "unmapped_predicate": 1
+          },
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "target_fact_sentences": 1,
+          "target_fact_sentence_samples": [
+            "Garrincha, 90 anos: craque vestiu as camisas de CSA e ASA e seus pais moraram em Quebrangulo | Ge TIMES AL Série A Série B Garrincha, 90 anos: craque vestiu as camisas de CSA e ASA e seus pais moraram"
+          ],
+          "exact_hits": [],
+          "exact_hit_count": 0,
+          "jev_applied": true,
+          "jev_max": 0.03,
+          "jev_scores": [
+            0.03,
+            0.02,
+            0.01
+          ],
+          "jev_hits": [],
+          "hit_triples": [],
+          "date_like_hits": [],
+          "hit_predicates": [],
+          "hit": false,
+          "ser_only_hit": false,
+          "notes": ""
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "targets_total": 5,
+    "targets_eligible": 0,
+    "eligible_fact_ids": [],
+    "jev_applied": true,
+    "sweep_verdict": "no_viable_target"
+  },
+  "truthfulness_note": {
+    "read_only": true,
+    "no_neo4j_no_qdrant_no_ingest": true,
+    "does_not_change_quorum_or_confirmacoes": true,
+    "does_not_touch_seed_clusters_yaml": true,
+    "classification_is_diagnostic_only": true
+  }
+}

@@ -1610,3 +1610,111 @@ primeiro (por que sentença-alvo não vira tripla-alvo; classes de causa:
 `no_relation_pattern`, `anaphora_unresolved`,
 `long_or_composed_sentence`, ...); correção de extractor/orçamento só
 depois do diagnóstico.
+
+## #048.5a — Varredura read-only de fatos-alvo alternativos
+
+**Status:** ✅ concluída — **veredito: `no_viable_target` (0/5 fatos
+elegíveis)**.
+
+### Pergunta respondida
+
+```text
+Existe algum fato-alvo histórico que o extrator atual consiga converter
+em tripla canônica em 3+ domínios distintos?
+```
+
+### Método
+
+`scripts/audit_target_fact_sweep.py` (read-only) →
+`reports/target_fact_sweep_048_5a.json`. 5 fatos candidatos × 4–6 fontes;
+`hit` = match estrutural (campo sujeito ↔ `subject_any`, campo objeto ↔
+`object_any`, predicado ∈ `predicates_ok` do vocabulário controlado) **OU**
+Jev ≥ 0.65; objetos date-like descartados. Elegibilidade: ≥ 3 domínios com
+tripla-alvo, ≥ 2 publishers, ≥ 1 fora de Wikipedia, ≤ 1 domínio só-`SER`,
+nenhuma URL JS-only/paywall/404, nenhuma tripla-alvo date-like.
+
+### Resultado
+
+| Fato-alvo | dom. sentença | dom. tripla-alvo | Jev máx (domínio) | veredito |
+|---|---|---|---|---|
+| `BOTAFOGO --LOCALIZADO_EM--> RIO DE JANEIRO` | 5 | 0 | 0.14 | inelegível |
+| `BOTAFOGO --VENCEU--> LIBERTADORES` | 5 | 0 | 0.06 | inelegível |
+| `BOTAFOGO --VENCEU--> BRASILEIRAO` | 4 | **1 (UOL, exato=1)** | 0.94 | inelegível (1 < 3) |
+| `PELE --DEFENDEU--> SANTOS` | 6 (pt-wiki: **51 sentenças-alvo**) | 0 | 0.10 | inelegível |
+| `GARRINCHA --DEFENDEU--> BOTAFOGO` | 4 | 0 | 0.51 | inelegível (`lance.com.br` = JS-only) |
+
+### Conclusão
+
+Mesmo com fatos-alvo **distintos** dos #048.5 e com sentenças-alvo
+abundantemente presentes (pt-wiki Pelé: 51 sentenças com Pelé+Santos →
+**0 triplas convertidas**), o extrator atual não converte
+sentença→triplo canônico em ≥ 3 domínios. O padrão do #048.5 **replica-se**
+em todos os 5 fatos → evidência negativa da varredura A.
+Nenhum `config/seed_clusters.yaml` alterado.
+
+### Decisão (passo 4 do plano aprovado)
+
+`A` terminou como evidência negativa → **#058.11** é o próximo issue
+técnico (diagnóstico read-only da lacuna sentença→triplo; sem correção às
+cegas; não aumentar `max_triples` antes de medir truncamento).
+`#047.2`/`#045.3` continuam fechados (só renascem se a classe de causa
+detectada for, respectivamente, variante nominal ou predicado não mapeado).
+
+## #058.11 — Target-aware extraction gap analysis
+
+**Status:** 📌 **aberta** — read-only/diagnóstico primeiro (decisão do
+operador; evidência: #048.5 + #048.5a).
+
+### Objetivo
+
+Explicar por que `target_fact_sentences > 0` não converge em
+`raw_triples`/`canonical_triples` que contenham o fato-alvo.
+
+### Perguntas do diagnóstico (por caso sentença-alvo sem tripla-alvo)
+
+```text
+1.  A sentença foi considerada pelo extractor?
+2.  A sentença passou no score mínimo?
+3.  A sentença caiu fora do limite de max_triples=25?
+4.  O extractor reconheceu a entidade sujeito?
+5.  O extractor reconheceu o objeto?
+6.  O extractor extraiu alguma tripla da sentença?
+7.  Se extraiu, o predicado foi capturado?
+8.  Se capturado, foi rejeitado pelo predicate mapper?
+9.  Se mapeado, o objeto foi rejeitado pelo span validator?
+10. Se passou, a tripla foi duplicata/colapsada em outra chave?
+11. O fato estava em tabela/lista/infobox sem narrativa?
+12. O fato dependia de anáfora ("the club", "o time", "ele")?
+13. O fato estava em frase longa/composta/coordenada?
+14. O fato estava em frase com data/parenthetical/lista?
+```
+
+### Classes de causa (saída do diagnóstico)
+
+```text
+sentence_not_considered
+sentence_score_below_threshold
+max_triples_truncation
+missing_subject_entity
+missing_object_entity
+no_relation_pattern
+predicate_unmapped
+object_rejected_by_span_validator
+duplicate_or_wrong_key
+table_without_narrative
+anaphora_unresolved
+long_or_composed_sentence
+date_or_list_contamination
+unknown
+```
+
+### Regras
+
+- read-only primeiro; **não** aumentar `max_triples` sem medir truncamento
+  (experimento em memória com cap alto é diagnóstico, não mudança de código);
+- `#047.2` renasce só com `missing_subject_entity`/`missing_object_entity`
+  por variante nominal; `#045.3` renasce só com `predicate_unmapped`;
+- não abrir `#048.6` (mais clusters), `#055` (API Almanaque congelada por
+  compliance) nem treino (gate `verified_facts_domain_independent = 0 < 10`);
+- evidência atual: `reports/cluster_productivity_048_5.json` (#048.5) e
+  `reports/target_fact_sweep_048_5a.json` (#048.5a).
