@@ -26,6 +26,9 @@ o gargalo é **equivalência semântica entre fontes** — ver [`RESEARCH.md`](.
 | — | **#058.5** Botafogo EN extraction forensics | ✅ **concluída** — causa raiz `fetch` (seed EN HTTP 404); H1 supported; hint `#048.3`; candidatas EN 200; 364 testes |
 | — | **#048.3** Replace stale Botafogo EN 404 audit target | ✅ **concluída** — URL 404 removida de 3 `DEFAULT_TARGETS`/`TARGETS`; canônica `Botafogo_de_Futebol_e_Regatas` (200, raw 15, canon 10); escopo corrigido (#058.5: era alvo de auditoria, não seed de produção) |
 | — | **#048.4** Add productive EN Botafogo source to cluster | ✅ **concluída** — fonte EN canônica em `garrincha_botafogo` (HTTP 200, canon 10 offline); cluster 3 domínios / 2 publishers / 5 URLs; 366 testes |
+| — | **#058.8** sparse merge do fallback regex | ✅ **concluída** — `SPACY_SPARSE_MIN=10`, merge fallback-lazy-primeiro; run `36064311931`; EN Pelé 1→25, gap `canonical_to_fact_gap` 7→0; 376 testes |
+| — | **#058.9** triagem read-only dos 21 pares PT/EN | ✅ **concluída** — `predicate_mapper_gap=0`, `object_alias_missing=0`, `fix_both=21` (ruído); decisão: descartar #047.1/#045.3 → abrir **#058.10** |
+| — | **#058.10** guard `object_predicate_complement` (SER × cláusula EN) | ✅ **concluída** — 5 camadas determinísticas no `span_validator` + call-site `predicate=`; dry-run: 45/141 SER rejeitados, 0 PT, 16/19 pares EN; 380 testes |
 | #047 | Aliasing curado de entidades | ✅ **concluída** — dicionário bilíngue + boundary fix extractor; goldens cross-lingual verdes |
 | item 2 | Entity linking **diagnóstico** (sem promover fato) | medir `potential_verified_if_linking` antes de qualquer promoção |
 | — | ~~Validador de span v2~~ | ✅ **#058.2** — fragmentos H3 rejeitados; residual boundary fechado em **#047** |
@@ -68,6 +71,9 @@ o gargalo é **equivalência semântica entre fontes** — ver [`RESEARCH.md`](.
 | #058.5 | Botafogo EN extraction forensics | v1.13.0 | ✅ concluída — `diagnosis=fetch` (seed EN 404); `next=#048.3`; H1 supported; H2–H7 não; 364 testes |
 | #048.3 | Replace stale Botafogo EN 404 audit target | v1.13.0 | ✅ concluída — 3 scripts corrigidos; canônica EN `Botafogo_de_Futebol_e_Regatas`; seeds intocadas |
 | #048.4 | Add productive EN Botafogo source to cluster | v1.13.0 | ✅ concluída — `garrincha_botafogo` ganhou EN canônica (offline 200/canon 10); 2 testes novos; 366 testes |
+| #058.8 | Sparse merge do regex fallback (spaCy sparse) | v1.13.0 | ✅ concluída — `SPACY_SPARSE_MIN=10`; run único `36064311931`; `Fato` 119→248; 376 testes |
+| #058.9 | Triagem read-only dos 21 pares PT/EN | v1.13.0 | ✅ concluída — `root_cause=ruído/verdade (13/8)`, `gap_mapper=0`, `gap_alias=0`; #047.1/#045.3 descartados |
+| #058.10 | Guard `object_predicate_complement` (SER × cláusula EN) | v1.13.0 | ✅ concluída — 5 camadas em `span_validator`; dry-run 45/141 SER rejeitados, 0 PT; 380 testes |
 | #064 | Concept reconciliation (dívida pós-#058.3) | dívida | 📌 backlog — registrar; **não executar** até evidência adicional |
 | #045 | (implícito) predicate mapper — reabrir só se `top_unmapped` voltar a ter verbos claros ≥3 | — | 🧊 aguardando métrica |
 | #053 | Independência editorial por publisher/eTLD+1 | dívida | 📌 backlog |

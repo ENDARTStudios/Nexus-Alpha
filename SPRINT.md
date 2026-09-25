@@ -1390,4 +1390,102 @@ Se fragilizar, alternativa principiadista: limiar relativo
 workflows, `requirements*.txt`, treino (gate ainda fechado:
 `verified_facts_domain_independent = 0 < 10`).
 
+## #058.9 — Triagem read-only dos 21 pares PT/EN
+
+**Status:** ✅ concluída (decisão: descartar `#047.1` e `#045.3`; caminho 2 = `#058.10`)
+
+### Evidência (`reports/triage_058_9.json`, script só em temp dir)
+- `total_pairs = 21`; high = 0, medium = 0, low = 21;
+  `mismatch_field: multiple = 21`.
+- `root_cause`: `true_content_difference = 13`, `extraction_noise = 8`;
+  `predicate_mapper_gap = 0`; `object_alias_missing = 0`.
+- Decisão: `fix_object_alias_only = 0`, `fix_predicate_mapper_only = 0`,
+  `fix_both = 21` → **nenhum dos dois gaps é a causa**.
+- `potential_verified` (def grafo, confs ≥ 3 & doms ≥ 2) = 2;
+  (def audit, doms ≥ 3) = 0.
+- Pares = cross-produto de **3 sujeitos** (`ssim = 1.0`): manuel francisco
+  santos 12, santos futebol clube 8, edson arantes nascimento 1.
+- EN: `SER` em 21/21 pares e **94/108 fatos EN (87%)** (monocultura
+  copular); PT: POSSUIR/DEFENDEU/EXECUTA/DISPUTOU/VENCEU;
+  `pt.wikipedia` ≈ 0 fatos SER. Problema SER+cláusula aparece também fora
+  wiki EN (scikit-learn, plato, ibm, ollama, tensorflow, nist, huggingface,
+  santosfc.com.br) → guarda é linguístico, agnóstico de domínio.
+
+### Decisão do usuário
+Descartar `#047.1` (alias) e `#045.3` (mapper) como próximos passos; abrir
+**`#058.10`** com guarda sintática determinística no `span_validator`
+(reason `object_predicate_complement`) quando o predicado é `SER`.
+
+## #058.10 — Guard `object_predicate_complement` (objeto de SER = cláusula EN)
+
+**Status:** ✅ concluída (guard determinístico; testes + dry-run read-only)
+
+### Por quê
+A triagem `#058.9` mostrou que os 21 pares PT/EN não têm gap de alias nem
+de mapper — o lado EN extrai **cláusulas como objeto** de predicados
+copulares (`SANTOS FUTEBOL CLUBE —SER→ ELIMINATED BY PENAROL`). Como
+`SER` é 87% dos fatos EN, isso infla o ruído e fecha o gate de pares.
+O choke point é o `span_validator` (call-site do `refine_triple_ex`).
+
+### Escopo (1 item = 1 commit)
+- `src/cognition/span_validator.py`: parâmetro opcional `predicate` em
+  `reject_reason_for_span`/`validate_entity_span`; razão única
+  `object_predicate_complement`. Guard roda **só** se `role == "object"`,
+  `fold_span(predicate) ∈ copulas` (`ser foi era eram sao estao is are was
+  were be been being`) e **depois** da whitelist `known_entities`.
+  Cinco camadas sobre tokens fold-ados (case-insensitive; sem depender de
+  capitalização):
+  1. agente passivo: primeiro token termina `ed`/`en` + token `by`;
+  2. abertura predicativa/auxiliar `_SER_CLAUSE_STARTS` (known/born/based/
+     located/called/ranked/... + auxiliares `was/are/...`);
+  3. comparativo: marcador (`older/less/different/...`) + `than`;
+  4. advérbio de grau `_DEGREE_STARTS` (`so/very/too/quite/...`);
+  5. densidade de palavras fechadas ≥ 0.5.
+  `predicate = None` → guard inativo (API v2 intacta).
+- `src/cognition/triple_refiner.py`: **1 linha** —
+  `validate_entity_span(raw_object, "object", known, predicate=predicate)`
+  (canônico pós-`validate_predicate`).
+- `tests/test_span_validator.py`: +4 testes — 14 BAD × `SER` →
+  `(False, "object_predicate_complement")`; 22 GOOD × `SER` → `(True, None)`;
+  escopo de predicado (`DISPUTOU` aceita, `None` inativo, subject não afetado);
+  integração `refine_triple_ex` (rejeição + dois aceites `ok`).
+- Não tocar: `predicate_mapper.py`, `canonicalizer.py`, aliases, seeds,
+  workflows, `requirements*.txt`.
+
+### Evidência (dry-run read-only `reports/guard_dry_run_058_10.json`, grafo atual = 248 fatos)
+| Métrica | valor |
+|---|---|
+| fatos com predicado copular (`SER` etc.) | 141/248 (57%) |
+| objetos rejeitados (`object_predicate_complement`) | **45** (32% dos SER) |
+| objetos SER aceitos | 96 |
+| domínios das rejeições | en.wikipedia 39, plato 2, ibm 2, ollama 1, scikit-learn 1 |
+| rejeições em domínios PT | **0** (PT estável por construção — guard é EN) |
+| rejeições com predicado não-copular | **0** (guard escopado a `SER`) |
+| lado EN dos 19 pares `SER` da triagem `#058.9` | **16/19** rejeitados |
+
+Exemplos reais rejeitados: `ELIMINATED BY PENAROL`, `KNOWN FOR HIS
+DRIBBLING`, `SEVEN YEARS OLDER THAN PELE`, `SO IMPRESSED WITH THE YOUNG
+GARRINCHA`, `BORN IN PAU GRANDE`, `COINED IN 1959 BY ARTHUR SAMUEL`,
+`INAUGURATED ON 12 OCTOBER 1916`. Nenhum dos 22 GOOD (Santos, Botafogo,
+Pelé, Garrincha, Vila Belmiro, Campeonato..., IA/ML) foi rejeitado.
+
+Residual (falsos-negativos aceitos, começando conservador):
+`INCREDIBLE PLAYER` ×3 pares (sem camada de capitalização — a caixa do span
+bruto é ambígua entre all-caps e lowercase; decisão: não depender dela);
+2 pares `VENCEU` (não-copular, fora de escopo por design do guard em `SER`).
+
+### DoD
+`python -m pytest -q` verde (**380**, +4) · `git diff -- requirements-dev.txt
+.github/workflows/ config/seed_clusters.yaml config/entity_aliases.yaml
+src/cognition/predicate_mapper.py src/cognition/canonicalizer.py` vazio ·
+staging explícito (5 arquivos) · mensagem
+`feat(cognition): suppress EN copular and passive clause objects in span validator` ·
+CI verde · sem treino · sem LLM/embedding no validador · sem `git add -A`.
+
+### Fora de escopo
+Fase B (re-ingest pós-guard: snapshot AuraDB → reset escopado → worker
+único → re-runs read-only — **com o usuário**, não executado aqui),
+`#047.1`, `#045.3`, `#048.5`, `#055`, seeds, aliases, `predicate_mapper.py`,
+workflows, treino (gate `verified_facts_domain_independent = 0 < 10`).
+
 
