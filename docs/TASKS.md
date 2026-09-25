@@ -29,6 +29,8 @@ o gargalo é **equivalência semântica entre fontes** — ver [`RESEARCH.md`](.
 | — | **#058.8** sparse merge do fallback regex | ✅ **concluída** — `SPACY_SPARSE_MIN=10`, merge fallback-lazy-primeiro; run `36064311931`; EN Pelé 1→25, gap `canonical_to_fact_gap` 7→0; 376 testes |
 | — | **#058.9** triagem read-only dos 21 pares PT/EN | ✅ **concluída** — `predicate_mapper_gap=0`, `object_alias_missing=0`, `fix_both=21` (ruído); decisão: descartar #047.1/#045.3 → abrir **#058.10** |
 | — | **#058.10** guard `object_predicate_complement` (SER × cláusula EN) | ✅ **concluída** — 5 camadas determinísticas no `span_validator` + call-site `predicate=`; dry-run: 45/141 SER rejeitados, 0 PT, 16/19 pares EN; 380 testes; **Fase B validada em produção** — run `36090364284`, `opc=43`, padrões banidos 0, EN share 85,6%→81,4%, PT gate não-vazado (gap 7 = pt-IA cold-start, `unaccounted=0`); **Cenário 2 parcial** (divergência editorial real) |
+| — | **#048.5** Curated target-fact clusters (sem API Almanaque) | 🚧 **bloqueada por #058.11** — mecanismo entregue (`scripts/audit_cluster_productivity.py` + `reports/cluster_productivity_048_5.json`, Jev aplicado); 3 clusters inelegíveis (0/1/0 domínios aceitos); causa raiz: **gap de extração target-aware** — 15 URLs com `target_fact_sentences>0`, 0 triplas-alvo cruas/canônicas, Jev triplas ≤0.11, único hit UOL `SER`; `alias_missing=0`/`mapper_gap=0` → não é #047.2/#045.3; seeds intocadas |
+| — | **#058.11** Target-aware extraction gap analysis | 📌 **próximo issue técnico** — read-only/diagnóstico primeiro: por que sentença-alvo não vira tripla canônica (classes de causa: `max_triples_truncation`, `sentence_score_below_threshold`, `anaphora_unresolved`, `no_relation_pattern`, ...); correção só após diagnóstico; inclui varredura read-only de fatos-alvo (#048.5a) |
 | #047 | Aliasing curado de entidades | ✅ **concluída** — dicionário bilíngue + boundary fix extractor; goldens cross-lingual verdes |
 | item 2 | Entity linking **diagnóstico** (sem promover fato) | medir `potential_verified_if_linking` antes de qualquer promoção |
 | — | ~~Validador de span v2~~ | ✅ **#058.2** — fragmentos H3 rejeitados; residual boundary fechado em **#047** |
@@ -74,11 +76,13 @@ o gargalo é **equivalência semântica entre fontes** — ver [`RESEARCH.md`](.
 | #058.8 | Sparse merge do regex fallback (spaCy sparse) | v1.13.0 | ✅ concluída — `SPACY_SPARSE_MIN=10`; run único `36064311931`; `Fato` 119→248; 376 testes |
 | #058.9 | Triagem read-only dos 21 pares PT/EN | v1.13.0 | ✅ concluída — `root_cause=ruído/verdade (13/8)`, `gap_mapper=0`, `gap_alias=0`; #047.1/#045.3 descartados |
 | #058.10 | Guard `object_predicate_complement` (SER × cláusula EN) | v1.13.0 | ✅ concluída — 5 camadas em `span_validator`; dry-run 45/141 SER rejeitados, 0 PT; 380 testes; **Fase B validada** (run `36090364284`; Cenário 2 parcial) |
+| #048.5 | Curated target-fact clusters sem API Almanaque | v1.13.0 | 🚧 **bloqueada por #058.11** — auditoria entregue (3 clusters inelegíveis); gargalo = extração target-aware (sentença presente, tripla não nasce); seeds intocadas; varredura read-only de fatos-alvo pendente |
+| #058.11 | Target-aware extraction gap analysis | v1.13.0 | 📌 **próximo** — read-only diagnóstico sentença→triplo; evidência do #048.5; não abrir #047.2/#045.3 (downstream); não aumentar `max_triples` sem medir truncamento |
 | #064 | Concept reconciliation (dívida pós-#058.3) | dívida | 📌 backlog — registrar; **não executar** até evidência adicional |
 | #045 | (implícito) predicate mapper — reabrir só se `top_unmapped` voltar a ter verbos claros ≥3 | — | 🧊 aguardando métrica |
 | #053 | Independência editorial por publisher/eTLD+1 | dívida | 📌 backlog |
 | #054 | Ontologia temporal (`:Ano`/`:Periodo`, `OCORREU_EM`) | dívida | 📌 backlog |
-| #055 | Integração API REST do Almanaque | dívida | 📌 **próximo prioritário** — API confirmada (OpenAPI 3.0.3 `/docs/json`, 87 paths, leituras públicas `/api/v1/clubs|players|competitions|rankings`); ToS: API incluída no plano **Elite** com chave individual + extração em escala/scraping proibidos → exigir decisão/licença do operador antes de consumir em escala |
+| #055 | Integração API REST do Almanaque | dívida | 🧊 **congelado por compliance** — API confirmada (OpenAPI 3.0.3 `/docs/json`, 87 paths, leituras públicas `/api/v1/clubs|players|competitions|rankings`); ToS: API incluída no plano **Elite** com chave individual + extração em escala/scraping proibidos → decisão/licença do operador; **não consumir `/api/v1/*`** (#058.11 tem prioridade) |
 
 ## 3. Template de tarefa (padrão do repositório)
 

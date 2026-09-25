@@ -1,0 +1,2359 @@
+{
+  "audit_id": "cluster_productivity_048_5",
+  "generated_at": "2026-09-25T16:18:24.338384+00:00",
+  "read_only": true,
+  "promote_automatically": false,
+  "pipeline": {
+    "fetch": "httpx + WebMiner.anti_block headers (paridade com minerador)",
+    "extractor": "EntityExtractor(enable_fallback=True)",
+    "spacy_model": "pt_core_news_sm",
+    "target_fact_matching_exact": "fold_span(subject_any) AND fold_span(object_any) em tripla canonica",
+    "target_fact_matching_jev": "Noul por tripla canonica, limiar 0.7, modelo jev-latest",
+    "fallback_used_meaning": "modelo spaCy indisponivel (NER real ausente)",
+    "spacy_sparse_band_meaning": "spacy_triples < 10 — banda que mescla fallback regex (aceitacao alternativa: meets_acceptance_dense)"
+  },
+  "clusters": [
+    {
+      "cluster_id": "botafogo_libertadores_2024",
+      "target_fact": {
+        "description": "Botafogo venceu a Copa Libertadores de 2024",
+        "subject_any": [
+          "BOTAFOGO"
+        ],
+        "object_any": [
+          "LIBERTADORES"
+        ]
+      },
+      "urls_evaluated": 7,
+      "accepted": 0,
+      "accepted_wikipedia": [],
+      "accepted_non_wikipedia": [],
+      "domains_evaluated": [
+        "en.wikipedia.org",
+        "ge.globo.com",
+        "pt.wikipedia.org",
+        "www.bbc.com",
+        "www.botafogo.com.br",
+        "www.espn.com.br",
+        "www.rsssf.org"
+      ],
+      "domains_accepted": [],
+      "domain_count": 0,
+      "publishers_accepted": [],
+      "publisher_count": 0,
+      "accepted_dense": 0,
+      "eligible": false,
+      "ineligible_reasons": [
+        "dominios_aceitos<3 (0)",
+        "publishers_aceitos<2 (0)",
+        "nenhuma fonte nao-Wikimedia aceita (independencia editorial plena)",
+        "nenhuma URL atingiu os limiares de aceitacao"
+      ],
+      "per_url": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "status": 200,
+          "content_length": 639921,
+          "cleaned_text_length": 20566,
+          "sentences_considered": 169,
+          "sentences_scored_above_threshold": 109,
+          "raw_triples": 14,
+          "canonical_triples": 8,
+          "rejected_noise": 6,
+          "rejection_reasons": {
+            "invalid_predicate": 82,
+            "stopword_predicate": 6,
+            "missing_entity": 2,
+            "object_clause_fragment": 1,
+            "object_predicate_complement": 1,
+            "subject_generic_phrase": 1,
+            "unmapped_predicate": 1
+          },
+          "top_subjects": {
+            "ELECTRO CLUB": 1,
+            "S BEST PLAYER": 1,
+            "S HOME GROUND": 1,
+            "STADIUM": 1,
+            "WHERE IT": 1
+          },
+          "top_objects": {
+            "FOUNDED": 1,
+            "HELENO DE FREITAS": 1,
+            "ESTADIO OLIMPICO NILTON SANTOS": 1,
+            "COMMONLY CALLED ENGENHAO BY FANS": 1,
+            "LOCATED": 1
+          },
+          "top_predicates": {
+            "SER": 7,
+            "DEFENDEU": 1
+          },
+          "football_related_hits": 2,
+          "football_verb_hits": 4,
+          "detected_football_verbs": [
+            "defender",
+            "played",
+            "scored",
+            "won"
+          ],
+          "extractive_quality": "productive",
+          "notes": "",
+          "final_url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "error": "",
+          "canonical_list": [
+            {
+              "subject": "ELECTRO CLUB",
+              "predicate": "SER",
+              "object": "FOUNDED",
+              "confidence": 0.8,
+              "raw_subject": "Electro Club",
+              "raw_predicate": "SER",
+              "raw_object": "founded",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "S BEST PLAYER",
+              "predicate": "SER",
+              "object": "HELENO DE FREITAS",
+              "confidence": 0.8,
+              "raw_subject": "s best player",
+              "raw_predicate": "SER",
+              "raw_object": "Heleno de Freitas",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "S HOME GROUND",
+              "predicate": "SER",
+              "object": "ESTADIO OLIMPICO NILTON SANTOS",
+              "confidence": 0.8,
+              "raw_subject": "s home ground",
+              "raw_predicate": "SER",
+              "raw_object": "Estádio Olímpico Nilton Santos",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "STADIUM",
+              "predicate": "SER",
+              "object": "COMMONLY CALLED ENGENHAO BY FANS",
+              "confidence": 0.65,
+              "raw_subject": "stadium",
+              "raw_predicate": "SER",
+              "raw_object": "commonly called Engenhão by fans",
+              "extraction_confidence": 0.65
+            },
+            {
+              "subject": "WHERE IT",
+              "predicate": "SER",
+              "object": "LOCATED",
+              "confidence": 0.8,
+              "raw_subject": "where it",
+              "raw_predicate": "SER",
+              "raw_object": "located",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "S MASCOT",
+              "predicate": "SER",
+              "object": "MANEQUINHO",
+              "confidence": 0.8,
+              "raw_subject": "s mascot",
+              "raw_predicate": "SER",
+              "raw_object": "Manequinho",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "FIRST MASCOT",
+              "predicate": "SER",
+              "object": "DONALD DUCK",
+              "confidence": 0.8,
+              "raw_subject": "first mascot",
+              "raw_predicate": "SER",
+              "raw_object": "Donald Duck",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "ARGENTINE",
+              "predicate": "DEFENDEU",
+              "object": "JOEL CARLI",
+              "confidence": 0.8,
+              "raw_subject": "Argentine",
+              "raw_predicate": "DEFENDEU",
+              "raw_object": "Joel Carli",
+              "extraction_confidence": 0.8
+            }
+          ],
+          "target_fact_hits_exact": 0,
+          "target_fact_hits": 0,
+          "target_fact_sentences": 1,
+          "target_fact_sample": [],
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "spacy_triples": 1,
+          "spacy_available": true,
+          "is_wikipedia": true,
+          "publisher": "wikimedia",
+          "jev_applied": true,
+          "masked_extraction_failure": false,
+          "acceptance_checks": {
+            "status_200": true,
+            "cleaned_text": true,
+            "sentences": true,
+            "raw_triples_gte_5": true,
+            "canonical_ok": true,
+            "fallback_false": true,
+            "target_fact_hit": false
+          },
+          "meets_acceptance": false,
+          "meets_acceptance_dense": false,
+          "productive": true,
+          "jev_threshold": 0.7,
+          "jev_scores": [
+            0.01,
+            0.01,
+            0.02,
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.02
+          ],
+          "jev_hit_triples": []
+        },
+        {
+          "url": "https://ge.globo.com/blogs/completando-a-jogada/post/2024/12/02/botafogo-supera-adversidades-e-conquista-titulo-de-campeao-da-libertadores-2024.ghtml",
+          "status": 200,
+          "content_length": 1082764,
+          "cleaned_text_length": 7993,
+          "sentences_considered": 33,
+          "sentences_scored_above_threshold": 33,
+          "raw_triples": 12,
+          "canonical_triples": 3,
+          "rejected_noise": 9,
+          "rejection_reasons": {
+            "invalid_predicate": 36,
+            "missing_entity": 2,
+            "object_prepositional_phrase": 2,
+            "subject_generic_phrase": 2,
+            "object_generic_phrase": 1,
+            "object_predicate_complement": 1,
+            "unmapped_predicate": 1
+          },
+          "top_subjects": {
+            "CTERISTICAS MAIS FORTES DO ATUAL BOTAFOGO": 1,
+            "CAMPISTA THIAGO ALMADA": 1,
+            "MEIOS CAMPISTAS CONVOCADOS": 1
+          },
+          "top_objects": {
+            "HIBRIDISMO TATICO": 1,
+            "CEREBRO DA EQUIPE": 1,
+            "CARACTERISTICAS MAIS DEFENSIVAS": 1
+          },
+          "top_predicates": {
+            "SER": 2,
+            "POSSUIR": 1
+          },
+          "football_related_hits": 2,
+          "football_verb_hits": 3,
+          "detected_football_verbs": [
+            "disputar",
+            "jogar",
+            "vencer"
+          ],
+          "extractive_quality": "productive",
+          "notes": "",
+          "final_url": "https://ge.globo.com/blogs/completando-a-jogada/post/2024/12/02/botafogo-supera-adversidades-e-conquista-titulo-de-campeao-da-libertadores-2024.ghtml",
+          "error": "",
+          "canonical_list": [
+            {
+              "subject": "CTERISTICAS MAIS FORTES DO ATUAL BOTAFOGO",
+              "predicate": "SER",
+              "object": "HIBRIDISMO TATICO",
+              "confidence": 0.65,
+              "raw_subject": "cterísticas mais fortes do atual Botafogo",
+              "raw_predicate": "SER",
+              "raw_object": "hibridismo tático",
+              "extraction_confidence": 0.65
+            },
+            {
+              "subject": "CAMPISTA THIAGO ALMADA",
+              "predicate": "SER",
+              "object": "CEREBRO DA EQUIPE",
+              "confidence": 0.8,
+              "raw_subject": "campista Thiago Almada",
+              "raw_predicate": "SER",
+              "raw_object": "cérebro da equipe",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "MEIOS CAMPISTAS CONVOCADOS",
+              "predicate": "POSSUIR",
+              "object": "CARACTERISTICAS MAIS DEFENSIVAS",
+              "confidence": 0.8,
+              "raw_subject": "meios-campistas convocados",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "características mais defensivas",
+              "extraction_confidence": 0.8
+            }
+          ],
+          "target_fact_hits_exact": 0,
+          "target_fact_hits": 0,
+          "target_fact_sentences": 4,
+          "target_fact_sample": [],
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "spacy_triples": 5,
+          "spacy_available": true,
+          "is_wikipedia": false,
+          "publisher": "globo.com",
+          "jev_applied": true,
+          "masked_extraction_failure": false,
+          "acceptance_checks": {
+            "status_200": true,
+            "cleaned_text": true,
+            "sentences": true,
+            "raw_triples_gte_5": true,
+            "canonical_ok": true,
+            "fallback_false": true,
+            "target_fact_hit": false
+          },
+          "meets_acceptance": false,
+          "meets_acceptance_dense": false,
+          "productive": true,
+          "jev_threshold": 0.7,
+          "jev_scores": [
+            0.02,
+            0.02,
+            0.01
+          ],
+          "jev_hit_triples": []
+        },
+        {
+          "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "status": 200,
+          "content_length": 1096056,
+          "cleaned_text_length": 54233,
+          "sentences_considered": 366,
+          "sentences_scored_above_threshold": 356,
+          "raw_triples": 25,
+          "canonical_triples": 6,
+          "rejected_noise": 19,
+          "rejection_reasons": {
+            "invalid_predicate": 96,
+            "object_prepositional_phrase": 6,
+            "unmapped_predicate": 5,
+            "ambiguous_predicate": 4,
+            "object_date_like": 2,
+            "subject_starts_with_stopword": 2
+          },
+          "top_subjects": {
+            "COMPLEXO ESPORTIVO DE GENERAL SEVERIANO": 1,
+            "CLUBE": 1,
+            "CLUBE DE FUTEBOL": 1,
+            "LISTRAS HORIZONTAIS": 1,
+            "CAMISA AINDA VOLTARIA A TER": 1
+          },
+          "top_objects": {
+            "GINASIO POLIESPORTIVO DUAS QUADRAS CHURRASQUEIRA": 1,
+            "MAIS ESSAS ESTRELAS COMPLEMENTARES": 1,
+            "BANDEIRA COM FAIXAS HORIZONTAIS PRETAS": 1,
+            "10 CENTIMETROS DE LARGURA": 1,
+            "GOL DO TITULO": 1
+          },
+          "top_predicates": {
+            "POSSUIR": 4,
+            "UTILIZA": 1,
+            "EXECUTA": 1
+          },
+          "football_related_hits": 3,
+          "football_verb_hits": 8,
+          "detected_football_verbs": [
+            "conquistar",
+            "conquistou",
+            "disputar",
+            "disputou",
+            "jogou",
+            "liderou",
+            "vencer",
+            "venceu"
+          ],
+          "extractive_quality": "productive",
+          "notes": "",
+          "final_url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "error": "",
+          "canonical_list": [
+            {
+              "subject": "COMPLEXO ESPORTIVO DE GENERAL SEVERIANO",
+              "predicate": "POSSUIR",
+              "object": "GINASIO POLIESPORTIVO DUAS QUADRAS CHURRASQUEIRA",
+              "confidence": 0.5,
+              "raw_subject": "complexo esportivo de General Severiano",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "ginásio poliesportivo duas quadras churrasqueira",
+              "extraction_confidence": 0.5
+            },
+            {
+              "subject": "CLUBE",
+              "predicate": "UTILIZA",
+              "object": "MAIS ESSAS ESTRELAS COMPLEMENTARES",
+              "confidence": 0.95,
+              "raw_subject": "clube",
+              "raw_predicate": "UTILIZA",
+              "raw_object": "mais essas estrelas complementares",
+              "extraction_confidence": 0.95
+            },
+            {
+              "subject": "CLUBE DE FUTEBOL",
+              "predicate": "POSSUIR",
+              "object": "BANDEIRA COM FAIXAS HORIZONTAIS PRETAS",
+              "confidence": 0.65,
+              "raw_subject": "clube de futebol",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "bandeira com faixas horizontais pretas",
+              "extraction_confidence": 0.65
+            },
+            {
+              "subject": "LISTRAS HORIZONTAIS",
+              "predicate": "POSSUIR",
+              "object": "10 CENTIMETROS DE LARGURA",
+              "confidence": 0.8,
+              "raw_subject": "listras horizontais",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "10 centímetros de largura",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "CAMISA AINDA VOLTARIA A TER",
+              "predicate": "EXECUTA",
+              "object": "GOL DO TITULO",
+              "confidence": 0.65,
+              "raw_subject": "camisa ainda voltaria a ter",
+              "raw_predicate": "EXECUTA",
+              "raw_object": "gol do título",
+              "extraction_confidence": 0.65
+            },
+            {
+              "subject": "PRIMEIRO DE 1996",
+              "predicate": "POSSUIR",
+              "object": "HINO DO BOTAFOGO GRAVADO",
+              "confidence": 0.8,
+              "raw_subject": "primeiro de 1996",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "hino do Botafogo gravado",
+              "extraction_confidence": 0.8
+            }
+          ],
+          "target_fact_hits_exact": 0,
+          "target_fact_hits": 0,
+          "target_fact_sentences": 3,
+          "target_fact_sample": [],
+          "fallback_used": false,
+          "spacy_sparse_band": false,
+          "spacy_triples": 25,
+          "spacy_available": true,
+          "is_wikipedia": true,
+          "publisher": "wikimedia",
+          "jev_applied": true,
+          "masked_extraction_failure": false,
+          "acceptance_checks": {
+            "status_200": true,
+            "cleaned_text": true,
+            "sentences": true,
+            "raw_triples_gte_5": true,
+            "canonical_ok": true,
+            "fallback_false": true,
+            "target_fact_hit": false
+          },
+          "meets_acceptance": false,
+          "meets_acceptance_dense": false,
+          "productive": true,
+          "jev_threshold": 0.7,
+          "jev_scores": [
+            0.01,
+            0.02,
+            0.01,
+            0.01,
+            0.07,
+            0.01
+          ],
+          "jev_hit_triples": []
+        },
+        {
+          "url": "https://www.bbc.com/sport/football/live/cx2lwvw74j2t",
+          "status": 200,
+          "content_length": 814348,
+          "cleaned_text_length": 19447,
+          "sentences_considered": 73,
+          "sentences_scored_above_threshold": 61,
+          "raw_triples": 8,
+          "canonical_triples": 1,
+          "rejected_noise": 7,
+          "rejection_reasons": {
+            "invalid_predicate": 75,
+            "missing_entity": 4,
+            "stopword_predicate": 2,
+            "nonverbal_predicate": 1,
+            "object_predicate_complement": 1,
+            "subject_generic_phrase": 1,
+            "unmapped_predicate": 1
+          },
+          "top_subjects": {
+            "BELO HORIZONTE PRESSED": 1
+          },
+          "top_objects": {
+            "EQUALISER": 1
+          },
+          "top_predicates": {
+            "SER": 1
+          },
+          "football_related_hits": 0,
+          "football_verb_hits": 3,
+          "detected_football_verbs": [
+            "defender",
+            "played",
+            "won"
+          ],
+          "extractive_quality": "weak",
+          "notes": "",
+          "final_url": "https://www.bbc.com/sport/football/live/cx2lwvw74j2t",
+          "error": "",
+          "canonical_list": [
+            {
+              "subject": "BELO HORIZONTE PRESSED",
+              "predicate": "SER",
+              "object": "EQUALISER",
+              "confidence": 0.8,
+              "raw_subject": "Belo Horizonte pressed",
+              "raw_predicate": "SER",
+              "raw_object": "equaliser",
+              "extraction_confidence": 0.8
+            }
+          ],
+          "target_fact_hits_exact": 0,
+          "target_fact_hits": 0,
+          "target_fact_sentences": 6,
+          "target_fact_sample": [],
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "spacy_triples": 2,
+          "spacy_available": true,
+          "is_wikipedia": false,
+          "publisher": "bbc.com",
+          "jev_applied": true,
+          "masked_extraction_failure": false,
+          "acceptance_checks": {
+            "status_200": true,
+            "cleaned_text": true,
+            "sentences": true,
+            "raw_triples_gte_5": true,
+            "canonical_ok": true,
+            "fallback_false": true,
+            "target_fact_hit": false
+          },
+          "meets_acceptance": false,
+          "meets_acceptance_dense": false,
+          "productive": false,
+          "jev_threshold": 0.7,
+          "jev_scores": [
+            0.01
+          ],
+          "jev_hit_triples": []
+        },
+        {
+          "url": "https://www.botafogo.com.br/noticias/campeao-da-libertadores",
+          "status": 200,
+          "content_length": 18320,
+          "cleaned_text_length": 14683,
+          "sentences_considered": 9,
+          "sentences_scored_above_threshold": 5,
+          "raw_triples": 0,
+          "canonical_triples": 0,
+          "rejected_noise": 0,
+          "rejection_reasons": {
+            "invalid_predicate": 53,
+            "url_or_code_predicate": 19
+          },
+          "top_subjects": {},
+          "top_objects": {},
+          "top_predicates": {},
+          "football_related_hits": 0,
+          "football_verb_hits": 0,
+          "detected_football_verbs": [],
+          "extractive_quality": "unproductive",
+          "notes": "extrator nao produziu triplas (sem predicados detectados)",
+          "final_url": "https://www.botafogo.com.br/noticias/campeao-da-libertadores",
+          "error": "",
+          "canonical_list": [],
+          "target_fact_hits_exact": 0,
+          "target_fact_hits": 0,
+          "target_fact_sentences": 0,
+          "target_fact_sample": [],
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "spacy_triples": 0,
+          "spacy_available": true,
+          "is_wikipedia": false,
+          "publisher": "com.br",
+          "jev_applied": false,
+          "masked_extraction_failure": false,
+          "acceptance_checks": {
+            "status_200": true,
+            "cleaned_text": true,
+            "sentences": true,
+            "raw_triples_gte_5": false,
+            "canonical_ok": false,
+            "fallback_false": true,
+            "target_fact_hit": false
+          },
+          "meets_acceptance": false,
+          "meets_acceptance_dense": false,
+          "productive": false
+        },
+        {
+          "url": "https://www.espn.com.br/futebol/libertadores/artigo/_/id/14574179/conmebol-divulga-ranking-palmeiras-perdendo-lideranca-flamengo-4-botafogo-21-veja-top-30",
+          "status": 0,
+          "content_length": 0,
+          "cleaned_text_length": 0,
+          "sentences_considered": 0,
+          "sentences_scored_above_threshold": 0,
+          "raw_triples": 0,
+          "canonical_triples": 0,
+          "rejected_noise": 0,
+          "rejection_reasons": {},
+          "top_subjects": {},
+          "top_objects": {},
+          "top_predicates": {},
+          "football_related_hits": 0,
+          "football_verb_hits": 0,
+          "detected_football_verbs": [],
+          "extractive_quality": "unproductive",
+          "notes": "fetch falhou (status 202)",
+          "final_url": "https://www.espn.com.br/futebol/libertadores/artigo/_/id/14574179/conmebol-divulga-ranking-palmeiras-perdendo-lideranca-flamengo-4-botafogo-21-veja-top-30",
+          "error": "status 202",
+          "target_fact_hits": 0,
+          "target_fact_hits_exact": 0,
+          "target_fact_sentences": 0,
+          "target_fact_sample": [],
+          "canonical_list": [],
+          "fallback_used": false,
+          "spacy_sparse_band": false,
+          "spacy_triples": 0,
+          "spacy_available": true,
+          "is_wikipedia": false,
+          "publisher": "com.br",
+          "jev_applied": false,
+          "masked_extraction_failure": false,
+          "acceptance_checks": {
+            "status_200": false,
+            "cleaned_text": false,
+            "sentences": false,
+            "raw_triples_gte_5": false,
+            "canonical_ok": false,
+            "fallback_false": true,
+            "target_fact_hit": false
+          },
+          "meets_acceptance": false,
+          "meets_acceptance_dense": false,
+          "productive": false
+        },
+        {
+          "url": "https://www.rsssf.org/sacups/copa2024.html",
+          "status": 200,
+          "content_length": 11261,
+          "cleaned_text_length": 7420,
+          "sentences_considered": 37,
+          "sentences_scored_above_threshold": 16,
+          "raw_triples": 1,
+          "canonical_triples": 0,
+          "rejected_noise": 1,
+          "rejection_reasons": {
+            "invalid_predicate": 27,
+            "subject_generic_phrase": 1
+          },
+          "top_subjects": {},
+          "top_objects": {},
+          "top_predicates": {},
+          "football_related_hits": 0,
+          "football_verb_hits": 0,
+          "detected_football_verbs": [],
+          "extractive_quality": "unproductive",
+          "notes": "todas as triplas cruas rejeitadas no refino",
+          "final_url": "https://www.rsssf.org/sacups/copa2024.html",
+          "error": "",
+          "canonical_list": [],
+          "target_fact_hits_exact": 0,
+          "target_fact_hits": 0,
+          "target_fact_sentences": 1,
+          "target_fact_sample": [],
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "spacy_triples": 0,
+          "spacy_available": true,
+          "is_wikipedia": false,
+          "publisher": "rsssf.org",
+          "jev_applied": false,
+          "masked_extraction_failure": false,
+          "acceptance_checks": {
+            "status_200": true,
+            "cleaned_text": true,
+            "sentences": true,
+            "raw_triples_gte_5": false,
+            "canonical_ok": false,
+            "fallback_false": true,
+            "target_fact_hit": false
+          },
+          "meets_acceptance": false,
+          "meets_acceptance_dense": false,
+          "productive": false
+        }
+      ]
+    },
+    {
+      "cluster_id": "botafogo_brasileirao_2024",
+      "target_fact": {
+        "description": "Botafogo venceu o Campeonato Brasileiro de 2024",
+        "subject_any": [
+          "BOTAFOGO"
+        ],
+        "object_any": [
+          "BRASILEIRAO",
+          "BRASILEIRO",
+          "CAMPEONATO BRASILEIRO"
+        ]
+      },
+      "urls_evaluated": 7,
+      "accepted": 1,
+      "accepted_wikipedia": [],
+      "accepted_non_wikipedia": [
+        "https://www.uol.com.br/esporte/futebol/ultimas-noticias/2024/12/08/botafogo-campeao-brasileirao-2024.htm"
+      ],
+      "domains_evaluated": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org",
+        "rsssfbrasil.com",
+        "www.agazeta.com.br",
+        "www.espn.com.br",
+        "www.estadao.com.br",
+        "www.uol.com.br"
+      ],
+      "domains_accepted": [
+        "www.uol.com.br"
+      ],
+      "domain_count": 1,
+      "publishers_accepted": [
+        "com.br"
+      ],
+      "publisher_count": 1,
+      "accepted_dense": 0,
+      "eligible": false,
+      "ineligible_reasons": [
+        "dominios_aceitos<3 (1)",
+        "publishers_aceitos<2 (1)"
+      ],
+      "per_url": [
+        {
+          "url": "https://www.uol.com.br/esporte/futebol/ultimas-noticias/2024/12/08/botafogo-campeao-brasileirao-2024.htm",
+          "status": 200,
+          "content_length": 615351,
+          "cleaned_text_length": 5584,
+          "sentences_considered": 65,
+          "sentences_scored_above_threshold": 47,
+          "raw_triples": 17,
+          "canonical_triples": 8,
+          "rejected_noise": 9,
+          "rejection_reasons": {
+            "invalid_predicate": 33,
+            "missing_entity": 3,
+            "object_prepositional_phrase": 3,
+            "object_pronoun": 1,
+            "subject_generic_phrase": 1,
+            "unmapped_predicate": 1
+          },
+          "top_subjects": {
+            "BOTAFOGO DE FUTEBOL E REGATAS": 3,
+            "PRESENTE ALVINEGRO": 1,
+            "NAO": 1,
+            "DIANTE DO": 1,
+            "TORCIDA DO BOTAFOGO": 1
+          },
+          "top_objects": {
+            "SAO PAULO": 2,
+            "ESPETACULAR": 1,
+            "MAIS CONTAS PARA SE FAZER": 1,
+            "CAMPEAO BRASILEIRO": 1,
+            "PRINCIPAL TITULO NACIONAL": 1
+          },
+          "top_predicates": {
+            "SER": 3,
+            "VENCEU": 3,
+            "POSSUIR": 1,
+            "UTILIZA": 1
+          },
+          "football_related_hits": 4,
+          "football_verb_hits": 2,
+          "detected_football_verbs": [
+            "conquistar",
+            "jogar"
+          ],
+          "extractive_quality": "productive",
+          "notes": "",
+          "final_url": "https://www.uol.com.br/esporte/futebol/ultimas-noticias/2024/12/08/botafogo-campeao-brasileirao-2024.htm",
+          "error": "",
+          "canonical_list": [
+            {
+              "subject": "PRESENTE ALVINEGRO",
+              "predicate": "SER",
+              "object": "ESPETACULAR",
+              "confidence": 0.8,
+              "raw_subject": "presente alvinegro",
+              "raw_predicate": "SER",
+              "raw_object": "espetacular",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "NAO",
+              "predicate": "POSSUIR",
+              "object": "MAIS CONTAS PARA SE FAZER",
+              "confidence": 0.65,
+              "raw_subject": "não",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "mais contas para se fazer",
+              "extraction_confidence": 0.65
+            },
+            {
+              "subject": "DIANTE DO",
+              "predicate": "SER",
+              "object": "SAO PAULO",
+              "confidence": 0.8,
+              "raw_subject": "diante do",
+              "raw_predicate": "SER",
+              "raw_object": "São Paulo",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+              "predicate": "SER",
+              "object": "CAMPEAO BRASILEIRO",
+              "confidence": 0.8,
+              "raw_subject": "Botafogo",
+              "raw_predicate": "SER",
+              "raw_object": "campeão brasileiro",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+              "predicate": "VENCEU",
+              "object": "SAO PAULO",
+              "confidence": 0.8,
+              "raw_subject": "Botafogo",
+              "raw_predicate": "VENCEU",
+              "raw_object": "São Paulo",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+              "predicate": "VENCEU",
+              "object": "PRINCIPAL TITULO NACIONAL",
+              "confidence": 0.8,
+              "raw_subject": "Botafogo",
+              "raw_predicate": "VENCEU",
+              "raw_object": "principal título nacional",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "TORCIDA DO BOTAFOGO",
+              "predicate": "UTILIZA",
+              "object": "VERSO DA MUSICA DE BELCHIOR",
+              "confidence": 0.8,
+              "raw_subject": "torcida do Botafogo",
+              "raw_predicate": "UTILIZA",
+              "raw_object": "verso da música de Belchior",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "SIMBOLO",
+              "predicate": "VENCEU",
+              "object": "PALMEIRAS",
+              "confidence": 0.8,
+              "raw_subject": "símbolo",
+              "raw_predicate": "VENCEU",
+              "raw_object": "Palmeiras",
+              "extraction_confidence": 0.8
+            }
+          ],
+          "target_fact_hits_exact": 1,
+          "target_fact_hits": 1,
+          "target_fact_sentences": 3,
+          "target_fact_sample": [
+            {
+              "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+              "predicate": "SER",
+              "object": "CAMPEAO BRASILEIRO",
+              "confidence": 0.8,
+              "raw_subject": "Botafogo",
+              "raw_predicate": "SER",
+              "raw_object": "campeão brasileiro",
+              "extraction_confidence": 0.8
+            }
+          ],
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "spacy_triples": 8,
+          "spacy_available": true,
+          "is_wikipedia": false,
+          "publisher": "com.br",
+          "jev_applied": true,
+          "masked_extraction_failure": false,
+          "acceptance_checks": {
+            "status_200": true,
+            "cleaned_text": true,
+            "sentences": true,
+            "raw_triples_gte_5": true,
+            "canonical_ok": true,
+            "fallback_false": true,
+            "target_fact_hit": true
+          },
+          "meets_acceptance": true,
+          "meets_acceptance_dense": false,
+          "productive": true,
+          "jev_threshold": 0.7,
+          "jev_scores": [
+            0.02,
+            0.01,
+            0.01,
+            0.76,
+            0.02,
+            0.69,
+            0.02,
+            0.01
+          ],
+          "jev_hit_triples": [
+            {
+              "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+              "predicate": "SER",
+              "object": "CAMPEAO BRASILEIRO",
+              "confidence": 0.8,
+              "raw_subject": "Botafogo",
+              "raw_predicate": "SER",
+              "raw_object": "campeão brasileiro",
+              "extraction_confidence": 0.8
+            }
+          ]
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/2024_Campeonato_Brasileiro_S%C3%A9rie_A",
+          "status": 200,
+          "content_length": 1064267,
+          "cleaned_text_length": 20076,
+          "sentences_considered": 22,
+          "sentences_scored_above_threshold": 20,
+          "raw_triples": 6,
+          "canonical_triples": 3,
+          "rejected_noise": 3,
+          "rejection_reasons": {
+            "invalid_predicate": 27,
+            "missing_entity": 3,
+            "stopword_predicate": 2
+          },
+          "top_subjects": {
+            "FLUMINENSE AND VASCO DA GAMA": 1,
+            "PALMEIRAS": 1,
+            "SAO PAULO": 1
+          },
+          "top_objects": {
+            "PAULO CORINTHIANS": 1,
+            "PAULO SAO PAULO ALLIANZ PARQUE 43": 1,
+            "PAULO MORUMBIS 67": 1
+          },
+          "top_predicates": {
+            "SER": 3
+          },
+          "football_related_hits": 0,
+          "football_verb_hits": 2,
+          "detected_football_verbs": [
+            "scored",
+            "won"
+          ],
+          "extractive_quality": "weak",
+          "notes": "",
+          "final_url": "https://en.wikipedia.org/wiki/2024_Campeonato_Brasileiro_S%C3%A9rie_A",
+          "error": "",
+          "canonical_list": [
+            {
+              "subject": "FLUMINENSE AND VASCO DA GAMA",
+              "predicate": "SER",
+              "object": "PAULO CORINTHIANS",
+              "confidence": 0.65,
+              "raw_subject": "Fluminense and Vasco da Gama",
+              "raw_predicate": "SER",
+              "raw_object": "Paulo Corinthians",
+              "extraction_confidence": 0.65
+            },
+            {
+              "subject": "PALMEIRAS",
+              "predicate": "SER",
+              "object": "PAULO SAO PAULO ALLIANZ PARQUE 43",
+              "confidence": 0.65,
+              "raw_subject": "Palmeiras",
+              "raw_predicate": "SER",
+              "raw_object": "Paulo São Paulo Allianz Parque 43",
+              "extraction_confidence": 0.65
+            },
+            {
+              "subject": "SAO PAULO",
+              "predicate": "SER",
+              "object": "PAULO MORUMBIS 67",
+              "confidence": 0.8,
+              "raw_subject": "São Paulo",
+              "raw_predicate": "SER",
+              "raw_object": "Paulo MorumBIS 67",
+              "extraction_confidence": 0.8
+            }
+          ],
+          "target_fact_hits_exact": 0,
+          "target_fact_hits": 0,
+          "target_fact_sentences": 4,
+          "target_fact_sample": [],
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "spacy_triples": 0,
+          "spacy_available": true,
+          "is_wikipedia": true,
+          "publisher": "wikimedia",
+          "jev_applied": true,
+          "masked_extraction_failure": false,
+          "acceptance_checks": {
+            "status_200": true,
+            "cleaned_text": true,
+            "sentences": true,
+            "raw_triples_gte_5": true,
+            "canonical_ok": true,
+            "fallback_false": true,
+            "target_fact_hit": false
+          },
+          "meets_acceptance": false,
+          "meets_acceptance_dense": false,
+          "productive": false,
+          "jev_threshold": 0.7,
+          "jev_scores": [
+            0.01,
+            0.01,
+            0.01
+          ],
+          "jev_hit_triples": []
+        },
+        {
+          "url": "https://pt.wikipedia.org/wiki/Campeonato_Brasileiro_de_Futebol_de_2024_-_S%C3%A9rie_A",
+          "status": 200,
+          "content_length": 1145366,
+          "cleaned_text_length": 21759,
+          "sentences_considered": 42,
+          "sentences_scored_above_threshold": 34,
+          "raw_triples": 13,
+          "canonical_triples": 9,
+          "rejected_noise": 4,
+          "rejection_reasons": {
+            "invalid_predicate": 25,
+            "unmapped_predicate": 2,
+            "object_prepositional_phrase": 1,
+            "subject_quantifier_phrase": 1
+          },
+          "top_subjects": {
+            "CAMPEONATO": 2,
+            "CORINTHIANS": 1,
+            "PALMEIRAS": 1,
+            "SAO PAULO": 1,
+            "CORINTHIANS PALMEIRAS": 1
+          },
+          "top_objects": {
+            "NOVAMENTE DEFINIDO NA ULTIMA RODADA": 1,
+            "PAULO SP 13": 1,
+            "PAULO SP 1": 1,
+            "PAULO SP 11": 1,
+            "PAULO LOCALIZACAO DOS TIMES POR ESTADO": 1
+          },
+          "top_predicates": {
+            "SER": 5,
+            "POSSUIR": 3,
+            "UTILIZA": 1
+          },
+          "football_related_hits": 2,
+          "football_verb_hits": 3,
+          "detected_football_verbs": [
+            "conquistar",
+            "conquistou",
+            "vencer"
+          ],
+          "extractive_quality": "productive",
+          "notes": "",
+          "final_url": "https://pt.wikipedia.org/wiki/Campeonato_Brasileiro_de_Futebol_de_2024_-_S%C3%A9rie_A",
+          "error": "",
+          "canonical_list": [
+            {
+              "subject": "CAMPEONATO",
+              "predicate": "SER",
+              "object": "NOVAMENTE DEFINIDO NA ULTIMA RODADA",
+              "confidence": 0.65,
+              "raw_subject": "campeonato",
+              "raw_predicate": "SER",
+              "raw_object": "novamente definido na última rodada",
+              "extraction_confidence": 0.65
+            },
+            {
+              "subject": "CORINTHIANS",
+              "predicate": "SER",
+              "object": "PAULO SP 13",
+              "confidence": 0.8,
+              "raw_subject": "Corinthians",
+              "raw_predicate": "SER",
+              "raw_object": "Paulo SP 13",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "PALMEIRAS",
+              "predicate": "SER",
+              "object": "PAULO SP 1",
+              "confidence": 0.8,
+              "raw_subject": "Palmeiras",
+              "raw_predicate": "SER",
+              "raw_object": "Paulo SP 1",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "SAO PAULO",
+              "predicate": "SER",
+              "object": "PAULO SP 11",
+              "confidence": 0.8,
+              "raw_subject": "São Paulo",
+              "raw_predicate": "SER",
+              "raw_object": "Paulo SP 11",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "CORINTHIANS PALMEIRAS",
+              "predicate": "SER",
+              "object": "PAULO LOCALIZACAO DOS TIMES POR ESTADO",
+              "confidence": 0.65,
+              "raw_subject": "Corinthians Palmeiras",
+              "raw_predicate": "SER",
+              "raw_object": "Paulo Localização dos times por Estado",
+              "extraction_confidence": 0.65
+            },
+            {
+              "subject": "DISPUTA",
+              "predicate": "POSSUIR",
+              "object": "MESMO REGULAMENTO",
+              "confidence": 0.8,
+              "raw_subject": "disputa",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "mesmo regulamento",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "CAMPEONATO",
+              "predicate": "POSSUIR",
+              "object": "SEGUNDA MAIOR MEDIA DE PUBLICO",
+              "confidence": 0.65,
+              "raw_subject": "campeonato",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "segunda maior média de público",
+              "extraction_confidence": 0.65
+            },
+            {
+              "subject": "CRITERIOS DE DESEMPATE",
+              "predicate": "UTILIZA",
+              "object": "CRITERIOS DE DESEMPATE EM CASO",
+              "confidence": 0.8,
+              "raw_subject": "critérios de desempate",
+              "raw_predicate": "UTILIZA",
+              "raw_object": "Critérios de desempate Em caso",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "ALFREDO JACONI 19 924 0",
+              "predicate": "POSSUIR",
+              "object": "PALMEIRAS",
+              "confidence": 0.65,
+              "raw_subject": "Alfredo Jaconi 19 924 0",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "Palmeiras",
+              "extraction_confidence": 0.65
+            }
+          ],
+          "target_fact_hits_exact": 0,
+          "target_fact_hits": 0,
+          "target_fact_sentences": 5,
+          "target_fact_sample": [],
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "spacy_triples": 8,
+          "spacy_available": true,
+          "is_wikipedia": true,
+          "publisher": "wikimedia",
+          "jev_applied": true,
+          "masked_extraction_failure": false,
+          "acceptance_checks": {
+            "status_200": true,
+            "cleaned_text": true,
+            "sentences": true,
+            "raw_triples_gte_5": true,
+            "canonical_ok": true,
+            "fallback_false": true,
+            "target_fact_hit": false
+          },
+          "meets_acceptance": false,
+          "meets_acceptance_dense": false,
+          "productive": true,
+          "jev_threshold": 0.7,
+          "jev_scores": [
+            0.05,
+            0.01,
+            0.01,
+            0.01,
+            0.01,
+            0.02,
+            0.02,
+            0.01,
+            0.01
+          ],
+          "jev_hit_triples": []
+        },
+        {
+          "url": "https://rsssfbrasil.com/tablesae/br2024.htm",
+          "status": 200,
+          "content_length": 37674,
+          "cleaned_text_length": 31747,
+          "sentences_considered": 15,
+          "sentences_scored_above_threshold": 11,
+          "raw_triples": 1,
+          "canonical_triples": 0,
+          "rejected_noise": 1,
+          "rejection_reasons": {
+            "invalid_predicate": 16,
+            "stopword_predicate": 1,
+            "subject_generic_phrase": 1
+          },
+          "top_subjects": {},
+          "top_objects": {},
+          "top_predicates": {},
+          "football_related_hits": 0,
+          "football_verb_hits": 1,
+          "detected_football_verbs": [
+            "played"
+          ],
+          "extractive_quality": "unproductive",
+          "notes": "todas as triplas cruas rejeitadas no refino",
+          "final_url": "https://rsssfbrasil.com/tablesae/br2024.htm",
+          "error": "",
+          "canonical_list": [],
+          "target_fact_hits_exact": 0,
+          "target_fact_hits": 0,
+          "target_fact_sentences": 0,
+          "target_fact_sample": [],
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "spacy_triples": 0,
+          "spacy_available": true,
+          "is_wikipedia": false,
+          "publisher": "rsssfbrasil.com",
+          "jev_applied": false,
+          "masked_extraction_failure": false,
+          "acceptance_checks": {
+            "status_200": true,
+            "cleaned_text": true,
+            "sentences": true,
+            "raw_triples_gte_5": false,
+            "canonical_ok": false,
+            "fallback_false": true,
+            "target_fact_hit": false
+          },
+          "meets_acceptance": false,
+          "meets_acceptance_dense": false,
+          "productive": false
+        },
+        {
+          "url": "https://www.agazeta.com.br/futebol/botafogo-vence-o-sao-paulo-e-conquista-o-tricampeonato-do-brasileirao-1224",
+          "status": 200,
+          "content_length": 71907,
+          "cleaned_text_length": 60887,
+          "sentences_considered": 33,
+          "sentences_scored_above_threshold": 21,
+          "raw_triples": 0,
+          "canonical_triples": 0,
+          "rejected_noise": 0,
+          "rejection_reasons": {
+            "invalid_predicate": 224,
+            "url_or_code_predicate": 63
+          },
+          "top_subjects": {},
+          "top_objects": {},
+          "top_predicates": {},
+          "football_related_hits": 0,
+          "football_verb_hits": 0,
+          "detected_football_verbs": [],
+          "extractive_quality": "unproductive",
+          "notes": "extrator nao produziu triplas (sem predicados detectados)",
+          "final_url": "https://www.agazeta.com.br/futebol/botafogo-vence-o-sao-paulo-e-conquista-o-tricampeonato-do-brasileirao-1224",
+          "error": "",
+          "canonical_list": [],
+          "target_fact_hits_exact": 0,
+          "target_fact_hits": 0,
+          "target_fact_sentences": 0,
+          "target_fact_sample": [],
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "spacy_triples": 0,
+          "spacy_available": true,
+          "is_wikipedia": false,
+          "publisher": "com.br",
+          "jev_applied": false,
+          "masked_extraction_failure": false,
+          "acceptance_checks": {
+            "status_200": true,
+            "cleaned_text": true,
+            "sentences": true,
+            "raw_triples_gte_5": false,
+            "canonical_ok": false,
+            "fallback_false": true,
+            "target_fact_hit": false
+          },
+          "meets_acceptance": false,
+          "meets_acceptance_dense": false,
+          "productive": false
+        },
+        {
+          "url": "https://www.espn.com.br/futebol/brasileirao/artigo/_/id/14533915/classificacao-final-brasileirao-quantos-milhoes-rendeu-premiacao-seu-time",
+          "status": 0,
+          "content_length": 0,
+          "cleaned_text_length": 0,
+          "sentences_considered": 0,
+          "sentences_scored_above_threshold": 0,
+          "raw_triples": 0,
+          "canonical_triples": 0,
+          "rejected_noise": 0,
+          "rejection_reasons": {},
+          "top_subjects": {},
+          "top_objects": {},
+          "top_predicates": {},
+          "football_related_hits": 0,
+          "football_verb_hits": 0,
+          "detected_football_verbs": [],
+          "extractive_quality": "unproductive",
+          "notes": "fetch falhou (status 202)",
+          "final_url": "https://www.espn.com.br/futebol/brasileirao/artigo/_/id/14533915/classificacao-final-brasileirao-quantos-milhoes-rendeu-premiacao-seu-time",
+          "error": "status 202",
+          "target_fact_hits": 0,
+          "target_fact_hits_exact": 0,
+          "target_fact_sentences": 0,
+          "target_fact_sample": [],
+          "canonical_list": [],
+          "fallback_used": false,
+          "spacy_sparse_band": false,
+          "spacy_triples": 0,
+          "spacy_available": true,
+          "is_wikipedia": false,
+          "publisher": "com.br",
+          "jev_applied": false,
+          "masked_extraction_failure": false,
+          "acceptance_checks": {
+            "status_200": false,
+            "cleaned_text": false,
+            "sentences": false,
+            "raw_triples_gte_5": false,
+            "canonical_ok": false,
+            "fallback_false": true,
+            "target_fact_hit": false
+          },
+          "meets_acceptance": false,
+          "meets_acceptance_dense": false,
+          "productive": false
+        },
+        {
+          "url": "https://www.estadao.com.br/esportes/futebol/botafogo-e-campeao-do-brasileirao-ao-vencer-o-sao-paulo-lava-a-alma-e-iguala-o-flamengo-de-jesus/",
+          "status": 200,
+          "content_length": 620558,
+          "cleaned_text_length": 5801,
+          "sentences_considered": 29,
+          "sentences_scored_above_threshold": 24,
+          "raw_triples": 6,
+          "canonical_triples": 3,
+          "rejected_noise": 3,
+          "rejection_reasons": {
+            "invalid_predicate": 23,
+            "missing_entity": 1,
+            "subject_generic_phrase": 1,
+            "unmapped_predicate": 1
+          },
+          "top_subjects": {
+            "GOLEIRO RESERVA DO": 1,
+            "NATO BRASILEIRO DE FUTEBOL OS COMENTARIOS": 1,
+            "CLUBE DA ESTRELA SOLITARIA": 1
+          },
+          "top_objects": {
+            "SAO PAULO": 1,
+            "EXCLUSIVOS PARA CADASTRADOS": 1,
+            "NESTE DOMINGO 8": 1
+          },
+          "top_predicates": {
+            "SER": 2,
+            "VENCEU": 1
+          },
+          "football_related_hits": 2,
+          "football_verb_hits": 2,
+          "detected_football_verbs": [
+            "vencer",
+            "venceu"
+          ],
+          "extractive_quality": "productive",
+          "notes": "",
+          "final_url": "https://www.estadao.com.br/esportes/futebol/botafogo-e-campeao-do-brasileirao-ao-vencer-o-sao-paulo-lava-a-alma-e-iguala-o-flamengo-de-jesus/",
+          "error": "",
+          "canonical_list": [
+            {
+              "subject": "GOLEIRO RESERVA DO",
+              "predicate": "SER",
+              "object": "SAO PAULO",
+              "confidence": 0.8,
+              "raw_subject": "goleiro reserva do",
+              "raw_predicate": "SER",
+              "raw_object": "São Paulo",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "NATO BRASILEIRO DE FUTEBOL OS COMENTARIOS",
+              "predicate": "SER",
+              "object": "EXCLUSIVOS PARA CADASTRADOS",
+              "confidence": 0.65,
+              "raw_subject": "nato Brasileiro de Futebol Os comentários",
+              "raw_predicate": "SER",
+              "raw_object": "exclusivos para cadastrados",
+              "extraction_confidence": 0.65
+            },
+            {
+              "subject": "CLUBE DA ESTRELA SOLITARIA",
+              "predicate": "VENCEU",
+              "object": "NESTE DOMINGO 8",
+              "confidence": 0.8,
+              "raw_subject": "clube da estrela solitária",
+              "raw_predicate": "VENCEU",
+              "raw_object": "Neste domingo 8",
+              "extraction_confidence": 0.8
+            }
+          ],
+          "target_fact_hits_exact": 0,
+          "target_fact_hits": 0,
+          "target_fact_sentences": 4,
+          "target_fact_sample": [],
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "spacy_triples": 2,
+          "spacy_available": true,
+          "is_wikipedia": false,
+          "publisher": "com.br",
+          "jev_applied": true,
+          "masked_extraction_failure": false,
+          "acceptance_checks": {
+            "status_200": true,
+            "cleaned_text": true,
+            "sentences": true,
+            "raw_triples_gte_5": true,
+            "canonical_ok": true,
+            "fallback_false": true,
+            "target_fact_hit": false
+          },
+          "meets_acceptance": false,
+          "meets_acceptance_dense": false,
+          "productive": true,
+          "jev_threshold": 0.7,
+          "jev_scores": [
+            0.01,
+            0.01,
+            0.03
+          ],
+          "jev_hit_triples": []
+        }
+      ]
+    },
+    {
+      "cluster_id": "pele_santos_carreira",
+      "target_fact": {
+        "description": "Pele atuou/defendeu o Santos",
+        "subject_any": [
+          "PELE",
+          "EDSON ARANTES"
+        ],
+        "object_any": [
+          "SANTOS"
+        ]
+      },
+      "urls_evaluated": 6,
+      "accepted": 0,
+      "accepted_wikipedia": [],
+      "accepted_non_wikipedia": [],
+      "domains_evaluated": [
+        "en.wikipedia.org",
+        "g1.globo.com",
+        "kids.britannica.com",
+        "pt.wikipedia.org",
+        "www.bbc.com",
+        "www.britannica.com"
+      ],
+      "domains_accepted": [],
+      "domain_count": 0,
+      "publishers_accepted": [],
+      "publisher_count": 0,
+      "accepted_dense": 0,
+      "eligible": false,
+      "ineligible_reasons": [
+        "dominios_aceitos<3 (0)",
+        "publishers_aceitos<2 (0)",
+        "nenhuma fonte nao-Wikimedia aceita (independencia editorial plena)",
+        "nenhuma URL atingiu os limiares de aceitacao"
+      ],
+      "per_url": [
+        {
+          "url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+          "status": 200,
+          "content_length": 2703617,
+          "cleaned_text_length": 49370,
+          "sentences_considered": 402,
+          "sentences_scored_above_threshold": 329,
+          "raw_triples": 25,
+          "canonical_triples": 7,
+          "rejected_noise": 18,
+          "rejection_reasons": {
+            "invalid_predicate": 230,
+            "stopword_predicate": 21,
+            "missing_entity": 6,
+            "object_predicate_complement": 5,
+            "subject_generic_phrase": 5,
+            "nonverbal_predicate": 2,
+            "subject_starts_with_stopword": 2
+          },
+          "top_subjects": {
+            "TYPE OF INDOOR FOOTBALL CALLED FUTSAL": 1,
+            "INDUSTRIAL PORT CITY LOCATED NEAR": 1,
+            "EARLY SOURCE FOR THIS STORY": 1,
+            "SAID THERE": 1,
+            "EVEN THE SKY": 1
+          },
+          "top_objects": {
+            "BECOMING POPULAR IN BAURU": 1,
+            "SAO PAULO": 1,
+            "EBONY MAGAZINE IN 1975": 1,
+            "INCREASED SECURITY AT THE GAME": 1,
+            "CRYING": 1
+          },
+          "top_predicates": {
+            "SER": 7
+          },
+          "football_related_hits": 1,
+          "football_verb_hits": 4,
+          "detected_football_verbs": [
+            "defender",
+            "played",
+            "scored",
+            "won"
+          ],
+          "extractive_quality": "productive",
+          "notes": "",
+          "final_url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+          "error": "",
+          "canonical_list": [
+            {
+              "subject": "TYPE OF INDOOR FOOTBALL CALLED FUTSAL",
+              "predicate": "SER",
+              "object": "BECOMING POPULAR IN BAURU",
+              "confidence": 0.65,
+              "raw_subject": "type of indoor football called futsal",
+              "raw_predicate": "SER",
+              "raw_object": "becoming popular in Bauru",
+              "extraction_confidence": 0.65
+            },
+            {
+              "subject": "INDUSTRIAL PORT CITY LOCATED NEAR",
+              "predicate": "SER",
+              "object": "SAO PAULO",
+              "confidence": 0.65,
+              "raw_subject": "industrial port city located near",
+              "raw_predicate": "SER",
+              "raw_object": "São Paulo",
+              "extraction_confidence": 0.65
+            },
+            {
+              "subject": "EARLY SOURCE FOR THIS STORY",
+              "predicate": "SER",
+              "object": "EBONY MAGAZINE IN 1975",
+              "confidence": 0.65,
+              "raw_subject": "early source for this story",
+              "raw_predicate": "SER",
+              "raw_object": "Ebony magazine in 1975",
+              "extraction_confidence": 0.65
+            },
+            {
+              "subject": "SAID THERE",
+              "predicate": "SER",
+              "object": "INCREASED SECURITY AT THE GAME",
+              "confidence": 0.65,
+              "raw_subject": "said there",
+              "raw_predicate": "SER",
+              "raw_object": "increased security at the game",
+              "extraction_confidence": 0.65
+            },
+            {
+              "subject": "EVEN THE SKY",
+              "predicate": "SER",
+              "object": "CRYING",
+              "confidence": 0.8,
+              "raw_subject": "Even The Sky",
+              "raw_predicate": "SER",
+              "raw_object": "Crying",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "S RECORD",
+              "predicate": "SER",
+              "object": "67 WINS",
+              "confidence": 0.8,
+              "raw_subject": "s record",
+              "raw_predicate": "SER",
+              "raw_object": "67 wins",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "ANOTHER ONE OF HIS SIGNATURE MOVES",
+              "predicate": "SER",
+              "object": "PARADINHA",
+              "confidence": 0.65,
+              "raw_subject": "Another one of his signature moves",
+              "raw_predicate": "SER",
+              "raw_object": "paradinha",
+              "extraction_confidence": 0.65
+            }
+          ],
+          "target_fact_hits_exact": 0,
+          "target_fact_hits": 0,
+          "target_fact_sentences": 10,
+          "target_fact_sample": [],
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "spacy_triples": 1,
+          "spacy_available": true,
+          "is_wikipedia": true,
+          "publisher": "wikimedia",
+          "jev_applied": true,
+          "masked_extraction_failure": false,
+          "acceptance_checks": {
+            "status_200": true,
+            "cleaned_text": true,
+            "sentences": true,
+            "raw_triples_gte_5": true,
+            "canonical_ok": true,
+            "fallback_false": true,
+            "target_fact_hit": false
+          },
+          "meets_acceptance": false,
+          "meets_acceptance_dense": false,
+          "productive": true,
+          "jev_threshold": 0.7,
+          "jev_scores": [
+            0.01,
+            0.01,
+            0.02,
+            0.01,
+            0.01,
+            0.03,
+            0.02
+          ],
+          "jev_hit_triples": []
+        },
+        {
+          "url": "https://g1.globo.com/sp/sao-paulo/noticia/2022/12/29/morre-pele-da-pobreza-a-gloria-a-historia-do-rei-do-futebol.ghtml",
+          "status": 200,
+          "content_length": 1284270,
+          "cleaned_text_length": 26353,
+          "sentences_considered": 185,
+          "sentences_scored_above_threshold": 175,
+          "raw_triples": 20,
+          "canonical_triples": 8,
+          "rejected_noise": 12,
+          "rejection_reasons": {
+            "invalid_predicate": 134,
+            "unmapped_predicate": 6,
+            "object_prepositional_phrase": 4,
+            "ambiguous_predicate": 1,
+            "object_date_like": 1
+          },
+          "top_subjects": {
+            "EDSON ARANTES DO NASCIMENTO": 4,
+            "MEU PAI": 1,
+            "3 DE 12 PELE": 1,
+            "TENTATIVA DE APROXIMACAO ENTRE NOS": 1,
+            "CRIMINOSOS": 1
+          },
+          "top_objects": {
+            "PELA SELECAO BRASILEIRA": 2,
+            "COPA DO MUNDO": 1,
+            "DUETO": 1,
+            "GRANDE SUCESSO": 1,
+            "MARADONA": 1
+          },
+          "top_predicates": {
+            "VENCEU": 2,
+            "DEFENDEU": 2,
+            "EXECUTA": 2,
+            "POSSUIR": 1,
+            "UTILIZA": 1
+          },
+          "football_related_hits": 5,
+          "football_verb_hits": 8,
+          "detected_football_verbs": [
+            "atuou",
+            "conquistar",
+            "conquistou",
+            "defendeu",
+            "disputou",
+            "jogar",
+            "jogou",
+            "venceu"
+          ],
+          "extractive_quality": "productive",
+          "notes": "",
+          "final_url": "https://g1.globo.com/sp/sao-paulo/noticia/2022/12/29/morre-pele-da-pobreza-a-gloria-a-historia-do-rei-do-futebol.ghtml",
+          "error": "",
+          "canonical_list": [
+            {
+              "subject": "MEU PAI",
+              "predicate": "VENCEU",
+              "object": "COPA DO MUNDO",
+              "confidence": 0.8,
+              "raw_subject": "Meu pai",
+              "raw_predicate": "VENCEU",
+              "raw_object": "Copa do Mundo",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "3 DE 12 PELE",
+              "predicate": "DEFENDEU",
+              "object": "PELA SELECAO BRASILEIRA",
+              "confidence": 0.8,
+              "raw_subject": "3 de 12 Pelé",
+              "raw_predicate": "DEFENDEU",
+              "raw_object": "pela seleção brasileira",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "EDSON ARANTES DO NASCIMENTO",
+              "predicate": "DEFENDEU",
+              "object": "PELA SELECAO BRASILEIRA",
+              "confidence": 0.8,
+              "raw_subject": "Pelé",
+              "raw_predicate": "DEFENDEU",
+              "raw_object": "pela seleção brasileira",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "EDSON ARANTES DO NASCIMENTO",
+              "predicate": "EXECUTA",
+              "object": "DUETO",
+              "confidence": 0.8,
+              "raw_subject": "Pelé",
+              "raw_predicate": "EXECUTA",
+              "raw_object": "dueto",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "EDSON ARANTES DO NASCIMENTO",
+              "predicate": "POSSUIR",
+              "object": "GRANDE SUCESSO",
+              "confidence": 0.8,
+              "raw_subject": "Pelé",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "grande sucesso",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "EDSON ARANTES DO NASCIMENTO",
+              "predicate": "VENCEU",
+              "object": "MARADONA",
+              "confidence": 0.8,
+              "raw_subject": "Pelé",
+              "raw_predicate": "VENCEU",
+              "raw_object": "Maradona",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "TENTATIVA DE APROXIMACAO ENTRE NOS",
+              "predicate": "EXECUTA",
+              "object": "CERTA VEZ",
+              "confidence": 0.65,
+              "raw_subject": "tentativa de aproximação entre nós",
+              "raw_predicate": "EXECUTA",
+              "raw_object": "Certa vez",
+              "extraction_confidence": 0.65
+            },
+            {
+              "subject": "CRIMINOSOS",
+              "predicate": "UTILIZA",
+              "object": "COMENTARIOS PARA ATRAIR INTERESSADOS",
+              "confidence": 0.95,
+              "raw_subject": "Criminosos",
+              "raw_predicate": "UTILIZA",
+              "raw_object": "comentários para atrair interessados",
+              "extraction_confidence": 0.95
+            }
+          ],
+          "target_fact_hits_exact": 0,
+          "target_fact_hits": 0,
+          "target_fact_sentences": 5,
+          "target_fact_sample": [],
+          "fallback_used": false,
+          "spacy_sparse_band": false,
+          "spacy_triples": 20,
+          "spacy_available": true,
+          "is_wikipedia": false,
+          "publisher": "globo.com",
+          "jev_applied": true,
+          "masked_extraction_failure": false,
+          "acceptance_checks": {
+            "status_200": true,
+            "cleaned_text": true,
+            "sentences": true,
+            "raw_triples_gte_5": true,
+            "canonical_ok": true,
+            "fallback_false": true,
+            "target_fact_hit": false
+          },
+          "meets_acceptance": false,
+          "meets_acceptance_dense": false,
+          "productive": true,
+          "jev_threshold": 0.7,
+          "jev_scores": [
+            0.03,
+            0.04,
+            0.04,
+            0.02,
+            0.03,
+            0.02,
+            0.01,
+            0.01
+          ],
+          "jev_hit_triples": []
+        },
+        {
+          "url": "https://kids.britannica.com/kids/article/Pele/390829",
+          "status": 200,
+          "content_length": 77093,
+          "cleaned_text_length": 4480,
+          "sentences_considered": 45,
+          "sentences_scored_above_threshold": 38,
+          "raw_triples": 6,
+          "canonical_triples": 0,
+          "rejected_noise": 6,
+          "rejection_reasons": {
+            "invalid_predicate": 24,
+            "subject_generic_phrase": 3,
+            "object_predicate_complement": 2,
+            "object_prepositional_phrase": 1
+          },
+          "top_subjects": {},
+          "top_objects": {},
+          "top_predicates": {},
+          "football_related_hits": 0,
+          "football_verb_hits": 4,
+          "detected_football_verbs": [
+            "joined",
+            "played",
+            "scored",
+            "won"
+          ],
+          "extractive_quality": "unproductive",
+          "notes": "todas as triplas cruas rejeitadas no refino",
+          "final_url": "https://kids.britannica.com/kids/article/Pele/390829",
+          "error": "",
+          "canonical_list": [],
+          "target_fact_hits_exact": 0,
+          "target_fact_hits": 0,
+          "target_fact_sentences": 1,
+          "target_fact_sample": [],
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "spacy_triples": 0,
+          "spacy_available": true,
+          "is_wikipedia": false,
+          "publisher": "britannica.com",
+          "jev_applied": false,
+          "masked_extraction_failure": false,
+          "acceptance_checks": {
+            "status_200": true,
+            "cleaned_text": true,
+            "sentences": true,
+            "raw_triples_gte_5": true,
+            "canonical_ok": false,
+            "fallback_false": true,
+            "target_fact_hit": false
+          },
+          "meets_acceptance": false,
+          "meets_acceptance_dense": false,
+          "productive": false
+        },
+        {
+          "url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+          "status": 200,
+          "content_length": 2190473,
+          "cleaned_text_length": 124226,
+          "sentences_considered": 1003,
+          "sentences_scored_above_threshold": 906,
+          "raw_triples": 25,
+          "canonical_triples": 8,
+          "rejected_noise": 17,
+          "rejection_reasons": {
+            "invalid_predicate": 106,
+            "unmapped_predicate": 12,
+            "object_prepositional_phrase": 3,
+            "ambiguous_predicate": 1,
+            "object_adverbial_phrase": 1
+          },
+          "top_subjects": {
+            "SANTOS FUTEBOL CLUBE": 2,
+            "PRIMEIRA DELAS": 1,
+            "TIME DE BAURU QUE": 1,
+            "PELE E SUA EQUIPE": 1,
+            "EDSON ARANTES DO NASCIMENTO": 1
+          },
+          "top_objects": {
+            "ALGUM DINHEIRO EXTRA": 1,
+            "PARTIDA": 1,
+            "PRIMEIRO CAMPEONATO E VARIOS OUTROS": 1,
+            "NESSE TORNEIO": 1,
+            "CAMPEONATO PAULISTA": 1
+          },
+          "top_predicates": {
+            "VENCEU": 5,
+            "POSSUIR": 2,
+            "DISPUTOU": 1
+          },
+          "football_related_hits": 7,
+          "football_verb_hits": 17,
+          "detected_football_verbs": [
+            "atuar",
+            "atuou",
+            "conquistar",
+            "conquistou",
+            "contratar",
+            "contratou",
+            "defender",
+            "defendeu",
+            "disputar",
+            "disputou",
+            "jogar",
+            "jogou",
+            "liderou",
+            "representar",
+            "representou",
+            "vencer",
+            "venceu"
+          ],
+          "extractive_quality": "productive",
+          "notes": "",
+          "final_url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+          "error": "",
+          "canonical_list": [
+            {
+              "subject": "PRIMEIRA DELAS",
+              "predicate": "VENCEU",
+              "object": "ALGUM DINHEIRO EXTRA",
+              "confidence": 0.8,
+              "raw_subject": "primeira delas",
+              "raw_predicate": "VENCEU",
+              "raw_object": "algum dinheiro extra",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "TIME DE BAURU QUE",
+              "predicate": "VENCEU",
+              "object": "PARTIDA",
+              "confidence": 0.8,
+              "raw_subject": "time de Bauru que",
+              "raw_predicate": "VENCEU",
+              "raw_object": "partida",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "PELE E SUA EQUIPE",
+              "predicate": "VENCEU",
+              "object": "PRIMEIRO CAMPEONATO E VARIOS OUTROS",
+              "confidence": 0.65,
+              "raw_subject": "Pelé e sua equipe",
+              "raw_predicate": "VENCEU",
+              "raw_object": "primeiro campeonato e vários outros",
+              "extraction_confidence": 0.65
+            },
+            {
+              "subject": "EDSON ARANTES DO NASCIMENTO",
+              "predicate": "POSSUIR",
+              "object": "NESSE TORNEIO",
+              "confidence": 0.8,
+              "raw_subject": "Pelé",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "Nesse torneio",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "SANTOS FUTEBOL CLUBE",
+              "predicate": "DISPUTOU",
+              "object": "CAMPEONATO PAULISTA",
+              "confidence": 0.8,
+              "raw_subject": "Santos",
+              "raw_predicate": "DISPUTOU",
+              "raw_object": "Campeonato Paulista",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "JOGADOR",
+              "predicate": "POSSUIR",
+              "object": "COSTUME DE JOGAR COMO ARQUEIRO",
+              "confidence": 0.65,
+              "raw_subject": "jogador",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "costume de jogar como arqueiro",
+              "extraction_confidence": 0.65
+            },
+            {
+              "subject": "SANTOS FUTEBOL CLUBE",
+              "predicate": "VENCEU",
+              "object": "SEGUNDA PARTIDA",
+              "confidence": 0.8,
+              "raw_subject": "Santos",
+              "raw_predicate": "VENCEU",
+              "raw_object": "segunda partida",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "BAHIA",
+              "predicate": "VENCEU",
+              "object": "SANTOS FUTEBOL CLUBE",
+              "confidence": 0.8,
+              "raw_subject": "Bahia",
+              "raw_predicate": "VENCEU",
+              "raw_object": "Santos",
+              "extraction_confidence": 0.8
+            }
+          ],
+          "target_fact_hits_exact": 0,
+          "target_fact_hits": 0,
+          "target_fact_sentences": 10,
+          "target_fact_sample": [],
+          "fallback_used": false,
+          "spacy_sparse_band": false,
+          "spacy_triples": 25,
+          "spacy_available": true,
+          "is_wikipedia": true,
+          "publisher": "wikimedia",
+          "jev_applied": true,
+          "masked_extraction_failure": false,
+          "acceptance_checks": {
+            "status_200": true,
+            "cleaned_text": true,
+            "sentences": true,
+            "raw_triples_gte_5": true,
+            "canonical_ok": true,
+            "fallback_false": true,
+            "target_fact_hit": false
+          },
+          "meets_acceptance": false,
+          "meets_acceptance_dense": false,
+          "productive": true,
+          "jev_threshold": 0.7,
+          "jev_scores": [
+            0.01,
+            0.02,
+            0.12,
+            0.03,
+            0.06,
+            0.02,
+            0.04,
+            0.02
+          ],
+          "jev_hit_triples": []
+        },
+        {
+          "url": "https://www.bbc.com/portuguese/internacional-59859467",
+          "status": 200,
+          "content_length": 467978,
+          "cleaned_text_length": 30781,
+          "sentences_considered": 192,
+          "sentences_scored_above_threshold": 169,
+          "raw_triples": 24,
+          "canonical_triples": 9,
+          "rejected_noise": 15,
+          "rejection_reasons": {
+            "invalid_predicate": 135,
+            "unmapped_predicate": 5,
+            "object_prepositional_phrase": 4,
+            "modal_predicate": 3,
+            "ambiguous_predicate": 1,
+            "object_clause_fragment": 1,
+            "object_date_like": 1
+          },
+          "top_subjects": {
+            "EDSON ARANTES DO NASCIMENTO": 3,
+            "MARISA ORTH": 2,
+            "AMOR": 1,
+            "TRAJETORIA COM INUMERAS CONTROVERSIAS": 1,
+            "MEU PAI": 1
+          },
+          "top_objects": {
+            "FILME EROTICO": 2,
+            "OBRAS SOCIAIS NO MUNDO INTEIRO": 1,
+            "VIDA INTENSA MARCADA POR RECORDES": 1,
+            "COPA DO MUNDO": 1,
+            "DUETO": 1
+          },
+          "top_predicates": {
+            "EXECUTA": 5,
+            "POSSUIR": 2,
+            "VENCEU": 2
+          },
+          "football_related_hits": 3,
+          "football_verb_hits": 9,
+          "detected_football_verbs": [
+            "atuou",
+            "conquistar",
+            "conquistou",
+            "defendeu",
+            "disputou",
+            "jogar",
+            "jogou",
+            "vencer",
+            "venceu"
+          ],
+          "extractive_quality": "productive",
+          "notes": "",
+          "final_url": "https://www.bbc.com/portuguese/internacional-59859467",
+          "error": "",
+          "canonical_list": [
+            {
+              "subject": "AMOR",
+              "predicate": "EXECUTA",
+              "object": "OBRAS SOCIAIS NO MUNDO INTEIRO",
+              "confidence": 0.65,
+              "raw_subject": "amor",
+              "raw_predicate": "EXECUTA",
+              "raw_object": "obras sociais no mundo inteiro",
+              "extraction_confidence": 0.65
+            },
+            {
+              "subject": "TRAJETORIA COM INUMERAS CONTROVERSIAS",
+              "predicate": "POSSUIR",
+              "object": "VIDA INTENSA MARCADA POR RECORDES",
+              "confidence": 0.65,
+              "raw_subject": "trajetória Com inúmeras controvérsias",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "vida intensa marcada por recordes",
+              "extraction_confidence": 0.65
+            },
+            {
+              "subject": "MEU PAI",
+              "predicate": "VENCEU",
+              "object": "COPA DO MUNDO",
+              "confidence": 0.8,
+              "raw_subject": "Meu pai",
+              "raw_predicate": "VENCEU",
+              "raw_object": "Copa do Mundo",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "EDSON ARANTES DO NASCIMENTO",
+              "predicate": "EXECUTA",
+              "object": "DUETO",
+              "confidence": 0.8,
+              "raw_subject": "Pelé",
+              "raw_predicate": "EXECUTA",
+              "raw_object": "dueto",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "EDSON ARANTES DO NASCIMENTO",
+              "predicate": "POSSUIR",
+              "object": "GRANDE SUCESSO",
+              "confidence": 0.8,
+              "raw_subject": "Pelé",
+              "raw_predicate": "POSSUIR",
+              "raw_object": "grande sucesso",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "EDSON ARANTES DO NASCIMENTO",
+              "predicate": "VENCEU",
+              "object": "MARADONA",
+              "confidence": 0.8,
+              "raw_subject": "Pelé",
+              "raw_predicate": "VENCEU",
+              "raw_object": "Maradona",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "TENTATIVA DE APROXIMACAO ENTRE NOS",
+              "predicate": "EXECUTA",
+              "object": "CERTA VEZ",
+              "confidence": 0.65,
+              "raw_subject": "tentativa de aproximação entre nós",
+              "raw_predicate": "EXECUTA",
+              "raw_object": "Certa vez",
+              "extraction_confidence": 0.65
+            },
+            {
+              "subject": "MARISA ORTH",
+              "predicate": "EXECUTA",
+              "object": "FILME EROTICO",
+              "confidence": 0.8,
+              "raw_subject": "Marisa Orth",
+              "raw_predicate": "EXECUTA",
+              "raw_object": "filme erótico",
+              "extraction_confidence": 0.8
+            },
+            {
+              "subject": "MARISA ORTH",
+              "predicate": "EXECUTA",
+              "object": "FILME EROTICO",
+              "confidence": 0.8,
+              "raw_subject": "Marisa Orth",
+              "raw_predicate": "EXECUTA",
+              "raw_object": "filme erótico",
+              "extraction_confidence": 0.8
+            }
+          ],
+          "target_fact_hits_exact": 0,
+          "target_fact_hits": 0,
+          "target_fact_sentences": 7,
+          "target_fact_sample": [],
+          "fallback_used": false,
+          "spacy_sparse_band": false,
+          "spacy_triples": 24,
+          "spacy_available": true,
+          "is_wikipedia": false,
+          "publisher": "bbc.com",
+          "jev_applied": true,
+          "masked_extraction_failure": false,
+          "acceptance_checks": {
+            "status_200": true,
+            "cleaned_text": true,
+            "sentences": true,
+            "raw_triples_gte_5": true,
+            "canonical_ok": true,
+            "fallback_false": true,
+            "target_fact_hit": false
+          },
+          "meets_acceptance": false,
+          "meets_acceptance_dense": false,
+          "productive": true,
+          "jev_threshold": 0.7,
+          "jev_scores": [
+            0.01,
+            0.02,
+            0.03,
+            0.02,
+            0.03,
+            0.02,
+            0.01,
+            0.01,
+            0.01
+          ],
+          "jev_hit_triples": []
+        },
+        {
+          "url": "https://www.britannica.com/biography/Pele-Brazilian-football-player",
+          "status": 200,
+          "content_length": 124014,
+          "cleaned_text_length": 12899,
+          "sentences_considered": 97,
+          "sentences_scored_above_threshold": 78,
+          "raw_triples": 4,
+          "canonical_triples": 1,
+          "rejected_noise": 3,
+          "rejection_reasons": {
+            "invalid_predicate": 55,
+            "stopword_predicate": 4,
+            "missing_entity": 2,
+            "nonverbal_predicate": 1,
+            "unmapped_predicate": 1
+          },
+          "top_subjects": {
+            "WHERE HE": 1
+          },
+          "top_objects": {
+            "RAISED IN POVERTY": 1
+          },
+          "top_predicates": {
+            "SER": 1
+          },
+          "football_related_hits": 0,
+          "football_verb_hits": 5,
+          "detected_football_verbs": [
+            "defender",
+            "joined",
+            "played",
+            "scored",
+            "won"
+          ],
+          "extractive_quality": "weak",
+          "notes": "",
+          "final_url": "https://www.britannica.com/biography/Pele-Brazilian-football-player",
+          "error": "",
+          "canonical_list": [
+            {
+              "subject": "WHERE HE",
+              "predicate": "SER",
+              "object": "RAISED IN POVERTY",
+              "confidence": 0.8,
+              "raw_subject": "where he",
+              "raw_predicate": "SER",
+              "raw_object": "raised in poverty",
+              "extraction_confidence": 0.8
+            }
+          ],
+          "target_fact_hits_exact": 0,
+          "target_fact_hits": 0,
+          "target_fact_sentences": 6,
+          "target_fact_sample": [],
+          "fallback_used": false,
+          "spacy_sparse_band": true,
+          "spacy_triples": 1,
+          "spacy_available": true,
+          "is_wikipedia": false,
+          "publisher": "britannica.com",
+          "jev_applied": true,
+          "masked_extraction_failure": false,
+          "acceptance_checks": {
+            "status_200": true,
+            "cleaned_text": true,
+            "sentences": true,
+            "raw_triples_gte_5": false,
+            "canonical_ok": true,
+            "fallback_false": true,
+            "target_fact_hit": false
+          },
+          "meets_acceptance": false,
+          "meets_acceptance_dense": false,
+          "productive": false,
+          "jev_threshold": 0.7,
+          "jev_scores": [
+            0.02
+          ],
+          "jev_hit_triples": []
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "clusters_total": 3,
+    "clusters_eligible": 0,
+    "eligible_cluster_ids": [],
+    "jev_applied": true
+  },
+  "truthfulness_note": {
+    "read_only": true,
+    "no_neo4j_no_qdrant_no_ingest": true,
+    "does_not_change_quorum_or_confirmacoes": true,
+    "classification_is_diagnostic_only": true
+  }
+}

@@ -1536,3 +1536,77 @@ ver seção acima),
 workflows, treino (gate `verified_facts_domain_independent = 0 < 10`).
 
 
+
+## #048.5 — Curated target-fact clusters without Almanaque API
+
+**Status:** 🚧 **bloqueada por #058.11** — mecanismo entregue,
+hipótese de fonte refutada, gargalo real identificado em extração
+target-aware.
+
+### Registro exigido (decisão do operador)
+
+```text
+#048.5 não falhou por falta de fontes, mas por gap de extração:
+sentenças-alvo existem, triplas-alvo não nascem.
+Próximo issue técnico: #058.11.
+Troca de fato-alvo permitida apenas como varredura read-only.
+```
+
+### Resultado da auditoria offline (read-only)
+
+3 clusters curados auditados com `scripts/audit_cluster_productivity.py`
+(fetch paridade-prod + `target_fact_hits` com Jev ≥ 0.7) →
+`reports/cluster_productivity_048_5.json`:
+
+| Cluster | URLs aceitas | domínios aceitos | veredito |
+|---|---|---|---|
+| botafogo_libertadores_2024 | 0/7 | 0 | inelegível |
+| botafogo_brasileirao_2024 | 1/7 (UOL, Jev 0.76) | 1 | inelegível |
+| pele_santos_carreira | 0/6 | 0 | inelegível |
+
+Elegibilidade exigia ≥ 3 domínios aceitos, ≥ 2 publishers, ≥ 1 não-Wiki.
+
+### Causa raiz em 3 camadas
+
+1. **Fetch**: corpo JS-only (`botafogo.com.br`, `agazeta`, `folhape`,
+   `poder360` → 0 ocorrências do sujeito no HTML servido); ESPN
+   202-challenge; Reuters 401.
+2. **Extração (gargalo dominante)**: 15 URLs com
+   `target_fact_sentences > 0` e **0 triplas cruas/canônicas** contendo
+   o fato-alvo (teto `max_triples=25` + viés posicional + rejeições do
+   refino). Jev máximo das triplas: 0.01–0.11; único hit: UOL
+   `BOTAFOGO DE FUTEBOL E REGATAS --SER--> CAMPEAO BRASILEIRO` (0.76).
+3. **Tabelas (RSSSF)**: sem narrativa → `canonical_triples = 0`.
+
+`subject_alias_missing = 0`, `object_alias_missing = 0`,
+`predicate_mapper_gap = 0` nos pares analisados → **não** é #047.2 nem
+#045.3 (atacariam sintoma downstream; a tripla bruta jamais nasce).
+
+### Decisão do operador (árvore corrigida)
+
+- **B** → evidência para **#058.11** (target-aware extraction gap),
+  não #045.3/#047.2.
+- **A** → varredura read-only de fatos-alvo alternativos →
+  `reports/target_fact_sweep_048_5a.json` com critério novo
+  `target_fact_triples_canonical >= 1` por domínio (≥ 3 domínios,
+  ≥ 2 publishers, ≤ 1 domínio só-`SER`, sem objeto date-like).
+- `config/seed_clusters.yaml` **só** pode mudar com 3 clusters
+  elegíveis; sem isso, expandir seeds é proibido e o próximo issue é
+  #058.11.
+
+### Fora de escopo
+`app.py`, `graph_connector.py`, `predicate_mapper.py`,
+`canonicalizer.py`, `span_validator.py`, `triple_refiner.py`,
+`extractor.py`, `requirements-dev.txt`, workflows,
+`config/seed_clusters.yaml` (enquanto `clusters_eligible < 3`),
+API Almanaque (#055 congelado por compliance), treino (gate
+`verified_facts_domain_independent = 0 < 10`).
+
+### Próximo issue
+**#058.11 — Target-aware extraction gap analysis**: read-only/diagnóstico
+primeiro (por que sentença-alvo não vira tripla-alvo; classes de causa:
+`sentence_score_below_threshold`, `max_triples_truncation`,
+`missing_subject_entity`, `missing_object_entity`,
+`no_relation_pattern`, `anaphora_unresolved`,
+`long_or_composed_sentence`, ...); correção de extractor/orçamento só
+depois do diagnóstico.
