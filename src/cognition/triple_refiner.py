@@ -146,7 +146,8 @@ def refine_triple_ex(
     ``invalid_predicate``, ``modal_predicate``, ``ambiguous_predicate``.
     Motivos de span (#050): ``object_date_like``, ``object_prepositional_phrase``,
     ``object_adverbial_phrase``, ``object_pronoun``, ``object_clause_fragment``,
-    ``subject_quantifier_phrase``, ``subject_too_long``, etc.
+    ``object_predicate_complement`` (#058.10), ``subject_quantifier_phrase``,
+    ``subject_too_long``, etc.
     """
     canonicalizer = canonicalizer or SemanticCanonicalizer()
     raw_subject = str(raw.get("subject", ""))
@@ -169,7 +170,7 @@ def refine_triple_ex(
     valid_subject, subject_reason = validate_entity_span(raw_subject, "subject", known)
     if not valid_subject:
         return None, subject_reason
-    valid_object, object_reason = validate_entity_span(raw_object, "object", known)
+    valid_object, object_reason = validate_entity_span(raw_object, "object", known, predicate=predicate)
     if not valid_object:
         return None, object_reason
 

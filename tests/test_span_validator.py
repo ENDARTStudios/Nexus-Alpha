@@ -137,3 +137,89 @@ def test_refiner_rejects_inspection2_fragments():
         {"subject": "enfim", "predicate": "SER", "object": "selado a compra do terreno"}
     )
     assert reason == "subject_generic_phrase"
+
+
+# --- #058.10 — guard object_predicate_complement (objeto de SER = cláusula) ---
+
+BAD_CLAUSE_OBJECTS = [
+    "ELIMINATED BY PENAROL",
+    "KNOWN FOR HIS DRIBBLING",
+    "SO IMPRESSED WITH THE YOUNG GARRINCHA",
+    "SEVEN YEARS OLDER THAN PELE",
+    "BASED IN RIO DE JANEIRO",
+    "LOCATED IN THE NEIGHBORHOOD OF ENGELHO DE DENTRO",
+    "CONSIDERED ONE OF THE GREATEST LEFT-BACKS",
+    "REGARDED AS A LEGEND",
+    "CALLED THE LONE STAR",
+    "OWNED BY EAGLE FOOTBALL HOLDINGS",
+    "COACHED BY ARTUR JORGE",
+    "MANAGED BY ENDERSON MOREIRA",
+    "SPONSORED BY XP INC",
+    "RANKED FIFTH IN THE WORLD",
+]
+
+GOOD_SER_OBJECTS = [
+    "SANTOS FUTEBOL CLUBE",
+    "SANTOS FC",
+    "BOTAFOGO DE FUTEBOL E REGATAS",
+    "BOTAFOGO FR",
+    "ESTÁDIO OLÍMPICO NILTON SANTOS",
+    "ESTÁDIO URBANO CALDEIRA",
+    "VILA BELMIRO",
+    "COPA LIBERTADORES",
+    "CAMPEONATO BRASILEIRO SÉRIE A",
+    "CAMPEONATO CARIOCA",
+    "RIO DE JANEIRO",
+    "PEÑAROL",
+    "PELÉ",
+    "GARRINCHA",
+    "NILTON SANTOS",
+    "DIDI",
+    "JAIRZINHO",
+    "ALAN TURING",
+    "TESTE DE TURING",
+    "INTELIGÊNCIA ARTIFICIAL",
+    "APRENDIZADO PROFUNDO",
+    "PROCESSAMENTO DE LINGUAGEM NATURAL",
+]
+
+
+def test_ser_rejects_en_clause_objects_058_10():
+    for span in BAD_CLAUSE_OBJECTS:
+        assert validate_entity_span(span, "object", None, "SER") == (
+            False, "object_predicate_complement"
+        ), span
+
+
+def test_ser_accepts_real_entities_as_objects_058_10():
+    for span in GOOD_SER_OBJECTS:
+        assert validate_entity_span(span, "object", None, "SER") == (True, None), span
+
+
+def test_copular_guard_is_predicate_scoped_058_10():
+    # Mesmo span é aceito fora de contexto copular e com predicate ausente.
+    assert validate_entity_span("ELIMINATED BY PENAROL", "object", None, "DISPUTOU") == (True, None)
+    assert validate_entity_span("ELIMINATED BY PENAROL", "object") == (True, None)
+    # Predicado copular em minúsculas também ativa (fold).
+    assert reject_reason_for_span("ELIMINATED BY PENAROL", "object", None, "ser") == (
+        "object_predicate_complement"
+    )
+    # Guard é só de object: subject não é rejeitado por esta regra.
+    assert validate_entity_span("ELIMINATED BY PENAROL", "subject", None, "SER") == (True, None)
+
+
+def test_refiner_reports_object_predicate_complement_058_10():
+    assert refine_triple_ex(
+        {"subject": "Santos FC", "predicate": "SER", "object": "ELIMINATED BY PENAROL"}
+    ) == (None, "object_predicate_complement")
+    # Entidade legítima continua passando como objeto de SER.
+    refined, reason = refine_triple_ex(
+        {"subject": "Santos FC", "predicate": "SER", "object": "COPA LIBERTADORES"}
+    )
+    assert reason == "ok"
+    assert refined["predicate"] == "SER"
+    # Predicado não-copular não aciona o guard.
+    refined, reason = refine_triple_ex(
+        {"subject": "Santos FC", "predicate": "DISPUTOU", "object": "COPA LIBERTADORES"}
+    )
+    assert reason == "ok"

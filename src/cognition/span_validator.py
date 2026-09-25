@@ -14,6 +14,13 @@ v2 (#058.2, evidência Inspection 2): rejeita spans só de palavras fechadas
 (``E O``, ``AND``, ``BUT THERE``), inícios EN (``ALTHOUGH``, ``TO``, ``MY``),
 discurso solto (``ENFIM``, ``PRIMEIRO``) e relativa interna multi-token
 (``REGRA GERAL QUE MAPEIA``).
+
+v3 (#058.10): guard ``object_predicate_complement`` — quando o predicado é
+copular (``SER``), ``object`` que casa padrão sintático de cláusula EN
+(particípio + ``by``, abertura predicativa, comparativo ``-er than``, advérbio
+de grau, alta densidade de palavras fechadas) é rejeitado. Determinístico, sem
+LLM/embedding, agnóstico de domínio. Só ``role == "object"`` e só com
+``predicate`` informado (``predicate=None`` mantém o comportamento v2).
 """
 from __future__ import annotations
 
@@ -117,6 +124,73 @@ _RELATIVE_MID_RE = re.compile(
     r"\b(que|that|which|who|whom|whose)\b", re.IGNORECASE
 )
 
+# --- #058.10 — guard de complemento copular/passivo (objeto de SER) ---
+
+# Predicados que ativam o guard (canônicos ``SER`` + copulas crus plausíveis).
+_COPULAR_PREDICATES = frozenset({
+    "ser", "foi", "era", "eram", "sao", "estao",
+    "is", "are", "was", "were", "be", "been", "being",
+})
+
+# Aberturas de cláusula: predicativos/particípios EN + auxiliares copulares.
+# Multi-token começando por estas quase nunca é entidade (entidades começam
+# com substantivo/próprio). Whitelist ``known_entities`` passa antes.
+_SER_CLAUSE_STARTS = frozenset({
+    # predicativos clássicos
+    "known", "famous", "popular", "impressed", "interested", "involved",
+    "located", "based", "situated", "considered", "regarded", "called",
+    "nicknamed", "ranked", "dated", "born", "educated", "employed", "retired",
+    # participios/verbos vistos na produção (fontes EN)
+    "named", "given", "received", "labeled", "labelled", "classified",
+    "included", "provided", "introduced", "coined", "recorded", "built",
+    "inaugurated", "represented", "dismissed", "scored", "replaced", "owned",
+    "coached", "managed", "sponsored", "defeated", "founded", "eliminated",
+    "used", "purchased", "tried", "questioned",
+    # auxiliares copulares em abertura de span
+    "was", "were", "is", "are", "been", "being",
+})
+
+# Comparativo EN: marcador + "than" no mesmo span.
+_COMPARATIVE_MARKERS = frozenset({
+    "older", "younger", "bigger", "greater", "higher", "lower", "quicker",
+    "faster", "better", "worse", "more", "less", "different",
+})
+
+# Advérbio de grau em abertura de span multi-token.
+_DEGREE_STARTS = frozenset({
+    "so", "very", "too", "quite", "extremely", "particularly", "especially",
+})
+
+# Densidade de palavras fechadas: stops / total de tokens >= 0.5.
+_MAX_FUNCTION_DENSITY = 0.5
+
+
+def _is_copular_complement(tokens: list[str]) -> bool:
+    """Padrões determinísticos de cláusula copular/passiva EN (#058.10).
+
+    Opera sobre tokens já ``fold_span``-ados (minúsculas, sem acento).
+    Conservador: exige multi-token e padrão estrutural explícito — nunca
+    adivinha por caixa ou gosto.
+    """
+    if len(tokens) < 2:
+        return False
+    first = tokens[0]
+    # 1) agente passivo: participio + "by" (ex.: "eliminated by peñarol").
+    if "by" in tokens and first.endswith(("ed", "en")):
+        return True
+    # 2) abertura predicativa/auxiliar (ex.: "known for his dribbling").
+    if first in _SER_CLAUSE_STARTS:
+        return True
+    # 3) comparativo: marcador + "than" (ex.: "seven years older than pelé").
+    if "than" in tokens and any(tok in _COMPARATIVE_MARKERS for tok in tokens):
+        return True
+    # 4) advérbio de grau (ex.: "so impressed with the young garrincha").
+    if first in _DEGREE_STARTS:
+        return True
+    # 5) alta densidade de palavras fechadas (ex.: "unsure if there was a ceasefire").
+    stops = sum(1 for tok in tokens if tok in _FUNCTION_WORDS)
+    return (stops / len(tokens)) >= _MAX_FUNCTION_DENSITY
+
 
 def fold_span(span: str) -> str:
     """Minúsculas, sem acentos, sem pontuação de borda, espaços colapsados."""
@@ -130,8 +204,15 @@ def reject_reason_for_span(
     span: str,
     role: Role = "object",
     known_entities: Optional[AbstractSet[str]] = None,
+    predicate: Optional[str] = None,
 ) -> Optional[str]:
-    """Motivo de rejeição do span, ou ``None`` se for entidade plausível."""
+    """Motivo de rejeição do span, ou ``None`` se for entidade plausível.
+
+    ``predicate`` (opcional, #058.10): canônico da tripla. Quando é copular
+    (``SER``) e ``role == "object"``, padrões sintáticos de cláusula EN
+    retornam ``object_predicate_complement``. ``predicate=None`` → guard
+    inativo (compatível com a API v2).
+    """
     raw = str(span or "").strip()
     folded = fold_span(raw)
     prefix = "subject" if role == "subject" else "object"
@@ -178,6 +259,16 @@ def reject_reason_for_span(
             return "object_adverbial_phrase" if first in _ADVERBIAL_START else "object_prepositional_phrase"
         return "subject_starts_with_stopword"
 
+    # #058.10 — complemento de predicado copular: objeto de SER que é cláusula
+    # (particípio + "by", abertura predicativa, comparativo, grau, densidade).
+    if (
+        role == "object"
+        and predicate
+        and fold_span(predicate) in _COPULAR_PREDICATES
+        and _is_copular_complement(tokens)
+    ):
+        return "object_predicate_complement"
+
     # Span composto só por palavras fechadas (ex.: "E O") — H3, após regras mais específicas.
     if all(tok in _FUNCTION_WORDS for tok in tokens):
         return f"{prefix}_generic_phrase"
@@ -192,7 +283,8 @@ def validate_entity_span(
     span: str,
     role: Role = "object",
     known_entities: Optional[AbstractSet[str]] = None,
+    predicate: Optional[str] = None,
 ) -> tuple[bool, Optional[str]]:
     """Devolve ``(True, None)`` ou ``(False, motivo)`` para o span."""
-    reason = reject_reason_for_span(span, role, known_entities)
+    reason = reject_reason_for_span(span, role, known_entities, predicate)
     return (reason is None), reason
