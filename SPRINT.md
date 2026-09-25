@@ -1789,3 +1789,65 @@ a tripla jamais nasce, com qualquer orçamento.
 Qual(is) alavanca(s) de F1–F3 executar e com qual gate de regressão
 (`ser_share`, `duplicate_cross_domain`, `invalid_predicate`) — operador
 define antes de qualquer edição em `extractor.py`.
+
+## #058.11.1 — F3: rejeição de candidatos não-proposicionais (input)
+
+**Status:** ✅ implementada (decisão do operador: **F3 primeiro**, depois
+re-diagnóstico, depois F1 gateado; F2/#045.3 congelado).
+
+### O que mudou
+
+- **`src/cognition/extractor.py`** — `classify_sentence_candidate(text)` /
+  `is_propositional_sentence(text)`: filtro determinístico (regex +
+  contagem, sem spaCy/LLM) aplicado **como candidato**, antes da árvore de
+  decisão de `extract_spacy` — a regra `ROOT ∈ (VERB, AUX)` **não mudou**.
+- **`src/miner/source_productivity.py`** — `split_sentences_with_stats`
+  filtra candidatas e devolve `pre_filter_rejections`
+  (`too_short` / `noise_marker` / `non_propositional_fragment`), exposto em
+  `analyze_text` para separar descartes do filtro dos descartes por score.
+- **`src/miner/web_miner.py`** — `NOISE_SELECTORS` +`table.infobox`,
+  `.infobox`, `figure`, `figcaption`, `.thumb`, `.gallerybox`,
+  `#mw-navigation`, `.vector-menu`, `.catlinks`, `.toccolours` (infobox,
+  legendas e menu saem do texto antes de virarem "sentenças").
+- **`tests/test_extractor_input_quality.py`** — 16 fragmentos rejeitados
+  (título-wiki, `Image source`, `Live Reporting`, `[1]`, `1962`,
+  placares/linhas de tabela, zero-width de infobox) × 14 frases que
+  **devem sobreviver** (combustível do F1: `is based in`, `home ground is`,
+  `founded in 1904, …`, `Estádio Urbano Caldeira, also known as …`, DEF
+  nominais PT) + buckets, `split_sentences`, `pre_filter_rejections`,
+  `extract_spacy` com verbo em fragmento e `clean_html`.
+
+### Regras do filtro (conservador — prefere deixar lixo passar a bloquear
+frase nominal legítima)
+
+```text
+1. < 3 tokens alfabéticos            → too_short        (1962, [1], Editar)
+2. marcador duro (wiki/caption/ref/infobox/zero-width) → noise_marker
+3. indício de proposição (copula PT/EN, -ed/-ing, desinências PT) → aceita
+4. marcador de nav/label (See also, full name, …)      → noise_marker
+5. ≥ 2 tokens numéricos sem verbo                      → non_propositional_fragment
+6. ≥ 4 tokens com vírgula (aposto) ou ≥ 2 capitalizados → aceita (nominal p/ F1)
+7. caso contrário                                      → non_propositional_fragment
+```
+
+### DoD (commit 1)
+
+- `python -m pytest -q` → **414 passed, 1 skipped** (venv com spaCy: 35/35
+  no arquivo novo, inclui `extract_spacy`);
+- `git diff -- requirements-dev.txt .github/workflows/ config/seed_clusters.yaml
+  config/entity_aliases.yaml` → **vazio**; anti-leak OK; staging explícito;
+- commit `fix(miner): reject fragmented non-propositional sentence candidates
+  before extraction`.
+
+### Próximo passo (após CI verde)
+
+Re-rodar `scripts/audit_extraction_gap.py` →
+`reports/extraction_gap_058_11_post_f3.json` e medir
+`junk_split_count` (37 → <10), `pre_filter_rejections` por bucket e
+quantos casos seguem em `no_relation_pattern` **com sentenças limpas**:
+
+- `no_relation_pattern` cai junto do junk → problema era input sujo →
+  reavaliar #048.5 (sem F1 por enquanto);
+- junk ~0 e `no_relation_pattern` ainda dominante → gargalo é estrutural
+  (root nominal/copular) → **go para F1 (#058.11.2)** gateado com dry-run
+  `ser_share`.

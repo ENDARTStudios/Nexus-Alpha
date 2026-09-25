@@ -14,7 +14,7 @@ import re
 from typing import Any, Optional
 
 from ..cognition.canonicalizer import SemanticCanonicalizer
-from ..cognition.extractor import EntityExtractor
+from ..cognition.extractor import EntityExtractor, classify_sentence_candidate
 from ..cognition.span_validator import fold_span
 from ..cognition.triple_refiner import refine_triple_ex, score_candidate_sentence
 
@@ -70,10 +70,34 @@ def _default_canonicalizer() -> SemanticCanonicalizer:
     return _CANONICALIZER
 
 
+def split_sentences_with_stats(text: str) -> tuple[list[str], dict[str, int]]:
+    """Frases por sentença (``.``, ``!``, ``?``) + contagem de rejeições F3.
+
+    #058.11.1: candidatos não-proposicionais (títulos, refs, captions,
+    linhas de tabela/infobox) são descartados antes de virar candidata —
+    a contagem em ``pre_filter_rejections`` separa esses descartes dos
+    descartes por score.
+    """
+    parts = re.split(r"(?<=[.!?])\s+", str(text or "").strip())
+    kept: list[str] = []
+    rejected: collections.Counter = collections.Counter(
+        {"too_short": 0, "noise_marker": 0, "non_propositional_fragment": 0}
+    )
+    for part in parts:
+        part = re.sub(r"\s+", " ", part).strip()
+        if not part:
+            continue
+        reason = classify_sentence_candidate(part)
+        if reason is None:
+            kept.append(part)
+        else:
+            rejected[reason] += 1
+    return kept, dict(sorted(rejected.items()))
+
+
 def split_sentences(text: str) -> list[str]:
     """Frases por sentença (``.``, ``!``, ``?``), colapsadas e não vazias."""
-    parts = re.split(r"(?<=[.!?])\s+", str(text or "").strip())
-    return [re.sub(r"\s+", " ", part).strip() for part in parts if part.strip()]
+    return split_sentences_with_stats(text)[0]
 
 
 def detect_football_verbs(text: str) -> list[str]:
@@ -149,7 +173,7 @@ def analyze_text(
     extractor = extractor or _default_extractor()
     canonicalizer = canonicalizer or _default_canonicalizer()
 
-    sentences = split_sentences(text)
+    sentences, pre_filter_rejections = split_sentences_with_stats(text)
     scored = [
         sentence for sentence in sentences
         if score_candidate_sentence(sentence, canonicalizer) >= SENTENCE_SCORE_THRESHOLD
@@ -188,6 +212,7 @@ def analyze_text(
         "cleaned_text_length": len(text or ""),
         "sentences_considered": len(sentences),
         "sentences_scored_above_threshold": len(scored),
+        "pre_filter_rejections": pre_filter_rejections,
         "raw_triples": len(raw_triples),
         "canonical_triples": canonical,
         "rejected_noise": rejected,

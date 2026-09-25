@@ -61,6 +61,11 @@ class WebMiner:
         ".mw-empty-elt", ".printfooter", ".metadata", ".hatnote",
         ".mw-jump-link", ".noprint", ".div-col", ".portal", ".sistersitebox",
         ".side-box", ".reflist", ".mw-references-wrap", ".vertical-navbox",
+        # #058.11.1 (F3): infobox/legendas/menu antes de virarem texto —
+        # títulos, labels de tabela e captions não são proposições.
+        "table.infobox", ".infobox", "figure", "figcaption",
+        ".thumb", ".gallerybox", "#mw-navigation", ".vector-menu",
+        ".catlinks", ".toccolours",
     ]
 
     RETRYABLE_STATUS = {403, 408, 425, 429, 500, 502, 503, 504}

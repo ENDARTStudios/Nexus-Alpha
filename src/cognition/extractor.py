@@ -76,6 +76,117 @@ def is_function_word_span(term: str) -> bool:
     return all(tok in function_words for tok in tokens)
 
 
+# #058.11.1 (F3) — filtro determinístico de candidatos a sentença.
+# Objetivo: remover fragmentos evidentes (títulos de wiki, refs, captions,
+# linhas de tabela/infobox, números soltos) ANTES da extração, sem tocar na
+# regra de root verbal e sem análise sintática profunda. Conservador na
+# direção errada: prefere deixar passar lixo a bloquear frase nominal
+# legítima (combustível do F1 #058.11.2).
+_ALPHA_TOKEN_RE = re.compile(r"[^\W\d_]{2,}", re.UNICODE)
+_DIGIT_TOKEN_RE = re.compile(r"\d+")
+
+# Marcadores duros de ruído: nunca são proposição, mesmo com verbo.
+_HARD_NOISE_RES = (
+    re.compile(r"[\u200b\u2060\ufeff]"),  # zero-width/BOM (colagem de infobox)
+    re.compile(r"(?i)wikipédia,?\s*a\s*enciclopédia\s*livre"),
+    re.compile(r"(?i)^.{0,60}\bwikipedia\b"),
+    re.compile(r"(?i)\bimage\s+(?:source|caption)\b"),
+    re.compile(r"(?i)\bfigure\s+caption\b"),
+    re.compile(r"(?i)\bshare\s+close\s+panel\b"),
+    re.compile(r"(?i)\bshare\s+page\b"),
+    re.compile(r"(?i)\bcopy\s+link\b"),
+    re.compile(r"(?i)\blive\s+reporting\b"),
+    re.compile(r"(?i)\breport\s*\(active\)"),
+    re.compile(r"(?i)^\W*\d{4}\s*\)"),  # linha de infobox com ano
+    re.compile(r"(?i)^\s*(?:retrieved|archived)\s+\d"),
+    re.compile(r"(?i)\bcs1\s+(?:maint|doi)"),
+    re.compile(r"(?i)\bjump\s+(?:up|to)\b"),
+)
+
+# Marcadores de navegação/label: rejeitados só quando não há verbo.
+_NAV_NOISE_RES = (
+    re.compile(r"(?i)^\s*(?:see\s+also|external\s+links?|further\s+reading|"
+               r"bibliography|contents|notes?|ver\s+também|refer[êe]ncias|"
+               r"links?\s+externos|notas)\b"),
+    re.compile(r"(?i)^\s*edit(?:ar)?\s*$"),
+    re.compile(r"(?i)^\s*(?:full\s+name|nickname|date\s+of\s+birth|place\s+of\s+birth|"
+               r"relatives|parents|personal\s+information)\b"),
+)
+
+# Indício de proposição (fraco, determinístico): copulas/auxiliares EN,
+# formas irregulares comuns EN, desinências conjugadas PT e EN (-ed/-ing).
+_VERB_HINT_RE = re.compile(
+    r"(?:"
+    r"\b(?:is|are|was|were|am|be|been|being|has|have|had|do|does|did|"
+    r"will|would|shall|should|can|could|may|might|must|"
+    r"won|win|wins|played|play|plays|held|hold|holds|took|take|takes|"
+    r"led|lead|leads|made|make|makes|went|go|goes|came|come|comes|"
+    r"began|begin|became|become|becomes|signed|sign|signs|scored|score|scores|"
+    r"defended|defend|defends|joined|join|joins|founded|found|returns|returned|"
+    r"return|moved|move|moves|left|leave|leaves|known|called|born|based|"
+    r"features|feature|includes|include|remains|remain|lives|live|"
+    r"uses|use|uses|needs|need|says|said|claim|claimed|reported|report|"
+    r"consists|consist|provides|provide|offers|offer|attracts|attract|"
+    r"celebrates|celebrate|appeared|appear|started|start|ended|end|"
+    r"playing|played)\b"
+    r"|(?:[a-zà-ÿ]{2,}(?:ed|ing)\b)"
+    r"|(?:[a-zà-ÿ]{2,}(?:ou|eu|iu|ui|ei|amos|emos|imos|ava|avam|iam|"
+    r"aram|eram|iram|ando|endo|indo|ado|ido|ada|ida)\b)"
+    r"|\b(?:é|era|eram|foi|foram|está|estão|estao|estava|estavam|"
+    r"tem|tinha|tinham|havia|ser|estar|possui|possuem|disputa|disputam|"
+    r"venceu|jogou|defendeu|conquistou|nasceu|sagrou|liderou|atuou|"
+    r"representou|iniciou|encerrou|retornou|mudou|chegou|saiu|deixou|"
+    r"ganhou|perdeu|tornou|passou|faz|fazem|diz|dizem|afirma|afirmou|disse)\b"
+    # "são" só como copula: não casa "São <Nome>" (nome próprio).
+    r"|\b(?:são|sao)(?-i:(?!\s+[A-ZÁÂÃÉÊÍÓÔÕÚ]))\b"
+    r")",
+    re.IGNORECASE,
+)
+
+
+def classify_sentence_candidate(text: str) -> Optional[str]:
+    """Motivo de rejeição de um candidato a sentença, ou ``None`` se aceito.
+
+    Regras, nesta ordem (determinísticas, sem spaCy/LLM):
+    1. menos de 3 tokens alfabéticos (cobre numérico puro, pontuação, ``[1]``);
+    2. marcador duro de ruído (título wiki, caption, ref, infobox, zero-width);
+    3. indício de proposição (copula/auxiliar/desinência) → aceita;
+    4. marcador de navegação/label → rejeita;
+    5. >= 2 tokens numéricos sem verbo (linha de tabela/placar/infobox);
+    6. >= 4 tokens alfabéticos com vírgula (aposto) ou >= 2 termos
+       capitalizados (entidades nomeadas) → aceita (frase nominal p/ F1);
+    7. caso contrário → rejeita.
+    """
+    cleaned = re.sub(r"\s+", " ", str(text or "")).strip()
+    alpha_tokens = _ALPHA_TOKEN_RE.findall(cleaned)
+    if len(alpha_tokens) < 3:
+        return "too_short"
+    for pattern in _HARD_NOISE_RES:
+        if pattern.search(cleaned):
+            return "noise_marker"
+    has_verb_hint = bool(_VERB_HINT_RE.search(cleaned))
+    if has_verb_hint:
+        return None
+    for pattern in _NAV_NOISE_RES:
+        if pattern.search(cleaned):
+            return "noise_marker"
+    if len(_DIGIT_TOKEN_RE.findall(cleaned)) >= 2:
+        return "non_propositional_fragment"
+    if len(alpha_tokens) >= 4:
+        tokens = cleaned.split()
+        mid_capitals = sum(
+            1 for tok in tokens[1:] if tok[:1].isalpha() and tok[:1].isupper()
+        )
+        if "," in cleaned or mid_capitals >= 2:
+            return None
+    return "non_propositional_fragment"
+
+
+def is_propositional_sentence(text: str) -> bool:
+    """``True`` se o candidato sobrevive ao filtro F3 de input."""
+    return classify_sentence_candidate(text) is None
+
+
 @dataclass
 class Triple:
     subject: str
@@ -193,6 +304,10 @@ class EntityExtractor:
         doc = self._nlp(text)
         triples: list[Triple] = []
         for sent in doc.sents:
+            # #058.11.1 (F3): descarta fragmento não-proposicional antes da
+            # árvore de decisão — a regra de root VERB/AUX abaixo não muda.
+            if not is_propositional_sentence(sent.text):
+                continue
             root = next((t for t in sent if t.dep_ == "ROOT"), None)
             if root is None or root.pos_ not in ("VERB", "AUX"):
                 continue
