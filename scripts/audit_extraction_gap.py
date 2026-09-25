@@ -48,6 +48,7 @@ from src.cognition.entity_linking_audit import (  # noqa: E402
 )
 from src.cognition.extractor import (  # noqa: E402
     EntityExtractor,
+    classify_sentence_candidate,
     is_function_word_span,
     rescue_truncated_toponym,
     strip_boundary_noise,
@@ -57,7 +58,10 @@ from src.cognition.predicate_mapper import (  # noqa: E402
     validate_predicate,
 )
 from src.cognition.triple_refiner import refine_triple_ex, score_candidate_sentence  # noqa: E402
-from src.miner.source_productivity import SENTENCE_SCORE_THRESHOLD, split_sentences  # noqa: E402
+from src.miner.source_productivity import (  # noqa: E402
+    SENTENCE_SCORE_THRESHOLD,
+    split_sentences_with_stats,
+)
 from src.miner.web_miner import WebMiner  # noqa: E402
 
 MAX_TARGET_SENTENCES = 6
@@ -154,6 +158,9 @@ def _extract_term(extractor: EntityExtractor, token, full_text: str) -> Optional
 
 def probe_sentence(extractor: EntityExtractor, target: dict, tokens, full_text: str) -> dict:
     """Espelho da árvore de decisão de ``extract_spacy`` para um segmento."""
+    span_text = getattr(tokens, "text", None) or " ".join(
+        getattr(t, "text", "") for t in tokens
+    )
     tokens = list(tokens)
     root = next((t for t in tokens if t.dep_ == "ROOT"), None)
     evidence: dict[str, Any] = {
@@ -167,6 +174,12 @@ def probe_sentence(extractor: EntityExtractor, target: dict, tokens, full_text: 
         "subject_term_ok": False,
         "object_term_ok": False,
     }
+    # #058.11.1 (F3): espelho do filtro de candidato de extract_spacy —
+    # fragmento não-proposicional é descartado antes da regra de root.
+    if classify_sentence_candidate(span_text) is not None:
+        evidence["class"] = "no_relation_pattern"
+        evidence["reason"] = "filtro_f3_nao_proposicional"
+        return evidence
     if root is None or root.pos_ not in ("VERB", "AUX"):
         evidence["class"] = "no_relation_pattern"
         evidence["reason"] = "root_ausente_ou_nao_verbal"
@@ -264,7 +277,7 @@ def diagnose_case(case: dict, extractor: EntityExtractor, canonicalizer: Semanti
     entry = fetch_cache[url]
     text = entry["text"]
 
-    sentences = split_sentences(text)
+    sentences, pre_filter_rejections = split_sentences_with_stats(text)
     target_sentences = [
         (idx, sentence)
         for idx, sentence in enumerate(sentences)
@@ -358,6 +371,7 @@ def diagnose_case(case: dict, extractor: EntityExtractor, canonicalizer: Semanti
         "fallback_used": bool((entry.get("diagnostics") or {}).get("fallback_used", True)),
         "spacy_sparse_band": bool((entry.get("diagnostics") or {}).get("spacy_sparse_band", False)),
         "sentences_total": len(sentences),
+        "pre_filter_rejections": pre_filter_rejections,
         "target_sentences_count": len(target_sentences),
         "raw25_count": len(raw25),
         "raw500_count": len(raw500),
@@ -433,6 +447,11 @@ def main() -> None:
     by_fact: dict[str, Counter] = {}
     for report in reports:
         by_fact.setdefault(report["fact_id"], Counter())[report["classification"]] += 1
+    pre_filter_total: Counter = Counter(
+        {"too_short": 0, "noise_marker": 0, "non_propositional_fragment": 0}
+    )
+    for report in reports:
+        pre_filter_total.update(report["pre_filter_rejections"])
 
     document = {
         "audit_id": "extraction_gap_058_11",
@@ -444,13 +463,18 @@ def main() -> None:
             "prod_path": "extractor.extract(text, max_triples=25) + refine_triple_ex",
             "truncation_experiment": "extractor.extract(text, max_triples=500) em memoria (codigo intocado)",
             "probe": (
-                "espelho da arvore de decisao de extract_spacy (ROOT VERB/AUX, "
-                "validate_predicate, nsubj, obj/attr/obl/xcomp, guards) no doc e isolado"
+                "espelho da arvore de decisao de extract_spacy (filtro F3 de candidato, "
+                "ROOT VERB/AUX, validate_predicate, nsubj, obj/attr/obl/xcomp, guards) "
+                "no doc e isolado"
             ),
             "class_priority": CLASS_PRIORITY,
             "score_note": (
                 "SENTENCE_SCORE_THRESHOLD (0.6) nao filtra a extracao — so alimenta "
                 "analyze_text; registrado como evidencia em probes[].score"
+            ),
+            "f3_note": (
+                "filtro de candidato #058.11.1 (is_propositional_sentence) ativo em "
+                "split_sentences, clean_html (NOISE_SELECTORS) e extract_spacy"
             ),
         },
         "questions": QUESTIONS,
@@ -459,11 +483,15 @@ def main() -> None:
             "cases_total": len(reports),
             "by_class": dict(by_class.most_common()),
             "by_fact": {fact: dict(counter.most_common()) for fact, counter in by_fact.items()},
+            "sentences_total": sum(r["sentences_total"] for r in reports),
+            "target_sentences_total": sum(r["target_sentences_count"] for r in reports),
+            "pre_filter_rejections_total": dict(sorted(pre_filter_total.items())),
         },
         "truthfulness_note": {
             "read_only": True,
             "no_neo4j_no_qdrant_no_ingest": True,
-            "extractor_code_untouched": True,
+            "f3_input_filter_active": True,
+            "root_rule_untouched": True,
             "seed_clusters_yaml_untouched": True,
             "diagnosis_only_no_fix": True,
         },

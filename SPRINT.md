@@ -1839,15 +1839,51 @@ frase nominal legítima)
 - commit `fix(miner): reject fragmented non-propositional sentence candidates
   before extraction`.
 
-### Próximo passo (após CI verde)
+### Resultado do rerun pós-F3 (após CI verde de `141ffa5`)
 
-Re-rodar `scripts/audit_extraction_gap.py` →
-`reports/extraction_gap_058_11_post_f3.json` e medir
-`junk_split_count` (37 → <10), `pre_filter_rejections` por bucket e
-quantos casos seguem em `no_relation_pattern` **com sentenças limpas**:
+`scripts/audit_extraction_gap.py` (espelha o filtro F3 em `probe_sentence`
+e agrega `pre_filter_rejections`) →
+`reports/extraction_gap_058_11_post_f3.json` — 10 casos, fetch 200 em
+todos, anti-leak OK.
 
-- `no_relation_pattern` cai junto do junk → problema era input sujo →
-  reavaliar #048.5 (sem F1 por enquanto);
-- junk ~0 e `no_relation_pattern` ainda dominante → gargalo é estrutural
-  (root nominal/copular) → **go para F1 (#058.11.2)** gateado com dry-run
-  `ser_share`.
+| Métrica | fase 1 | pós-F3 |
+|---|---|---|
+| candidatas mantidas (`sentences_total`) | 2704 | 2381 |
+| candidatas rejeitadas pelo filtro F3 | — | **259** (`too_short` 154, `non_propositional_fragment` 90, `noise_marker` 15) + blocos de infobox/figure removidos a montante no `clean_html` |
+| sentenças-alvo | 54 | **47** (7 junk-targets descartadas) |
+| probe **doc-layer** `root_ausente_ou_nao_verbal` | **37** | **5** |
+| probe doc-layer `filtro_f3_nao_proposicional` (junk identificado) | — | 29 |
+| roots não-verbais `NUM`/`PUNCT` | 15 | **0** |
+| probe isolated `root_ausente` | 27 | 18 |
+| casos por classe | 7 `no_relation` + 3 `predicate_unmapped` | **8 `no_relation` + 2 `predicate_unmapped`** |
+| `converted_in_probe` / `hits500` | 0 / 0 | **0 / 0** (inalterado) |
+
+Raízes junk de evidência (título-wiki, caption, placar, linha de infobox):
+**eliminadas** — doc-layer root-junk 37→5 (<10 ✓), `NUM`/`PUNCT` → 0,
+alvo-junk 54→47. Resíduo aceito por direção conservadora ("preferir falso
+negativo"): ~4 sentenças-alvo isoladas de UI/tabela ainda passam
+(`Related topics… Scores & Fixtures`, linha de fixture), header+frase
+real fundidos (`History Formation and merger On 1 July 1894, …`) e
+artefatos de parse EN-model-PT (`root=At/When/played`).
+
+### Veredito do gate (regra do operador)
+
+- ~~junk cai junto do `no_relation_pattern` → parar e reavaliar #048.5~~
+  **não ocorreu**: junk de evidência → ~0, mas `no_relation_pattern`
+  continua dominante (8/10 casos) **com sentenças limpas** e
+  `converted_in_probe` segue **0** com qualquer cap;
+- sentenças-alvo limpas remanescentes ainda falham por root nominal/
+  parse (`Garrincha também é pai de…` = root `NOUN`, definição real),
+  guarda de span e `invalid_predicate` de verbos não-fato → gargalo
+  **estrutural confirmado**.
+
+**→ Números sustentam GO para F1 (#058.11.2), gateado pelo dry-run
+`ser_share` — decisão final do operador pendente (F1 não iniciada).**
+
+### Conhecidas limitações (registradas, não bloqueantes)
+
+- `find_doc_sent` do probe ainda funde sentenças no doc-layer (falsa
+  atribuição de root) — limitação da sonda, não da produção;
+- `-ed`/`-ing`/`-ando` genéricos deixam passar junk com dígitos
+  (`Related`, `Fernando`) — deliberado no F3 para não bloquear
+  `impressed/related` legítimos; reavaliar só com evidência nova.
