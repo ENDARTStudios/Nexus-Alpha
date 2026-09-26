@@ -1,0 +1,483 @@
+{
+  "audit_id": "nominal_copular_dry_run_058_11_2",
+  "generated_at": "2026-09-26T04:02:25.959699+00:00",
+  "read_only": true,
+  "promote_automatically": false,
+  "verdict": "GO",
+  "pass": true,
+  "pipeline": {
+    "fetch": "httpx + WebMiner.anti_block headers (paridade com minerador)",
+    "extract": "extractor.extract(text, max_triples=25) + refine_triple_ex",
+    "before": "EntityExtractor(enable_fallback=True, enable_nominal_copular=False)",
+    "after": "EntityExtractor(enable_fallback=True, enable_nominal_copular=True)",
+    "shared_corpus": "fetch unico; texto limpo uma vez por URL para before/after",
+    "ser_share": "predicate == 'SER' no conjunto canonico agregado",
+    "target_hits": "structural_match(subject_any/object_any) sem exigir predicado",
+    "pt_regression": "keys before \\ after do corpus PT fixo (deve ser vazio); por construcao: extract_spacy e por sentença com verbal primeiro (nao ha deslocamento em doc de 1 sentenca) e a flag off e byte-identica ao pre-F1"
+  },
+  "spec": {
+    "cases": 10,
+    "facts": [
+      "botafogo_localizado_rio",
+      "botafogo_venceu_brasileirao",
+      "botafogo_venceu_libertadores",
+      "garrincha_defendeu_botafogo",
+      "pele_defendeu_santos"
+    ]
+  },
+  "pages": [
+    {
+      "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+      "status": 200,
+      "fetch_issue": "",
+      "text_length": 50907,
+      "raw_before": 25,
+      "raw_after": 25,
+      "canonical_before": 6,
+      "canonical_after": 8,
+      "refine_failures_before": 19,
+      "refine_failures_after": 17
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+      "status": 200,
+      "fetch_issue": "",
+      "text_length": 19281,
+      "raw_before": 14,
+      "raw_after": 18,
+      "canonical_before": 8,
+      "canonical_after": 12,
+      "refine_failures_before": 6,
+      "refine_failures_after": 6
+    },
+    {
+      "url": "https://ge.globo.com/blogs/completando-a-jogada/post/2024/12/02/botafogo-supera-adversidades-e-conquista-titulo-de-campeao-da-libertadores-2024.ghtml",
+      "status": 200,
+      "fetch_issue": "",
+      "text_length": 7903,
+      "raw_before": 12,
+      "raw_after": 13,
+      "canonical_before": 3,
+      "canonical_after": 4,
+      "refine_failures_before": 9,
+      "refine_failures_after": 9
+    },
+    {
+      "url": "https://www.bbc.com/sport/football/live/cx2lwvw74j2t",
+      "status": 200,
+      "fetch_issue": "",
+      "text_length": 18797,
+      "raw_before": 8,
+      "raw_after": 8,
+      "canonical_before": 1,
+      "canonical_after": 1,
+      "refine_failures_before": 7,
+      "refine_failures_after": 7
+    },
+    {
+      "url": "https://pt.wikipedia.org/wiki/Campeonato_Brasileiro_de_Futebol_de_2024_-_S%C3%A9rie_A",
+      "status": 200,
+      "fetch_issue": "",
+      "text_length": 20130,
+      "raw_before": 13,
+      "raw_after": 13,
+      "canonical_before": 9,
+      "canonical_after": 9,
+      "refine_failures_before": 4,
+      "refine_failures_after": 4
+    },
+    {
+      "url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+      "status": 200,
+      "fetch_issue": "",
+      "text_length": 121296,
+      "raw_before": 25,
+      "raw_after": 25,
+      "canonical_before": 8,
+      "canonical_after": 11,
+      "refine_failures_before": 17,
+      "refine_failures_after": 14
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+      "status": 200,
+      "fetch_issue": "",
+      "text_length": 46889,
+      "raw_before": 25,
+      "raw_after": 25,
+      "canonical_before": 7,
+      "canonical_after": 7,
+      "refine_failures_before": 18,
+      "refine_failures_after": 18
+    },
+    {
+      "url": "https://g1.globo.com/sp/sao-paulo/noticia/2022/12/29/morre-pele-da-pobreza-a-gloria-a-historia-do-rei-do-futebol.ghtml",
+      "status": 200,
+      "fetch_issue": "",
+      "text_length": 24939,
+      "raw_before": 19,
+      "raw_after": 20,
+      "canonical_before": 7,
+      "canonical_after": 8,
+      "refine_failures_before": 12,
+      "refine_failures_after": 12
+    },
+    {
+      "url": "https://pt.wikipedia.org/wiki/Garrincha",
+      "status": 200,
+      "fetch_issue": "",
+      "text_length": 44511,
+      "raw_before": 25,
+      "raw_after": 25,
+      "canonical_before": 10,
+      "canonical_after": 11,
+      "refine_failures_before": 15,
+      "refine_failures_after": 14
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Garrincha",
+      "status": 200,
+      "fetch_issue": "",
+      "text_length": 23729,
+      "raw_before": 20,
+      "raw_after": 21,
+      "canonical_before": 6,
+      "canonical_after": 7,
+      "refine_failures_before": 14,
+      "refine_failures_after": 14
+    }
+  ],
+  "fetch_issues": 0,
+  "per_case": [
+    {
+      "case_id": "C1_localizado_ptwiki",
+      "fact_id": "botafogo_localizado_rio",
+      "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+      "target_hits_before": 0,
+      "target_hits_after": 0,
+      "target_hits_new": 0,
+      "target_hits_new_raw": 0,
+      "target_hits_lost": 0
+    },
+    {
+      "case_id": "C2_localizado_enwiki",
+      "fact_id": "botafogo_localizado_rio",
+      "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+      "target_hits_before": 0,
+      "target_hits_after": 0,
+      "target_hits_new": 0,
+      "target_hits_new_raw": 0,
+      "target_hits_lost": 0
+    },
+    {
+      "case_id": "C3_libertadores_ge",
+      "fact_id": "botafogo_venceu_libertadores",
+      "url": "https://ge.globo.com/blogs/completando-a-jogada/post/2024/12/02/botafogo-supera-adversidades-e-conquista-titulo-de-campeao-da-libertadores-2024.ghtml",
+      "target_hits_before": 0,
+      "target_hits_after": 1,
+      "target_hits_new": 1,
+      "target_hits_new_raw": 1,
+      "target_hits_lost": 0
+    },
+    {
+      "case_id": "C4_libertadores_bbc",
+      "fact_id": "botafogo_venceu_libertadores",
+      "url": "https://www.bbc.com/sport/football/live/cx2lwvw74j2t",
+      "target_hits_before": 0,
+      "target_hits_after": 0,
+      "target_hits_new": 0,
+      "target_hits_new_raw": 0,
+      "target_hits_lost": 0
+    },
+    {
+      "case_id": "C5_brasileirao_ptwiki",
+      "fact_id": "botafogo_venceu_brasileirao",
+      "url": "https://pt.wikipedia.org/wiki/Campeonato_Brasileiro_de_Futebol_de_2024_-_S%C3%A9rie_A",
+      "target_hits_before": 0,
+      "target_hits_after": 0,
+      "target_hits_new": 0,
+      "target_hits_new_raw": 0,
+      "target_hits_lost": 0
+    },
+    {
+      "case_id": "C6_santos_ptwiki",
+      "fact_id": "pele_defendeu_santos",
+      "url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+      "target_hits_before": 0,
+      "target_hits_after": 1,
+      "target_hits_new": 1,
+      "target_hits_new_raw": 1,
+      "target_hits_lost": 0
+    },
+    {
+      "case_id": "C7_santos_enwiki",
+      "fact_id": "pele_defendeu_santos",
+      "url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+      "target_hits_before": 0,
+      "target_hits_after": 0,
+      "target_hits_new": 0,
+      "target_hits_new_raw": 0,
+      "target_hits_lost": 0
+    },
+    {
+      "case_id": "C8_santos_g1",
+      "fact_id": "pele_defendeu_santos",
+      "url": "https://g1.globo.com/sp/sao-paulo/noticia/2022/12/29/morre-pele-da-pobreza-a-gloria-a-historia-do-rei-do-futebol.ghtml",
+      "target_hits_before": 0,
+      "target_hits_after": 0,
+      "target_hits_new": 0,
+      "target_hits_new_raw": 0,
+      "target_hits_lost": 0
+    },
+    {
+      "case_id": "C9_garrincha_ptwiki",
+      "fact_id": "garrincha_defendeu_botafogo",
+      "url": "https://pt.wikipedia.org/wiki/Garrincha",
+      "target_hits_before": 0,
+      "target_hits_after": 1,
+      "target_hits_new": 1,
+      "target_hits_new_raw": 1,
+      "target_hits_lost": 0
+    },
+    {
+      "case_id": "C10_garrincha_enwiki",
+      "fact_id": "garrincha_defendeu_botafogo",
+      "url": "https://en.wikipedia.org/wiki/Garrincha",
+      "target_hits_before": 0,
+      "target_hits_after": 1,
+      "target_hits_new": 1,
+      "target_hits_new_raw": 1,
+      "target_hits_lost": 0
+    }
+  ],
+  "totals": {
+    "raw_before": 186,
+    "raw_after": 193,
+    "raw_new": 16,
+    "canonical_before": 65,
+    "canonical_after": 78,
+    "canonical_new": 16,
+    "refine_failures_before": 121,
+    "refine_failures_after": 115,
+    "new_refine_failures": 0,
+    "new_raw_target_hits": 4,
+    "new_canonical_target_hits": 4,
+    "target_fact_hits_new": 4,
+    "target_hits_lost": 0,
+    "ser_share_before": 0.4,
+    "ser_share_after": 0.359
+  },
+  "new_triples_sample": [
+    {
+      "subject": "Mourisco Mar",
+      "predicate": "LOCALIZADO_EM",
+      "object": "botafogo",
+      "confidence": 0.8
+    },
+    {
+      "subject": "Caio Martins",
+      "predicate": "LOCALIZADO_EM",
+      "object": "botafogo",
+      "confidence": 0.8
+    },
+    {
+      "subject": "Estrela Solitária presente no escudo",
+      "predicate": "SER",
+      "object": "botafogo",
+      "confidence": 0.65
+    },
+    {
+      "subject": "botafogo",
+      "predicate": "LOCALIZADO_EM",
+      "object": "neighborhood of Botafogo",
+      "confidence": 0.8
+    },
+    {
+      "subject": "team",
+      "predicate": "VENCEU",
+      "object": "Campeonato Carioca",
+      "confidence": 0.8
+    },
+    {
+      "subject": "Botafogo",
+      "predicate": "VENCEU",
+      "object": "Copa Conmebol",
+      "confidence": 0.8
+    },
+    {
+      "subject": "team",
+      "predicate": "POSSUIR",
+      "object": "Estádio Olímpico Nilton Santos",
+      "confidence": 0.8
+    },
+    {
+      "subject": "Botafogo",
+      "predicate": "VENCEU",
+      "object": "Taça Conmebol Libertadores 2024",
+      "confidence": 0.8
+    },
+    {
+      "subject": "pele",
+      "predicate": "VENCEU",
+      "object": "Torneio Início local",
+      "confidence": 0.8
+    },
+    {
+      "subject": "Pelé",
+      "predicate": "DEFENDEU",
+      "object": "Noroeste de Bauru",
+      "confidence": 0.8
+    },
+    {
+      "subject": "Pelé",
+      "predicate": "DEFENDEU",
+      "object": "Santos",
+      "confidence": 0.8
+    },
+    {
+      "subject": "Pelé",
+      "predicate": "DEFENDEU",
+      "object": "New York Cosmos",
+      "confidence": 0.8
+    },
+    {
+      "subject": "Garrincha",
+      "predicate": "SER",
+      "object": "santos",
+      "confidence": 0.8
+    },
+    {
+      "subject": "garrincha",
+      "predicate": "DEFENDEU",
+      "object": "Botafogo",
+      "confidence": 0.8
+    },
+    {
+      "subject": "Garrincha",
+      "predicate": "DEFENDEU",
+      "object": "Campeonato Sul-Americano de 1957",
+      "confidence": 0.8
+    },
+    {
+      "subject": "Garrincha",
+      "predicate": "DEFENDEU",
+      "object": "Botafogo",
+      "confidence": 0.8
+    }
+  ],
+  "new_target_hits_sample": [
+    {
+      "subject": "Botafogo",
+      "predicate": "VENCEU",
+      "object": "Taça Conmebol Libertadores 2024",
+      "confidence": 0.8
+    },
+    {
+      "subject": "Pelé",
+      "predicate": "DEFENDEU",
+      "object": "Santos",
+      "confidence": 0.8
+    },
+    {
+      "subject": "garrincha",
+      "predicate": "DEFENDEU",
+      "object": "Botafogo",
+      "confidence": 0.8
+    },
+    {
+      "subject": "Garrincha",
+      "predicate": "DEFENDEU",
+      "object": "Botafogo",
+      "confidence": 0.8
+    }
+  ],
+  "new_refine_failures": [],
+  "clause_like_sample": [],
+  "pt_regression": {
+    "lost_keys": [],
+    "before_keys": 7,
+    "after_keys": 8
+  },
+  "extractor_counters": {
+    "before": {
+      "rejection_reasons": {
+        "invalid_predicate": 822,
+        "stopword_predicate": 28,
+        "nonverbal_predicate": 5
+      },
+      "nominal_gate_reasons": {}
+    },
+    "after": {
+      "rejection_reasons": {
+        "invalid_predicate": 816,
+        "stopword_predicate": 28,
+        "nonverbal_predicate": 5
+      },
+      "nominal_gate_reasons": {
+        "nominal_no_pattern": 1682,
+        "nominal_invalid_term": 44,
+        "nominal_object_weak": 25,
+        "nominal_object_rescued": 6,
+        "nominal_subject_weak": 10,
+        "nominal_object_generic": 12,
+        "nominal_subject_rescued": 9,
+        "nominal_dep_ser_no_subject": 17,
+        "nominal_generic_subject_ser": 2,
+        "nominal_function_word_span": 9,
+        "nominal_empty_span": 5
+      }
+    }
+  },
+  "gates": {
+    "new_triples_generated": {
+      "value": 16,
+      "rule": "> 0",
+      "pass": true
+    },
+    "target_fact_hits": {
+      "value": 4,
+      "rule": "> 0",
+      "pass": true
+    },
+    "ser_share_after": {
+      "value": 0.359,
+      "rule": "<= 0.84",
+      "pass": true
+    },
+    "ser_share_delta_pp": {
+      "value": -0.041,
+      "rule": "<= +0.03 (after - before)",
+      "pass": true
+    },
+    "generic_objects_rejected": {
+      "value": 37,
+      "rule": "> 0",
+      "pass": true
+    },
+    "clause_like_residual": {
+      "value": 0,
+      "rule": "== 0",
+      "pass": true
+    },
+    "pt_regression": {
+      "value": false,
+      "rule": "== False",
+      "pass": true
+    },
+    "top_invalid_predicates": {
+      "value": [],
+      "rule": "== []",
+      "pass": true
+    },
+    "canonical_to_fact_gap": {
+      "value": 0,
+      "rule": "== 0",
+      "pass": true
+    },
+    "unaccounted_raw": {
+      "value": 0,
+      "rule": "== 0",
+      "pass": true
+    }
+  }
+}

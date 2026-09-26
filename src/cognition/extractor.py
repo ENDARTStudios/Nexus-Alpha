@@ -16,7 +16,10 @@ import re
 from dataclasses import dataclass, asdict
 from typing import Any, Optional
 
+from .canonicalizer import SemanticCanonicalizer
 from .predicate_mapper import INVALID_PREDICATE_REASONS, validate_predicate
+from .span_validator import fold_span
+from .triple_refiner import _known_entities
 
 logger = logging.getLogger(__name__)
 
@@ -187,6 +190,112 @@ def is_propositional_sentence(text: str) -> bool:
     return classify_sentence_candidate(text) is None
 
 
+# #058.11.2 (F1) — extração nominal/copular gateada.
+# O modelo PT sobre texto EN produz parses sem ``cop``/``nsubj`` utilizáveis,
+# então relações nominais EN são casadas por frames regex determinísticos no
+# texto da sentença; o caminho dep-SER (root NOUN/PROPN + ``cop``) cobre PT.
+# Regra de ouro: só emite tripla quando sujeito+objeto passam o gate de
+# entidade forte (anti-inflação de SER e anti-objeto genérico).
+
+# Substantivos genéricos: span contendo algum destes nunca é entidade forte.
+_GENERIC_NOUNS = frozenset({
+    "club", "clubs", "team", "teams", "side", "squad", "player", "players",
+    "footballer", "striker", "goalkeeper", "defender", "midfielder", "coach",
+    "manager", "crowd", "fans", "fan", "city", "country", "state", "region",
+    "father", "son", "daughter", "mother", "brother", "year", "years",
+    "season", "game", "match", "title",
+    "clube", "clubes", "time", "times", "equipe", "elenco", "jogador",
+    "jogadores", "futebolista", "goleiro", "zagueiro", "tecnico", "torcida",
+    "cidade", "pais", "estado", "regiao", "pai", "filho", "filha", "mae",
+    "irmao", "ano", "anos", "temporada", "jogo", "jogos", "partida",
+    "partidas", "titulo", "titulos",
+})
+
+# Copulas PT que caracterizam o caminho dep-SER (nunca formas EN "is/was": o
+# modelo PT sobre texto EN cospe lemma/texto errado — fora daqui, sem SER).
+_PT_COPULA_FORMS = frozenset({
+    "é", "era", "eram", "foi", "foram", "são", "sao",
+    "está", "esta", "estão", "estao", "estava", "estavam", "estiveram",
+})
+
+# Caudas verbais/auxiliares no sujeito nominal (``Pelé began playing`` → ``Pelé``).
+_NOMINAL_SUBJ_TAILS = frozenset({
+    "began", "begin", "starts", "started", "start", "playing", "played",
+    "plays", "play", "became", "become", "joins", "joined", "join",
+    "signs", "signed", "sign", "returns", "returned", "return",
+    "comes", "came", "come", "goes", "went", "go", "led", "leads", "made",
+    "makes", "held", "holds", "scored", "scores", "defended", "defends",
+    "founded", "found", "moved", "moves", "left", "leaves", "known",
+    "called", "born", "based", "disputa", "disputou", "jogou", "joga",
+    "defendeu", "conquistou", "venceu", "ganhou", "treinou", "assinou",
+    "assina", "iniciou", "retornou", "chegou", "saiu", "fica", "ficam",
+    "sediado", "sediada", "localizado", "localizada", "fundado", "fundada",
+    "é", "foi", "era", "eram", "são", "is", "are", "was", "were",
+    "be", "been", "being", "has", "have", "had",
+    # participios/advérgios de atribuição (``Pelé também foi convidado a'' → ``Pelé'')
+    "a", "ao", "à", "também", "ainda", "inicialmente", "convidado",
+    "convidada", "convocado", "convocada", "contratado", "contratada",
+    "transferido", "transferida", "emprestado", "emprestada",
+})
+
+# Frames nominais EN/PT: (predicado canônico, padrão). Primeiro frame que casa
+# e passa os gates vence; sem frame, tenta dep-SER; sem nada, ``nominal_no_pattern``.
+_NOMINAL_FRAMES: tuple[tuple[str, "re.Pattern[str]"], ...] = (
+    ("LOCALIZADO_EM", re.compile(
+        r"\b(?:based|located|situated)\s+(?:in|at)\b"
+        r"|\b(?:sediad[oa]|localizad[oa]|situad[oa])\s+(?:em|no|na|nos|nas)\b"
+        r"|\b(?:fica|ficam|ficava|ficavam)\s+(?:em|no|na|nos|nas)\b"
+        r"|\bcom\s+sede\s+(?:em|no|na|nos|nas)\b",
+        re.IGNORECASE,
+    )),
+    ("DEFENDEU", re.compile(
+        r"\b(?:jogou|joga|jogar)\s+(?:pelo|pela|por|no|na|nos|nas)\b"
+        r"|\batuou\s+(?:na|no|nas|nos|em|pelo|pela)\b"
+        r"|\b(?:played|plays|playing|play)\b(?:\s+[\w'-]+){0,7}?\s+for\b"
+        r"|\b(?:is|was|are|were)\s+(?:a|an)\s+[\w'-]+\s+for\b",
+        re.IGNORECASE,
+    )),
+    ("POSSUIR", re.compile(
+        r"\bhome\s+(?:ground|stadium|arena)\s+(?:is|was|are|were)\b",
+        re.IGNORECASE,
+    )),
+    ("VENCEU", re.compile(
+        r"\bwon\b|\bchampions?\s+of\b"
+        r"|\b(?:foi|é|era|vira)\s+(?:o\s+|a\s+)?campe[ãa]o\b",
+        re.IGNORECASE,
+    )),
+)
+
+# Segmentos de sujeito: vírgula/ponto-e-vírgula, fim de sentença (``Stadium. The
+# team's home ground...``) ou travessão espaçado.
+_SUBJ_SEGMENT_SPLIT_RE = re.compile(
+    r"\s*(?:,|;|(?<=\w)\.\s+(?=[A-ZÁÉÍÓÚÀÂÊÔÃÕ])|\s+[—–-]+)\s*"
+)
+# Corte de objeto: pontuação/parêntese — o complemento de frame é uma cláusula.
+_OBJ_CUT_RE = re.compile(r"[.,;:!?()\[\]]")
+# Corte "duro" (sem vírgula) para o candidato estendido: vírgula costuma
+# fechar o span (``..., named in honor of ...``), mas às vezes a localização
+# continua (``bairro X, na cidade do Rio de Janeiro``).
+_OBJ_CUT_HARD_RE = re.compile(r"[.!?;:()\[\]]")
+# Preposições/contracções iniciais de objeto: span_validator rejeita
+# ``object_prepositional_phrase`` quando começa por prep (ex.: ``da Taça...``).
+_OBJ_LEADING_PREP = frozenset({
+    "de", "do", "da", "dos", "das", "no", "na", "nos", "nas", "num", "numa",
+    "em", "por", "para", "com", "sem", "sob", "entre", "apos",
+    "in", "of", "for", "at", "on", "with", "by", "from", "to", "into", "over",
+    "after", "during", "between", "under", "near",
+})
+# Artigos EN internos ao sujeito (``Stadium The team's`` — heading colada).
+_EN_ARTICLES = frozenset({"the", "a", "an"})
+# Cauda preposicional + número/idade (``at age 15``, ``por 12 anos``).
+_OBJ_TAIL_RE = re.compile(
+    r"\s+(?:for|at|em|por|in|from|since|desde|during|between|no|na)"
+    r"\s+(?:\d|age\b|idade\b)",
+    re.IGNORECASE,
+)
+_POSSESSIVE_SUFFIX_RE = re.compile(r"['’]s$", re.IGNORECASE)
+
+
 @dataclass
 class Triple:
     subject: str
@@ -208,11 +317,20 @@ class EntityExtractor:
         "generates", "causes", "results", "connects", "has", "defines",
     }
 
-    def __init__(self, model: str = "pt_core_news_sm", enable_fallback: bool = True) -> None:
+    def __init__(
+        self,
+        model: str = "pt_core_news_sm",
+        enable_fallback: bool = True,
+        enable_nominal_copular: bool = True,
+    ) -> None:
         self.model_name = model
         self.enable_fallback = enable_fallback
+        self.enable_nominal_copular = enable_nominal_copular
         self._nlp = None
         self.rejection_reasons: collections.Counter = collections.Counter()
+        # #058.11.2 — gates do caminho nominal, separados de
+        # ``rejection_reasons`` (allowlist fixa em test_analyze_text).
+        self.nominal_gate_reasons: collections.Counter = collections.Counter()
         try:
             import spacy  # type: ignore
             self._nlp = spacy.load(model)
@@ -298,6 +416,380 @@ class EntityExtractor:
             return False
         return any(ch.isalpha() for ch in term)
 
+    # --- #058.11.2 (F1) — portas do caminho nominal/copular -----------------
+
+    _KNOWN_ENTITIES: Optional[frozenset[str]] = None
+    _ALIAS_PATTERN: Optional["re.Pattern[str]"] = None
+
+    def _known_entity_set(self) -> frozenset[str]:
+        """Whitelist do dicionário canônico (mesma do ``triple_refiner``)."""
+        if EntityExtractor._KNOWN_ENTITIES is None:
+            EntityExtractor._KNOWN_ENTITIES = _known_entities(SemanticCanonicalizer())
+        return EntityExtractor._KNOWN_ENTITIES
+
+    def _alias_pattern(self) -> Optional["re.Pattern[str]"]:
+        """Regex única de aliases para containment (``the Brazilian club Santos``)."""
+        if EntityExtractor._ALIAS_PATTERN is None:
+            aliases = sorted(
+                (a for a in self._known_entity_set() if len(a) >= 4 or " " in a),
+                key=len,
+                reverse=True,
+            )
+            if not aliases:
+                return None
+            EntityExtractor._ALIAS_PATTERN = re.compile(
+                r"\b(?:" + "|".join(re.escape(a) for a in aliases) + r")\b"
+            )
+        return EntityExtractor._ALIAS_PATTERN
+
+    def _entity_strength(self, span: str, predicate: str) -> str:
+        """``strong | generic | weak`` — gate anti-inflação (#058.11.2).
+
+        1) span inteiro no dicionário → forte; 2) containment de alias → forte
+        (exceto ``SER``, onde só o span canônico inteiro vale); 3) substantivo
+        genérico → ``generic``; 4) >= 2 tokens capitalizados → forte; senão
+        ``weak``.
+        """
+        folded = fold_span(span)
+        if not folded:
+            return "weak"
+        if folded in self._known_entity_set():
+            return "strong"
+        if predicate != "SER":
+            pattern = self._alias_pattern()
+            if pattern is not None and pattern.search(folded):
+                return "strong"
+        if any(token in _GENERIC_NOUNS for token in folded.split()):
+            return "generic"
+        # Span começando minúsculo (sem entidade conhecida/alias) nunca é
+        # forte: mata sujeito-invertido tipo ``second consecutive World Cup``.
+        span_tokens = span.split()
+        if span_tokens and span_tokens[0][:1].islower():
+            return "weak"
+        caps = sum(
+            1 for tok in span.split() if tok[:1].isalpha() and tok[:1].isupper()
+        )
+        return "strong" if caps >= 2 else "weak"
+
+    @staticmethod
+    def _trim_generic_prefix(text: str) -> str:
+        """Corta prefixo genérico até a entidade (``the Brazilian team Botafogo``)."""
+        tokens = text.split()
+        gen_idx = next(
+            (
+                i for i, tok in enumerate(tokens)
+                if tok.lower().strip(".,;:!?()") in _GENERIC_NOUNS
+            ),
+            None,
+        )
+        if gen_idx is None:
+            return text
+        for j in range(gen_idx + 1, len(tokens)):
+            tok = tokens[j]
+            if len(tok) > 1 and tok[:1].isalpha() and tok[:1].isupper():
+                return " ".join(tokens[j:])
+        return text
+
+    @classmethod
+    def _nominal_term_ok(cls, term: str) -> bool:
+        """Como ``_valid_term`` sem a assinatura de lista de links.
+
+        Objetos de frame são delimitados por pontuação (uma cláusula), então a
+        regra de "sopa de nomes próprios" aqui cortaria entidades legítimas de
+        4 tokens (``Estádio Olímpico Nilton Santos``).
+        """
+        if not term or len(term) < 3:
+            return False
+        if "|" in term:
+            return False
+        lowered = term.lower()
+        if any(marker in lowered for marker in cls.NOISE_MARKERS):
+            return False
+        tokens = term.split()
+        if len(tokens) > 5:
+            return False
+        if tokens[0].lower() in cls.PRONOUN_STARTS:
+            return False
+        # Inicial solta no início (``W Botafogo``, ``v Palmeiras``: tabelas/ placares)
+        first = tokens[0].strip(".,;:!?()'\u2019\"")
+        if first.isalnum() and len(first) == 1:
+            return False
+        # Dois+ tokens só-numérico (``Palmeiras 1 3 Serie``): resíduo de placar.
+        # Um token numérico continua ok (``2024 Copa Libertadores``).
+        if sum(1 for tok in tokens if tok.isdigit()) >= 2:
+            return False
+        return any(ch.isalpha() for ch in term)
+
+    def _rescue_known_entity(self, text: str) -> Optional[str]:
+        """Span inválido que contém entidade conhecida → usa a própria entidade.
+
+        Ex.: sujeito-atribuição ``João Saldanha em Histórias do Futebol
+        Garrincha`` (7 tokens, ``term_ok`` falso) → ``garrincha``. Só resgata
+        entidades da whitelist curada — nunca inventa termo.
+        """
+        pattern = self._alias_pattern()
+        if pattern is None or not text:
+            return None
+        match = pattern.search(fold_span(text))
+        return match.group(0) if match else None
+
+    def _finalize_nominal_subject(self, text: str, full_text: str, predicate: str) -> str:
+        """Sujeito final: posesivo, artigo interno, cauda verbal, topônimo."""
+        cleaned = _POSSESSIVE_SUFFIX_RE.sub("", (text or "").strip())
+        cleaned = strip_boundary_noise(cleaned)
+        # Heading colado: ``Stadium The team's`` → ``The team`` (corta o prefixo
+        # fraco antes do artigo; mantém quando o prefixo é entidade forte).
+        tokens = cleaned.split()
+        art_idx = next(
+            (
+                i for i, tok in enumerate(tokens)
+                if tok.lower().strip(".,;:!?()") in _EN_ARTICLES
+            ),
+            None,
+        )
+        if art_idx is not None and art_idx >= 1:
+            prefix = " ".join(tokens[:art_idx])
+            if self._entity_strength(prefix, predicate) != "strong":
+                cleaned = " ".join(tokens[art_idx:])
+                tokens = cleaned.split()
+        while tokens and tokens[-1].lower().strip(".,;:!?()") in _NOMINAL_SUBJ_TAILS:
+            tokens.pop()
+            cleaned = " ".join(tokens)
+        cleaned = rescue_truncated_toponym(cleaned.strip(), full_text)
+        return self._normalize_term(cleaned).strip()
+
+    def _clean_nominal_subject(self, prefix: str, predicate: str, full_text: str) -> str:
+        """Sujeito = texto anterior ao frame; segmento forte vence (último→primeiro)."""
+        text = re.sub(r"\s+", " ", (prefix or "")).strip()
+        if not text:
+            return ""
+        text = strip_boundary_noise(text)
+        segments = [
+            seg for seg in _SUBJ_SEGMENT_SPLIT_RE.split(text) if seg and seg.strip()
+        ]
+        if len(segments) > 1:
+            chosen = segments[-1].strip()
+            for seg in reversed(segments):
+                candidate = self._finalize_nominal_subject(seg, full_text, predicate)
+                if candidate and self._entity_strength(candidate, predicate) == "strong":
+                    chosen = seg.strip()
+                    break
+            text = chosen
+        return self._finalize_nominal_subject(text, full_text, predicate)
+
+    def _clean_nominal_object(self, suffix: str, predicate: str, full_text: str,
+                              hard_cut: bool = False) -> str:
+        """Objeto = complemento do frame; corte em pontuação/cauda preposicional."""
+        text = re.sub(r"\s+", " ", (suffix or "")).strip()
+        if not text:
+            return ""
+        cut = (_OBJ_CUT_HARD_RE if hard_cut else _OBJ_CUT_RE).search(text)
+        if cut:
+            text = text[:cut.start()]
+        if hard_cut:
+            # Vírgula espaçada (wikitext) é orfa — ``Noroeste , de Bauru`` →
+            # ``Noroeste de Bauru``. Vírgula colada (``bairro, na cidade``)
+            # é cadeia de localização e fica intacta.
+            text = re.sub(r"\s,\s", " ", text)
+        cut = _OBJ_TAIL_RE.search(text)
+        if cut:
+            text = text[:cut.start()]
+        text = text.strip()
+        if not text:
+            return ""
+        tokens = text.split()
+        while tokens and tokens[0].lower().strip(".,;:!?()") in _OBJ_LEADING_PREP:
+            tokens.pop(0)
+        text = " ".join(tokens)
+        if not text:
+            return ""
+        if predicate != "SER":
+            text = self._trim_generic_prefix(text)
+        text = strip_boundary_noise(text)
+        text = rescue_truncated_toponym(text.strip(), full_text)
+        return self._normalize_term(text).strip()
+
+    def _build_nominal_triple(
+        self, subject: str, obj: str, predicate: str
+    ) -> Optional[Triple]:
+        """Aplica os gates de entidade e constrói a tripla nominal (ou ``None``)."""
+        if not subject or not obj:
+            self.nominal_gate_reasons["nominal_empty_span"] += 1
+            return None
+        if is_function_word_span(subject) or is_function_word_span(obj):
+            self.nominal_gate_reasons["nominal_function_word_span"] += 1
+            return None
+        if not self._nominal_term_ok(subject):
+            rescued = self._rescue_known_entity(subject)
+            if rescued:
+                subject = rescued
+                self.nominal_gate_reasons["nominal_subject_rescued"] += 1
+            else:
+                self.nominal_gate_reasons["nominal_invalid_term"] += 1
+                return None
+        if not self._nominal_term_ok(obj):
+            rescued = self._rescue_known_entity(obj)
+            if rescued:
+                obj = rescued
+                self.nominal_gate_reasons["nominal_object_rescued"] += 1
+            else:
+                self.nominal_gate_reasons["nominal_invalid_term"] += 1
+                return None
+        obj_strength = self._entity_strength(obj, predicate)
+        if obj_strength == "generic":
+            self.nominal_gate_reasons["nominal_object_generic"] += 1
+            return None
+        if obj_strength != "strong":
+            self.nominal_gate_reasons["nominal_object_weak"] += 1
+            return None
+        subj_strength = self._entity_strength(subject, predicate)
+        if subj_strength == "weak":
+            self.nominal_gate_reasons["nominal_subject_weak"] += 1
+            return None
+        if subj_strength == "generic" and predicate == "SER":
+            self.nominal_gate_reasons["nominal_generic_subject_ser"] += 1
+            return None
+        return Triple(
+            subject=subject,
+            predicate=predicate,
+            object=obj,
+            confidence=self._confidence_for(subject, obj, predicate),
+        )
+
+    def _nominal_from_frames(self, text: str, full_text: str) -> tuple[Optional[Triple], bool]:
+        """Frames regex no texto da sentença. Retorna ``(tripla, algum_frame_casou)``.
+
+        Objeto tem dois candidatos: corte na primeira pontuação (padrão) e
+        corte só em fim de frase (``hard_cut``) — o segundo só é tentado quando
+        o primeiro reprova nos gates (ex.: localização que continua após
+        vírgula). Em sucesso, os contadores do candidato reprovado são
+        desfeitos (só contam rejeições definitivas).
+        """
+        matched = False
+        for predicate, pattern in _NOMINAL_FRAMES:
+            match = pattern.search(text)
+            if match is None:
+                continue
+            matched = True
+            subject = self._clean_nominal_subject(
+                text[:match.start()], predicate, full_text
+            )
+            suffix = text[match.end():]
+            counters_before = dict(self.nominal_gate_reasons)
+            obj = self._clean_nominal_object(suffix, predicate, full_text)
+            triple = self._build_nominal_triple(subject, obj, predicate)
+            if triple is None:
+                obj_hard = self._clean_nominal_object(
+                    suffix, predicate, full_text, hard_cut=True
+                )
+                if obj_hard != obj:
+                    triple = self._build_nominal_triple(
+                        subject, obj_hard, predicate
+                    )
+            if triple is not None:
+                self.nominal_gate_reasons.clear()
+                self.nominal_gate_reasons.update(counters_before)
+                return triple, True
+        return None, matched
+
+    def _dep_ser_triple(self, sent, full_text: str) -> tuple[Optional[Triple], bool]:
+        """dep-SER PT: root NOUN/PROPN + ``cop`` (forms PT) + ``nsubj``.
+
+        Segundo elemento: ``True`` se o caminho foi estruturalmente aplicável
+        (root + cop) — usado para não contar ``nominal_no_pattern`` quando o
+        gate, e não o padrão, rejeitou.
+        """
+        root = next((t for t in sent if t.dep_ == "ROOT"), None)
+        if root is None or root.pos_ not in ("NOUN", "PROPN"):
+            return None, False
+        cop = next(
+            (
+                c for c in root.children
+                if c.dep_ == "cop" and c.text.lower() in _PT_COPULA_FORMS
+            ),
+            None,
+        )
+        if cop is None:
+            return None, False
+        subj_tok = next(
+            (c for c in root.children if c.dep_ in ("nsubj", "nsubj:pass")), None
+        )
+        if subj_tok is None:
+            self.nominal_gate_reasons["nominal_dep_ser_no_subject"] += 1
+            return None, True
+        subject = self._finalize_nominal_subject(
+            self._phrase_text(subj_tok), full_text, "SER"
+        )
+        skip = {subj_tok.i, cop.i}
+        obj_parts: list[str] = []
+        for tok in root.subtree:
+            if tok.i < root.i or tok.i in skip:
+                continue
+            if tok.is_punct or tok.is_space:
+                break
+            obj_parts.append(tok.text)
+        obj = self._clean_nominal_object(" ".join(obj_parts), "SER", full_text)
+        return self._build_nominal_triple(subject, obj, "SER"), True
+
+    def _extract_nominal_copular(self, sent, full_text: str) -> Optional[Triple]:
+        """Tenta frames e dep-SER numa sentença em que o caminho verbal falhou."""
+        text = re.sub(r"\s+", " ", sent.text).strip()
+        # O modelo PT quebra sentença no possessivo EN ("Botafogo" | "'s home
+        # ground is ..."); cola o token anterior quando não há pontuação entre.
+        if text.startswith(("'s", "’s")) and sent.start > 0:
+            prev = sent.doc[sent.start - 1]
+            if not prev.is_punct and prev.text.strip():
+                text = f"{prev.text} {text}"
+        if not text:
+            return None
+        triple, matched = self._nominal_from_frames(text, full_text)
+        if triple is not None:
+            return triple
+        triple, dep_applicable = self._dep_ser_triple(sent, full_text)
+        if triple is not None:
+            return triple
+        if not matched and not dep_applicable:
+            self.nominal_gate_reasons["nominal_no_pattern"] += 1
+        return None
+
+    def _extract_verbal_sentence(self, sent, text: str) -> Optional[Triple]:
+        """Caminho verbal original de ``extract_spacy`` (root VERB/AUX)."""
+        root = next((t for t in sent if t.dep_ == "ROOT"), None)
+        if root is None or root.pos_ not in ("VERB", "AUX"):
+            return None
+        predicate, predicate_reason = validate_predicate(root.lemma_)
+        if predicate_reason in INVALID_PREDICATE_REASONS:
+            self.rejection_reasons[predicate_reason] += 1
+            return None
+        if predicate is None:
+            predicate = root.lemma_.strip().upper()
+        subj_tok = next(
+            (c for c in root.children if c.dep_ in ("nsubj", "nsubj:pass")), None
+        )
+        obj_tok = next(
+            (
+                c for c in root.children
+                if c.dep_ in ("obj", "dobj", "iobj", "attr", "obl", "xcomp")
+            ),
+            None,
+        )
+        if subj_tok is None or obj_tok is None:
+            return None
+        subject = self._normalize_term(strip_boundary_noise(self._phrase_text(subj_tok)))
+        obj = self._normalize_term(strip_boundary_noise(self._phrase_text(obj_tok)))
+        subject = rescue_truncated_toponym(subject, text)
+        obj = rescue_truncated_toponym(obj, text)
+        if is_function_word_span(subject) or is_function_word_span(obj):
+            return None
+        if not self._valid_term(subject) or not self._valid_term(obj):
+            return None
+        return Triple(
+            subject=subject,
+            predicate=predicate,
+            object=obj,
+            confidence=self._confidence_for(subject, obj, predicate),
+        )
+
     def extract_spacy(self, text: str, max_triples: int = 25) -> list[Triple]:
         if self._nlp is None:
             return []
@@ -308,41 +800,30 @@ class EntityExtractor:
             # árvore de decisão — a regra de root VERB/AUX abaixo não muda.
             if not is_propositional_sentence(sent.text):
                 continue
-            root = next((t for t in sent if t.dep_ == "ROOT"), None)
-            if root is None or root.pos_ not in ("VERB", "AUX"):
+            # #058.11.2 (F1): por sentença, verbal primeiro; se falhar e a flag
+            # estiver ligada, tenta nominal (frames/dep-SER). Interleaved na
+            # ordem do documento: sentenças-alvo tardias não esgotam o cap com
+            # triplas verbais antes (a 2ª passada global nunca tinha slot).
+            # Com a flag desligada o fluxo é byte-idêntico ao pré-F1 (verbal
+            # append verbatim, sem dedup, como o HEAD).
+            triple = self._extract_verbal_sentence(sent, text)
+            if triple is None and self.enable_nominal_copular:
+                triple = self._extract_nominal_copular(sent, text)
+                if triple is not None:
+                    key = (
+                        triple.subject.casefold(),
+                        triple.predicate.casefold(),
+                        triple.object.casefold(),
+                    )
+                    existing = {
+                        (t.subject.casefold(), t.predicate.casefold(), t.object.casefold())
+                        for t in triples
+                    }
+                    if key in existing:
+                        continue
+            if triple is None:
                 continue
-            predicate, predicate_reason = validate_predicate(root.lemma_)
-            if predicate_reason in INVALID_PREDICATE_REASONS:
-                self.rejection_reasons[predicate_reason] += 1
-                continue
-            if predicate is None:
-                predicate = root.lemma_.strip().upper()
-            subj_tok = next(
-                (c for c in root.children if c.dep_ in ("nsubj", "nsubj:pass")), None
-            )
-            obj_tok = next(
-                (
-                    c for c in root.children
-                    if c.dep_ in ("obj", "dobj", "iobj", "attr", "obl", "xcomp")
-                ),
-                None,
-            )
-            if subj_tok is None or obj_tok is None:
-                continue
-            subject = self._normalize_term(strip_boundary_noise(self._phrase_text(subj_tok)))
-            obj = self._normalize_term(strip_boundary_noise(self._phrase_text(obj_tok)))
-            subject = rescue_truncated_toponym(subject, text)
-            obj = rescue_truncated_toponym(obj, text)
-            if is_function_word_span(subject) or is_function_word_span(obj):
-                continue
-            if not self._valid_term(subject) or not self._valid_term(obj):
-                continue
-            triples.append(Triple(
-                subject=subject,
-                predicate=predicate,
-                object=obj,
-                confidence=self._confidence_for(subject, obj, predicate),
-            ))
+            triples.append(triple)
             if len(triples) >= max_triples:
                 break
         return triples

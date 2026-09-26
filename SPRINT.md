@@ -1887,3 +1887,78 @@ artefatos de parse EN-model-PT (`root=At/When/played`).
 - `-ed`/`-ing`/`-ando` genéricos deixam passar junk com dígitos
   (`Related`, `Fernando`) — deliberado no F3 para não bloquear
   `impressed/related` legítimos; reavaliar só com evidência nova.
+
+## #058.11.2 — F1: extração nominal/copular gateada (extração)
+
+**Status:** ✅ implementada + **dry-run GO** (decisão do operador: gates
+`ser_share` + validação dupla de entidade; sem treino, seeds intocados).
+
+### O que mudou
+
+- **`src/cognition/extractor.py`** — flag `enable_nominal_copular` (default
+  `False`; off = byte-idêntico ao pré-F1):
+  - **interleaved por sentença** em `extract_spacy`: verbal primeiro, se
+    falhar e flag ligada → nominal (`_extract_nominal_copular`); resolve a
+    starvation de cap (a 2ª passada global nunca tinha slot nas páginas
+    25→25) sem reintroduzir duplos (dedup `casefold` só p/ triplas nominais);
+  - frames regex `_NOMINAL_FRAMES`: POSSUIR (`home ground/estádio é…`),
+    LOCALIZADO_EM (`is based in`, `com sede em`, `fica em`), DEFENDEU
+    (`played/atuou/jogou … for`), VENCEU (`won/conquistou`, `foi campeão`);
+  - dep-SER (`root AUX/VERB` com `cop`/`nsubj`) + possessive-glue;
+  - **gates anti-inflação**: `_nominal_term_ok` (1 letra inicial, ≥2 dígitos),
+    `is_function_word_span`, `_entity_strength` (conhecido → alias →
+    genérico → **span minúsculo = weak** → ≥2 caps), `generic` proibido em
+    objeto, `SER` só com sujeito não-genérico;
+  - **known-entity rescue**: span inválido com entidade da whitelist vira a
+    entidade (`nominal_subject_rescued`/`nominal_object_rescued`);
+  - limpeza: split em `.`+Maiúsc, artigo interno EN (`Stadium The team's`),
+    cauda verbal (`_NOMINAL_SUBJ_TAILS`), corte de objeto em pontuação +
+    **hard-cut** com vírgula espaçada re-junta (`Noroeste , de Bauru` →
+    `Noroeste de Bauru`), strip de prep inicial (`da Taça…`);
+  - contadores `nominal_gate_reasons` restaurados em sucesso de frame
+    (sem double-count) e **`rejection_reasons` verbal intocado**.
+- **`tests/test_nominal_copular_extraction.py`** — 40 testes (ACCEPTED 9,
+  REJECTED 6, gates, contadores, flag-off, refine canônico, integração
+  `extract_spacy`).
+- **`scripts/audit_nominal_copular_dry_run.py`** — dry-run de 10 gates com
+  corpus único (`gap.fetch_all` + `clean_html`), cap de produção (25),
+  anti-leak no JSON, pipeline note do `pt_regression` (verbal-first por
+  sentença, corpus fixo).
+
+### DoD (commit 2)
+
+- `python -m pytest -q` → **437 passed, 18 skipped**; venv spaCy → **453
+  passed** + 1 falha pré-existente (`test_validator_does_not_import…`);
+- `git diff -- requirements* .github/workflows/ config/ src/cognition/{span_validator,predicate_mapper,canonicalizer,triple_refiner}.py`
+  → **vazio**; staging explícito; anti-leak OK;
+- **dry-run 10/10 gates PASS** (`reports/nominal_copular_dry_run_058_11_2.json`):
+  `new_triples=16`, `target_fact_hits=4`, `ser_share_after=0.359`
+  (**−4.1 p.p.** vs before), `generic_objects_rejected=37`,
+  `clause_like_residual=0`, `pt_regression=false`,
+  `top_invalid_predicates=[]`, `canonical_to_fact_gap=0`,
+  `unaccounted_raw=0`;
+- commit `feat(cognition): add gated nominal copular extraction for
+  entity-bearing relations`.
+
+### Resultado do dry-run (10 casos, gates do operador)
+
+| Métrica | valor | gate |
+|---|---|---|
+| triplas novas (raw = canônico) | 16 / 16 | > 0 ✓ |
+| fatos-alvo novos (canônicos) | **4** (C3, C6, C9, C10) | > 0 ✓ |
+| `ser_share` after / delta | 0.359 / **−4.1 p.p.** | ≤ 0.84 e ≤ +3 p.p. ✓ |
+| garbage residual (classe `'W Botafogo'`/`'Noroeste , de'`) | **0** | subjetivo ✓ |
+
+Cobertura honesta dos 10 casos: **3/4 fatos-alvo únicos** (Libertadores ✓,
+Pelé→Santos ✓, Garrincha→Botafogo ✓). **Botafogo→Rio = 0**: única sentença
+com local (lead) é `noise_marker` do F3 (filtro congelado, correto) e
+`rio de janeiro` não está na whitelist — sem overfit de página. **C4 BBC**
+(`clinched`, `copa libertadores` fora da whitelist), **C5** (objeto
+`título brasileiro` genérico → rejeitado pelo gate), **C7** (tripla existe
+mas morre no sparse-band merge congelado do #048.8), **C8** (phrasings não
+batem frames) = 0 por decisão honesta; reportados, não "consertados".
+
+### Próximo (após CI verde)
+
+Worker manual único de ingestão → medir `duplicate_cross_domain` /
+`verified_facts` → decidir cenário A/B/C (#048.5).
