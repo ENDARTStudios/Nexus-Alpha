@@ -1896,7 +1896,8 @@ artefatos de parse EN-model-PT (`root=At/When/played`).
 ### O que mudou
 
 - **`src/cognition/extractor.py`** — flag `enable_nominal_copular` (default
-  `False`; off = byte-idêntico ao pré-F1):
+  `True` no construtor — worker já nasce com F1 ativo; `False` explícito =
+  byte-idêntico ao pré-F1):
   - **interleaved por sentença** em `extract_spacy`: verbal primeiro, se
     falhar e flag ligada → nominal (`_extract_nominal_copular`); resolve a
     starvation de cap (a 2ª passada global nunca tinha slot nas páginas
