@@ -207,3 +207,16 @@ def test_multi_club_honours_clusters_present_and_valid():
         assert len(publishers) >= 2, cid
         assert "RSSSF" in publishers, cid
         assert any("wikipedia" not in p.lower() for p in publishers), cid
+
+
+def test_pele_santos_third_source_defendeu():
+    """#059C — cluster pele_santos inclui a terceira fonte independente (RSSSF Brasil)."""
+    cluster = next(c for c in _data()["clusters"] if c["id"] == "pele_santos")
+    urls = [s["url"] for s in cluster["sources"]]
+    assert "https://www.rsssfbrasil.com/sel/jogclub.htm" in urls
+    domains = {s["domain"] for s in cluster["sources"]}
+    assert "rsssfbrasil.com" in domains
+    assert len(domains) >= 3
+    rsssf = next(s for s in cluster["sources"] if s["domain"] == "rsssfbrasil.com")
+    assert rsssf["url"].startswith("https://")
+    assert rsssf["publisher"] == "RSSSF Brasil"

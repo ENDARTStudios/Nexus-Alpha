@@ -72,6 +72,10 @@ clusters:
         domain: santosfc.com.br
         publisher: Santos FC
         productivity: unproductive  # 200, mas 0 triplas canônicas
+      - url: https://www.rsssfbrasil.com/sel/jogclub.htm
+        domain: rsssfbrasil.com
+        publisher: RSSSF Brasil
+        productivity: productive  # #059C: club-context player records (Pelé 112 jogos como jogador do Santos)
 
   - id: garrincha_botafogo
     topic: "Garrincha e o Botafogo"
