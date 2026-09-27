@@ -2404,3 +2404,45 @@ Divergência de definição registrada: a auditoria `confs>=3 AND doms>=2` dá 1
 
 ### Próximo passo
 **#059C** (terceira fonte estática INDEPENDENTE não-Wikimedia p/ player-club DEFENDEU) + **#053** (independência por publisher) + **#055** (Almanaque com licença). **Não treinar**; quórum 3.
+
+## #059C — Third independent source atlas for DEFENDEU
+
+**Status:** DONE — **Cenário A (DEFENDEU destravado)** — **Commits:** `1accf09` (runtime), `1ec1c91` (seeds), `b109dbe` (security) + este (docs/reports) — **CI:** verde — **Snapshot:** `reports/aura_snapshot_pre_048_10C.json` — **Worker run:** `36354572850` (success).
+
+### Hipótese vencedora
+**H1 — club-context player records**: `rsssfbrasil.com/sel/jogclub.htm` ("jogadores cedidos ... **como jogador do CLUBE**"). Padrão controlado `NOME (N jogos ... como jogador do CLUBE)` → `JOGADOR --DEFENDEU--> CLUBE`.
+
+Atlas (`reports/defendeu_third_source_atlas_059c.json`):
+| Fato | domínios | collision |
+|---|---|---|
+| PELÉ→SANTOS | pt.wiki + en.wiki + **rsssfbrasil.com** | **full_collision** |
+| GARRINCHA→BOTAFOGO | pt.wiki + en.wiki | partial (rsssfbrasil não cita Garrincha) |
+| JAIRZINHO→BOTAFOGO | rsssfbrasil.com | (só 1 domínio) |
+
+### O que mudou
+- **`table_extractor.py`**: `extract_player_club_from_html` (schema `club_context_player_records`, allowlists jogador/clube, anos nunca objeto); `is_honours_url` cobre a URL; wiring em `enrich_payload_with_tables`. +8 testes.
+- **`config/seed_clusters.yaml`**: `rsssfbrasil.com/sel/jogclub.htm` no cluster `pele_santos` (+1 domínio).
+- **`security_protocol.py`**: `rsssf.org`/`rsssfbrasil.com` em `REPUTABLE_PUBLISHERS` (sem isso, `.com` = score 0.60 → quarentena).
+
+### Métricas
+| Métrica | Antes | Depois | Delta |
+|---|---:|---:|---:|
+| verified_facts_domain_independent (canônico) | 10 | **11** | **+1** |
+| facts_with_three_or_more_domains | 10 | **11** | +1 |
+| duplicate_cross_domain | 12 | 12 | 0 |
+| records_total (export) | 10 | **11** | +1 |
+| unique_predicates | 1 | **2** (VENCEU, DEFENDEU) | +1 |
+| unique_objects | 2 | 3 | +1 |
+| unique_subjects | 7 | 8 | +1 |
+| unique_publishers | 2 | **3** (Wikimedia, RSSSF, RSSSF Brasil) | +1 |
+| non_VENCEU_ratio | 0.0 | **0.09** | +0.09 |
+| facts | 328 | 335 | +7 |
+
+### Classificação
+**Cenário A — DEFENDEU verificado destravado**: `verified > 10` (11), `non_VENCEU_ratio > 0`, `unique_predicates >= 2`, e **1 fato DEFENDEU verificado por 3 domínios** (`PELÉ --DEFENDEU--> SANTOS FUTEBOL CLUBE`, confs=4, domínios pt/en/rsssfbrasil).
+
+### Limitação editorial (#053)
+`publisher_independence_gate` = true (3 publishers) **mas** `rsssf.org`/`rsssfbrasil.com` podem ser a mesma família editorial (RSSSF). Registrado; métrica não alterada. `diversity_gate` ainda falso (records 11 < 50; non_VENCEU 0.09 < 0.30).
+
+### Próximo passo
+**#048.10D** — escalar DEFENDEU para mais jogadores/clubes com o mesmo padrão (H1 club-context; ex.: incluir mais páginas RSSSF Brasil / competições), rumo a records ≥ 50 e diversidade. **Não treinar** (records<50, diversity fail, ambiente). Quórum 3.

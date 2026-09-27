@@ -1,0 +1,99 @@
+{
+  "audit_id": "training_dataset_export_summary_060",
+  "generated_at": "2026-09-27T22:19:16.131113+00:00",
+  "export_command": "python scripts/train_lora.py export --source graph --limit 100 --out-dir .autonomous/training/dataset --dataset-name verified_candidate",
+  "dataset_paths": [
+    "D:\\PROJETOS\\Nexus-Alpha\\.autonomous\\training\\dataset\\verified_candidate.jsonl"
+  ],
+  "verified_only": true,
+  "records_total": 11,
+  "records_valid_json": 10,
+  "records_invalid_json": 0,
+  "records_empty_output": 0,
+  "records_duplicate_exact": 0,
+  "records_with_provenance": 11,
+  "records_from_demo_memory": 0,
+  "records_from_fallback": 0,
+  "records_with_date_object": 0,
+  "records_with_generic_object": 0,
+  "records_with_clause_object": 0,
+  "unique_fact_hashes": 11,
+  "unique_subjects": 8,
+  "unique_predicates": 2,
+  "unique_objects": 3,
+  "unique_domains": 4,
+  "unique_publishers": 3,
+  "predicate_distribution": {
+    "VENCEU": 10,
+    "DEFENDEU": 1
+  },
+  "object_distribution": {
+    "CAMPEONATO BRASILEIRO SERIE A": 3,
+    "COPA LIBERTADORES": 7,
+    "SANTOS FUTEBOL CLUBE": 1
+  },
+  "subject_distribution": {
+    "BOTAFOGO DE FUTEBOL E REGATAS": 2,
+    "CLUBE DE REGATAS DO FLAMENGO": 1,
+    "EDSON ARANTES DO NASCIMENTO": 1,
+    "GREMIO FOOT BALL PORTO ALEGRENSE": 1,
+    "SANTOS FUTEBOL CLUBE": 1,
+    "SOCIEDADE ESPORTIVA PALMEIRAS": 2,
+    "SPORT CLUBE INTERNACIONAL": 1,
+    "SÃO PAULO FUTEBOL CLUBE": 2
+  },
+  "domain_distribution": {
+    "pt.wikipedia.org": 11,
+    "en.wikipedia.org": 11,
+    "rsssf.org": 10,
+    "rsssfbrasil.com": 1
+  },
+  "publisher_distribution": {
+    "Wikimedia": 22,
+    "RSSSF": 10,
+    "rsssfbrasil.com": 1
+  },
+  "source_type_distribution": {
+    "table": 11
+  },
+  "language_distribution": {
+    "mixed_pt_en": 11
+  },
+  "avg_instruction_chars": 115.3,
+  "avg_output_chars": 113.3,
+  "max_output_chars": 124,
+  "secret_scan_clean": true,
+  "schema_valid": true,
+  "jsonl": {
+    "exists": true,
+    "lines": 10,
+    "valid": 10,
+    "invalid": 0,
+    "empty_output": 0,
+    "keys": {
+      "instruction": 10,
+      "input": 10,
+      "output": 10
+    },
+    "secrets": 0
+  },
+  "diversity": {
+    "non_venceu_ratio": 0.0909,
+    "top_predicate_share": 0.9091,
+    "top_object_share": 0.6364,
+    "diversity_ok": false,
+    "cause": "monoculture_predicate"
+  },
+  "publisher_independence": {
+    "unique_publishers": 3,
+    "records_with_publisher_count_ge_3": 0,
+    "ratio_records_with_publisher_count_ge_3": 0.0,
+    "publisher_independence_ok": true
+  },
+  "records_gate_passed": false,
+  "blocking_reasons": [
+    "BLOCKED_RECORDS_INSUFFICIENT",
+    "DIVERSITY_GATE_FAILED",
+    "TRAINING_BLOCKED_ENVIRONMENT"
+  ]
+}

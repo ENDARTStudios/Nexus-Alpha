@@ -1,0 +1,548 @@
+{
+  "audit_id": "entity_linking_audit_2026-09-27",
+  "generated_at": "2026-09-27T22:19:27.645354+00:00",
+  "build_space_commit": "b109dbe",
+  "worker_run_id": "36354572850",
+  "quorum": 3,
+  "facts_total": 335,
+  "domains_total": 15,
+  "domain_coverage": {
+    "facts_total": 335,
+    "domains_total": 15,
+    "facts_by_domain": {
+      "en.wikipedia.org": 128,
+      "pt.wikipedia.org": 124,
+      "paperswithcode.com": 11,
+      "plato.stanford.edu": 11,
+      "ollama.com": 9,
+      "ibm.com": 8,
+      "scikit-learn.org": 8,
+      "rsssfbrasil.com": 7,
+      "geeksforgeeks.org": 4,
+      "tensorflow.org": 4,
+      "nist.gov": 2,
+      "rsssf.org": 2,
+      "santosfc.com.br": 2,
+      "spectrum.ieee.org": 2,
+      "huggingface.co": 1
+    },
+    "facts_with_one_domain": 323,
+    "facts_with_two_or_more_domains": 12
+  },
+  "candidate_pairs": {
+    "high": 0,
+    "medium": 23,
+    "low": 22
+  },
+  "potential_verified_if_high_aliasing": 0,
+  "potential_verified_if_medium_aliasing": 2,
+  "mismatch_types": {
+    "subject_variant": 18,
+    "object_variant": 9,
+    "predicate_variant": 0,
+    "true_unique": 308
+  },
+  "examples": [
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "all located in|SER|sao paulo",
+        "subject": "ALL LOCATED IN",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "julio casares|SER|sao paulo",
+        "subject": "JULIO CASARES",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "along with|SER|sao paulo",
+        "subject": "ALONG WITH",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "julio casares|SER|sao paulo",
+        "subject": "JULIO CASARES",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "americano moved to|SER|sao paulo",
+        "subject": "AMERICANO MOVED TO",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "julio casares|SER|sao paulo",
+        "subject": "JULIO CASARES",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "associacao atletica das palmeiras of|SER|sao paulo",
+        "subject": "ASSOCIACAO ATLETICA DAS PALMEIRAS OF",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "julio casares|SER|sao paulo",
+        "subject": "JULIO CASARES",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "black socks|SER|born",
+        "subject": "BLACK SOCKS",
+        "predicate": "SER",
+        "object": "BORN",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "long before turing|SER|born",
+        "subject": "LONG BEFORE TURING",
+        "predicate": "SER",
+        "object": "BORN",
+        "domains": [
+          "plato.stanford.edu"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "champion|SER|born",
+        "subject": "CHAMPION",
+        "predicate": "SER",
+        "object": "BORN",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "long before turing|SER|born",
+        "subject": "LONG BEFORE TURING",
+        "predicate": "SER",
+        "object": "BORN",
+        "domains": [
+          "plato.stanford.edu"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "city rivals|SER|sao paulo",
+        "subject": "CITY RIVALS",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "julio casares|SER|sao paulo",
+        "subject": "JULIO CASARES",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "craque consolidado por praticamente toda|DEFENDEU|botafogo de futebol e regatas",
+        "subject": "CRAQUE CONSOLIDADO POR PRATICAMENTE TODA",
+        "predicate": "DEFENDEU",
+        "object": "BOTAFOGO DE FUTEBOL E REGATAS",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "jairzinho|DEFENDEU|botafogo de futebol e regatas",
+        "subject": "JAIRZINHO",
+        "predicate": "DEFENDEU",
+        "object": "BOTAFOGO DE FUTEBOL E REGATAS",
+        "domains": [
+          "rsssfbrasil.com"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "five against|SER|sao paulo",
+        "subject": "FIVE AGAINST",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "julio casares|SER|sao paulo",
+        "subject": "JULIO CASARES",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "object_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "gremio|POSSUIR|dois centros de treinamento",
+        "subject": "GREMIO",
+        "predicate": "POSSUIR",
+        "object": "DOIS CENTROS DE TREINAMENTO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "gremio|POSSUIR|won 1 intercontinental cup",
+        "subject": "GREMIO",
+        "predicate": "POSSUIR",
+        "object": "WON 1 INTERCONTINENTAL CUP",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "object_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "gremio|POSSUIR|dois centros de treinamento",
+        "subject": "GREMIO",
+        "predicate": "POSSUIR",
+        "object": "DOIS CENTROS DE TREINAMENTO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "gremio|POSSUIR|won 44 campeonato gaucho",
+        "subject": "GREMIO",
+        "predicate": "POSSUIR",
+        "object": "WON 44 CAMPEONATO GAUCHO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "industrial port city located near|SER|sao paulo",
+        "subject": "INDUSTRIAL PORT CITY LOCATED NEAR",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "julio casares|SER|sao paulo",
+        "subject": "JULIO CASARES",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "jairzinho|DEFENDEU|botafogo de futebol e regatas",
+        "subject": "JAIRZINHO",
+        "predicate": "DEFENDEU",
+        "object": "BOTAFOGO DE FUTEBOL E REGATAS",
+        "domains": [
+          "rsssfbrasil.com"
+        ]
+      },
+      "right": {
+        "fact_hash": "manuel francisco dos santos|DEFENDEU|botafogo de futebol e regatas",
+        "subject": "MANUEL FRANCISCO DOS SANTOS",
+        "predicate": "DEFENDEU",
+        "object": "BOTAFOGO DE FUTEBOL E REGATAS",
+        "domains": [
+          "en.wikipedia.org",
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "julio casares|SER|sao paulo",
+        "subject": "JULIO CASARES",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "only one point ahead of|SER|sao paulo",
+        "subject": "ONLY ONE POINT AHEAD OF",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "julio casares|SER|sao paulo",
+        "subject": "JULIO CASARES",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "sport they learned to practice in|SER|sao paulo",
+        "subject": "SPORT THEY LEARNED TO PRACTICE IN",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "julio casares|SER|sao paulo",
+        "subject": "JULIO CASARES",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "tele santana left|SER|sao paulo",
+        "subject": "TELE SANTANA LEFT",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "julio casares|SER|sao paulo",
+        "subject": "JULIO CASARES",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "time champions of|SER|sao paulo",
+        "subject": "TIME CHAMPIONS OF",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "object_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "manuel francisco dos santos|SER|incredible player",
+        "subject": "MANUEL FRANCISCO DOS SANTOS",
+        "predicate": "SER",
+        "object": "INCREDIBLE PLAYER",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "manuel francisco dos santos|SER|santos futebol clube",
+        "subject": "MANUEL FRANCISCO DOS SANTOS",
+        "predicate": "SER",
+        "object": "SANTOS FUTEBOL CLUBE",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "object_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "santos futebol clube|VENCEU|campeonato brasileiro serie a",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "CAMPEONATO BRASILEIRO SERIE A",
+        "domains": [
+          "rsssf.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "santos futebol clube|VENCEU|edson arantes do nascimento",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "EDSON ARANTES DO NASCIMENTO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "object_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "santos futebol clube|VENCEU|campeonato brasileiro serie a",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "CAMPEONATO BRASILEIRO SERIE A",
+        "domains": [
+          "rsssf.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "santos futebol clube|VENCEU|rio sao paulo",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "RIO SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    }
+  ],
+  "promote_automatically": false,
+  "parameters": {
+    "quorum": 3,
+    "high": 0.85,
+    "medium": 0.6,
+    "max_examples": 20,
+    "domains_require_disjoint": true,
+    "mismatch_types_scope": "fact_level_best_candidate_high_or_medium",
+    "qdrant_used": false
+  },
+  "truthfulness_note": {
+    "read_only": true,
+    "promote_automatically": false,
+    "qdrant_ignored": true,
+    "does_not_change_quorum_or_confirmacoes": true,
+    "medium_is_upper_bound": true,
+    "medium_does_not_imply_safe_aliasing": true,
+    "only_high_is_recommended_for_curated_alias_review": true,
+    "note": "Read-only; NAO promove fato, NAO altera confirmacoes/quorum, NAO usa Qdrant. medium e limite superior teorico; apenas high alimenta revisao de alias curado."
+  }
+}
