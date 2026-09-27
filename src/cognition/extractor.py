@@ -307,6 +307,49 @@ class Triple:
         return asdict(self)
 
 
+# #048.10B — target-aware selection (DEFENDEU jogador->clube). Frases com
+# jogador+clube+indício de defesa ganham prioridade antes do cap de triplas,
+# evitando truncamento de fatos-alvo em páginas longas. Escopo conservador.
+_TARGET_PLAYER_TOKENS: tuple[str, ...] = (
+    "garrincha", "manuel francisco dos santos", "pelé", "pele", "edson arantes",
+    "nilton santos", "nílton santos", "didi", "jairzinho", "heleno de freitas",
+)
+_TARGET_CLUB_TOKENS: tuple[str, ...] = (
+    "botafogo", "santos futebol clube", "santos fc", "santos",
+)
+_TARGET_DEFENCE_RE = re.compile(
+    r"\b(defendeu|jogou|atuou|vestiu a camisa|foi atleta|played for|represented|"
+    r"appeared for|was a player)\b",
+    re.IGNORECASE,
+)
+
+
+def _is_target_player_club_sentence(text: str) -> bool:
+    """Sentença candidata a ``JOGADOR --DEFENDEU--> CLUBE`` (target-aware)."""
+    low = text.casefold()
+    has_player = any(tok in low for tok in _TARGET_PLAYER_TOKENS)
+    has_club = any(tok in low for tok in _TARGET_CLUB_TOKENS)
+    return has_player and has_club and bool(_TARGET_DEFENCE_RE.search(text))
+
+
+_TARGET_PLAYER_CANON: tuple[str, ...] = (
+    "GARRINCHA", "MANUEL FRANCISCO DOS SANTOS", "PELÉ", "PELE",
+    "EDSON ARANTES", "NILTON SANTOS", "DIDI", "JAIRZINHO", "HELENO DE FREITAS",
+)
+_TARGET_CLUB_CANON: tuple[str, ...] = ("BOTAFOGO", "SANTOS")
+
+
+def _is_target_defendeu_triple(triple: "Triple") -> bool:
+    """Tripla-alvo ``JOGADOR --DEFENDEU--> CLUBE`` whitelisted (#048.10B)."""
+    if triple.predicate.casefold() != "defendeu":
+        return False
+    subj = triple.subject.casefold()
+    obj = triple.object.casefold()
+    has_player = any(p.casefold() in subj for p in _TARGET_PLAYER_CANON)
+    has_club = any(c.casefold() in obj for c in _TARGET_CLUB_CANON)
+    return has_player and has_club
+
+
 class EntityExtractor:
     """Extrator leve de tripletas semânticas a partir de texto limpo."""
 
@@ -795,7 +838,15 @@ class EntityExtractor:
             return []
         doc = self._nlp(text)
         triples: list[Triple] = []
-        for sent in doc.sents:
+        sents = list(doc.sents)
+        # #048.10B — target-aware: sentenças com jogador+clube+indício de defesa
+        # são processadas ANTES do cap, para fatos-alvo (DEFENDEU) não serem
+        # truncados por frases genéricas em páginas longas. Só reordena quando
+        # há sentença-alvo (senão o fluxo é idêntico ao anterior).
+        priority = [s for s in sents if _is_target_player_club_sentence(s.text)]
+        ordered = (priority + [s for s in sents if not _is_target_player_club_sentence(s.text)]
+                   if priority else sents)
+        for sent in ordered:
             # #058.11.1 (F3): descarta fragmento não-proposicional antes da
             # árvore de decisão — a regra de root VERB/AUX abaixo não muda.
             if not is_propositional_sentence(sent.text):
@@ -877,20 +928,25 @@ class EntityExtractor:
         # spaCy == 0: fallback puro, verbatim (banda 0 inalterada).
         if not spacy_triples:
             return fallback_triples
-        # Banda sparse (1..9): fallback primeiro (determinístico e já
-        # validado), depois as triplas só-spaCy; dedupe com casefold.
+        # #048.10B — banda sparse: triplas-alvo DEFENDEU whitelisted (jogador→clube)
+        # são promovidas antes do fallback, para o fato-alvo não ser truncado por
+        # frases genéricas. Sem tripla-alvo, a ordem congelada (#058.8) é mantida.
+        target = [t for t in spacy_triples if _is_target_defendeu_triple(t)]
         seen: set[tuple[str, str, str]] = set()
         merged: list[Triple] = []
-        for triple in fallback_triples + spacy_triples:
-            key = (
-                triple.subject.casefold(),
-                triple.predicate.casefold(),
-                triple.object.casefold(),
-            )
+
+        def _add(triple: Triple) -> None:
+            key = (triple.subject.casefold(), triple.predicate.casefold(),
+                   triple.object.casefold())
             if key in seen:
-                continue
+                return
             seen.add(key)
             merged.append(triple)
+
+        for triple in target:
+            _add(triple)
+        for triple in fallback_triples + spacy_triples:
+            _add(triple)
         return merged[:max_triples]
 
     def enrich_payload(self, payload: dict[str, Any]) -> dict[str, Any]:
