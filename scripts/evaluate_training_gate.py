@@ -27,10 +27,13 @@ ROOT = _HERE.parent
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(_HERE))
 
-from dotenv import load_dotenv  # noqa: E402
+try:  # python-dotenv é opcional (ausente no CI); só o acesso ao grafo precisa.
+    from dotenv import load_dotenv  # noqa: E402
 
-load_dotenv(ROOT / ".env")
-load_dotenv(ROOT / ".env.local")
+    load_dotenv(ROOT / ".env")
+    load_dotenv(ROOT / ".env.local")
+except Exception:  # pragma: no cover
+    pass
 
 from src.cognition.entity_linking_audit import assert_no_secret_markers  # noqa: E402
 
