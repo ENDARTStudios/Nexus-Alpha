@@ -2069,6 +2069,43 @@ Nenhuma terceira fonte **produtiva para DEFENDEU** encontrada em homepages/secti
 
 ---
 
+## #058.12 — Extração tabular controlada (schema honours) ✅ implementada + dry-run GO
+
+**Status:** ✅ implementada + **dry-run GO 9/9 gates** (sem seed change, sem worker — batch 3 pendente de instrução).
+
+### O que mudou
+
+- **`src/cognition/table_extractor.py`** (novo, ~260 linhas) — `extract_honours_from_html(html, source_url, canonicalizer)`:
+  - whitelist por URL → competição (`rsssf.org/sacups/copalib.html` → `COPA LIBERTADORES`; `rsssf.org/tablesb/brazchamp.html` → `CAMPEONATO BRASILEIRO SERIE A`); URL fora da whitelist → `[]`;
+  - parse de `<pre>` winners-list (`ANO Clube`, estilo RSSSF) + `<table>` de honras (caption = clube, célula = competição);
+  - gates próprios: vice (`2nd:`), placar (`3-1`), cabeçalho, genérico (`Total`), ano-só, clube fora do allowlist (`BOTAFOGO DE FUTEBOL E REGATAS`, `SANTOS FUTEBOL CLUBE`);
+  - predicado sempre `VENCEU` (nunca `SER`); objeto sempre a competição whitelistada (ano vai para `metadata.year`, nunca objeto);
+  - saída: dicts `{subject, predicate, object, confidence=0.8, metadata{year, source_type, extraction_method, table_schema, source_url}}`.
+- **`tests/test_table_extractor.py`** (novo, 11 testes): honours simples, multi-ano (3 triplas), Total/ano-só rejeitados, URL não-whitelistada, `SER` nunca emitido, fixture fiel RSSSF `<pre>`, vice pulado, allowlist, ano-só-metadado.
+- **`scripts/audit_table_extraction.py`** (novo): fetch único das 2 URLs + refine produção + narrativa baseline + 9 gates + anti-leak.
+- **Arquivos congelados intocados:** `extractor.py`, `span_validator.py`, `predicate_mapper.py`, `canonicalizer.py`, `triple_refiner.py`, `config/seed_clusters.yaml`, `requirements*`, `.github/workflows/`, quórum.
+
+### DoD
+
+- `python -m pytest -q` → **448 passed, 18 skipped** (437 + 11 novos); venv spaCy → 427 passed + 0 failed (skips = gaps de env);
+- **dry-run 9/9 gates PASS** (`reports/table_extraction_dry_run_058_12.json`): `canonical_triples_generated=7`, `target_fact_hits=7` (botafogo_libertadores 1, botafogo_brasileirao 3, santos_libertadores 3; santos_brasileirao 0 = cobertura da página, só linhas `2nd:` do Santos), `ser_share_delta=-0.7`, `top_invalid_predicates=[]`, `canonical_to_fact_gap=0` (run-scoped SPO+ano; colapso SPO a jusante por design), `unaccounted_raw=0`, `no_ser_emitted`, sem regressão PT/EN;
+- commit `feat(cognition): add controlled tabular extraction for whitelisted honours tables`.
+
+### Resultado do dry-run (2 URLs RSSSF)
+
+| Métrica | valor | gate |
+|---|---|---|
+| triplas tabulares canônicas | 7 / 7 refine ok, 0 falhas | > 0 ✓ |
+| fatos-alvo (3/4 fatos) | **7** | > 0 ✓ |
+| `ser_share` narrativa → +tabular | 1.0 → 0.3 (**−0.7**) | ≤ 0 ✓ |
+| rejeições (ruído contido) | 76 fora-allowlist, 140 placar, 72 vice, 56 genérico, 125 sem-match | informativo ✓ |
+
+### Próximo (batch 3, pendente de instrução)
+
+Adicionar URLs RSSSF ao `seed_clusters.yaml` + worker incremental → medir `duplicate_cross_domain` / `verified_facts` (alvo: `verified >= 1` via títulos).
+
+---
+
 ## #052.2 — Separar contabilidade run-scoped vs graph-total
 
 **Status:** ✅ implementada + CI verde.
