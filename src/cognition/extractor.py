@@ -897,6 +897,24 @@ class EntityExtractor:
         """Adiciona extracted_entities ao NexusPayload a partir do conteúdo minerado."""
         text = payload.get("content") or payload.get("title") or ""
         triples = self.extract(text)
+        # #058.12.1: política por fonte — table_only (ex.: rsssf.org) suprime
+        # narrativa (junk estatístico) e só a tabular controlada prossegue.
+        # Contabilizado em rejection_reasons; nunca quebra o caminho default.
+        try:
+            from src.cognition.table_extractor import source_policy
+            if source_policy(payload.get("source_url", "")) == "table_only":
+                suppressed = len(triples)
+                if suppressed:
+                    self.rejection_reasons["narrative_suppressed_table_only_source"] += suppressed
+                    logger.info(
+                        "Narrativa suprimida (table_only): %d triplas de %s.",
+                        suppressed, payload.get("source_url"),
+                    )
+                triples = []
+        except Exception as exc:
+            logger.warning(
+                "Política tabular falhou (%s): %s", payload.get("source_url"), exc
+            )
         payload["extracted_entities"] = [t.to_dict() for t in triples]
         # #058.12: via tabular controlada p/ URLs whitelistadas (o miner
         # preserva raw_html só nesses casos; o helper consome e remove antes

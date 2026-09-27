@@ -76,6 +76,44 @@ def is_honours_url(source_url: str) -> bool:
     return _lookup_competition(source_url) is not None
 
 
+# #058.12.1 — política de extração por fonte (domínio registrável).
+TABLE_ONLY_DOMAINS: frozenset[str] = frozenset({"rsssf.org"})
+NARRATIVE_PLUS_TABLE_DOMAINS: frozenset[str] = frozenset({
+    "pt.wikipedia.org", "en.wikipedia.org",
+})
+
+POLICY_TABLE_ONLY = "table_only"
+POLICY_NARRATIVE_PLUS_TABLE = "narrative_plus_table"
+POLICY_NARRATIVE_DEFAULT = "narrative_default"
+
+
+def _registrable_host(source_url: str) -> str:
+    from urllib.parse import urlparse
+    host = urlparse(source_url or "").netloc.lower().split(":")[0]
+    return host[4:] if host.startswith("www.") else host
+
+
+def source_policy(source_url: str) -> str:
+    """Política determinística por domínio.
+
+    - ``table_only`` (ex.: rsssf.org): narrativa suprimida; só tabular
+      controlada prossegue;
+    - ``narrative_plus_table`` (wikis): narrativa válida + tabular quando a
+      URL estiver whitelistada;
+    - ``narrative_default``: comportamento atual inalterado.
+    """
+    host = _registrable_host(source_url)
+    if not host:
+        return POLICY_NARRATIVE_DEFAULT
+    if host in TABLE_ONLY_DOMAINS or any(
+        host.endswith("." + d) for d in TABLE_ONLY_DOMAINS
+    ):
+        return POLICY_TABLE_ONLY
+    if host in NARRATIVE_PLUS_TABLE_DOMAINS:
+        return POLICY_NARRATIVE_PLUS_TABLE
+    return POLICY_NARRATIVE_DEFAULT
+
+
 def enrich_payload_with_tables(
     payload: dict[str, Any], canonicalizer: Any = None
 ) -> dict[str, int]:
