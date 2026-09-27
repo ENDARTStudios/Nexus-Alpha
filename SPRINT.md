@@ -2303,3 +2303,39 @@ Botafogo→Libertadores, Botafogo→Brasileirão, Santos→Libertadores, Flameng
 
 ### Próximo passo
 **Gate de treino:** `verified >= 10` atingido; ainda exige `records >= 50`, dataset sanitizado, Python 3.11–3.13 e GPU. **Não treinar automaticamente.** Próximo: issue de export/avaliação do gate (sem abrir #047.2/#045.3). Opcional: #048.10 (mais clubes) e #053 (publisher independence).
+
+## #060 — Avaliação read-only do gate de treino e preparação do dataset
+
+**Status:** DONE (read-only) — **BLOCKED** para treino — **Commits:** este (docs + script + testes) — **CI:** verde — **Dataset candidato:** `.autonomous/training/dataset/verified_candidate.jsonl` (não commitado) — **Records:** 10 — **Verified facts:** 10 — **Training recommended:** false — **Training allowed:** false.
+
+### O que foi feito (sem treinar)
+
+- **Fase A:** confirmado export **read-only** — `GraphConnector.export_verified_facts` é `MATCH (f:Fato) WHERE f.verificado=true` (sem CREATE/MERGE/SET/DELETE); `write_dataset` grava JSONL local.
+- **Fase B:** Python **3.14.7** (≠3.11–3.13), sem GPU, `llamafactory` ausente, Kaggle creds ausentes, `requirements-llamafactory.txt` presente mas NÃO instalado.
+- **Fase C:** `train_lora.py export --source graph --limit 100` → **10 registros** Alpaca (JSONL).
+- **Fases D–G:** `scripts/evaluate_training_gate.py` (read-only) valida JSONL + computa gates.
+- **Fase H:** `train_lora.py config` → YAML válido, sem segredos (nota: `dataset_dir: data/sft` ≠ dir exportado).
+- **Fases I–J:** relatório `reports/training_gate_evaluation_060.json` + `reports/training_dataset_export_summary_060.json`.
+
+### Gates
+| Gate | Resultado |
+|---|---|
+| verified_facts >= 10 | ✅ true |
+| records >= 50 | ❌ false (10) |
+| schema_valid | ✅ true (10/10 JSON) |
+| sanitization (secret/date/generic/clause) | ✅ true (0/0/0/0) |
+| provenance (10/10) | ✅ true |
+| diversity (`unique_predicates>=3`, `non_VENCEU>=0.30`, …) | ❌ false (1 predicado: VENCEU) |
+| publisher independence (`>=3` ou `ratio_ge3>=0.5`) | ❌ false (2: Wikimedia+RSSSF) |
+| environment (Python/GPU/LlamaFactory/flag) | ❌ false |
+
+### Distribuições
+- predicates: `VENCEU`=10
+- objects: `COPA LIBERTADORES`=7, `CAMPEONATO BRASILEIRO SERIE A`=3
+- subjects: 7 · domains: pt/en/rsssf=10 cada · publishers: Wikimedia, RSSSF
+
+### Classificação
+**Cenário 1 — `BLOCKED_RECORDS_INSUFFICIENT`** (+ `DIVERSITY_GATE_FAILED` monocultura `VENCEU` + `PUBLISHER_INDEPENDENCE_WARNING` + `TRAINING_BLOCKED_ENVIRONMENT`).
+
+### Próximo issue
+**#048.10A** (escalar verified para records ≥ 50) + **#048.10B** (diversificar além de VENCEU: `JOGADOR --DEFENDEU--> CLUBE`, `CLUBE --POSSUIR--> ESTÁDIO`, `ESTÁDIO --LOCALIZADO_EM--> CIDADE`, …) + **#053** (publisher independence). Dry-run read-only antes de runtime; não abrir #047.2/#045.3 sem evidência; **não treinar**.
