@@ -2231,3 +2231,39 @@ Verificados vêm de pt.wiki + en.wiki + rsssf = **3 domínios, 2 publishers** (W
 
 ### Próximo passo
 **#048.8** — replicar padrão honours p/ Santos (dry-run próprio antes) + avaliar table-only wiki? Não. Sem #047.2/#045.3 (variantes medium = junk-vs-clean, promote=false). Treino segue fechado (verified=2 < 10).
+
+## #048.8 — Santos honours dry-run + runtime condicional
+
+**Status:** DONE — **Cenário A (sucesso pleno)** — **Commits:** `7c38c60` (runtime) + este (docs/reports) — **CI:** verde — **Snapshot:** `reports/aura_snapshot_pre_048_8.json` (4144 nós, Fato=227) — **Worker run:** `36346996440` (success).
+
+### Fases
+- **A (dry-run read-only):** `scripts/audit_santos_honours_dry_run.py` → `full_collision=1` (Libertadores, pt+en+rsssf, confs=9); Brasileirão `partial` (só pt+en). Bugs reais achados e corrigidos no parser: (1) `_is_target` case-fold; (2) navboxes "Ligações externas" e tabelas de treinadores sendo lidas como honras → filtro `Competi*` + exclusão de navbox; (3) novo formato PT "Títulos" (classe livre, anos na célula de temporadas).
+- **B (runtime):** `table_extractor.py`: Santos adicionado a `WIKI_HONOURS_CLUBS` **com allowlist por clube** (Santos: só `COPA LIBERTADORES`; Botafogo mantém Libertadores+Brasileirão); parser wiki reescrito p/ 3 formatos + filtro de navbox. +4 testes.
+- **C (worker):** tabular disparou em todas as fontes (Santos pt/en=3+3, Botafogo pt/en=8+4, rsssf=4+3); ingest 200.
+
+### Métricas
+| Métrica | Antes | Depois | Delta |
+|---|---:|---:|---:|
+| facts | 227 | 227 | 0 (só arestas CONFIRMA) |
+| duplicate_cross_domain | 3 | 4 | +1 |
+| facts_with_two_or_more_domains | 3 | 4 | +1 |
+| facts_with_three_or_more_domains | 2 | 3 | +1 |
+| verified_facts_domain_independent | 2 | **3** | **+1** |
+| table_extraction.canonical_triples_from_tables | — | 3+3+8+4+4+3 worker-side | + |
+| en_ser_share | — | estável | — |
+| run_scoped_gap | 0 | 0 | — |
+| graph_scoped_gap | explicado | explicado | — |
+| unaccounted_raw | 0 | 0 | — |
+| top_invalid_predicates | [] | [] | — |
+
+### Classificação
+**Cenário A — sucesso pleno** (`verified ≥ 3`, `three_or_more_domains ≥ 3`, `duplicate ≥ 4`). Fato novo verificado:
+- `SANTOS FUTEBOL CLUBE --VENCEU--> COPA LIBERTADORES` (pt+en+rsssf, confs=3) ✅
+
+Fatôes verificados acumulados (3): Botafogo→Libertadores, Botafogo→Brasileirão, Santos→Libertadores. Garrincha DEFENDEU preservado (confs=2).
+
+### Limitação editorial
+3 domínios, **2 publishers** (Wikimedia+RSSSF). Dívida **#053** (publisher/eTLD+1) registrada, não implementada.
+
+### Próximo passo
+**#048.8.1 / #048.9** — replicar padrão p/ mais clubes/competições estáticas (ex.: Flamengo, Palmeiras, São Paulo) para acumular rumo a `verified >= 10` (gate de treino). Não abrir #047.2/#045.3 (mediums = junk-vs-clean, `promote_automatically=false`). Treino fechado (3 < 10).

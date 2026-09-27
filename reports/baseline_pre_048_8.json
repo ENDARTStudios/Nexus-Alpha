@@ -1,0 +1,125 @@
+{
+  "report": "baseline_pre_reingest_045_1",
+  "generated_at": "2026-09-27T20:09:26.952361+00:00",
+  "build_space_commit_target": "05e42cc",
+  "quorum": 3,
+  "space_health": {
+    "status_code": 200,
+    "body": {
+      "status": "ok"
+    }
+  },
+  "graph": {
+    "label_counts": {
+      "Episodio": 2152,
+      "Conceito": 1727,
+      "Fato": 227,
+      "FonteWeb": 38
+    },
+    "facts": 227,
+    "facts_with_two_or_more_confirmations": 8,
+    "facts_with_two_or_more_domains": 3,
+    "facts_with_three_or_more_domains": 2,
+    "max_domain_confirmations": 5,
+    "verified_facts_domain_independent": 2,
+    "duplicate_cross_domain": 3
+  },
+  "space_metrics_present": true,
+  "extraction_quality": {
+    "raw_triples": 2810,
+    "canonical_triples": 1049,
+    "rejected_noise": 1749,
+    "rejection_reasons": {
+      "numeric_predicate": 0,
+      "url_or_code_predicate": 0,
+      "stopword_predicate": 0,
+      "nonverbal_predicate": 0,
+      "invalid_predicate": 0,
+      "unmapped_predicate": 330,
+      "missing_entity": 297,
+      "self_loop": 0,
+      "object_date_like": 110,
+      "ambiguous_predicate": 95,
+      "object_clause_fragment": 15,
+      "modal_predicate": 130,
+      "object_prepositional_phrase": 216,
+      "subject_quantifier_phrase": 45,
+      "object_adverbial_phrase": 10,
+      "object_generic_phrase": 10,
+      "object_punctuated": 5,
+      "subject_starts_with_stopword": 61,
+      "subject_generic_phrase": 217,
+      "object_predicate_complement": 203,
+      "object_pronoun": 5
+    },
+    "top_unmapped_predicates": [
+      {
+        "predicate": "MARCAR",
+        "count": 45
+      },
+      {
+        "predicate": "VIR",
+        "count": 35
+      },
+      {
+        "predicate": "DESCREVER",
+        "count": 30
+      },
+      {
+        "predicate": "DAR",
+        "count": 25
+      },
+      {
+        "predicate": "VER",
+        "count": 15
+      },
+      {
+        "predicate": "IR",
+        "count": 15
+      },
+      {
+        "predicate": "REPRESENTAR",
+        "count": 15
+      },
+      {
+        "predicate": "RESULTS",
+        "count": 15
+      },
+      {
+        "predicate": "DIVIDIR",
+        "count": 10
+      },
+      {
+        "predicate": "CONSTRUIR",
+        "count": 10
+      }
+    ],
+    "top_invalid_predicates": []
+  },
+  "verification": {
+    "quorum": 3,
+    "facts_with_multi_domain": 3,
+    "max_domain_confirmations": 3,
+    "verified_facts_domain_independent": 2
+  },
+  "ingestion_accounting": {
+    "raw_triples": 2810,
+    "canonical_triples": 1061,
+    "distinct_canonical_keys": 206,
+    "duplicate_canonical_occurrences": 855,
+    "persisted_facts": 227,
+    "canonical_to_fact_gap": -21,
+    "unaccounted_raw": 0,
+    "duplicate_same_source_url": 842,
+    "duplicate_same_domain": 8,
+    "duplicate_cross_domain": 5,
+    "rejected_after_canonical": 0,
+    "merged_into_existing_fact": 843,
+    "new_facts_created": 206,
+    "process_started_at": "2026-09-26T18:13:38.429223+00:00",
+    "last_ingest_at": "2026-09-27T17:15:12.992560+00:00",
+    "accounting_mode": "bounded_exact"
+  },
+  "vectors_count": 937,
+  "truthfulness_note": "Read-only baseline; no Neo4j writes, no Qdrant, no ingest."
+}
