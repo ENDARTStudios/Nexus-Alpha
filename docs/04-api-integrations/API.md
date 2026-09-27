@@ -102,4 +102,4 @@ clusters, trajetória.
    (default: `https://.*\.vercel\.app`).
 4. **Schema bootstrap:** `NEXUS_BOOTSTRAP_SCHEMA=true` cria índices no boot.
 5. Extensões de endpoint: seguir [`ERROR_HANDLING.md`](./ERROR_HANDLING.md) e
-   registrar mudança de contrato em `docs/API.md` no mesmo PR.
+   registrar mudança de contrato em `API.md` no mesmo PR.

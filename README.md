@@ -71,15 +71,15 @@ Os 86 testes cobrem: miner, cognition, RAG, NLP, triangulation, reflection, memo
 
 - `SPRINT.md` — documento dinâmico de governança (funcionalidade alvo, tarefas, critérios, plano de teste).
 - `.github/workflows/ai-validation.yml` — CI: pytest + auditoria anti-leak + conformidade `SPRINT.md`.
-- `HANDOVER_PROMPT.md` — instruções de onboarding para novos agentes/desenvolvedores.
+- `docs/08-knowledge-management/HANDOVER_PROMPT.md` — instruções de onboarding para novos agentes/desenvolvedores.
 - `vercel.json` + `public/robots.txt` — blindagem contra scrapers e bloqueio de rotas públicas sensíveis (`/api/`, `/_next/image*`).
 - **`docs/`** — documentação completa do projeto, indexada em [`docs/README.md`](docs/README.md):
-  produto ([`PRD.md`](docs/PRD.md)), arquitetura ([`ARCHITECTURE.md`](docs/ARCHITECTURE.md)),
-  API ([`API.md`](docs/API.md)), regras ([`RULES.md`](docs/RULES.md)), decisões
-  ([`ADR.md`](docs/ADR.md)), memória ([`MEMORY.md`](docs/MEMORY.md)), operação
-  ([`MONITORING.md`](docs/MONITORING.md), [`BACKUP_DR.md`](docs/BACKUP_DR.md),
-  [`PRODUCTION_DEPLOY.md`](docs/PRODUCTION_DEPLOY.md)) e processo
-  ([`ONBOARDING.md`](docs/ONBOARDING.md), [`ITERATION.md`](docs/ITERATION.md)).
+  produto ([`PRD.md`](docs/01-product-discovery/PRD.md)), arquitetura ([`ARCHITECTURE.md`](docs/02-architecture-design/ARCHITECTURE.md)),
+  API ([`API.md`](docs/04-api-integrations/API.md)), regras ([`RULES.md`](docs/03-development-process/RULES.md)), decisões
+  ([`ADR.md`](docs/02-architecture-design/ADR.md)), memória ([`MEMORY.md`](docs/08-knowledge-management/MEMORY.md)), operação
+  ([`MONITORING.md`](docs/07-operations-marketing/MONITORING.md), [`BACKUP_DR.md`](docs/06-devops-deployment/BACKUP_DR.md),
+  [`PRODUCTION_DEPLOY.md`](docs/06-devops-deployment/PRODUCTION_DEPLOY.md)) e processo
+  ([`ONBOARDING.md`](docs/08-knowledge-management/ONBOARDING.md), [`ITERATION.md`](docs/08-knowledge-management/ITERATION.md)).
 
 ## 🧪 Infraestrutura Gratuita (Zero Cost)
 

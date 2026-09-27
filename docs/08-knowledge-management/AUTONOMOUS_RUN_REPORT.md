@@ -29,7 +29,7 @@
 
 ## 5. Governança
 - SPRINT.md atualizado: F1 + Cenário B documentados
-- docs/TASKS.md atualizado: #058.11.2 ✅, #048.5 (Cenário B em execução)
+- docs/03-development-process/TASKS.md atualizado: #058.11.2 ✅, #048.5 (Cenário B em execução)
 - invariantes preservadas: quorum=3, seeds validadas, anti-leak OK, sem treino, sem force-push, staging explícito
 - exceções registradas: pip-audit BLOCKED_NETWORK, Vercel 429, ruff dívida
 

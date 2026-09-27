@@ -735,7 +735,7 @@ O guard rodava em fallback regex (spaCy indisponível em CI) e descartava tudo.
 - `tests/test_predicate_mapper.py` — 6 testes novos (vocabulário limitado,
   verbos PT, verbos EN, guard, golden cross-domain via `refine_triple_ex`,
   quarentena de ambíguos) → 20 no arquivo
-- `SPRINT.md`, `docs/TASKS.md` — registro
+- `SPRINT.md`, `docs/03-development-process/TASKS.md` — registro
 
 ### Não altera
 `extractor.py`, `canonicalizer.py`, `span_validator.py`, `triple_refiner.py`,
@@ -794,7 +794,7 @@ sintáticos (`E O`, `AND`, `ENFIM`, `TO TWO`, `ALTHOUGH GARRINCHA`,
 - `tests/test_span_validator.py` — +6 testes (fragmentos H3 da Inspeção 2,
   starts EN, discurso, relativa interna, entidades legítimas, integração
   `refine_triple_ex`) → 14 no arquivo
-- `SPRINT.md`, `docs/TASKS.md` — registro
+- `SPRINT.md`, `docs/03-development-process/TASKS.md` — registro
 
 ### DoD
 `python -m pytest -q` verde (**285**, base 279) · `git diff -- requirements-dev.txt
@@ -831,7 +831,7 @@ serve de base para testes de normalização do `#047`.
   `fact_key`, `classify`, targets, findings doc)
 - `docs/INSPECTION_2_FINDINGS.md` — tabela de divergências revisada (H3
   dominante, auto-H1 ingênuo), causas estruturais, decisão `#047`
-- `docs/TESTING.md` — índice de teste
+- `docs/03-development-process/TESTING.md` — índice de teste
 - `SPRINT.md` — registro
 
 ### DoD
@@ -877,7 +877,7 @@ obrigatório (findings §Decisão).
   `tests/test_source_productivity_audit.py` — goldens atualizados para o
   canônico curado (#047 reescreve `SANTOS FC`/`PELE`)
 - `scripts/inspect_cross_lingual_divergence.py` — `dotenv` opcional (CI lite)
-- `SPRINT.md`, `docs/TASKS.md`, `docs/TESTING.md` — registro
+- `SPRINT.md`, `docs/03-development-process/TASKS.md`, `docs/03-development-process/TESTING.md` — registro
 
 ### DoD
 `python -m pytest -q` verde (**310**, base 292) · `git diff -- requirements-dev.txt
@@ -923,7 +923,7 @@ canônica partilhada: fetch, extração, refino, alias ou fallback
   --no-graph/--out`), grafo SELECT-only, dry-run offline de extração
 - `tests/test_extraction_parity_audit.py` — 15 testes (matriz, log parse,
   read-only AST, helpers)
-- `SPRINT.md`, `docs/TASKS.md`, `docs/TESTING.md` — registro
+- `SPRINT.md`, `docs/03-development-process/TASKS.md`, `docs/03-development-process/TESTING.md` — registro
 
 ### Resultado (relatório `reports/extraction_parity_pt_en_2026-09-24.json`)
 - 6 alvos, 12 fontes; PT e EN ambos com canônicas em **6/6**;

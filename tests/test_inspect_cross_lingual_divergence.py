@@ -96,7 +96,7 @@ def test_targets_cover_five_offline_pairs():
 
 
 def test_findings_doc_exists_and_mentions_h3():
-    doc = (ROOT / "docs" / "INSPECTION_2_FINDINGS.md").read_text(encoding="utf-8")
+    doc = (ROOT / "docs" / "08-knowledge-management" / "INSPECTION_2_FINDINGS.md").read_text(encoding="utf-8")
     assert "H3" in doc
     assert "shared_canonical_keys" in doc or "shared" in doc.lower()
     assert "#047" in doc
