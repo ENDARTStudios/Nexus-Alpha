@@ -169,3 +169,41 @@ def test_validator_rejects_forbidden_and_http_and_duplicate():
     assert any("não-HTTPS" in e for e in errors)
     assert any("proibido" in e for e in errors)
     assert any("duplicada" in e for e in errors)
+
+
+MULTI_CLUB_HONOURS = {
+    "flamengo_honours": ["https://pt.wikipedia.org/wiki/Clube_de_Regatas_do_Flamengo",
+                         "https://en.wikipedia.org/wiki/CR_Flamengo",
+                         "https://www.rsssf.org/sacups/copalib.html"],
+    "palmeiras_honours": ["https://pt.wikipedia.org/wiki/Sociedade_Esportiva_Palmeiras",
+                          "https://en.wikipedia.org/wiki/SE_Palmeiras",
+                          "https://www.rsssf.org/sacups/copalib.html",
+                          "https://www.rsssf.org/tablesb/brazchamp.html"],
+    "sao_paulo_honours": ["https://pt.wikipedia.org/wiki/S%C3%A3o_Paulo_Futebol_Clube",
+                          "https://en.wikipedia.org/wiki/S%C3%A3o_Paulo_FC",
+                          "https://www.rsssf.org/sacups/copalib.html",
+                          "https://www.rsssf.org/tablesb/brazchamp.html"],
+    "gremio_honours": ["https://pt.wikipedia.org/wiki/Gr%C3%AAmio_Foot-Ball_Porto_Alegrense",
+                       "https://en.wikipedia.org/wiki/Gr%C3%AAmio_FBPA",
+                       "https://www.rsssf.org/sacups/copalib.html"],
+    "internacional_honours": ["https://pt.wikipedia.org/wiki/Sport_Club_Internacional",
+                              "https://en.wikipedia.org/wiki/SC_Internacional",
+                              "https://www.rsssf.org/sacups/copalib.html"],
+}
+
+
+def test_multi_club_honours_clusters_present_and_valid():
+    """#048.9 — 5 clusters de clubes com pt/en wiki + RSSSF (>=3 domínios)."""
+    by_id = {c["id"]: c for c in _data()["clusters"]}
+    for cid, urls in MULTI_CLUB_HONOURS.items():
+        assert cid in by_id, cid
+        cluster = by_id[cid]
+        cluster_urls = [s["url"] for s in cluster["sources"]]
+        for u in urls:
+            assert u in cluster_urls, f"{cid}: {u}"
+        domains = {s["domain"] for s in cluster["sources"]}
+        publishers = {s["publisher"] for s in cluster["sources"]}
+        assert len(domains) >= 3, cid
+        assert len(publishers) >= 2, cid
+        assert "RSSSF" in publishers, cid
+        assert any("wikipedia" not in p.lower() for p in publishers), cid

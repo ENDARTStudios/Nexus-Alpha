@@ -152,3 +152,96 @@ clusters:
         domain: rsssf.org
         publisher: RSSSF
         productivity: productive  # dry-run #058.12: 3 triplas tabulares, hit botafogo_brasileirao (1968, 1995, 2024)
+
+  - id: flamengo_honours
+    topic: "Flamengo e a Copa Libertadores (títulos)"
+    expected_predicate: VENCEU
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Clube_de_Regatas_do_Flamengo
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #048.9 dry-run: Libertadores pt full
+      - url: https://en.wikipedia.org/wiki/CR_Flamengo
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #048.9 dry-run: Libertadores en full
+      - url: https://www.rsssf.org/sacups/copalib.html
+        domain: rsssf.org
+        publisher: RSSSF
+        productivity: productive  # #048.9 dry-run: winners-list (Flamengo 1981/2019/2022/2025)
+
+  - id: palmeiras_honours
+    topic: "Palmeiras, Libertadores e Campeonato Brasileiro (títulos)"
+    expected_predicate: VENCEU
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Sociedade_Esportiva_Palmeiras
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #048.9 dry-run: Libertadores + Brasileirão pt full
+      - url: https://en.wikipedia.org/wiki/SE_Palmeiras
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #048.9 dry-run: Libertadores + Brasileirão en full
+      - url: https://www.rsssf.org/sacups/copalib.html
+        domain: rsssf.org
+        publisher: RSSSF
+        productivity: productive  # #048.9 dry-run: Libertadores winners-list
+      - url: https://www.rsssf.org/tablesb/brazchamp.html
+        domain: rsssf.org
+        publisher: RSSSF
+        productivity: productive  # #048.9 dry-run: Brasileirão champions
+
+  - id: sao_paulo_honours
+    topic: "São Paulo FC, Libertadores e Campeonato Brasileiro (títulos)"
+    expected_predicate: VENCEU
+    sources:
+      - url: https://pt.wikipedia.org/wiki/S%C3%A3o_Paulo_Futebol_Clube
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #048.9 dry-run: Libertadores + Brasileirão pt full
+      - url: https://en.wikipedia.org/wiki/S%C3%A3o_Paulo_FC
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #048.9 dry-run: Libertadores + Brasileirão en full
+      - url: https://www.rsssf.org/sacups/copalib.html
+        domain: rsssf.org
+        publisher: RSSSF
+        productivity: productive  # #048.9: winners-list (São Paulo 1992/1993/2005)
+      - url: https://www.rsssf.org/tablesb/brazchamp.html
+        domain: rsssf.org
+        publisher: RSSSF
+        productivity: productive  # #048.9: Brasileirão champions
+
+  - id: gremio_honours
+    topic: "Grêmio e a Copa Libertadores (títulos)"
+    expected_predicate: VENCEU
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Gr%C3%AAmio_Foot-Ball_Porto_Alegrense
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #048.9 dry-run: Libertadores pt full
+      - url: https://en.wikipedia.org/wiki/Gr%C3%AAmio_FBPA
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #048.9 dry-run: Libertadores en full
+      - url: https://www.rsssf.org/sacups/copalib.html
+        domain: rsssf.org
+        publisher: RSSSF
+        productivity: productive  # #048.9: winners-list (Grêmio 1983/1995/2017)
+
+  - id: internacional_honours
+    topic: "Internacional e a Copa Libertadores (títulos)"
+    expected_predicate: VENCEU
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Sport_Club_Internacional
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #048.9 dry-run: Libertadores pt full
+      - url: https://en.wikipedia.org/wiki/SC_Internacional
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #048.9 dry-run: Libertadores en full
+      - url: https://www.rsssf.org/sacups/copalib.html
+        domain: rsssf.org
+        publisher: RSSSF
+        productivity: productive  # #048.9: winners-list (Internacional 2006/2010)
