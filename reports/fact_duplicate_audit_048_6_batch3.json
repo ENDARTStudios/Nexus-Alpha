@@ -1,0 +1,14 @@
+{
+  "audit_id": "fact_duplicate_audit_048_6_batch2",
+  "generated_at": "2026-09-27T16:51:56.458962+00:00",
+  "read_only": true,
+  "build_space_commit": "503e6a3",
+  "persisted_facts": 227,
+  "graph_distinct_spo_keys": 227,
+  "graph_scoped_gap": 0,
+  "duplicate_groups_total": 0,
+  "duplicate_groups_same_domain": 0,
+  "duplicate_groups_cross_domain": 0,
+  "duplicate_groups_hidden_potential_verified": 0,
+  "top_duplicates": []
+}

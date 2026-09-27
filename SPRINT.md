@@ -2157,3 +2157,41 @@ contabilidade ou bug.
 - Todos: 3 domínios, 2 publishers (Wikimedia+RSSSF), 1 não-wiki, HTTPS, sem duplicatas.
 - Testes: `test_rsssf_honours_clusters_present_and_valid`, `test_rsssf_publisher_counts_as_independent`, `test_santos_brasileirao_cluster_absent_without_evidence` (13/13 no arquivo).
 - Header do manifest atualizado (nota #048.5/#048.6; "nenhuma não-wiki produtiva" agora histórica).
+
+## #048.6 batch 3 — RSSSF seeds + worker incremental
+
+**Status:** PARTIAL (Cenário B sem incremento) — **Build:** `a01fee3`→`8932674` — **Worker run:** `36334393496` (success) — **Snapshot:** `reports/aura_snapshot_pre_048_6_batch3.json` (4125 nós, Fato=223) — **Baseline:** `reports/baseline_pre_048_6_batch3.json` — **Pós-run:** `reports/post_reingest_048_6_batch3.json`.
+
+### O que aconteceu
+
+1. **Tentativa 1 (`36333813255`) falhou silenciosamente**: `RAGEngine(top_k=40)` truncava a cauda; com 44 URLs, as RSSSF (fim da lista) nunca foram mineradas. Causa-raiz encontrada no log (0 menções rsssf) + reproduzida localmente.
+2. **Fix (`8932674`)**: `WORKER_TOP_K=60` + `_merge_urls` (clusters curados primeiro) + 4 testes (`test_worker_seeds.py`). CI verde.
+3. **Tentativa 2 (`36334393496`)**: wiring disparou em produção — `Extração tabular emitted=4` (copalib) + `emitted=3` (brazchamp); LLM `0/33` (heurística preservada); ingest 200 nas duas (entities 3 e 1).
+
+### Métricas
+| Métrica | Antes | Depois | Delta |
+|---|---|---:|---:|
+| facts | 223 | 227 | +4 |
+| duplicate_cross_domain | 1 | 1 | 0 |
+| facts_with_two_or_more_domains | 1 | 1 | 0 |
+| facts_with_three_or_more_domains | 0 | 0 | 0 |
+| verified_facts_domain_independent | 0 | 0 | 0 |
+| table_extraction.canonical_triples_from_tables | 0 | 7 emitidas worker-side (3 persistidas*) | + |
+| en_ser_share | — | — | estável |
+| run_scoped_gap | 0 | 0 | 0 |
+| graph_scoped_gap | explicado | explicado | — |
+| unaccounted_raw | 0 | 0 | 0 |
+| top_invalid_predicates | [] | [] | — |
+| fallback_promoted_to_graph | 0 | 0 | — |
+| vectors | 844 | 905 | +61 |
+| FonteWeb | 36 | 38 | +2 (rsssf.org) |
+
+\* 3 fatos-alvo VENCEU single-domain (rsssf): Botafogo→Libertadores, Botafogo→Brasileirão, Santos→Libertadores. 1 fato junk narrativo (`COPA DE CAMPEONES SER HELD IN SANTIAGO`) passou no refine — vetor conhecido, proposta §Próximo.
+
+### Classificação
+**Cenário B (sem incremento)** — a árvore não tem bucket exato: tabular chegou ao grafo (não-C), cross-domain não subiu (não-B pleno), sem divergência legítima p/ alias/mapper (não-D: variantes medium são junk-vs-clean, `promote_automatically=false`), sem regressão (não-E).
+
+Leitura: wiki nunca emite as chaves VENCEU canônicas via narrativa (honras wiki também são tabelas — gap simétrico confirmado). Faltam confirmações wiki das mesmas chaves.
+
+### Próximo passo
+**#048.7 — estender whitelist tabular às tabelas de honras das páginas wiki** (pt/en Botafogo, pt/en Santos): mesmo parser/schema, competição por URL+caption; dry-run antes de seed. Secundário: **#058.12.1** — emissão table-only p/ URLs whitelistadas (conter junk narrativo tipo `COPA DE CAMPEONES SER...`). Não abrir #047.2/#045.3 (sem gap legítimo). Treino segue fechado (verified=0 < 10).

@@ -1,0 +1,149 @@
+{
+  "report": "post_reingest_048_6_batch3",
+  "generated_at": "2026-09-27T16:50:48.109493+00:00",
+  "build_space_commit": "732ff3e (git 0b5bc32)",
+  "worker_run_id": "36334393496",
+  "quorum": 3,
+  "workflow_after": "disabled_manually",
+  "space_health": {
+    "status_code": 200,
+    "body": {
+      "status": "ok"
+    }
+  },
+  "graph": {
+    "label_counts": {
+      "Episodio": 2152,
+      "Conceito": 1727,
+      "Fato": 227,
+      "FonteWeb": 38
+    },
+    "facts": 227,
+    "facts_with_two_or_more_confirmations": 6,
+    "facts_with_two_or_more_domains": 1,
+    "facts_with_three_or_more_domains": 0,
+    "max_domain_confirmations": 5,
+    "verified_facts_domain_independent": 0,
+    "duplicate_cross_domain": 1,
+    "alias_entity_counts": [
+      {
+        "nome": "EDSON ARANTES DO NASCIMENTO",
+        "c": 1
+      },
+      {
+        "nome": "ESTADIO URBANO CALDEIRA",
+        "c": 1
+      },
+      {
+        "nome": "ESTÁDIO URBANO CALDEIRA",
+        "c": 1
+      },
+      {
+        "nome": "PELE",
+        "c": 1
+      },
+      {
+        "nome": "SANTOS FUTEBOL CLUBE",
+        "c": 1
+      }
+    ]
+  },
+  "space_metrics_present": true,
+  "extraction_quality": {
+    "raw_triples": 2240,
+    "canonical_triples": 835,
+    "rejected_noise": 1401,
+    "rejection_reasons": {
+      "numeric_predicate": 0,
+      "url_or_code_predicate": 0,
+      "stopword_predicate": 0,
+      "nonverbal_predicate": 0,
+      "invalid_predicate": 0,
+      "unmapped_predicate": 264,
+      "missing_entity": 238,
+      "self_loop": 0,
+      "object_date_like": 88,
+      "ambiguous_predicate": 76,
+      "object_clause_fragment": 12,
+      "modal_predicate": 104,
+      "object_prepositional_phrase": 173,
+      "subject_quantifier_phrase": 36,
+      "object_adverbial_phrase": 8,
+      "object_generic_phrase": 8,
+      "object_punctuated": 4,
+      "subject_starts_with_stopword": 49,
+      "subject_generic_phrase": 174,
+      "object_predicate_complement": 163,
+      "object_pronoun": 4
+    },
+    "top_unmapped_predicates": [
+      {
+        "predicate": "MARCAR",
+        "count": 36
+      },
+      {
+        "predicate": "VIR",
+        "count": 28
+      },
+      {
+        "predicate": "DESCREVER",
+        "count": 24
+      },
+      {
+        "predicate": "DAR",
+        "count": 20
+      },
+      {
+        "predicate": "VER",
+        "count": 12
+      },
+      {
+        "predicate": "IR",
+        "count": 12
+      },
+      {
+        "predicate": "REPRESENTAR",
+        "count": 12
+      },
+      {
+        "predicate": "RESULTS",
+        "count": 12
+      },
+      {
+        "predicate": "DIVIDIR",
+        "count": 8
+      },
+      {
+        "predicate": "CONSTRUIR",
+        "count": 8
+      }
+    ],
+    "top_invalid_predicates": []
+  },
+  "verification": {
+    "quorum": 3,
+    "facts_with_multi_domain": 1,
+    "max_domain_confirmations": 2,
+    "verified_facts_domain_independent": 0
+  },
+  "ingestion_accounting": {
+    "raw_triples": 2240,
+    "canonical_triples": 839,
+    "distinct_canonical_keys": 206,
+    "duplicate_canonical_occurrences": 633,
+    "persisted_facts": 227,
+    "canonical_to_fact_gap": -21,
+    "unaccounted_raw": 0,
+    "duplicate_same_source_url": 624,
+    "duplicate_same_domain": 8,
+    "duplicate_cross_domain": 1,
+    "rejected_after_canonical": 0,
+    "merged_into_existing_fact": 629,
+    "new_facts_created": 206,
+    "process_started_at": "2026-09-26T18:13:38.429223+00:00",
+    "last_ingest_at": "2026-09-27T16:48:46.385848+00:00",
+    "accounting_mode": "bounded_exact"
+  },
+  "vectors_count": 905,
+  "truthfulness_note": "Read-only post-reingest; no Neo4j writes from this script."
+}

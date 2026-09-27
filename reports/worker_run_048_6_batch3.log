@@ -1,0 +1,928 @@
+﻿mine-and-evolve	Set up job	´╗┐2026-09-27T16:45:15.5896592Z Current runner version: '2.337.0'
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5923436Z ##[group]Runner Image Provisioner
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5924458Z Hosted Compute Agent
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5925109Z Version: 20260828.587
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5925949Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5927004Z Build Date: 2026-08-28T16:44:25Z
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5927850Z Worker ID: {2e00a124-266f-48aa-ab50-3dedd03427f4}
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5928763Z Azure Region: northcentralus
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5929481Z ##[endgroup]
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5931001Z ##[group]Operating System
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5931688Z Ubuntu
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5932365Z 24.04.5
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5932962Z LTS
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5933576Z ##[endgroup]
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5934294Z ##[group]Runner Image
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5934971Z Image: ubuntu-24.04
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5936014Z Version: 20260920.314.1
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5937442Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260920.314/images/ubuntu/Ubuntu2404-Readme.md
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5939365Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260920.314
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5940414Z ##[endgroup]
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5941774Z ##[group]GITHUB_TOKEN Permissions
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5944054Z Contents: read
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5944849Z Metadata: read
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5945473Z Packages: read
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5946111Z ##[endgroup]
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5948634Z Secret source: Actions
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5949772Z Cache mode: write
+mine-and-evolve	Set up job	2026-09-27T16:45:15.5950513Z Prepare workflow directory
+mine-and-evolve	Set up job	2026-09-27T16:45:15.6399674Z Prepare all required actions
+mine-and-evolve	Set up job	2026-09-27T16:45:15.6467350Z Getting action download info
+mine-and-evolve	Set up job	2026-09-27T16:45:15.9046834Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+mine-and-evolve	Set up job	2026-09-27T16:45:15.9899058Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+mine-and-evolve	Set up job	2026-09-27T16:45:16.1768068Z Complete job name: mine-and-evolve
+mine-and-evolve	Clonar o Reposit├│rio	´╗┐2026-09-27T16:45:16.2523073Z ##[group]Run actions/checkout@v4
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.2523978Z with:
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.2524481Z   repository: ENDARTStudios/Nexus-Alpha
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.2528766Z   token: ***
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.2529243Z   ssh-strict: true
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.2529723Z   ssh-user: git
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.2530201Z   persist-credentials: true
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.2530718Z   clean: true
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.2531188Z   sparse-checkout-cone-mode: true
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.2531731Z   fetch-depth: 1
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.2532196Z   fetch-tags: false
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.2532675Z   show-progress: true
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.2533158Z   lfs: false
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.2533601Z   submodules: false
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.2534082Z   set-safe-directory: true
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.2534615Z   allow-unsafe-pr-checkout: false
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.2535408Z ##[endgroup]
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3547170Z Syncing repository: ENDARTStudios/Nexus-Alpha
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3550017Z ##[group]Getting Git version info
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3551214Z Working directory is '/home/runner/work/Nexus-Alpha/Nexus-Alpha'
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3553088Z [command]/usr/bin/git version
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3586106Z git version 2.55.0
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3608347Z ##[endgroup]
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3625268Z Temporarily overriding HOME='/home/runner/work/_temp/f55d0c5c-8e23-43bc-929e-ab4512eb71ca' before making global git config changes
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3627872Z Adding repository directory to the temporary git global config as a safe directory
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3631934Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Nexus-Alpha/Nexus-Alpha
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3686954Z Deleting the contents of '/home/runner/work/Nexus-Alpha/Nexus-Alpha'
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3697159Z ##[group]Initializing the repository
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3701929Z [command]/usr/bin/git init /home/runner/work/Nexus-Alpha/Nexus-Alpha
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3791645Z hint: Using 'master' as the name for the initial branch. This default branch name
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3793201Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3794672Z hint: to use in all of your new repositories, which will suppress this warning,
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3795457Z hint: call:
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3795887Z hint:
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3797207Z hint: 	git config --global init.defaultBranch <name>
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3798250Z hint:
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3799250Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3800733Z hint: 'development'. The just-created branch can be renamed via this command:
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3801912Z hint:
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3802613Z hint: 	git branch -m <name>
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3803379Z hint:
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3804392Z hint: Disable this message with "git config set advice.defaultBranchName false"
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3806004Z Initialized empty Git repository in /home/runner/work/Nexus-Alpha/Nexus-Alpha/.git/
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3809551Z [command]/usr/bin/git remote add origin https://github.com/ENDARTStudios/Nexus-Alpha
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3857657Z ##[endgroup]
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3858921Z ##[group]Disabling automatic garbage collection
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3862528Z [command]/usr/bin/git config --local gc.auto 0
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3896997Z ##[endgroup]
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3898215Z ##[group]Setting up auth
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3904532Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.3939819Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.4304951Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.4350316Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.4615171Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.4654524Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.4896571Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.4940179Z ##[endgroup]
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.4941082Z ##[group]Fetching the repository
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:16.4949634Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +8932674f21bae312769b0d0e76d5e274bca6ee4f:refs/remotes/origin/main
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:17.1160950Z From https://github.com/ENDARTStudios/Nexus-Alpha
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:17.1163009Z  * [new ref]         8932674f21bae312769b0d0e76d5e274bca6ee4f -> origin/main
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:17.1169003Z ##[endgroup]
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:17.1170766Z ##[group]Determining the checkout info
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:17.1172510Z ##[endgroup]
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:17.1176513Z [command]/usr/bin/git sparse-checkout disable
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:17.1232045Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:17.1271259Z ##[group]Checking out the ref
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:17.1275755Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:17.1519039Z Switched to a new branch 'main'
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:17.1521717Z branch 'main' set up to track 'origin/main'.
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:17.1526725Z ##[endgroup]
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:17.1574948Z [command]/usr/bin/git log -1 --format=%H
+mine-and-evolve	Clonar o Reposit├│rio	2026-09-27T16:45:17.1605058Z 8932674f21bae312769b0d0e76d5e274bca6ee4f
+mine-and-evolve	Configurar Ambiente Python	´╗┐2026-09-27T16:45:17.1991332Z ##[group]Run actions/setup-python@v5
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:17.1992758Z with:
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:17.1993769Z   python-version: 3.10
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:17.1994897Z   cache: pip
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:17.1995896Z   check-latest: false
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:17.2005802Z   token: ***
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:17.2006916Z   update-environment: true
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:17.2008325Z   allow-prereleases: false
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:17.2009460Z   freethreaded: false
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:17.2010494Z ##[endgroup]
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:17.3405348Z ##[group]Installed versions
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:17.3493704Z (node:2239) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:17.3498533Z (Use `node --trace-deprecation ...` to show where the warning was created)
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:17.3501322Z Successfully set up CPython (3.10.21)
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:17.3504332Z ##[endgroup]
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:17.4182805Z [command]/opt/hostedtoolcache/Python/3.10.21/x64/bin/pip cache dir
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:17.7304422Z /home/runner/.cache/pip
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:17.8629166Z Cache hit for: setup-python-Linux-x64-24.04-Ubuntu-python-3.10.21-pip-37f034413a1cf5b2da694321b1af3dbe998806772480623b7def6b95af897cb2
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:17.8731785Z (node:2239) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:18.9790366Z Received 138412032 of 2984791711 (4.6%), 131.7 MBs/sec
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:19.9803608Z Received 398458880 of 2984791711 (13.3%), 189.3 MBs/sec
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:20.9775637Z Received 629145600 of 2984791711 (21.1%), 199.5 MBs/sec
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:21.9778168Z Received 834666496 of 2984791711 (28.0%), 198.6 MBs/sec
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:22.9782251Z Received 1065353216 of 2984791711 (35.7%), 202.9 MBs/sec
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:23.9783713Z Received 1296039936 of 2984791711 (43.4%), 205.7 MBs/sec
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:24.9790186Z Received 1505755136 of 2984791711 (50.4%), 204.9 MBs/sec
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:25.9787240Z Received 1740636160 of 2984791711 (58.3%), 207.3 MBs/sec
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:26.9800411Z Received 1937768448 of 2984791711 (64.9%), 205.1 MBs/sec
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:27.9808054Z Received 2147483648 of 2984791711 (71.9%), 204.6 MBs/sec
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:28.9808997Z Received 2348810240 of 2984791711 (78.7%), 203.4 MBs/sec
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:29.9830922Z Received 2566914048 of 2984791711 (86.0%), 203.8 MBs/sec
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:30.9831835Z Received 2818572288 of 2984791711 (94.4%), 206.6 MBs/sec
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:31.6908106Z Received 2984791711 of 2984791711 (100.0%), 207.5 MBs/sec
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:31.6909046Z Cache Size: ~2847 MB (2984791711 B)
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:31.6945780Z [command]/usr/bin/tar -xf /home/runner/work/_temp/18869d49-5d52-4faa-ad02-a91991a805e3/cache.tzst -P -C /home/runner/work/Nexus-Alpha/Nexus-Alpha --use-compress-program unzstd
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:37.1113178Z Cache restored successfully
+mine-and-evolve	Configurar Ambiente Python	2026-09-27T16:45:37.2950876Z Cache restored from key: setup-python-Linux-x64-24.04-Ubuntu-python-3.10.21-pip-37f034413a1cf5b2da694321b1af3dbe998806772480623b7def6b95af897cb2
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	´╗┐2026-09-27T16:45:37.5897473Z ##[group]Run python -m pip install --upgrade pip
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:37.5898213Z [36;1mpython -m pip install --upgrade pip[0m
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:37.5898781Z [36;1mpip install -r requirements.txt[0m
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:38.6953429Z shell: /usr/bin/bash -e {0}
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:38.6953867Z env:
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:38.6954208Z   pythonLocation: /opt/hostedtoolcache/Python/3.10.21/x64
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:38.6954714Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.10.21/x64/lib/pkgconfig
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:38.6955185Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:38.6955622Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:38.6956013Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:38.6956697Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.10.21/x64/lib
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:38.6957093Z ##[endgroup]
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:39.1659913Z Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (26.2.1)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:39.7285575Z Collecting httpx==0.27.0 (from -r requirements.txt (line 1))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:39.7301437Z   Using cached httpx-0.27.0-py3-none-any.whl.metadata (7.2 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:39.7549412Z Collecting beautifulsoup4==4.12.3 (from -r requirements.txt (line 2))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:39.7565218Z   Using cached beautifulsoup4-4.12.3-py3-none-any.whl.metadata (3.8 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:39.7753160Z Collecting neo4j==5.18.0 (from -r requirements.txt (line 3))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:39.7754626Z   Using cached neo4j-5.18.0-py3-none-any.whl
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:39.8041349Z Collecting qdrant-client==1.8.0 (from -r requirements.txt (line 4))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:39.8055673Z   Using cached qdrant_client-1.8.0-py3-none-any.whl.metadata (9.5 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:39.8495982Z Collecting langchain-core==0.1.30 (from -r requirements.txt (line 5))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:39.8511660Z   Using cached langchain_core-0.1.30-py3-none-any.whl.metadata (6.0 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:39.9587721Z Collecting pydantic==2.6.4 (from -r requirements.txt (line 6))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:39.9604698Z   Using cached pydantic-2.6.4-py3-none-any.whl.metadata (85 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:39.9961493Z Collecting PyYAML==6.0.1 (from -r requirements.txt (line 7))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:39.9978456Z   Using cached PyYAML-6.0.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (2.1 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.0228606Z Collecting pytest==8.0.0 (from -r requirements.txt (line 8))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.0249163Z   Using cached pytest-8.0.0-py3-none-any.whl.metadata (7.8 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.0467367Z Collecting pytest-asyncio==0.23.5 (from -r requirements.txt (line 9))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.0486762Z   Using cached pytest_asyncio-0.23.5-py3-none-any.whl.metadata (3.9 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.0858686Z Collecting streamlit==1.32.0 (from -r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.0873321Z   Using cached streamlit-1.32.0-py2.py3-none-any.whl.metadata (8.5 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.2007194Z Collecting spacy==3.7.2 (from -r requirements.txt (line 11))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.2024612Z   Using cached spacy-3.7.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (25 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.2680801Z Collecting fastapi==0.110.0 (from -r requirements.txt (line 12))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.2697793Z   Using cached fastapi-0.110.0-py3-none-any.whl.metadata (25 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.2941456Z Collecting uvicorn==0.27.1 (from -r requirements.txt (line 13))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.2957037Z   Using cached uvicorn-0.27.1-py3-none-any.whl.metadata (6.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.3289240Z Collecting transformers==4.38.0 (from -r requirements.txt (line 14))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.3306075Z   Using cached transformers-4.38.0-py3-none-any.whl.metadata (131 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.5089250Z Collecting torch==2.2.0 (from -r requirements.txt (line 15))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.5106533Z   Using cached torch-2.2.0-cp310-cp310-manylinux1_x86_64.whl.metadata (25 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.5306600Z Collecting anyio (from httpx==0.27.0->-r requirements.txt (line 1))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.5321405Z   Using cached anyio-4.15.1-py3-none-any.whl.metadata (4.7 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.5492082Z Collecting certifi (from httpx==0.27.0->-r requirements.txt (line 1))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.5506703Z   Using cached certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.5642566Z Collecting httpcore==1.* (from httpx==0.27.0->-r requirements.txt (line 1))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.5656654Z   Using cached httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.5803972Z Collecting idna (from httpx==0.27.0->-r requirements.txt (line 1))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.6273057Z   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.6386645Z Collecting sniffio (from httpx==0.27.0->-r requirements.txt (line 1))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.6400757Z   Using cached sniffio-1.3.1-py3-none-any.whl.metadata (3.9 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.6568207Z Collecting soupsieve>1.2 (from beautifulsoup4==4.12.3->-r requirements.txt (line 2))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.6606441Z   Downloading soupsieve-2.10-py3-none-any.whl.metadata (4.4 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.6997708Z Collecting pytz (from neo4j==5.18.0->-r requirements.txt (line 3))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:40.7045088Z   Downloading pytz-2026.4-py2.py3-none-any.whl.metadata (22 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:41.2551930Z Collecting grpcio>=1.41.0 (from qdrant-client==1.8.0->-r requirements.txt (line 4))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:41.2600212Z   Downloading grpcio-1.84.0-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (3.8 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:41.8762473Z Collecting grpcio-tools>=1.41.0 (from qdrant-client==1.8.0->-r requirements.txt (line 4))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:41.8809268Z   Downloading grpcio_tools-1.84.0-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:42.0862761Z Collecting numpy>=1.21 (from qdrant-client==1.8.0->-r requirements.txt (line 4))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:42.0880684Z   Using cached numpy-2.2.6-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (62 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:42.1033319Z Collecting portalocker<3.0.0,>=2.7.0 (from qdrant-client==1.8.0->-r requirements.txt (line 4))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:42.1048250Z   Using cached portalocker-2.10.1-py3-none-any.whl.metadata (8.5 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:42.1294363Z Collecting urllib3<3,>=1.26.14 (from qdrant-client==1.8.0->-r requirements.txt (line 4))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:42.1332726Z   Downloading urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:42.1527836Z Collecting jsonpatch<2.0,>=1.33 (from langchain-core==0.1.30->-r requirements.txt (line 5))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:42.1543352Z   Using cached jsonpatch-1.33-py2.py3-none-any.whl.metadata (3.0 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:42.2253962Z Collecting langsmith<0.2.0,>=0.1.0 (from langchain-core==0.1.30->-r requirements.txt (line 5))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:42.2271166Z   Using cached langsmith-0.1.147-py3-none-any.whl.metadata (14 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:42.2417523Z Collecting packaging<24.0,>=23.2 (from langchain-core==0.1.30->-r requirements.txt (line 5))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:42.2432674Z   Using cached packaging-23.2-py3-none-any.whl.metadata (3.2 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:42.2706451Z Collecting requests<3,>=2 (from langchain-core==0.1.30->-r requirements.txt (line 5))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:42.2723329Z   Using cached requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:42.2864259Z Collecting tenacity<9.0.0,>=8.1.0 (from langchain-core==0.1.30->-r requirements.txt (line 5))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:42.2880011Z   Using cached tenacity-8.5.0-py3-none-any.whl.metadata (1.2 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:42.2978135Z Collecting annotated-types>=0.4.0 (from pydantic==2.6.4->-r requirements.txt (line 6))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:42.2994323Z   Using cached annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.0990557Z Collecting pydantic-core==2.16.3 (from pydantic==2.6.4->-r requirements.txt (line 6))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.1008018Z   Using cached pydantic_core-2.16.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.5 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.1152600Z Collecting typing-extensions>=4.6.1 (from pydantic==2.6.4->-r requirements.txt (line 6))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.1167427Z   Using cached typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.1259050Z Collecting iniconfig (from pytest==8.0.0->-r requirements.txt (line 8))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.1273149Z   Using cached iniconfig-2.3.0-py3-none-any.whl.metadata (2.5 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.1365157Z Collecting pluggy<2.0,>=1.3.0 (from pytest==8.0.0->-r requirements.txt (line 8))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.1379691Z   Using cached pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.1488440Z Collecting exceptiongroup>=1.0.0rc8 (from pytest==8.0.0->-r requirements.txt (line 8))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.1503298Z   Using cached exceptiongroup-1.3.1-py3-none-any.whl.metadata (6.7 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.1707055Z Collecting tomli>=1.0.0 (from pytest==8.0.0->-r requirements.txt (line 8))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.1721952Z   Using cached tomli-2.4.1-py3-none-any.whl.metadata (10 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.1933726Z Collecting altair<6,>=4.0 (from streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.1948075Z   Using cached altair-5.5.0-py3-none-any.whl.metadata (11 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.2076984Z Collecting blinker<2,>=1.0.0 (from streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.2091611Z   Using cached blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.2248128Z Collecting cachetools<6,>=4.0 (from streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.2262693Z   Using cached cachetools-5.5.2-py3-none-any.whl.metadata (5.4 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.2411297Z Collecting click<9,>=7.0 (from streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.2425604Z   Using cached click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.2473469Z Collecting numpy>=1.21 (from qdrant-client==1.8.0->-r requirements.txt (line 4))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.2488281Z   Using cached numpy-1.26.4-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (61 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.4271351Z Collecting pandas<3,>=1.3.0 (from streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.4291115Z   Using cached pandas-2.3.3-cp310-cp310-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (91 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.6212736Z Collecting pillow<11,>=7.1.0 (from streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.6229910Z   Using cached pillow-10.4.0-cp310-cp310-manylinux_2_28_x86_64.whl.metadata (9.2 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.8324587Z Collecting protobuf<5,>=3.20 (from streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.8341900Z   Using cached protobuf-4.25.9-cp37-abi3-manylinux2014_x86_64.whl.metadata (541 bytes)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.9732575Z Collecting pyarrow>=7.0 (from streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:43.9750226Z   Using cached pyarrow-25.0.1-cp310-cp310-manylinux_2_28_x86_64.whl.metadata (3.0 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.0093065Z Collecting rich<14,>=10.14.0 (from streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.0110171Z   Using cached rich-13.9.4-py3-none-any.whl.metadata (18 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.0210834Z Collecting toml<2,>=0.10.1 (from streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.0233686Z   Using cached toml-0.10.2-py2.py3-none-any.whl.metadata (7.1 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.0471564Z Collecting gitpython!=3.1.19,<4,>=3.0.7 (from streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.0487431Z   Using cached gitpython-3.1.62-py3-none-any.whl.metadata (13 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.0638174Z Collecting pydeck<1,>=0.8.0b4 (from streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.0653469Z   Using cached pydeck-0.9.3-py2.py3-none-any.whl.metadata (4.2 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.1056061Z Collecting tornado<7,>=6.0.3 (from streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.1096471Z   Downloading tornado-6.5.10-cp39-abi3-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (2.8 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.1547789Z Collecting watchdog>=2.1.5 (from streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.1566054Z   Using cached watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl.metadata (44 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.1684261Z Collecting spacy-legacy<3.1.0,>=3.0.11 (from spacy==3.7.2->-r requirements.txt (line 11))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.1699756Z   Using cached spacy_legacy-3.0.12-py2.py3-none-any.whl.metadata (2.8 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.1779489Z Collecting spacy-loggers<2.0.0,>=1.0.0 (from spacy==3.7.2->-r requirements.txt (line 11))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.1793940Z   Using cached spacy_loggers-1.0.5-py3-none-any.whl.metadata (23 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.2141634Z Collecting murmurhash<1.1.0,>=0.28.0 (from spacy==3.7.2->-r requirements.txt (line 11))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.2159696Z   Using cached murmurhash-1.0.15-cp310-cp310-manylinux1_x86_64.manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_5_x86_64.whl.metadata (2.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.2491574Z Collecting cymem<2.1.0,>=2.0.2 (from spacy==3.7.2->-r requirements.txt (line 11))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.2509371Z   Using cached cymem-2.0.13-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (9.7 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.2846234Z Collecting preshed<3.1.0,>=3.0.2 (from spacy==3.7.2->-r requirements.txt (line 11))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.2864426Z   Using cached preshed-3.0.13-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.2 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.4180399Z Collecting thinc<8.3.0,>=8.1.8 (from spacy==3.7.2->-r requirements.txt (line 11))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.4199161Z   Using cached thinc-8.2.5-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (15 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.4459314Z Collecting wasabi<1.2.0,>=0.9.1 (from spacy==3.7.2->-r requirements.txt (line 11))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.4476232Z   Using cached wasabi-1.1.3-py3-none-any.whl.metadata (28 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.4934081Z Collecting srsly<3.0.0,>=2.4.3 (from spacy==3.7.2->-r requirements.txt (line 11))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.4952178Z   Using cached srsly-2.5.3-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (19 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.5064120Z Collecting catalogue<2.1.0,>=2.0.6 (from spacy==3.7.2->-r requirements.txt (line 11))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.5079288Z   Using cached catalogue-2.0.10-py3-none-any.whl.metadata (14 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.5180748Z Collecting weasel<0.4.0,>=0.1.0 (from spacy==3.7.2->-r requirements.txt (line 11))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.5196115Z   Using cached weasel-0.3.4-py3-none-any.whl.metadata (4.7 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.6141484Z Collecting typer<0.10.0,>=0.3.0 (from spacy==3.7.2->-r requirements.txt (line 11))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.6162836Z   Using cached typer-0.9.4-py3-none-any.whl.metadata (14 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.6340614Z Collecting smart-open<7.0.0,>=5.2.1 (from spacy==3.7.2->-r requirements.txt (line 11))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.6356798Z   Using cached smart_open-6.4.0-py3-none-any.whl.metadata (21 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.6684813Z Collecting tqdm<5.0.0,>=4.38.0 (from spacy==3.7.2->-r requirements.txt (line 11))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.6726550Z   Downloading tqdm-4.70.1-py3-none-any.whl.metadata (57 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.7007140Z Collecting jinja2 (from spacy==3.7.2->-r requirements.txt (line 11))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.7024071Z   Using cached jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.7039457Z Requirement already satisfied: setuptools in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from spacy==3.7.2->-r requirements.txt (line 11)) (79.0.1)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.7137184Z Collecting langcodes<4.0.0,>=3.2.0 (from spacy==3.7.2->-r requirements.txt (line 11))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.7153674Z   Using cached langcodes-3.5.1-py3-none-any.whl.metadata (30 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.7482299Z Collecting starlette<0.37.0,>=0.36.3 (from fastapi==0.110.0->-r requirements.txt (line 12))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.7498107Z   Using cached starlette-0.36.3-py3-none-any.whl.metadata (5.9 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.7635908Z Collecting h11>=0.8 (from uvicorn==0.27.1->-r requirements.txt (line 13))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.7651291Z   Using cached h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.7927918Z Collecting filelock (from transformers==4.38.0->-r requirements.txt (line 14))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.7965985Z   Downloading filelock-4.0.4-py3-none-any.whl.metadata (2.0 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.8470360Z Collecting huggingface-hub<1.0,>=0.19.3 (from transformers==4.38.0->-r requirements.txt (line 14))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:44.8487473Z   Using cached huggingface_hub-0.36.2-py3-none-any.whl.metadata (15 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.3833884Z Collecting regex!=2019.12.17 (from transformers==4.38.0->-r requirements.txt (line 14))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.3874702Z   Downloading regex-2026.9.10-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (40 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.5369335Z Collecting tokenizers<0.19,>=0.14 (from transformers==4.38.0->-r requirements.txt (line 14))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.5387217Z   Using cached tokenizers-0.15.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.7 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.6619128Z Collecting safetensors>=0.4.1 (from transformers==4.38.0->-r requirements.txt (line 14))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.6637423Z   Using cached safetensors-0.8.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.2 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.6934262Z Collecting sympy (from torch==2.2.0->-r requirements.txt (line 15))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.6951863Z   Using cached sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.7175544Z Collecting networkx (from torch==2.2.0->-r requirements.txt (line 15))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.7193246Z   Using cached networkx-3.4.2-py3-none-any.whl.metadata (6.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.7442074Z Collecting fsspec (from torch==2.2.0->-r requirements.txt (line 15))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.7483431Z   Downloading fsspec-2026.9.0-py3-none-any.whl.metadata (10 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.7879168Z Collecting nvidia-cuda-nvrtc-cu12==12.1.105 (from torch==2.2.0->-r requirements.txt (line 15))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.7895032Z   Using cached nvidia_cuda_nvrtc_cu12-12.1.105-py3-none-manylinux1_x86_64.whl.metadata (1.5 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.8000927Z Collecting nvidia-cuda-runtime-cu12==12.1.105 (from torch==2.2.0->-r requirements.txt (line 15))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.8016032Z   Using cached nvidia_cuda_runtime_cu12-12.1.105-py3-none-manylinux1_x86_64.whl.metadata (1.5 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.8115362Z Collecting nvidia-cuda-cupti-cu12==12.1.105 (from torch==2.2.0->-r requirements.txt (line 15))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.8130181Z   Using cached nvidia_cuda_cupti_cu12-12.1.105-py3-none-manylinux1_x86_64.whl.metadata (1.6 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.8319490Z Collecting nvidia-cudnn-cu12==8.9.2.26 (from torch==2.2.0->-r requirements.txt (line 15))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.8337317Z   Using cached nvidia_cudnn_cu12-8.9.2.26-py3-none-manylinux1_x86_64.whl.metadata (1.6 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.8449173Z Collecting nvidia-cublas-cu12==12.1.3.1 (from torch==2.2.0->-r requirements.txt (line 15))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.8464917Z   Using cached nvidia_cublas_cu12-12.1.3.1-py3-none-manylinux1_x86_64.whl.metadata (1.5 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.8574127Z Collecting nvidia-cufft-cu12==11.0.2.54 (from torch==2.2.0->-r requirements.txt (line 15))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.8589455Z   Using cached nvidia_cufft_cu12-11.0.2.54-py3-none-manylinux1_x86_64.whl.metadata (1.5 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.8694322Z Collecting nvidia-curand-cu12==10.3.2.106 (from torch==2.2.0->-r requirements.txt (line 15))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.8710051Z   Using cached nvidia_curand_cu12-10.3.2.106-py3-none-manylinux1_x86_64.whl.metadata (1.5 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.8812461Z Collecting nvidia-cusolver-cu12==11.4.5.107 (from torch==2.2.0->-r requirements.txt (line 15))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.8827643Z   Using cached nvidia_cusolver_cu12-11.4.5.107-py3-none-manylinux1_x86_64.whl.metadata (1.6 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.8933008Z Collecting nvidia-cusparse-cu12==12.1.0.106 (from torch==2.2.0->-r requirements.txt (line 15))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.8948222Z   Using cached nvidia_cusparse_cu12-12.1.0.106-py3-none-manylinux1_x86_64.whl.metadata (1.6 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.9075568Z Collecting nvidia-nccl-cu12==2.19.3 (from torch==2.2.0->-r requirements.txt (line 15))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.9092400Z   Using cached nvidia_nccl_cu12-2.19.3-py3-none-manylinux1_x86_64.whl.metadata (1.8 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.9225487Z Collecting nvidia-nvtx-cu12==12.1.105 (from torch==2.2.0->-r requirements.txt (line 15))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.9241548Z   Using cached nvidia_nvtx_cu12-12.1.105-py3-none-manylinux1_x86_64.whl.metadata (1.7 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.9409207Z Collecting triton==2.2.0 (from torch==2.2.0->-r requirements.txt (line 15))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.9426491Z   Using cached triton-2.2.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (1.4 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.9630057Z Collecting nvidia-nvjitlink-cu12 (from nvidia-cusolver-cu12==11.4.5.107->torch==2.2.0->-r requirements.txt (line 15))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.9645219Z   Using cached nvidia_nvjitlink_cu12-12.9.86-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl.metadata (1.7 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.9950859Z Collecting jsonschema>=3.0 (from altair<6,>=4.0->streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:45.9964281Z   Using cached jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.0337746Z Collecting narwhals>=1.14.2 (from altair<6,>=4.0->streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.0354692Z   Using cached narwhals-2.26.0-py3-none-any.whl.metadata (15 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.0636517Z Collecting gitdb<5,>=4.0.1 (from gitpython!=3.1.19,<4,>=3.0.7->streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.0651406Z   Using cached gitdb-4.0.12-py3-none-any.whl.metadata (1.2 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.0754774Z Collecting smmap<6,>=3.0.1 (from gitdb<5,>=4.0.1->gitpython!=3.1.19,<4,>=3.0.7->streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.0770330Z   Using cached smmap-5.0.3-py3-none-any.whl.metadata (4.6 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.1257051Z Collecting hf-xet<2.0.0,>=1.1.3 (from huggingface-hub<1.0,>=0.19.3->transformers==4.38.0->-r requirements.txt (line 14))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.1274765Z   Using cached hf_xet-1.6.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (4.9 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.1513489Z Collecting jsonpointer>=1.9 (from jsonpatch<2.0,>=1.33->langchain-core==0.1.30->-r requirements.txt (line 5))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.1535603Z   Using cached jsonpointer-3.1.1-py3-none-any.whl.metadata (2.4 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.5132795Z Collecting orjson<4.0.0,>=3.9.14 (from langsmith<0.2.0,>=0.1.0->langchain-core==0.1.30->-r requirements.txt (line 5))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.5151853Z   Using cached orjson-3.12.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (41 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.5276916Z Collecting requests-toolbelt<2.0.0,>=1.0.0 (from langsmith<0.2.0,>=0.1.0->langchain-core==0.1.30->-r requirements.txt (line 5))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.5292911Z   Using cached requests_toolbelt-1.0.0-py2.py3-none-any.whl.metadata (14 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.5495663Z Collecting python-dateutil>=2.8.2 (from pandas<3,>=1.3.0->streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.5511077Z   Using cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.5671787Z Collecting tzdata>=2022.7 (from pandas<3,>=1.3.0->streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.5710033Z   Downloading tzdata-2026.4-py2.py3-none-any.whl.metadata (1.4 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.7178797Z Collecting charset_normalizer<4,>=2 (from requests<3,>=2->langchain-core==0.1.30->-r requirements.txt (line 5))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.7196456Z   Using cached charset_normalizer-3.5.1-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (45 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.7498562Z Collecting markdown-it-py>=2.2.0 (from rich<14,>=10.14.0->streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.7513598Z   Using cached markdown_it_py-4.2.0-py3-none-any.whl.metadata (7.4 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.7705132Z Collecting pygments<3.0.0,>=2.13.0 (from rich<14,>=10.14.0->streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.7720586Z   Using cached pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.8346123Z Collecting blis<0.8.0,>=0.7.8 (from thinc<8.3.0,>=8.1.8->spacy==3.7.2->-r requirements.txt (line 11))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.8362964Z   Using cached blis-0.7.11-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (7.4 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.8525578Z Collecting confection<1.0.0,>=0.0.1 (from thinc<8.3.0,>=8.1.8->spacy==3.7.2->-r requirements.txt (line 11))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.8539574Z   Using cached confection-0.1.5-py3-none-any.whl.metadata (19 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.8972261Z Collecting cloudpathlib<0.17.0,>=0.7.0 (from weasel<0.4.0,>=0.1.0->spacy==3.7.2->-r requirements.txt (line 11))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.8986960Z   Using cached cloudpathlib-0.16.0-py3-none-any.whl.metadata (14 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.9199219Z INFO: pip is looking at multiple versions of grpcio-tools to determine which version is compatible with other requirements. This could take a while.
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.9206994Z Collecting grpcio-tools>=1.41.0 (from qdrant-client==1.8.0->-r requirements.txt (line 4))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.9223691Z   Using cached grpcio_tools-1.83.1-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.9255041Z   Using cached grpcio_tools-1.83.0-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.9285779Z   Using cached grpcio_tools-1.82.2-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.9315041Z   Using cached grpcio_tools-1.82.1-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.9344771Z   Using cached grpcio_tools-1.81.1-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.9439336Z   Using cached grpcio_tools-1.81.0-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.9470133Z   Using cached grpcio_tools-1.80.0-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.9547885Z INFO: pip is still looking at multiple versions of grpcio-tools to determine which version is compatible with other requirements. This could take a while.
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.9568426Z   Using cached grpcio_tools-1.78.0-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.9598350Z   Using cached grpcio_tools-1.76.0-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.9627754Z   Using cached grpcio_tools-1.75.1-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.9656890Z   Using cached grpcio_tools-1.75.0-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.9687107Z   Using cached grpcio_tools-1.74.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.9701642Z INFO: This is taking longer than usual. You might need to provide the dependency resolver with stricter constraints to reduce runtime. See https://pip.pypa.io/warnings/backtracking for guidance. If you want to abort this run, press Ctrl + C.
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.9720401Z   Using cached grpcio_tools-1.73.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.9811292Z   Using cached grpcio_tools-1.73.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.9840584Z   Using cached grpcio_tools-1.72.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.9869619Z   Using cached grpcio_tools-1.72.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.9899542Z   Using cached grpcio_tools-1.71.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:46.9984787Z   Using cached grpcio_tools-1.71.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.0014388Z   Using cached grpcio_tools-1.70.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.0044564Z   Using cached grpcio_tools-1.69.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.0086201Z   Using cached grpcio_tools-1.68.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.0116002Z   Using cached grpcio_tools-1.68.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.0145223Z   Using cached grpcio_tools-1.67.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.0174795Z   Using cached grpcio_tools-1.67.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.0203430Z   Using cached grpcio_tools-1.66.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.0232844Z   Using cached grpcio_tools-1.66.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.0261501Z   Using cached grpcio_tools-1.66.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.0290006Z   Using cached grpcio_tools-1.65.5-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.0319375Z   Using cached grpcio_tools-1.65.4-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.0347831Z   Using cached grpcio_tools-1.65.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.0377465Z   Using cached grpcio_tools-1.65.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.0406764Z   Using cached grpcio_tools-1.64.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.0434633Z   Using cached grpcio_tools-1.64.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.0462981Z   Using cached grpcio_tools-1.64.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.0492379Z   Using cached grpcio_tools-1.63.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.0520665Z   Using cached grpcio_tools-1.63.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.0549545Z   Using cached grpcio_tools-1.62.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.2 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.0879764Z Collecting h2<5,>=3 (from httpx[http2]>=0.14.0->qdrant-client==1.8.0->-r requirements.txt (line 4))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.0892916Z   Using cached h2-4.4.1-py3-none-any.whl.metadata (3.8 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.0995881Z Collecting hyperframe<7,>=6.1 (from h2<5,>=3->httpx[http2]>=0.14.0->qdrant-client==1.8.0->-r requirements.txt (line 4))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.1011170Z   Using cached hyperframe-6.1.0-py3-none-any.whl.metadata (4.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.1090290Z Collecting hpack<5,>=4.2 (from h2<5,>=3->httpx[http2]>=0.14.0->qdrant-client==1.8.0->-r requirements.txt (line 4))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.1104561Z   Using cached hpack-4.2.0-py3-none-any.whl.metadata (3.3 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.1635083Z Collecting MarkupSafe>=2.0 (from jinja2->spacy==3.7.2->-r requirements.txt (line 11))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.1652944Z   Using cached markupsafe-3.0.3-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.1791903Z Collecting attrs>=22.2.0 (from jsonschema>=3.0->altair<6,>=4.0->streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.1806891Z   Using cached attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.1907472Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema>=3.0->altair<6,>=4.0->streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.1922520Z   Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.2110356Z Collecting referencing>=0.28.4 (from jsonschema>=3.0->altair<6,>=4.0->streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.2125323Z   Using cached referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.5934664Z Collecting rpds-py>=0.25.0 (from jsonschema>=3.0->altair<6,>=4.0->streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.5953932Z   Using cached rpds_py-0.30.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.6099125Z Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich<14,>=10.14.0->streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.6116187Z   Using cached mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.6278325Z Collecting six>=1.5 (from python-dateutil>=2.8.2->pandas<3,>=1.3.0->streamlit==1.32.0->-r requirements.txt (line 10))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.6293266Z   Using cached six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.6699874Z Collecting mpmath<1.4,>=1.1.0 (from sympy->torch==2.2.0->-r requirements.txt (line 15))
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.6715452Z   Using cached mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.6787626Z Using cached httpx-0.27.0-py3-none-any.whl (75 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.6802179Z Using cached beautifulsoup4-4.12.3-py3-none-any.whl (147 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.6816481Z Using cached qdrant_client-1.8.0-py3-none-any.whl (214 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.6830568Z Using cached langchain_core-0.1.30-py3-none-any.whl (256 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.6844621Z Using cached pydantic-2.6.4-py3-none-any.whl (394 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.6859521Z Using cached PyYAML-6.0.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (705 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.6875251Z Using cached pytest-8.0.0-py3-none-any.whl (334 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.6890173Z Using cached pytest_asyncio-0.23.5-py3-none-any.whl (17 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.6903468Z Using cached streamlit-1.32.0-py2.py3-none-any.whl (8.1 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.6945951Z Using cached spacy-3.7.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (6.6 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.6982909Z Using cached fastapi-0.110.0-py3-none-any.whl (92 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.6996979Z Using cached uvicorn-0.27.1-py3-none-any.whl (60 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.7010742Z Using cached transformers-4.38.0-py3-none-any.whl (8.5 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.7053311Z Using cached torch-2.2.0-cp310-cp310-manylinux1_x86_64.whl (755.5 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:47.9528829Z Using cached nvidia_cublas_cu12-12.1.3.1-py3-none-manylinux1_x86_64.whl (410.6 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:48.0872756Z Using cached nvidia_cuda_cupti_cu12-12.1.105-py3-none-manylinux1_x86_64.whl (14.1 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:48.0937660Z Using cached nvidia_cuda_nvrtc_cu12-12.1.105-py3-none-manylinux1_x86_64.whl (23.7 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:48.1034874Z Using cached nvidia_cuda_runtime_cu12-12.1.105-py3-none-manylinux1_x86_64.whl (823 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:48.1051423Z Using cached nvidia_cudnn_cu12-8.9.2.26-py3-none-manylinux1_x86_64.whl (731.7 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:48.9323483Z Using cached nvidia_cufft_cu12-11.0.2.54-py3-none-manylinux1_x86_64.whl (121.6 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:49.2067819Z Using cached nvidia_curand_cu12-10.3.2.106-py3-none-manylinux1_x86_64.whl (56.5 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:49.3308784Z Using cached nvidia_cusolver_cu12-11.4.5.107-py3-none-manylinux1_x86_64.whl (124.2 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:49.6237441Z Using cached nvidia_cusparse_cu12-12.1.0.106-py3-none-manylinux1_x86_64.whl (196.0 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:50.1465676Z Using cached nvidia_nccl_cu12-2.19.3-py3-none-manylinux1_x86_64.whl (166.0 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:50.6248306Z Using cached nvidia_nvtx_cu12-12.1.105-py3-none-manylinux1_x86_64.whl (99 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:50.6261916Z Using cached pydantic_core-2.16.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.2 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:50.6283473Z Using cached triton-2.2.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (167.9 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.1216665Z Using cached altair-5.5.0-py3-none-any.whl (731 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.1232522Z Using cached anyio-4.15.1-py3-none-any.whl (132 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.1246723Z Using cached blinker-1.9.0-py3-none-any.whl (8.5 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.1259506Z Using cached cachetools-5.5.2-py3-none-any.whl (10 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.1272054Z Using cached catalogue-2.0.10-py3-none-any.whl (17 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.1284711Z Using cached click-8.5.0-py3-none-any.whl (125 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.1298247Z Using cached cymem-2.0.13-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (229 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.1311444Z Using cached gitpython-3.1.62-py3-none-any.whl (222 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.1328759Z Using cached gitdb-4.0.12-py3-none-any.whl (62 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.1345166Z Using cached httpcore-1.0.9-py3-none-any.whl (78 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.1361724Z Using cached huggingface_hub-0.36.2-py3-none-any.whl (566 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.1376748Z Using cached hf_xet-1.6.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (4.5 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.1404667Z Using cached jsonpatch-1.33-py2.py3-none-any.whl (12 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.1417714Z Using cached langcodes-3.5.1-py3-none-any.whl (183 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.1431189Z Using cached langsmith-0.1.147-py3-none-any.whl (311 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.1445588Z Using cached murmurhash-1.0.15-cp310-cp310-manylinux1_x86_64.manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_5_x86_64.whl (122 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.1458791Z Using cached numpy-1.26.4-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (18.2 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.1969439Z Using cached orjson-3.12.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (131 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.1982538Z Using cached packaging-23.2-py3-none-any.whl (53 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.1995446Z Using cached pandas-2.3.3-cp310-cp310-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (12.8 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.2328657Z Using cached pillow-10.4.0-cp310-cp310-manylinux_2_28_x86_64.whl (4.5 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.2428425Z Using cached pluggy-1.6.0-py3-none-any.whl (20 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.2441129Z Using cached portalocker-2.10.1-py3-none-any.whl (18 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.2454213Z Using cached preshed-3.0.13-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (779 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.2470083Z Using cached protobuf-4.25.9-cp37-abi3-manylinux2014_x86_64.whl (295 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.2483703Z Using cached pydeck-0.9.3-py2.py3-none-any.whl (11.4 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.2791763Z Using cached requests-2.34.2-py3-none-any.whl (73 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.2808662Z Using cached charset_normalizer-3.5.1-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (261 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:51.2845275Z Downloading idna-3.20-py3-none-any.whl (69 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:52.3817162Z Using cached requests_toolbelt-1.0.0-py2.py3-none-any.whl (54 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:52.3830475Z Using cached rich-13.9.4-py3-none-any.whl (242 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:52.3845146Z Using cached pygments-2.21.0-py3-none-any.whl (1.3 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:52.3863731Z Using cached smart_open-6.4.0-py3-none-any.whl (57 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:52.3877424Z Using cached smmap-5.0.3-py3-none-any.whl (24 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:52.3891247Z Using cached spacy_legacy-3.0.12-py2.py3-none-any.whl (29 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:52.3904248Z Using cached spacy_loggers-1.0.5-py3-none-any.whl (22 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:52.3918073Z Using cached srsly-2.5.3-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.1 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:52.3934898Z Using cached starlette-0.36.3-py3-none-any.whl (71 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:52.3948581Z Using cached tenacity-8.5.0-py3-none-any.whl (28 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:52.3962132Z Using cached thinc-8.2.5-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (922 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:52.3978804Z Using cached blis-0.7.11-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (10.2 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:52.4027009Z Using cached confection-0.1.5-py3-none-any.whl (35 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:52.4041072Z Using cached tokenizers-0.15.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.6 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:52.4066697Z Using cached toml-0.10.2-py2.py3-none-any.whl (16 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:52.4105404Z Downloading tornado-6.5.10-cp39-abi3-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (467 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:52.9969726Z Downloading tqdm-4.70.1-py3-none-any.whl (80 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:53.3867474Z Using cached typer-0.9.4-py3-none-any.whl (45 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:53.3883708Z Using cached typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:53.3923029Z Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:53.5913108Z Using cached wasabi-1.1.3-py3-none-any.whl (27 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:53.5925894Z Using cached weasel-0.3.4-py3-none-any.whl (50 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:53.5939272Z Using cached cloudpathlib-0.16.0-py3-none-any.whl (45 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:53.5952379Z Using cached annotated_types-0.8.0-py3-none-any.whl (13 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:53.5965210Z Using cached certifi-2026.7.22-py3-none-any.whl (136 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:53.5978657Z Using cached exceptiongroup-1.3.1-py3-none-any.whl (16 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:53.6014814Z Downloading fsspec-2026.9.0-py3-none-any.whl (221 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:53.8921689Z Downloading grpcio-1.84.0-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (7.2 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.6890455Z    ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü 7.2/7.2 MB 8.7 MB/s  0:00:00
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.6907464Z Using cached grpcio_tools-1.62.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.8 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.6932838Z Using cached h11-0.16.0-py3-none-any.whl (37 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.6947163Z Using cached h2-4.4.1-py3-none-any.whl (62 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.6961052Z Using cached hpack-4.2.0-py3-none-any.whl (34 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.6974590Z Using cached hyperframe-6.1.0-py3-none-any.whl (13 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.6988409Z Using cached jinja2-3.1.6-py3-none-any.whl (134 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7002601Z Using cached jsonpointer-3.1.1-py3-none-any.whl (7.7 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7015925Z Using cached jsonschema-4.26.0-py3-none-any.whl (90 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7029887Z Using cached attrs-26.1.0-py3-none-any.whl (67 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7043568Z Using cached jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7057198Z Using cached markdown_it_py-4.2.0-py3-none-any.whl (91 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7070969Z Using cached mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7085036Z Using cached markupsafe-3.0.3-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (20 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7098475Z Using cached narwhals-2.26.0-py3-none-any.whl (474 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7113518Z Using cached pyarrow-25.0.1-cp310-cp310-manylinux_2_28_x86_64.whl (50.1 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7298947Z Using cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7341114Z Downloading pytz-2026.4-py2.py3-none-any.whl (506 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7394341Z Using cached referencing-0.37.0-py3-none-any.whl (26 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7433535Z Downloading regex-2026.9.10-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (796 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7490580Z    ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü 796.3/796.3 kB 170.6 MB/s  0:00:00
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7506755Z Using cached rpds_py-0.30.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (390 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7522794Z Using cached safetensors-0.8.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (516 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7538327Z Using cached six-1.17.0-py2.py3-none-any.whl (11 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7599595Z Downloading soupsieve-2.10-py3-none-any.whl (38 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7616584Z Using cached tomli-2.4.1-py3-none-any.whl (14 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7651942Z Downloading tzdata-2026.4-py2.py3-none-any.whl (347 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7694544Z Using cached watchdog-6.0.0-py3-none-manylinux2014_x86_64.whl (79 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7733911Z Downloading filelock-4.0.4-py3-none-any.whl (108 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7770574Z Using cached iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7783785Z Using cached networkx-3.4.2-py3-none-any.whl (1.7 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7804369Z Using cached nvidia_nvjitlink_cu12-12.9.86-py3-none-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (39.7 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7958809Z Using cached sniffio-1.3.1-py3-none-any.whl (10 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.7972181Z Using cached sympy-1.14.0-py3-none-any.whl (6.3 MB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:54.8008276Z Using cached mpmath-1.3.0-py3-none-any.whl (536 kB)
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:45:58.4143562Z Installing collected packages: pytz, mpmath, watchdog, wasabi, urllib3, tzdata, typing-extensions, tqdm, tornado, tomli, toml, tenacity, sympy, spacy-loggers, spacy-legacy, soupsieve, sniffio, smmap, smart-open, six, safetensors, rpds-py, regex, PyYAML, pygments, pyarrow, protobuf, portalocker, pluggy, pillow, packaging, orjson, nvidia-nvtx-cu12, nvidia-nvjitlink-cu12, nvidia-nccl-cu12, nvidia-curand-cu12, nvidia-cufft-cu12, nvidia-cuda-runtime-cu12, nvidia-cuda-nvrtc-cu12, nvidia-cuda-cupti-cu12, nvidia-cublas-cu12, numpy, networkx, neo4j, narwhals, murmurhash, mdurl, MarkupSafe, langcodes, jsonpointer, iniconfig, idna, hyperframe, hpack, hf-xet, h11, fsspec, filelock, cymem, click, charset_normalizer, certifi, catalogue, cachetools, blinker, attrs, annotated-types, uvicorn, typer, triton, srsly, requests, referencing, python-dateutil, pydantic-core, preshed, nvidia-cusparse-cu12, nvidia-cudnn-cu12, markdown-it-py, jsonpatch, jinja2, httpcore, h2, grpcio, gitdb, exceptiongroup, cloudpathlib, blis, beautifulsoup4, rich, requests-toolbelt, pytest, pydeck, pydantic, pandas, nvidia-cusolver-cu12, jsonschema-specifications, huggingface-hub, grpcio-tools, gitpython, anyio, torch, tokenizers, starlette, pytest-asyncio, jsonschema, httpx, confection, weasel, transformers, thinc, langsmith, fastapi, altair, streamlit, spacy, qdrant-client, langchain-core
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:46:57.3127571Z 
+mine-and-evolve	Instalar Depend├¬ncias Operacionais	2026-09-27T16:46:57.3264383Z Successfully installed MarkupSafe-3.0.3 PyYAML-6.0.1 altair-5.5.0 annotated-types-0.8.0 anyio-4.15.1 attrs-26.1.0 beautifulsoup4-4.12.3 blinker-1.9.0 blis-0.7.11 cachetools-5.5.2 catalogue-2.0.10 certifi-2026.7.22 charset_normalizer-3.5.1 click-8.5.0 cloudpathlib-0.16.0 confection-0.1.5 cymem-2.0.13 exceptiongroup-1.3.1 fastapi-0.110.0 filelock-4.0.4 fsspec-2026.9.0 gitdb-4.0.12 gitpython-3.1.62 grpcio-1.84.0 grpcio-tools-1.62.3 h11-0.16.0 h2-4.4.1 hf-xet-1.6.0 hpack-4.2.0 httpcore-1.0.9 httpx-0.27.0 huggingface-hub-0.36.2 hyperframe-6.1.0 idna-3.20 iniconfig-2.3.0 jinja2-3.1.6 jsonpatch-1.33 jsonpointer-3.1.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 langchain-core-0.1.30 langcodes-3.5.1 langsmith-0.1.147 markdown-it-py-4.2.0 mdurl-0.1.2 mpmath-1.3.0 murmurhash-1.0.15 narwhals-2.26.0 neo4j-5.18.0 networkx-3.4.2 numpy-1.26.4 nvidia-cublas-cu12-12.1.3.1 nvidia-cuda-cupti-cu12-12.1.105 nvidia-cuda-nvrtc-cu12-12.1.105 nvidia-cuda-runtime-cu12-12.1.105 nvidia-cudnn-cu12-8.9.2.26 nvidia-cufft-cu12-11.0.2.54 nvidia-curand-cu12-10.3.2.106 nvidia-cusolver-cu12-11.4.5.107 nvidia-cusparse-cu12-12.1.0.106 nvidia-nccl-cu12-2.19.3 nvidia-nvjitlink-cu12-12.9.86 nvidia-nvtx-cu12-12.1.105 orjson-3.12.0 packaging-23.2 pandas-2.3.3 pillow-10.4.0 pluggy-1.6.0 portalocker-2.10.1 preshed-3.0.13 protobuf-4.25.9 pyarrow-25.0.1 pydantic-2.6.4 pydantic-core-2.16.3 pydeck-0.9.3 pygments-2.21.0 pytest-8.0.0 pytest-asyncio-0.23.5 python-dateutil-2.9.0.post0 pytz-2026.4 qdrant-client-1.8.0 referencing-0.37.0 regex-2026.9.10 requests-2.34.2 requests-toolbelt-1.0.0 rich-13.9.4 rpds-py-0.30.0 safetensors-0.8.0 six-1.17.0 smart-open-6.4.0 smmap-5.0.3 sniffio-1.3.1 soupsieve-2.10 spacy-3.7.2 spacy-legacy-3.0.12 spacy-loggers-1.0.5 srsly-2.5.3 starlette-0.36.3 streamlit-1.32.0 sympy-1.14.0 tenacity-8.5.0 thinc-8.2.5 tokenizers-0.15.2 toml-0.10.2 tomli-2.4.1 torch-2.2.0 tornado-6.5.10 tqdm-4.70.1 transformers-4.38.0 triton-2.2.0 typer-0.9.4 typing-extensions-4.16.0 tzdata-2026.4 urllib3-2.8.0 uvicorn-0.27.1 wasabi-1.1.3 watchdog-6.0.0 weasel-0.3.4
+mine-and-evolve	Baixar Modelo spaCy (PT)	´╗┐2026-09-27T16:46:58.1003868Z ##[group]Run pip install "https://github.com/explosion/spacy-models/releases/download/pt_core_news_sm-3.7.0/pt_core_news_sm-3.7.0-py3-none-any.whl"
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.1004977Z [36;1mpip install "https://github.com/explosion/spacy-models/releases/download/pt_core_news_sm-3.7.0/pt_core_news_sm-3.7.0-py3-none-any.whl"[0m
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.1075988Z shell: /usr/bin/bash -e {0}
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.1076450Z env:
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.1076754Z   pythonLocation: /opt/hostedtoolcache/Python/3.10.21/x64
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.1077235Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.10.21/x64/lib/pkgconfig
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.1077696Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.1078098Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.1078489Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.1078894Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.10.21/x64/lib
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.1079234Z ##[endgroup]
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.4551078Z Collecting pt-core-news-sm==3.7.0
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.7914586Z   Downloading pt_core_news_sm-3.7.0-py3-none-any.whl (13.0 MB)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9567951Z      ÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöüÔöü 13.0/13.0 MB 94.5 MB/s  0:00:00
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9723764Z Requirement already satisfied: spacy<3.8.0,>=3.7.0 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from pt-core-news-sm==3.7.0) (3.7.2)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9840800Z Requirement already satisfied: spacy-legacy<3.1.0,>=3.0.11 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (3.0.12)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9845519Z Requirement already satisfied: spacy-loggers<2.0.0,>=1.0.0 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (1.0.5)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9850408Z Requirement already satisfied: murmurhash<1.1.0,>=0.28.0 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (1.0.15)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9854998Z Requirement already satisfied: cymem<2.1.0,>=2.0.2 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (2.0.13)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9859762Z Requirement already satisfied: preshed<3.1.0,>=3.0.2 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (3.0.13)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9864145Z Requirement already satisfied: thinc<8.3.0,>=8.1.8 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (8.2.5)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9868858Z Requirement already satisfied: wasabi<1.2.0,>=0.9.1 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (1.1.3)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9873351Z Requirement already satisfied: srsly<3.0.0,>=2.4.3 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (2.5.3)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9877946Z Requirement already satisfied: catalogue<2.1.0,>=2.0.6 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (2.0.10)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9882500Z Requirement already satisfied: weasel<0.4.0,>=0.1.0 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (0.3.4)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9887052Z Requirement already satisfied: typer<0.10.0,>=0.3.0 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (0.9.4)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9892300Z Requirement already satisfied: smart-open<7.0.0,>=5.2.1 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (6.4.0)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9896910Z Requirement already satisfied: tqdm<5.0.0,>=4.38.0 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (4.70.1)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9901527Z Requirement already satisfied: requests<3.0.0,>=2.13.0 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (2.34.2)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9906730Z Requirement already satisfied: pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (2.6.4)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9910269Z Requirement already satisfied: jinja2 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (3.1.6)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9913885Z Requirement already satisfied: setuptools in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (79.0.1)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9918088Z Requirement already satisfied: packaging>=20.0 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (23.2)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9922637Z Requirement already satisfied: langcodes<4.0.0,>=3.2.0 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (3.5.1)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9928622Z Requirement already satisfied: numpy>=1.19.0 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (1.26.4)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:58.9999025Z Requirement already satisfied: annotated-types>=0.4.0 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4->spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (0.8.0)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:59.0003602Z Requirement already satisfied: pydantic-core==2.16.3 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4->spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (2.16.3)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:59.0008081Z Requirement already satisfied: typing-extensions>=4.6.1 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from pydantic!=1.8,!=1.8.1,<3.0.0,>=1.7.4->spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (4.16.0)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:59.0040067Z Requirement already satisfied: charset_normalizer<4,>=2 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from requests<3.0.0,>=2.13.0->spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (3.5.1)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:59.0044779Z Requirement already satisfied: idna<4,>=2.5 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from requests<3.0.0,>=2.13.0->spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (3.20)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:59.0049646Z Requirement already satisfied: urllib3<3,>=1.26 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from requests<3.0.0,>=2.13.0->spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (2.8.0)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:59.0053786Z Requirement already satisfied: certifi>=2023.5.7 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from requests<3.0.0,>=2.13.0->spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (2026.7.22)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:59.0350779Z Requirement already satisfied: blis<0.8.0,>=0.7.8 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from thinc<8.3.0,>=8.1.8->spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (0.7.11)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:59.0363874Z Requirement already satisfied: confection<1.0.0,>=0.0.1 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from thinc<8.3.0,>=8.1.8->spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (0.1.5)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:59.0480357Z Requirement already satisfied: click<9.0.0,>=7.1.1 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from typer<0.10.0,>=0.3.0->spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (8.5.0)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:59.0538320Z Requirement already satisfied: cloudpathlib<0.17.0,>=0.7.0 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from weasel<0.4.0,>=0.1.0->spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (0.16.0)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:59.0602909Z Requirement already satisfied: MarkupSafe>=2.0 in /opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages (from jinja2->spacy<3.8.0,>=3.7.0->pt-core-news-sm==3.7.0) (3.0.3)
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:59.3429416Z Installing collected packages: pt-core-news-sm
+mine-and-evolve	Baixar Modelo spaCy (PT)	2026-09-27T16:46:59.4511580Z Successfully installed pt-core-news-sm-3.7.0
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	´╗┐2026-09-27T16:46:59.5246737Z ##[group]Run python scripts/worker_cycle.py
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:46:59.5247173Z [36;1mpython scripts/worker_cycle.py[0m
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:46:59.5316678Z shell: /usr/bin/bash -e {0}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:46:59.5316973Z env:
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:46:59.5317275Z   pythonLocation: /opt/hostedtoolcache/Python/3.10.21/x64
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:46:59.5317753Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.10.21/x64/lib/pkgconfig
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:46:59.5318194Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:46:59.5318599Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:46:59.5318991Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.21/x64
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:46:59.5319385Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.10.21/x64/lib
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:46:59.5320191Z   NEXUS_API_TOKEN: ***
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:46:59.5320560Z   HF_SPACE_URL: ***
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:46:59.5320861Z   HF_TOKEN: ***
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:46:59.5321162Z   PYTHONPATH: /home/runner/work/Nexus-Alpha/Nexus-Alpha
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:46:59.5321504Z ##[endgroup]
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:00.6337613Z INFO:src.cognition.reasoning_engine:[THOUGHT - 1_OBJETIVO_RECEBIDO]: Expandir conhecimento sobre: 'Intelig├¬ncia Artificial'
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:00.6339154Z INFO:src.cognition.reasoning_engine:[THOUGHT - 2_ANALISE_DE_MEMORIA]: Verificando base interna. Fatos locais encontrados: 0
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:00.6340905Z INFO:src.cognition.reasoning_engine:[THOUGHT - 3_DECISAO_ESTRATEGICA]: Nenhuma informa├º├úo local. Necess├írio iniciar varredura web completa.
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:00.6342356Z INFO:nexus.worker:Plano de a├º├úo: BUSCA_TOTAL ÔÇö queries=3
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:03.5557499Z INFO:src.cognition.extractor:spaCy carregado: pt_core_news_sm
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:03.5707726Z INFO:nexus.worker:Clusters curados: {'configured': 7, 'urls_injected': 16, 'domains_expected': 7, 'distinct_publishers_expected': 6}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:03.5708892Z INFO:nexus.worker:Clusters curados: +16 URLs -> 44 no total.
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:03.5709861Z INFO:nexus.worker:Minerando 44 URLs (com seeds Wikip├®dia).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:03.7259015Z INFO:httpx:HTTP Request: GET https://pt.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:03.7270078Z INFO:httpx:HTTP Request: GET https://pt.wikipedia.org/wiki/Garrincha "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:03.7279791Z INFO:httpx:HTTP Request: GET https://pt.wikipedia.org/wiki/Pel%C3%A9 "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:03.9173537Z INFO:httpx:HTTP Request: GET https://pt.wikipedia.org/wiki/Santos_FC "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:03.9400110Z INFO:httpx:HTTP Request: GET https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.0589284Z INFO:httpx:HTTP Request: GET https://www.santosfc.com.br/institucional/historia "HTTP/1.1 301 Moved Permanently"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.1218365Z INFO:httpx:HTTP Request: GET https://en.wikipedia.org/wiki/Santos_FC "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.1230852Z INFO:httpx:HTTP Request: GET https://en.wikipedia.org/wiki/Pel%C3%A9 "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.1247907Z INFO:httpx:HTTP Request: GET https://www.botafogo.com.br/ "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.1300903Z INFO:httpx:HTTP Request: GET https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.1315563Z INFO:httpx:HTTP Request: GET https://en.wikipedia.org/wiki/Garrincha "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.2207051Z INFO:httpx:HTTP Request: GET https://en.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.2276615Z INFO:httpx:HTTP Request: GET https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.2796616Z INFO:httpx:HTTP Request: GET https://pt.wikipedia.org/wiki/Aprendizado_de_m%C3%A1quina "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.3412199Z INFO:httpx:HTTP Request: GET https://pt.wikipedia.org/wiki/Rede_neural_artificial "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.3579944Z INFO:httpx:HTTP Request: GET https://pt.wikipedia.org/wiki/Processamento_de_linguagem_natural "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.4196709Z INFO:httpx:HTTP Request: GET https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial_geral "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.4303713Z INFO:httpx:HTTP Request: GET https://en.wikipedia.org/wiki/Artificial_intelligence "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.4414071Z INFO:httpx:HTTP Request: GET https://en.wikipedia.org/wiki/Machine_learning "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.4455618Z INFO:httpx:HTTP Request: GET https://gazetadoparana.com.br/artigo/garrincha-botafogo-historia-craque-futebol-arte "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.4468742Z INFO:httpx:HTTP Request: GET https://pt.wikipedia.org/wiki/Aprendizado_por_refor%C3%A7o "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.4533254Z INFO:httpx:HTTP Request: GET https://pt.wikipedia.org/wiki/Visi%C3%A3o_computacional "HTTP/1.1 404 Not Found"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.4583389Z ERROR:src.miner.web_miner:[https://pt.wikipedia.org/wiki/Visi%C3%A3o_computacional] status 404 n├úo recuper├ível.
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.4696880Z INFO:httpx:HTTP Request: GET https://pt.wikipedia.org/wiki/Aprendizado_profundo "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.5769812Z INFO:httpx:HTTP Request: GET https://pytorch.org/tutorials/beginner/basics/intro.html "HTTP/1.1 301 Moved Permanently"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.6348007Z INFO:httpx:HTTP Request: GET https://paperswithcode.com/area/natural-language-processing "HTTP/1.1 302 Found"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.6432189Z INFO:httpx:HTTP Request: GET https://research.google/blog/ "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.6994485Z INFO:httpx:HTTP Request: GET https://ollama.com/library "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.7504537Z INFO:httpx:HTTP Request: GET https://huggingface.co/docs/transformers/index "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.7828570Z INFO:httpx:HTTP Request: GET https://www.nist.gov/artificial-intelligence "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.8129405Z INFO:httpx:HTTP Request: GET https://scikit-learn.org/stable/modules/neural_networks_supervised.html "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.8350177Z INFO:httpx:HTTP Request: GET https://plato.stanford.edu/entries/artificial-intelligence/ "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.8397341Z INFO:httpx:HTTP Request: GET https://news.mit.edu/topic/artificial-intelligence2 "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.8501492Z INFO:httpx:HTTP Request: GET https://www.rsssf.org/sacups/copalib.html "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.8515942Z INFO:httpx:HTTP Request: GET https://www.rsssf.org/tablesb/brazchamp.html "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:04.9630829Z INFO:httpx:HTTP Request: GET https://www.geeksforgeeks.org/what-is-artificial-intelligence/ "HTTP/1.1 307 Temporary Redirect"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:05.0171139Z INFO:httpx:HTTP Request: GET https://duckduckgo.com/html/?q=conceito%20fundamental%20de%20Intelig%C3%AAncia%20Artificial "HTTP/1.1 302 Moved Temporarily"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:05.0191577Z INFO:httpx:HTTP Request: GET https://duckduckgo.com/html/?q=Intelig%C3%AAncia%20Artificial "HTTP/1.1 302 Moved Temporarily"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:05.0208872Z INFO:httpx:HTTP Request: GET https://duckduckgo.com/html/?q=%C3%BAltimas%20descobertas%20em%20Intelig%C3%AAncia%20Artificial "HTTP/1.1 302 Moved Temporarily"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:05.0572887Z INFO:httpx:HTTP Request: GET https://www.ibm.com/think/topics/artificial-intelligence "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:05.0581640Z INFO:httpx:HTTP Request: GET https://developer.mozilla.org/en-US/docs/Glossary/Machine_learning "HTTP/1.1 404 Not Found"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:05.0617035Z ERROR:src.miner.web_miner:[https://developer.mozilla.org/en-US/docs/Glossary/Machine_learning] status 404 n├úo recuper├ível.
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:05.0762483Z INFO:httpx:HTTP Request: GET https://www.geeksforgeeks.org/what-is-artificial-intelligence-ai/ "HTTP/1.1 307 Temporary Redirect"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:05.1631052Z INFO:httpx:HTTP Request: GET https://huggingface.co/papers/trending "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:05.2369504Z INFO:httpx:HTTP Request: GET https://www.geeksforgeeks.org/artificial-intelligence/what-is-artificial-intelligence-ai/ "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:05.2559503Z INFO:httpx:HTTP Request: GET https://docs.pytorch.org/tutorials/beginner/basics/intro.html "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:05.6733743Z INFO:httpx:HTTP Request: GET https://spectrum.ieee.org/artificial-intelligence "HTTP/1.1 301 Moved Permanently"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:05.6790468Z INFO:httpx:HTTP Request: GET https://html.duckduckgo.com/html/?q=%C3%BAltimas%20descobertas%20em%20Intelig%C3%AAncia%20Artificial "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:05.6873378Z INFO:httpx:HTTP Request: GET https://www.tensorflow.org/tutorials/quickstart/beginner "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:05.6891286Z INFO:httpx:HTTP Request: GET https://spectrum.ieee.org/topic/artificial-intelligence/ "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:05.7103889Z INFO:httpx:HTTP Request: GET https://html.duckduckgo.com/html/?q=conceito%20fundamental%20de%20Intelig%C3%AAncia%20Artificial "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:05.7172959Z INFO:httpx:HTTP Request: GET https://www.santosfc.com.br/historia-eterno-capitao-zito/ "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:05.7942073Z INFO:httpx:HTTP Request: GET https://html.duckduckgo.com/html/?q=Intelig%C3%AAncia%20Artificial "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:06.0557226Z INFO:httpx:HTTP Request: GET https://ge.globo.com/futebol/times/santos/ "HTTP/1.1 301 Moved Permanently"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:06.0732090Z INFO:httpx:HTTP Request: GET https://arxiv.org/abs/2303.08774 "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:06.2404910Z INFO:httpx:HTTP Request: GET https://ge.globo.com/sp/santos-e-regiao/futebol/times/santos/ "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:42.3007289Z INFO:src.cognition.extractor:Extrator produziu 25 tripletas (85 predicados rejeitados pelo guard: {'invalid_predicate': 85}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:42.3055128Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://pt.wikipedia.org/wiki/Santos_FC
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:43.4960872Z INFO:src.cognition.extractor:Extrator produziu 13 tripletas (301 predicados rejeitados pelo guard: {'invalid_predicate': 285, 'stopword_predicate': 14, 'nonverbal_predicate': 2}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:43.5007508Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://en.wikipedia.org/wiki/Santos_FC
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:43.5512094Z INFO:src.cognition.extractor:Extrator produziu 4 tripletas (304 predicados rejeitados pelo guard: {'invalid_predicate': 288, 'stopword_predicate': 14, 'nonverbal_predicate': 2}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:43.5517093Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.85): https://www.santosfc.com.br/institucional/historia
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:43.5792841Z INFO:src.cognition.extractor:Extrator produziu 0 tripletas (310 predicados rejeitados pelo guard: {'invalid_predicate': 294, 'stopword_predicate': 14, 'nonverbal_predicate': 2}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:43.5796091Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.85): https://ge.globo.com/futebol/times/santos/
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:43.8964310Z INFO:src.cognition.extractor:Extrator produziu 14 tripletas (364 predicados rejeitados pelo guard: {'invalid_predicate': 348, 'stopword_predicate': 14, 'nonverbal_predicate': 2}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:43.8981914Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://pt.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:44.1559009Z INFO:src.cognition.extractor:Extrator produziu 24 tripletas (396 predicados rejeitados pelo guard: {'invalid_predicate': 380, 'stopword_predicate': 14, 'nonverbal_predicate': 2}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:44.1572787Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://en.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:46.3360088Z INFO:src.cognition.extractor:Extrator produziu 25 tripletas (499 predicados rejeitados pelo guard: {'invalid_predicate': 483, 'stopword_predicate': 14, 'nonverbal_predicate': 2}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:46.3448159Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://pt.wikipedia.org/wiki/Pel%C3%A9
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:47.3037737Z INFO:src.cognition.extractor:Extrator produziu 25 tripletas (702 predicados rejeitados pelo guard: {'invalid_predicate': 668, 'stopword_predicate': 30, 'nonverbal_predicate': 4}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:47.3075300Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://en.wikipedia.org/wiki/Pel%C3%A9
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:48.1197006Z INFO:src.cognition.extractor:Extrator produziu 25 tripletas (787 predicados rejeitados pelo guard: {'invalid_predicate': 753, 'stopword_predicate': 30, 'nonverbal_predicate': 4}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:48.1232901Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://pt.wikipedia.org/wiki/Garrincha
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:48.6098939Z INFO:src.cognition.extractor:Extrator produziu 21 tripletas (876 predicados rejeitados pelo guard: {'invalid_predicate': 832, 'stopword_predicate': 38, 'nonverbal_predicate': 6}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:48.6120929Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://en.wikipedia.org/wiki/Garrincha
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:49.4751009Z INFO:src.cognition.extractor:Extrator produziu 25 tripletas (969 predicados rejeitados pelo guard: {'invalid_predicate': 925, 'stopword_predicate': 38, 'nonverbal_predicate': 6}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:49.4792769Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:49.8754029Z INFO:src.cognition.extractor:Extrator produziu 18 tripletas (1029 predicados rejeitados pelo guard: {'invalid_predicate': 982, 'stopword_predicate': 41, 'nonverbal_predicate': 6}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:49.8772475Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:51.1034211Z INFO:src.cognition.extractor:Extrator produziu 0 tripletas (1030 predicados rejeitados pelo guard: {'invalid_predicate': 983, 'stopword_predicate': 41, 'nonverbal_predicate': 6}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:51.1056407Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.85): https://www.botafogo.com.br/
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:51.1061923Z INFO:src.miner.quarantine:Fato em quarentena (domain_score abaixo do limiar, score=0.60): https://gazetadoparana.com.br/artigo/garrincha-botafogo-historia-craque-futebol-arte
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:51.2976820Z INFO:src.cognition.extractor:Extra├º├úo tabular {'attempted': 4, 'emitted': 4, 'skipped_no_html': 0, 'skipped_not_whitelisted': 0, 'error': 0} em https://www.rsssf.org/sacups/copalib.html.
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:51.2978919Z INFO:src.cognition.extractor:Extrator produziu 2 tripletas (1033 predicados rejeitados pelo guard: {'invalid_predicate': 985, 'stopword_predicate': 42, 'nonverbal_predicate': 6}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:51.2986498Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://www.rsssf.org/sacups/copalib.html
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:51.5501390Z INFO:src.cognition.extractor:Extra├º├úo tabular {'attempted': 3, 'emitted': 3, 'skipped_no_html': 0, 'skipped_not_whitelisted': 0, 'error': 0} em https://www.rsssf.org/tablesb/brazchamp.html.
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:51.5503535Z INFO:src.cognition.extractor:Extrator produziu 7 tripletas (1044 predicados rejeitados pelo guard: {'invalid_predicate': 996, 'stopword_predicate': 42, 'nonverbal_predicate': 6}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:51.5512745Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://www.rsssf.org/tablesb/brazchamp.html
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:52.1480186Z INFO:src.cognition.extractor:Extrator produziu 15 tripletas (1159 predicados rejeitados pelo guard: {'invalid_predicate': 1111, 'stopword_predicate': 42, 'nonverbal_predicate': 6}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:52.1508936Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:52.6407263Z INFO:src.cognition.extractor:Extrator produziu 25 tripletas (1228 predicados rejeitados pelo guard: {'invalid_predicate': 1180, 'stopword_predicate': 42, 'nonverbal_predicate': 6}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:52.6432053Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://pt.wikipedia.org/wiki/Aprendizado_de_m%C3%A1quina
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:53.4153473Z INFO:src.cognition.extractor:Extrator produziu 25 tripletas (1297 predicados rejeitados pelo guard: {'invalid_predicate': 1249, 'stopword_predicate': 42, 'nonverbal_predicate': 6}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:53.4191303Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://pt.wikipedia.org/wiki/Rede_neural_artificial
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:54.3971889Z INFO:src.cognition.extractor:Extrator produziu 25 tripletas (1367 predicados rejeitados pelo guard: {'invalid_predicate': 1319, 'stopword_predicate': 42, 'nonverbal_predicate': 6}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:54.4017868Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://pt.wikipedia.org/wiki/Aprendizado_profundo
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:54.8776708Z INFO:src.cognition.extractor:Extrator produziu 20 tripletas (1435 predicados rejeitados pelo guard: {'invalid_predicate': 1387, 'stopword_predicate': 42, 'nonverbal_predicate': 6}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:54.8800457Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://pt.wikipedia.org/wiki/Processamento_de_linguagem_natural
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:55.5534431Z INFO:src.cognition.extractor:Extrator produziu 24 tripletas (1535 predicados rejeitados pelo guard: {'invalid_predicate': 1481, 'stopword_predicate': 42, 'nonverbal_predicate': 6, 'url_or_code_predicate': 6}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:55.5566639Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://pt.wikipedia.org/wiki/Aprendizado_por_refor%C3%A7o
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:56.1915599Z INFO:src.cognition.extractor:Extrator produziu 23 tripletas (1656 predicados rejeitados pelo guard: {'invalid_predicate': 1602, 'stopword_predicate': 42, 'nonverbal_predicate': 6, 'url_or_code_predicate': 6}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:56.1946033Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial_geral
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:58.3922351Z INFO:src.cognition.extractor:Extrator produziu 25 tripletas (2076 predicados rejeitados pelo guard: {'invalid_predicate': 1996, 'stopword_predicate': 53, 'nonverbal_predicate': 21, 'url_or_code_predicate': 6}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:58.4005963Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://en.wikipedia.org/wiki/Artificial_intelligence
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:59.5068314Z INFO:src.cognition.extractor:Extrator produziu 25 tripletas (2322 predicados rejeitados pelo guard: {'invalid_predicate': 2225, 'stopword_predicate': 59, 'nonverbal_predicate': 31, 'url_or_code_predicate': 7}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:59.5115314Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://en.wikipedia.org/wiki/Machine_learning
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:59.5780616Z INFO:src.cognition.extractor:Extrator produziu 0 tripletas (2331 predicados rejeitados pelo guard: {'invalid_predicate': 2231, 'stopword_predicate': 59, 'nonverbal_predicate': 34, 'url_or_code_predicate': 7}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:59.5785548Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://pytorch.org/tutorials/beginner/basics/intro.html
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:59.8908174Z INFO:src.cognition.extractor:Extrator produziu 6 tripletas (2396 predicados rejeitados pelo guard: {'invalid_predicate': 2293, 'stopword_predicate': 61, 'nonverbal_predicate': 35, 'url_or_code_predicate': 7}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:47:59.8925348Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://www.tensorflow.org/tutorials/quickstart/beginner
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:00.1529716Z INFO:src.cognition.extractor:Extrator produziu 22 tripletas (2441 predicados rejeitados pelo guard: {'invalid_predicate': 2333, 'stopword_predicate': 63, 'nonverbal_predicate': 36, 'url_or_code_predicate': 9}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:00.1543084Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://scikit-learn.org/stable/modules/neural_networks_supervised.html
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:00.2387943Z INFO:src.cognition.extractor:Extrator produziu 2 tripletas (2454 predicados rejeitados pelo guard: {'invalid_predicate': 2344, 'stopword_predicate': 65, 'nonverbal_predicate': 36, 'url_or_code_predicate': 9}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:00.2395347Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.80): https://huggingface.co/docs/transformers/index
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:01.0232487Z INFO:src.cognition.extractor:Extrator produziu 23 tripletas (2653 predicados rejeitados pelo guard: {'invalid_predicate': 2472, 'stopword_predicate': 72, 'nonverbal_predicate': 100, 'url_or_code_predicate': 9}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:01.0266066Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.80): https://ollama.com/library
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:01.0735420Z INFO:src.cognition.extractor:Extrator produziu 0 tripletas (2656 predicados rejeitados pelo guard: {'invalid_predicate': 2474, 'stopword_predicate': 72, 'nonverbal_predicate': 101, 'url_or_code_predicate': 9}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:01.0739813Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.80): https://research.google/blog/
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:01.2420575Z INFO:src.cognition.extractor:Extrator produziu 1 tripletas (2667 predicados rejeitados pelo guard: {'invalid_predicate': 2485, 'stopword_predicate': 72, 'nonverbal_predicate': 101, 'url_or_code_predicate': 9}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:01.2429103Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://arxiv.org/abs/2303.08774
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:02.2822766Z INFO:src.cognition.extractor:Extrator produziu 12 tripletas (2899 predicados rejeitados pelo guard: {'invalid_predicate': 2695, 'stopword_predicate': 80, 'nonverbal_predicate': 115, 'url_or_code_predicate': 9}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:02.2866585Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.80): https://paperswithcode.com/area/natural-language-processing
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:05.8451294Z INFO:src.cognition.extractor:Extrator produziu 25 tripletas (3517 predicados rejeitados pelo guard: {'invalid_predicate': 3281, 'stopword_predicate': 94, 'nonverbal_predicate': 132, 'url_or_code_predicate': 10}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:05.8573965Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://plato.stanford.edu/entries/artificial-intelligence/
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:05.9278954Z INFO:src.cognition.extractor:Extrator produziu 4 tripletas (3527 predicados rejeitados pelo guard: {'invalid_predicate': 3291, 'stopword_predicate': 94, 'nonverbal_predicate': 132, 'url_or_code_predicate': 10}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:05.9284183Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://www.nist.gov/artificial-intelligence
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:06.0804800Z INFO:src.cognition.extractor:Extrator produziu 8 tripletas (3546 predicados rejeitados pelo guard: {'invalid_predicate': 3305, 'stopword_predicate': 97, 'nonverbal_predicate': 134, 'url_or_code_predicate': 10}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:06.0812975Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://www.geeksforgeeks.org/what-is-artificial-intelligence/
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:06.6061107Z INFO:src.cognition.extractor:Extrator produziu 25 tripletas (3675 predicados rejeitados pelo guard: {'invalid_predicate': 3421, 'stopword_predicate': 98, 'nonverbal_predicate': 146, 'url_or_code_predicate': 10}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:06.6083978Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.80): https://www.ibm.com/think/topics/artificial-intelligence
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:06.7044827Z INFO:src.cognition.extractor:Extrator produziu 0 tripletas (3699 predicados rejeitados pelo guard: {'invalid_predicate': 3437, 'stopword_predicate': 98, 'nonverbal_predicate': 154, 'url_or_code_predicate': 10}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:06.7050772Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://news.mit.edu/topic/artificial-intelligence2
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:06.8603245Z INFO:src.cognition.extractor:Extrator produziu 1 tripletas (3713 predicados rejeitados pelo guard: {'invalid_predicate': 3450, 'stopword_predicate': 98, 'nonverbal_predicate': 155, 'url_or_code_predicate': 10}).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:06.8611894Z INFO:src.miner.quarantine:Fato em quarentena (Hip├│tese Isolada (quarentena), score=0.90): https://spectrum.ieee.org/artificial-intelligence
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:06.8614418Z INFO:src.miner.quarantine:Fato em quarentena (domain_score abaixo do limiar, score=0.60): https://duckduckgo.com/html/?q=Intelig%C3%AAncia%20Artificial
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:06.8620259Z INFO:src.miner.quarantine:Fato em quarentena (domain_score abaixo do limiar, score=0.60): https://duckduckgo.com/html/?q=conceito%20fundamental%20de%20Intelig%C3%AAncia%20Artificial
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:06.8624605Z INFO:src.miner.quarantine:Fato em quarentena (domain_score abaixo do limiar, score=0.60): https://duckduckgo.com/html/?q=%C3%BAltimas%20descobertas%20em%20Intelig%C3%AAncia%20Artificial
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:07.0187709Z INFO:httpx:HTTP Request: GET ***/health "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:07.1303485Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:07.2167587Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:07.3008359Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:07.3976896Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:07.4812302Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:07.5672257Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:07.6636133Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:07.7433904Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:07.8319611Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:07.9216020Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:08.0094178Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:08.0920364Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:08.1702178Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:08.2546738Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:08.3421807Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:08.4237810Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:08.5107707Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:08.6077554Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:08.6951860Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:08.7829995Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:08.8666869Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:08.9494623Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:09.0290960Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:09.1060491Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:09.1879686Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:09.2809724Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:09.3783411Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:09.4571403Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:09.5625365Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:09.6637057Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:09.7444275Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:09.8264383Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:09.9004484Z INFO:httpx:HTTP Request: POST ***/api/extract "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:09.9008966Z INFO:nexus.worker:Extra├º├úo can├┤nica LLM aplicada em 0/33 fonte(s).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:10.2231374Z INFO:src.cognition.extractor:spaCy carregado: pt_core_news_sm
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:11.4669278Z INFO:nexus.worker:telemetria {"url": "https://pt.wikipedia.org/wiki/Santos_FC", "quality": "weak", "canonical_triples": 8, "raw_triples": 25, "football_related_hits": 6, "football_verb_hits": 11, "notes": "rejeicoes dominadas por ruido de navegacao"}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:11.7399195Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:11.7408923Z INFO:nexus.worker:Resposta [https://pt.wikipedia.org/wiki/Santos_FC]: 200 ÔÇö {"status":"failed","message":"Neo4j indispon├¡vel e fallback demo-memory desabilitado (NEXUS_ALLOW_DEMO_FALLBACK=false).","db_status":"demo-memory","entities_processed":8,"vectors_indexed":0,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:11.7411771Z WARNING:nexus.worker:Ingest degradado [https://pt.wikipedia.org/wiki/Santos_FC]: status=failed entities=8 masked=False
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:13.1082761Z INFO:nexus.worker:telemetria {"url": "https://en.wikipedia.org/wiki/Santos_FC", "quality": "productive", "canonical_triples": 8, "raw_triples": 13, "football_related_hits": 6, "football_verb_hits": 4, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:13.6273340Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:13.6282016Z INFO:nexus.worker:Resposta [https://en.wikipedia.org/wiki/Santos_FC]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":8,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:13.6827130Z INFO:nexus.worker:telemetria {"url": "https://www.santosfc.com.br/institucional/historia", "quality": "weak", "canonical_triples": 2, "raw_triples": 4, "football_related_hits": 1, "football_verb_hits": 2, "notes": "rejeicoes dominadas por ruido de navegacao"}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:13.8967659Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:13.8975980Z INFO:nexus.worker:Resposta [https://www.santosfc.com.br/institucional/historia]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":2,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:14.2717063Z INFO:nexus.worker:telemetria {"url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira", "quality": "weak", "canonical_triples": 7, "raw_triples": 14, "football_related_hits": 7, "football_verb_hits": 5, "notes": "rejeicoes dominadas por ruido de navegacao"}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:14.5151586Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:14.5160197Z INFO:nexus.worker:Resposta [https://pt.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":7,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:14.8095381Z INFO:nexus.worker:telemetria {"url": "https://en.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira", "quality": "productive", "canonical_triples": 8, "raw_triples": 24, "football_related_hits": 1, "football_verb_hits": 3, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:15.0600591Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:15.0605621Z INFO:nexus.worker:Resposta [https://en.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":8,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:17.5603779Z INFO:nexus.worker:telemetria {"url": "https://pt.wikipedia.org/wiki/Pel%C3%A9", "quality": "productive", "canonical_triples": 11, "raw_triples": 25, "football_related_hits": 10, "football_verb_hits": 17, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:17.8670736Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:17.8677514Z INFO:nexus.worker:Resposta [https://pt.wikipedia.org/wiki/Pel%C3%A9]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":11,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:18.9600018Z INFO:nexus.worker:telemetria {"url": "https://en.wikipedia.org/wiki/Pel%C3%A9", "quality": "productive", "canonical_triples": 7, "raw_triples": 25, "football_related_hits": 1, "football_verb_hits": 4, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:19.2105233Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:19.2113315Z INFO:nexus.worker:Resposta [https://en.wikipedia.org/wiki/Pel%C3%A9]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":7,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:20.1488423Z INFO:nexus.worker:telemetria {"url": "https://pt.wikipedia.org/wiki/Garrincha", "quality": "productive", "canonical_triples": 11, "raw_triples": 25, "football_related_hits": 8, "football_verb_hits": 9, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:20.4013408Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:20.4019528Z INFO:nexus.worker:Resposta [https://pt.wikipedia.org/wiki/Garrincha]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":11,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:20.9602998Z INFO:nexus.worker:telemetria {"url": "https://en.wikipedia.org/wiki/Garrincha", "quality": "productive", "canonical_triples": 7, "raw_triples": 21, "football_related_hits": 4, "football_verb_hits": 5, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:21.2175282Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:21.2181398Z INFO:nexus.worker:Resposta [https://en.wikipedia.org/wiki/Garrincha]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":7,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:22.2292159Z INFO:nexus.worker:telemetria {"url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas", "quality": "productive", "canonical_triples": 8, "raw_triples": 25, "football_related_hits": 6, "football_verb_hits": 8, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:22.4800302Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:22.4806172Z INFO:nexus.worker:Resposta [https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":8,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:22.9350314Z INFO:nexus.worker:telemetria {"url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas", "quality": "productive", "canonical_triples": 12, "raw_triples": 18, "football_related_hits": 6, "football_verb_hits": 4, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:23.1694192Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:23.1698077Z INFO:nexus.worker:Resposta [https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":12,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:23.3606649Z INFO:nexus.worker:telemetria {"url": "https://www.rsssf.org/sacups/copalib.html", "quality": "weak", "canonical_triples": 1, "raw_triples": 2, "football_related_hits": 0, "football_verb_hits": 2, "notes": "rejeicoes dominadas por ruido de navegacao"}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:23.6050129Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:23.6057679Z INFO:nexus.worker:Resposta [https://www.rsssf.org/sacups/copalib.html]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":3,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:23.8617351Z INFO:nexus.worker:telemetria {"url": "https://www.rsssf.org/tablesb/brazchamp.html", "quality": "unproductive", "canonical_triples": 0, "raw_triples": 7, "football_related_hits": 0, "football_verb_hits": 1, "notes": "todas as triplas cruas rejeitadas no refino"}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:24.2162143Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:24.2169284Z INFO:nexus.worker:Resposta [https://www.rsssf.org/tablesb/brazchamp.html]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":1,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:24.9136927Z INFO:nexus.worker:telemetria {"url": "https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial", "quality": "weak", "canonical_triples": 6, "raw_triples": 15, "football_related_hits": 0, "football_verb_hits": 6, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:25.1658939Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:25.1666889Z INFO:nexus.worker:Resposta [https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":6,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:25.7427280Z INFO:nexus.worker:telemetria {"url": "https://pt.wikipedia.org/wiki/Aprendizado_de_m%C3%A1quina", "quality": "weak", "canonical_triples": 10, "raw_triples": 25, "football_related_hits": 0, "football_verb_hits": 2, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:25.9857673Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:25.9865151Z INFO:nexus.worker:Resposta [https://pt.wikipedia.org/wiki/Aprendizado_de_m%C3%A1quina]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":10,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:26.9012243Z INFO:nexus.worker:telemetria {"url": "https://pt.wikipedia.org/wiki/Rede_neural_artificial", "quality": "weak", "canonical_triples": 5, "raw_triples": 25, "football_related_hits": 0, "football_verb_hits": 1, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:27.1488968Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:27.1496593Z INFO:nexus.worker:Resposta [https://pt.wikipedia.org/wiki/Rede_neural_artificial]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":5,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:28.3141982Z INFO:nexus.worker:telemetria {"url": "https://pt.wikipedia.org/wiki/Aprendizado_profundo", "quality": "weak", "canonical_triples": 6, "raw_triples": 25, "football_related_hits": 0, "football_verb_hits": 3, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:28.5654199Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:28.5662416Z INFO:nexus.worker:Resposta [https://pt.wikipedia.org/wiki/Aprendizado_profundo]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":6,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:29.1276551Z INFO:nexus.worker:telemetria {"url": "https://pt.wikipedia.org/wiki/Processamento_de_linguagem_natural", "quality": "weak", "canonical_triples": 8, "raw_triples": 20, "football_related_hits": 0, "football_verb_hits": 0, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:29.3646156Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:29.3653340Z INFO:nexus.worker:Resposta [https://pt.wikipedia.org/wiki/Processamento_de_linguagem_natural]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":8,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:30.1461163Z INFO:nexus.worker:telemetria {"url": "https://pt.wikipedia.org/wiki/Aprendizado_por_refor%C3%A7o", "quality": "weak", "canonical_triples": 5, "raw_triples": 24, "football_related_hits": 0, "football_verb_hits": 1, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:30.3949159Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:30.3956787Z INFO:nexus.worker:Resposta [https://pt.wikipedia.org/wiki/Aprendizado_por_refor%C3%A7o]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":5,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:31.1379807Z INFO:nexus.worker:telemetria {"url": "https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial_geral", "quality": "weak", "canonical_triples": 3, "raw_triples": 23, "football_related_hits": 0, "football_verb_hits": 2, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:31.3840733Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:31.3849028Z INFO:nexus.worker:Resposta [https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial_geral]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":3,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:33.8866592Z INFO:nexus.worker:telemetria {"url": "https://en.wikipedia.org/wiki/Artificial_intelligence", "quality": "weak", "canonical_triples": 12, "raw_triples": 25, "football_related_hits": 0, "football_verb_hits": 1, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:34.2596960Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:34.2602590Z INFO:nexus.worker:Resposta [https://en.wikipedia.org/wiki/Artificial_intelligence]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":12,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:35.5310045Z INFO:nexus.worker:telemetria {"url": "https://en.wikipedia.org/wiki/Machine_learning", "quality": "weak", "canonical_triples": 10, "raw_triples": 25, "football_related_hits": 0, "football_verb_hits": 0, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:35.7831149Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:35.7838121Z INFO:nexus.worker:Resposta [https://en.wikipedia.org/wiki/Machine_learning]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":10,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:36.1632640Z INFO:nexus.worker:telemetria {"url": "https://www.tensorflow.org/tutorials/quickstart/beginner", "quality": "weak", "canonical_triples": 4, "raw_triples": 6, "football_related_hits": 0, "football_verb_hits": 0, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:36.3882209Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:36.3890208Z INFO:nexus.worker:Resposta [https://www.tensorflow.org/tutorials/quickstart/beginner]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":4,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:36.6840498Z INFO:nexus.worker:telemetria {"url": "https://scikit-learn.org/stable/modules/neural_networks_supervised.html", "quality": "weak", "canonical_triples": 8, "raw_triples": 22, "football_related_hits": 0, "football_verb_hits": 0, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:36.9255826Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:36.9264223Z INFO:nexus.worker:Resposta [https://scikit-learn.org/stable/modules/neural_networks_supervised.html]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":8,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:37.0247362Z INFO:nexus.worker:telemetria {"url": "https://huggingface.co/docs/transformers/index", "quality": "weak", "canonical_triples": 1, "raw_triples": 2, "football_related_hits": 0, "football_verb_hits": 0, "notes": "rejeicoes dominadas por ruido de navegacao"}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:37.3314894Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:37.3321937Z INFO:nexus.worker:Resposta [https://huggingface.co/docs/transformers/index]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":1,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:38.2225669Z INFO:nexus.worker:telemetria {"url": "https://ollama.com/library", "quality": "weak", "canonical_triples": 8, "raw_triples": 23, "football_related_hits": 0, "football_verb_hits": 0, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:38.5857040Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:38.5864062Z INFO:nexus.worker:Resposta [https://ollama.com/library]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":8,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:38.7799595Z INFO:nexus.worker:telemetria {"url": "https://arxiv.org/abs/2303.08774", "quality": "unproductive", "canonical_triples": 0, "raw_triples": 1, "football_related_hits": 0, "football_verb_hits": 1, "notes": "todas as triplas cruas rejeitadas no refino"}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:38.8676751Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:38.8684079Z INFO:nexus.worker:Resposta [https://arxiv.org/abs/2303.08774]: 200 ÔÇö {"status":"failed","message":"Extra├º├úo sem entidades e fallback demo-memory desabilitado (NEXUS_ALLOW_DEMO_FALLBACK=false).","db_status":"demo-memory","entities_processed":0,"vectors_indexed":0,"verified_facts":0,"masked_extraction_failure":true,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:38.8685704Z WARNING:nexus.worker:Ingest degradado [https://arxiv.org/abs/2303.08774]: status=failed entities=0 masked=True
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:40.0720587Z INFO:nexus.worker:telemetria {"url": "https://paperswithcode.com/area/natural-language-processing", "quality": "weak", "canonical_triples": 6, "raw_triples": 12, "football_related_hits": 0, "football_verb_hits": 0, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:40.3187689Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:40.3196137Z INFO:nexus.worker:Resposta [https://paperswithcode.com/area/natural-language-processing]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":6,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:44.3690402Z INFO:nexus.worker:telemetria {"url": "https://plato.stanford.edu/entries/artificial-intelligence/", "quality": "weak", "canonical_triples": 11, "raw_triples": 25, "football_related_hits": 0, "football_verb_hits": 2, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:44.6447570Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:44.6455233Z INFO:nexus.worker:Resposta [https://plato.stanford.edu/entries/artificial-intelligence/]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":11,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:44.7259462Z INFO:nexus.worker:telemetria {"url": "https://www.nist.gov/artificial-intelligence", "quality": "weak", "canonical_triples": 2, "raw_triples": 4, "football_related_hits": 0, "football_verb_hits": 0, "notes": "rejeicoes dominadas por ruido de navegacao"}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:44.9398113Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:44.9405275Z INFO:nexus.worker:Resposta [https://www.nist.gov/artificial-intelligence]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":2,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:45.1170881Z INFO:nexus.worker:telemetria {"url": "https://www.geeksforgeeks.org/what-is-artificial-intelligence/", "quality": "weak", "canonical_triples": 4, "raw_triples": 8, "football_related_hits": 0, "football_verb_hits": 0, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:45.3311237Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:45.3318398Z INFO:nexus.worker:Resposta [https://www.geeksforgeeks.org/what-is-artificial-intelligence/]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":4,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:45.9394604Z INFO:nexus.worker:telemetria {"url": "https://www.ibm.com/think/topics/artificial-intelligence", "quality": "weak", "canonical_triples": 8, "raw_triples": 25, "football_related_hits": 0, "football_verb_hits": 0, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:46.1814436Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:46.1820238Z INFO:nexus.worker:Resposta [https://www.ibm.com/think/topics/artificial-intelligence]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":8,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:46.3574893Z INFO:nexus.worker:telemetria {"url": "https://spectrum.ieee.org/artificial-intelligence", "quality": "weak", "canonical_triples": 1, "raw_triples": 1, "football_related_hits": 0, "football_verb_hits": 0, "notes": ""}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:46.5699815Z INFO:httpx:HTTP Request: POST ***/api/ingest "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:46.5707702Z INFO:nexus.worker:Resposta [https://spectrum.ieee.org/artificial-intelligence]: 200 ÔÇö {"status":"success","message":"Dados processados e inseridos no Neo4j AuraDB real.","db_status":"cluster-active","entities_processed":1,"vectors_indexed":1,"verified_facts":0,"masked_extraction_failure":false,"allow_demo_fallback":false}
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:46.5710027Z INFO:nexus.worker:Ingest├úo conclu├¡da: 33 fonte(s) enviada(s).
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:46.9768372Z INFO:httpx:HTTP Request: POST ***/api/brain/consolidate "HTTP/1.1 200 OK"
+mine-and-evolve	Executar Motor de Minera├º├úo e Ingest├úo	2026-09-27T16:48:46.9774692Z INFO:nexus.worker:Consolida├º├úo cerebral: 200 ÔÇö {"status":"ok","source":"neo4j_tally","candidates":729,"inverses":73,"consolidated":802,"min_replays":3,"episodes_marked":1910,"pruned_episodes":0}
+mine-and-evolve	Post Configurar Ambiente Python	´╗┐2026-09-27T16:48:47.4560246Z Post job cleanup.
+mine-and-evolve	Post Configurar Ambiente Python	2026-09-27T16:48:47.5803105Z Cache hit occurred on the primary key setup-python-Linux-x64-24.04-Ubuntu-python-3.10.21-pip-37f034413a1cf5b2da694321b1af3dbe998806772480623b7def6b95af897cb2, not saving cache.
+mine-and-evolve	Post Configurar Ambiente Python	2026-09-27T16:48:47.5804666Z (node:2406) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+mine-and-evolve	Post Configurar Ambiente Python	2026-09-27T16:48:47.5805648Z (Use `node --trace-deprecation ...` to show where the warning was created)
+mine-and-evolve	Post Clonar o Reposit├│rio	´╗┐2026-09-27T16:48:47.5967142Z Post job cleanup.
+mine-and-evolve	Post Clonar o Reposit├│rio	2026-09-27T16:48:47.6861582Z [command]/usr/bin/git version
+mine-and-evolve	Post Clonar o Reposit├│rio	2026-09-27T16:48:47.6909241Z git version 2.55.0
+mine-and-evolve	Post Clonar o Reposit├│rio	2026-09-27T16:48:47.6952487Z Temporarily overriding HOME='/home/runner/work/_temp/e3c9793d-95e2-41af-8736-356c34c2d5b0' before making global git config changes
+mine-and-evolve	Post Clonar o Reposit├│rio	2026-09-27T16:48:47.6954067Z Adding repository directory to the temporary git global config as a safe directory
+mine-and-evolve	Post Clonar o Reposit├│rio	2026-09-27T16:48:47.6958793Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Nexus-Alpha/Nexus-Alpha
+mine-and-evolve	Post Clonar o Reposit├│rio	2026-09-27T16:48:47.7000874Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+mine-and-evolve	Post Clonar o Reposit├│rio	2026-09-27T16:48:47.7037095Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+mine-and-evolve	Post Clonar o Reposit├│rio	2026-09-27T16:48:47.7301368Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+mine-and-evolve	Post Clonar o Reposit├│rio	2026-09-27T16:48:47.7329475Z http.https://github.com/.extraheader
+mine-and-evolve	Post Clonar o Reposit├│rio	2026-09-27T16:48:47.7340659Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+mine-and-evolve	Post Clonar o Reposit├│rio	2026-09-27T16:48:47.7379981Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+mine-and-evolve	Post Clonar o Reposit├│rio	2026-09-27T16:48:47.7726533Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+mine-and-evolve	Post Clonar o Reposit├│rio	2026-09-27T16:48:47.7776085Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+mine-and-evolve	Complete job	´╗┐2026-09-27T16:48:47.8279233Z Cleaning up orphan processes
+mine-and-evolve	Complete job	2026-09-27T16:48:47.8611149Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
