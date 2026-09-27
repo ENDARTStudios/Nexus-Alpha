@@ -76,6 +76,23 @@ def _to_urls(queries: list[str]) -> list[str]:
     return urls
 
 
+# #048.6 batch 3: teto de mineração do RAG. O top_k trunca a cauda de
+# target_urls SILENCIOSAMENTE (foi assim que as RSSSF caíram no run
+# 36333813255); manter >= total de seeds+clusters curados.
+WORKER_TOP_K = 60
+
+
+def _merge_urls(base_urls: list[str], cluster_urls: list[str]) -> list[str]:
+    """Clusters curados primeiro; o top_k do RAG trunca a cauda.
+
+    Seeds curadas (ex.: RSSSF) jamais podem cair por truncamento — a cauda
+    (queries de busca/DDG) é descartável. Sem duplicatas, ordem estável.
+    """
+    merged = [u for u in cluster_urls if u not in base_urls]
+    merged.extend(u for u in base_urls if u not in merged)
+    return merged
+
+
 def _load_cluster_urls() -> list[str]:
     """URLs dos clusters curados (#048), validadas estruturalmente."""
     path = Path(__file__).resolve().parent.parent / "config" / "seed_clusters.yaml"
@@ -107,12 +124,12 @@ async def run_cycle() -> None:
     miner = WebMiner()
     security = SecurityProtocol()
     extractor = EntityExtractor(enable_fallback=True)
-    rag = RAGEngine(miner=miner, security=security, extractor=extractor, top_k=40)
+    rag = RAGEngine(miner=miner, security=security, extractor=extractor, top_k=WORKER_TOP_K)
 
     target_urls = _to_urls(plan.target_queries)
     cluster_urls = _load_cluster_urls()
     if cluster_urls:
-        target_urls += [u for u in cluster_urls if u not in target_urls]
+        target_urls = _merge_urls(target_urls, cluster_urls)
         logger.info("Clusters curados: +%d URLs -> %d no total.", len(cluster_urls), len(target_urls))
     logger.info("Minerando %d URLs (com seeds Wikipédia).", len(target_urls))
     sources = await rag.fetch_and_verify(target_urls)
