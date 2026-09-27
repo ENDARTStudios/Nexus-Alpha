@@ -2267,3 +2267,39 @@ Fatôes verificados acumulados (3): Botafogo→Libertadores, Botafogo→Brasilei
 
 ### Próximo passo
 **#048.8.1 / #048.9** — replicar padrão p/ mais clubes/competições estáticas (ex.: Flamengo, Palmeiras, São Paulo) para acumular rumo a `verified >= 10` (gate de treino). Não abrir #047.2/#045.3 (mediums = junk-vs-clean, `promote_automatically=false`). Treino fechado (3 < 10).
+
+## #048.9 — Multi-club honours scale-up
+
+**Status:** DONE — **Cenário A (sucesso pleno, meta `verified >= 10` atingida)** — **Commits:** `79bfcd4` (fix encoding), `7170964` (runtime multi-clube), `008d643` (seeds) + este (docs/reports) — **CI:** verde — **Snapshot:** `reports/aura_snapshot_pre_048_9.json` (4144 nós, Fato=227) — **Worker run:** `36349468468` (success).
+
+### Fases
+- **A (dry-run):** `scripts/audit_multi_club_honours_dry_run.py` → **`full_collision=7`** (Libertadores ×5 clubes + Brasileirão Palmeiras/São Paulo), `partial=3`. Bugs reais achados e corrigidos: (1) URL percent-encoded não casava (`unquote`); (2) RSSSF é **latin-1** → mojibake de nomes acentuados; (3) `_club_mention_ok` fazia substring de "club"⊂"clube" (rejeitava Clube de Regatas do Flamengo/São Paulo Futebol Clube/Sport Club Internacional); (4) guard de year-range (tabela de participações Flamengo).
+- **B (runtime):** `web_miner.fetch_page` decodifica utf-8→latin-1 (#048.9); `table_extractor.py`: `CLUB_ALLOWLIST` +5 clubes, `WIKI_HONOURS_CLUBS` +5 (allowlist por clube), `RSSSF_WINNER_ALIASES` (source-scoped), guard year-range, `unquote`. +13 testes.
+- **C (worker):** 12 clusters/26 URLs; tabular disparou em 16 páginas; RSSSF agora lê São Paulo/Grêmio (encoding).
+
+### Métricas
+| Métrica | Antes | Depois | Delta |
+|---|---:|---:|---:|
+| facts | 227 | 328 | +101 (novas páginas wiki) |
+| duplicate_cross_domain | 4 | 11 | +7 |
+| facts_with_two_or_more_domains | 4 | 11 | +7 |
+| facts_with_three_or_more_domains | 3 | **10** | +7 |
+| verified_facts_domain_independent | 3 | **10** | **+7** |
+| table_extraction.canonical_triples_from_tables | — | 16 páginas | + |
+| run_scoped_gap / graph_scoped_gap | 0/explicado | 0/explicado | — |
+| unaccounted_raw | 0 | 0 | — |
+| top_invalid_predicates | [] | [] | — |
+| vectors | 969 | 1011 | +42 |
+
+### Classificação
+**Cenário A — sucesso pleno:** `verified >= 10`, `three_or_more_domains >= 10`, `duplicate >= 11`. Fatos verificados (10):
+Botafogo→Libertadores, Botafogo→Brasileirão, Santos→Libertadores, Flamengo→Libertadores, Grêmio→Libertadores, São Paulo→Libertadores, Palmeiras→Libertadores, Internacional→Libertadores, Palmeiras→Brasileirão, São Paulo→Brasileirão.
+
+### Limitação editorial
+3 domínios, **2 publishers** (Wikimedia+RSSSF). Dívida **#053** registrada.
+
+### Nota de qualidade
++101 fatos vêm das novas páginas wiki dos clubes (narrativa) — ruído pré-existente do extrator narrativo (ex.: `FLAMENGO VENCEU JOGO`); auditorias estruturais limpas (0 duplicatas SPO, 0 invalid predicates, 0 near-collision). Honras RSSSF com `table_only` continua suprimindo narrativa.
+
+### Próximo passo
+**Gate de treino:** `verified >= 10` atingido; ainda exige `records >= 50`, dataset sanitizado, Python 3.11–3.13 e GPU. **Não treinar automaticamente.** Próximo: issue de export/avaliação do gate (sem abrir #047.2/#045.3). Opcional: #048.10 (mais clubes) e #053 (publisher independence).

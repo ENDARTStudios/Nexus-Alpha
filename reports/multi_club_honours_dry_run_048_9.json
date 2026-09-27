@@ -1,0 +1,372 @@
+{
+  "audit_id": "multi_club_honours_dry_run_048_9",
+  "generated_at": "2026-09-27T20:33:44.984531+00:00",
+  "read_only": true,
+  "policy": {
+    "table_only_domains": [
+      "rsssf.org"
+    ],
+    "narrative_plus_table_domains": [
+      "pt.wikipedia.org",
+      "en.wikipedia.org"
+    ],
+    "allowed_competitions": [
+      "COPA LIBERTADORES",
+      "CAMPEONATO BRASILEIRO SERIE A"
+    ],
+    "allowed_clubs": [
+      "CLUBE DE REGATAS DO FLAMENGO",
+      "GREMIO FOOT BALL PORTO ALEGRENSE",
+      "SOCIEDADE ESPORTIVA PALMEIRAS",
+      "SPORT CLUBE INTERNACIONAL",
+      "SÃO PAULO FUTEBOL CLUBE"
+    ]
+  },
+  "targets": [
+    {
+      "fact": "CLUBE DE REGATAS DO FLAMENGO --VENCEU--> CAMPEONATO BRASILEIRO SERIE A",
+      "club": "CLUBE DE REGATAS DO FLAMENGO",
+      "competition": "CAMPEONATO BRASILEIRO SERIE A",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 2,
+      "predicted_publisher_count": 1,
+      "predicted_confirmations": 16,
+      "predicted_verified": true,
+      "collision_status": "partial_collision",
+      "would_persist": false,
+      "blocking_reason": "dominio/competicao ausente"
+    },
+    {
+      "fact": "CLUBE DE REGATAS DO FLAMENGO --VENCEU--> COPA LIBERTADORES",
+      "club": "CLUBE DE REGATAS DO FLAMENGO",
+      "competition": "COPA LIBERTADORES",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org",
+        "rsssf.org"
+      ],
+      "predicted_domain_count": 3,
+      "predicted_publisher_count": 2,
+      "predicted_confirmations": 12,
+      "predicted_verified": true,
+      "collision_status": "full_collision",
+      "would_persist": true,
+      "blocking_reason": null
+    },
+    {
+      "fact": "GREMIO FOOT BALL PORTO ALEGRENSE --VENCEU--> CAMPEONATO BRASILEIRO SERIE A",
+      "club": "GREMIO FOOT BALL PORTO ALEGRENSE",
+      "competition": "CAMPEONATO BRASILEIRO SERIE A",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 2,
+      "predicted_publisher_count": 1,
+      "predicted_confirmations": 6,
+      "predicted_verified": true,
+      "collision_status": "partial_collision",
+      "would_persist": false,
+      "blocking_reason": "dominio/competicao ausente"
+    },
+    {
+      "fact": "GREMIO FOOT BALL PORTO ALEGRENSE --VENCEU--> COPA LIBERTADORES",
+      "club": "GREMIO FOOT BALL PORTO ALEGRENSE",
+      "competition": "COPA LIBERTADORES",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org",
+        "rsssf.org"
+      ],
+      "predicted_domain_count": 3,
+      "predicted_publisher_count": 2,
+      "predicted_confirmations": 12,
+      "predicted_verified": true,
+      "collision_status": "full_collision",
+      "would_persist": true,
+      "blocking_reason": null
+    },
+    {
+      "fact": "SOCIEDADE ESPORTIVA PALMEIRAS --VENCEU--> CAMPEONATO BRASILEIRO SERIE A",
+      "club": "SOCIEDADE ESPORTIVA PALMEIRAS",
+      "competition": "CAMPEONATO BRASILEIRO SERIE A",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org",
+        "rsssf.org"
+      ],
+      "predicted_domain_count": 3,
+      "predicted_publisher_count": 2,
+      "predicted_confirmations": 34,
+      "predicted_verified": true,
+      "collision_status": "full_collision",
+      "would_persist": true,
+      "blocking_reason": null
+    },
+    {
+      "fact": "SOCIEDADE ESPORTIVA PALMEIRAS --VENCEU--> COPA LIBERTADORES",
+      "club": "SOCIEDADE ESPORTIVA PALMEIRAS",
+      "competition": "COPA LIBERTADORES",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org",
+        "rsssf.org"
+      ],
+      "predicted_domain_count": 3,
+      "predicted_publisher_count": 2,
+      "predicted_confirmations": 9,
+      "predicted_verified": true,
+      "collision_status": "full_collision",
+      "would_persist": true,
+      "blocking_reason": null
+    },
+    {
+      "fact": "SPORT CLUBE INTERNACIONAL --VENCEU--> CAMPEONATO BRASILEIRO SERIE A",
+      "club": "SPORT CLUBE INTERNACIONAL",
+      "competition": "CAMPEONATO BRASILEIRO SERIE A",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 2,
+      "predicted_publisher_count": 1,
+      "predicted_confirmations": 9,
+      "predicted_verified": true,
+      "collision_status": "partial_collision",
+      "would_persist": false,
+      "blocking_reason": "dominio/competicao ausente"
+    },
+    {
+      "fact": "SPORT CLUBE INTERNACIONAL --VENCEU--> COPA LIBERTADORES",
+      "club": "SPORT CLUBE INTERNACIONAL",
+      "competition": "COPA LIBERTADORES",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org",
+        "rsssf.org"
+      ],
+      "predicted_domain_count": 3,
+      "predicted_publisher_count": 2,
+      "predicted_confirmations": 8,
+      "predicted_verified": true,
+      "collision_status": "full_collision",
+      "would_persist": true,
+      "blocking_reason": null
+    },
+    {
+      "fact": "SÃO PAULO FUTEBOL CLUBE --VENCEU--> CAMPEONATO BRASILEIRO SERIE A",
+      "club": "SÃO PAULO FUTEBOL CLUBE",
+      "competition": "CAMPEONATO BRASILEIRO SERIE A",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org",
+        "rsssf.org"
+      ],
+      "predicted_domain_count": 3,
+      "predicted_publisher_count": 2,
+      "predicted_confirmations": 18,
+      "predicted_verified": true,
+      "collision_status": "full_collision",
+      "would_persist": true,
+      "blocking_reason": null
+    },
+    {
+      "fact": "SÃO PAULO FUTEBOL CLUBE --VENCEU--> COPA LIBERTADORES",
+      "club": "SÃO PAULO FUTEBOL CLUBE",
+      "competition": "COPA LIBERTADORES",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org",
+        "rsssf.org"
+      ],
+      "predicted_domain_count": 3,
+      "predicted_publisher_count": 2,
+      "predicted_confirmations": 9,
+      "predicted_verified": true,
+      "collision_status": "full_collision",
+      "would_persist": true,
+      "blocking_reason": null
+    }
+  ],
+  "per_url": {
+    "https://pt.wikipedia.org/wiki/Clube_de_Regatas_do_Flamengo": {
+      "url": "https://pt.wikipedia.org/wiki/Clube_de_Regatas_do_Flamengo",
+      "status": 200,
+      "table_found": true,
+      "rows": 12,
+      "canonical": 12,
+      "rejection_reasons": {
+        "wiki_no_years": 21,
+        "wiki_not_honours_table": 9,
+        "wiki_year_range_participation": 14,
+        "wiki_navbox_table_skipped": 5,
+        "wiki_competition_not_allowlisted": 26
+      }
+    },
+    "https://en.wikipedia.org/wiki/CR_Flamengo": {
+      "url": "https://en.wikipedia.org/wiki/CR_Flamengo",
+      "status": 200,
+      "table_found": true,
+      "rows": 12,
+      "canonical": 12,
+      "rejection_reasons": {
+        "wiki_not_honours_table": 20,
+        "wiki_navbox_table_skipped": 23,
+        "wiki_no_years": 10,
+        "wiki_competition_not_allowlisted": 13
+      }
+    },
+    "https://pt.wikipedia.org/wiki/Sociedade_Esportiva_Palmeiras": {
+      "url": "https://pt.wikipedia.org/wiki/Sociedade_Esportiva_Palmeiras",
+      "status": 200,
+      "table_found": true,
+      "rows": 13,
+      "canonical": 13,
+      "rejection_reasons": {
+        "wiki_no_years": 17,
+        "wiki_not_honours_table": 5,
+        "wiki_year_range_participation": 1,
+        "wiki_navbox_table_skipped": 38,
+        "wiki_competition_not_allowlisted": 17
+      }
+    },
+    "https://en.wikipedia.org/wiki/SE_Palmeiras": {
+      "url": "https://en.wikipedia.org/wiki/SE_Palmeiras",
+      "status": 200,
+      "table_found": true,
+      "rows": 15,
+      "canonical": 15,
+      "rejection_reasons": {
+        "wiki_not_honours_table": 22,
+        "wiki_navbox_table_skipped": 15,
+        "wiki_competition_not_allowlisted": 10
+      }
+    },
+    "https://pt.wikipedia.org/wiki/S%C3%A3o_Paulo_Futebol_Clube": {
+      "url": "https://pt.wikipedia.org/wiki/S%C3%A3o_Paulo_Futebol_Clube",
+      "status": 200,
+      "table_found": true,
+      "rows": 9,
+      "canonical": 9,
+      "rejection_reasons": {
+        "wiki_no_years": 17,
+        "wiki_not_honours_table": 13,
+        "wiki_navbox_table_skipped": 35,
+        "wiki_competition_not_allowlisted": 13
+      }
+    },
+    "https://en.wikipedia.org/wiki/S%C3%A3o_Paulo_FC": {
+      "url": "https://en.wikipedia.org/wiki/S%C3%A3o_Paulo_FC",
+      "status": 200,
+      "table_found": true,
+      "rows": 9,
+      "canonical": 9,
+      "rejection_reasons": {
+        "wiki_not_honours_table": 21,
+        "wiki_navbox_table_skipped": 24,
+        "wiki_competition_not_allowlisted": 12
+      }
+    },
+    "https://pt.wikipedia.org/wiki/Gr%C3%AAmio_Foot-Ball_Porto_Alegrense": {
+      "url": "https://pt.wikipedia.org/wiki/Gr%C3%AAmio_Foot-Ball_Porto_Alegrense",
+      "status": 200,
+      "table_found": true,
+      "rows": 10,
+      "canonical": 10,
+      "rejection_reasons": {
+        "wiki_no_years": 21,
+        "wiki_not_honours_table": 17,
+        "wiki_pt_participation_without_title": 4,
+        "wiki_runner_up_row": 1,
+        "wiki_navbox_table_skipped": 6,
+        "wiki_competition_not_allowlisted": 23
+      }
+    },
+    "https://en.wikipedia.org/wiki/Gr%C3%AAmio_FBPA": {
+      "url": "https://en.wikipedia.org/wiki/Gr%C3%AAmio_FBPA",
+      "status": 200,
+      "table_found": true,
+      "rows": 5,
+      "canonical": 5,
+      "rejection_reasons": {
+        "wiki_not_honours_table": 17,
+        "wiki_navbox_table_skipped": 16,
+        "wiki_competition_not_allowlisted": 10
+      }
+    },
+    "https://pt.wikipedia.org/wiki/Sport_Club_Internacional": {
+      "url": "https://pt.wikipedia.org/wiki/Sport_Club_Internacional",
+      "status": 200,
+      "table_found": true,
+      "rows": 10,
+      "canonical": 10,
+      "rejection_reasons": {
+        "wiki_no_years": 17,
+        "wiki_not_honours_table": 12,
+        "wiki_pt_participation_without_title": 1,
+        "wiki_runner_up_row": 1,
+        "wiki_navbox_table_skipped": 5,
+        "wiki_competition_not_allowlisted": 17
+      }
+    },
+    "https://en.wikipedia.org/wiki/SC_Internacional": {
+      "url": "https://en.wikipedia.org/wiki/SC_Internacional",
+      "status": 200,
+      "table_found": true,
+      "rows": 5,
+      "canonical": 5,
+      "rejection_reasons": {
+        "wiki_not_honours_table": 22,
+        "wiki_navbox_table_skipped": 16,
+        "wiki_competition_not_allowlisted": 11
+      }
+    },
+    "https://www.rsssf.org/sacups/copalib.html": {
+      "url": "https://www.rsssf.org/sacups/copalib.html",
+      "status": 200,
+      "table_found": true,
+      "rows": 15,
+      "canonical": 15,
+      "rejection_reasons": {}
+    },
+    "https://www.rsssf.org/tablesb/brazchamp.html": {
+      "url": "https://www.rsssf.org/tablesb/brazchamp.html",
+      "status": 200,
+      "table_found": true,
+      "rows": 18,
+      "canonical": 18,
+      "rejection_reasons": {}
+    }
+  },
+  "regression_checks": {
+    "botafogo_libertadores_preserved": true,
+    "botafogo_brasileirao_preserved": true,
+    "santos_libertadores_preserved": true,
+    "garrincha_defendeu_botafogo_preserved": true,
+    "pt_narrative_regression": false,
+    "en_narrative_regression": false,
+    "new_generic_objects": 0,
+    "new_date_objects": 0,
+    "new_clause_objects": 0,
+    "ser_share_delta": 0.0
+  },
+  "rejection_reasons": {
+    "wiki_no_years": 103,
+    "wiki_not_honours_table": 158,
+    "wiki_year_range_participation": 15,
+    "wiki_navbox_table_skipped": 183,
+    "wiki_competition_not_allowlisted": 152,
+    "wiki_pt_participation_without_title": 5,
+    "wiki_runner_up_row": 2
+  },
+  "summary": {
+    "full_collision_targets": 7,
+    "partial_collision_targets": 3,
+    "predicted_new_verified": 7,
+    "eligible_for_runtime": true,
+    "recommended_next_step": "Fase B runtime multi-clube"
+  }
+}
