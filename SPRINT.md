@@ -1963,3 +1963,27 @@ batem frames) = 0 por decisão honesta; reportados, não "consertados".
 
 Worker manual único de ingestão → medir `duplicate_cross_domain` /
 `verified_facts` → decidir cenário A/B/C (#048.5).
+
+---
+
+## #048.5 (Cenário B) — Terceiro domínio produtivo para Garrincha→Botafogo
+
+**Status:** 🟡 em execução (snapshot/baseline prontos; seed alterado; commit pendente).
+
+### Ação
+
+- **Substituição no cluster `garrincha_botafogo`** (`config/seed_clusters.yaml`):
+  `botafogo.com.br` (JS-only, 0 entidades no worker 36261835211) →
+  `gazetadoparana.com.br` (produtiva: extrai `MANUEL FRANCISCO DOS SANTOS --SER--> BOTAFOGO DE FUTEBOL E REGATAS`, cross-domain válido).
+- Validação de seeds: **OK** (4 clusters, 14 URLs, 6 domínios, 5 publishers,
+  ≥3 domínios, ≥2 publishers, ≥1 não-Wikipedia, HTTPS, sem duplicatas).
+- Worker manual pós-mudança disparará para medir se fato SER cross-domain
+  fecha `duplicate_cross_domain` (esperado +1) e se alguma fonte adicional
+  produz `DEFENDEU` para quórum 3 no fato original.
+
+### Evidências
+
+- Probe read-only: `reports/probe_third_domain_garrincha.json` (gazeta exact match subject+object, SER).
+- Inspeção detalhada: `.autonomous/incidents/inspect_candidates.py` output.
+- Snapshot pré-mudança: `reports/aura_snapshot_pre_seed_change.json` (3924 nós, 3295 rels, Fato=221).
+- Baseline: `reports/baseline_pre_seed_change.json`.

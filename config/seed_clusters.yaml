@@ -93,3 +93,7 @@ clusters:
         domain: botafogo.com.br
         publisher: Botafogo
         productivity: weak  # 200, 1 tripla canônica
+      - url: https://gazetadoparana.com.br/artigo/garrincha-botafogo-historia-craque-futebol-arte
+        domain: gazetadoparana.com.br
+        publisher: Gazeta do Paraná
+        productivity: productive  # extrai fato Garrincha --SER--> Botafogo (cross-domain válido)
