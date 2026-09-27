@@ -1985,10 +1985,58 @@ Worker manual único de ingestão → medir `duplicate_cross_domain` /
 
 Nenhuma terceira fonte **produtiva para DEFENDEU** encontrada em homepages/sections. Próxima iteração: buscar URLs de **artigos específicos** (não homepages) com frases declarativas como *"Garrincha played for Botafogo"* / *"Garrincha defendeu o Botafogo"*.
 
+### Fase 2.0 — Diagnóstico de duplicatas :Fato/SPO ✅ COMPLETO
+
+**Auditoria:** `scripts/audit_fact_duplicates.py` → `reports/fact_duplicate_audit_048_6_batch2.json`
+
+**Resultado (read-only):**
+
+```json
+{
+  "persisted_facts": 223,
+  "graph_distinct_spo_keys": 223,
+  "graph_scoped_gap": 0,
+  "duplicate_groups_total": 0,
+  "duplicate_groups_same_domain": 0,
+  "duplicate_groups_cross_domain": 0,
+  "duplicate_groups_hidden_potential_verified": 0
+}
+```
+
+**Conclusão:** Todos os 223 `:Fato` têm chaves SPO únicas. **Zero duplicatas** — nenhuma same-domain, nenhuma cross-domain escondida. 
+
+**Explicação do `canonical_to_fact_gap = -22`:** hipótese 1/2 confirmada.
+- `distinct_canonical_keys = 199` (chaves vistas neste run, run-scoped)
+- `persisted_facts = 223` (total no grafo, graph-total)
+- `223 - 199 = 24` fatos antigos não tocados neste ciclo = acumulação incremental benigna.
+- **Não é bug.** O #052.2 já separa `run_scoped_gap` / `graph_scoped_gap` corretamente.
+- **Decisão:** Seguir para fase 2.1. **Não abrir #052.3.**
+
+### Fase 2.1 — Descoberta de URLs article-like: ENCERRADA com evidência negativa
+
+**Relatório:** `reports/third_domain_candidates_048_6_batch2.json` (+ supplement de testes diretos).
+
+**P0 (Garrincha --DEFENDEU--> Botafogo): 15 URLs article-like testadas, 0 elegíveis.**
+
+| URL | Resultado |
+|---|---|
+| gazetadoparana (já no cluster) | SER (não elegível p/ DEFENDEU) |
+| extra.globo obituário | canon=4, 0 hits (predicado errado) |
+| footballorbit, en-academic, biyografi.bio | 0 canônicas |
+| brasilescola biografia | corpo em container JS; só nav extraído |
+| britannica Garrincha (slug correto) | fetch bloqueado (bot protection) |
+| lancepedia, ge team page | JS / 0 menções |
+| futfogao, portaltela, esportelandia, blog, futebolnaweb | SER/outros/0 |
+
+**P1–P4:** descoberta via DDG `BLOCKED_NETWORK` (rate-limit 202 após ~25 queries, html+lite). Teste direto único: Britannica Pelé (slug correto) → 88 sentenças, 5 raw/2 canon, **0 hits DEFENDEU** (extrai `SANTOS--VENCEU-->SAO PAULO`).
+
+**Veredito batch 2:** falha aceitável com evidência. Não forçar. Pivotar para **Rota A (#059 curadoria de fontes estáticas)** ou escalar validação para clusters já com 3+ domínios produtivos. **Não abrir #047.2/#045.3** (sem evidência de alias/mapper gap). **Não abrir #052.3** (fase 2.0: zero duplicatas).
+
 ### Próximo
 
-- Iterar busca por URLs de artigos específicos (DDG query focada + validação offline).
-- Se nenhuma elegível: registrar bloqueio e escalar para #048.6 (outros clusters).
+- #059 (Rota A): corpus alternativo HTML estático com prosa declarativa, ou
+- #048.6 batch 3 em outros clusters (`pele_santos`, `santos_estadio`) se surgirem fontes, ou
+- Aceitar Cenário B e aguardar licenciamento #055 para corpus rico.
 
 ---
 
