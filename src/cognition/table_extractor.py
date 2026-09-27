@@ -157,8 +157,82 @@ def _lookup_competition(source_url: str) -> Optional[str]:
 
 
 def is_honours_url(source_url: str) -> bool:
-    """URL whitelistada para extração tabular (RSSSF ou honras wiki)."""
-    return _lookup_competition(source_url) is not None or _lookup_wiki_club(source_url) is not None
+    """URL whitelistada p/ extração controlada (RSSSF/honras wiki/jogador-clube)."""
+    return (
+        _lookup_competition(source_url) is not None
+        or _lookup_wiki_club(source_url) is not None
+        or _lookup_player_club(source_url)
+    )
+
+
+# #059C — terceira fonte independente (não-Wikimedia) para DEFENDEU:
+# RSSSF Brasil "jogadores ... como jogador do CLUBE" (club-context player records).
+PLAYER_CLUB_URL_ALLOWLIST: tuple[str, ...] = ("rsssfbrasil.com/sel/jogclub.htm",)
+PLAYER_CLUB_ALLOWED_PLAYERS: frozenset[str] = frozenset({
+    "GARRINCHA", "MANUEL FRANCISCO DOS SANTOS", "PELÉ", "PELE",
+    "EDSON ARANTES DO NASCIMENTO", "NILTON SANTOS", "DIDI", "JAIRZINHO",
+    "HELENO DE FREITAS",
+})
+PLAYER_CLUB_ALLOWED_CLUBS: frozenset[str] = frozenset({
+    "BOTAFOGO DE FUTEBOL E REGATAS", "SANTOS FUTEBOL CLUBE",
+})
+_PLAYER_CLUB_RE = re.compile(
+    r"([^\n()]{1,45}?)\s*\(\s*\d+\s+jogos(?:[^)]*?)como jogador d[oa]\s+([^)]+?)\)"
+)
+
+
+def _lookup_player_club(source_url: str) -> bool:
+    low = (source_url or "").lower()
+    return any(frag in low for frag in PLAYER_CLUB_URL_ALLOWLIST)
+
+
+def extract_player_club_from_html(
+    html: str, source_url: str, canonicalizer: Any = None
+) -> tuple[list[dict[str, Any]], dict[str, int]]:
+    """``JOGADOR --DEFENDEU--> CLUBE`` de fonte club-context (#059C).
+
+    Padrão controlado ``NOME (N jogos ... como jogador do CLUBE)``, com
+    allowlist de jogador e clube. Anos/períodos nunca viram objeto.
+    """
+    stats: dict[str, int] = {}
+    triples: list[dict[str, Any]] = []
+    if not _lookup_player_club(source_url):
+        stats["not_whitelisted_url"] = 1
+        return triples, stats
+
+    def _canon(raw: str) -> str:
+        if canonicalizer is not None:
+            try:
+                return canonicalizer.canonicalize_entity(raw)
+            except Exception:
+                return raw.strip().upper()
+        return raw.strip().upper()
+
+    soup = BeautifulSoup(html or "", "html.parser")
+    full = "\n".join(p.get_text() for p in soup.find_all("pre")) or soup.get_text()
+    for match in _PLAYER_CLUB_RE.finditer(full):
+        player = _canon(match.group(1).strip())
+        club = _canon(match.group(2).strip())
+        if player not in PLAYER_CLUB_ALLOWED_PLAYERS:
+            stats["player_not_allowlisted"] = stats.get("player_not_allowlisted", 0) + 1
+            continue
+        if club not in PLAYER_CLUB_ALLOWED_CLUBS:
+            stats["club_not_allowlisted"] = stats.get("club_not_allowlisted", 0) + 1
+            continue
+        triples.append({
+            "subject": player,
+            "predicate": "DEFENDEU",
+            "object": club,
+            "confidence": TABLE_CONFIDENCE,
+            "metadata": {
+                "source_type": SOURCE_TYPE,
+                "extraction_method": EXTRACTION_METHOD,
+                "table_schema": "club_context_player_records",
+                "source_url": source_url,
+            },
+        })
+        stats["emitted"] = stats.get("emitted", 0) + 1
+    return triples, stats
 
 
 # #058.12.1 — política de extração por fonte (domínio registrável).
@@ -232,6 +306,8 @@ def enrich_payload_with_tables(
             from src.cognition.canonicalizer import SemanticCanonicalizer
             canonicalizer = SemanticCanonicalizer()
         triples, _parse_stats = extract_honours_from_html(html, url, canonicalizer)
+        pc_triples, _pc_stats = extract_player_club_from_html(html, url, canonicalizer)
+        triples = triples + pc_triples
         stats["attempted"] += len(triples)
         entities = payload.setdefault("extracted_entities", [])
         for t in triples:
