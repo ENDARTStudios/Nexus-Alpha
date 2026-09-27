@@ -84,6 +84,50 @@ def test_no_seed_references_stale_botafogo_404_url():
     assert "Botafogo_F.C._(Rio_de_Janeiro)" not in text
 
 
+HONOURS_CLUSTERS = {
+    "botafogo_libertadores": "https://www.rsssf.org/sacups/copalib.html",
+    "santos_libertadores": "https://www.rsssf.org/sacups/copalib.html",
+    "botafogo_brasileirao": "https://www.rsssf.org/tablesb/brazchamp.html",
+}
+
+
+def test_rsssf_honours_clusters_present_and_valid():
+    """#048.6 batch 3 — clusters de honras com RSSSF elegível (dry-run #058.12)."""
+    data = _data()
+    by_id = {c["id"]: c for c in data["clusters"]}
+    for cluster_id, rsssf_url in HONOURS_CLUSTERS.items():
+        assert cluster_id in by_id, f"cluster ausente: {cluster_id}"
+        cluster = by_id[cluster_id]
+        urls = [s["url"] for s in cluster["sources"]]
+        assert rsssf_url in urls, f"RSSSF ausente em {cluster_id}"
+        domains = {s["domain"] for s in cluster["sources"]}
+        publishers = {s["publisher"] for s in cluster["sources"]}
+        assert len(domains) >= 3, cluster_id
+        assert len(publishers) >= 2, cluster_id
+        assert "RSSSF" in publishers, cluster_id
+        assert any("wikipedia" not in p.lower() for p in publishers), cluster_id
+        rsssf_sources = [s for s in cluster["sources"] if s["domain"] == "rsssf.org"]
+        assert rsssf_sources and all(s["url"].startswith("https://") for s in rsssf_sources)
+
+
+def test_rsssf_publisher_counts_as_independent():
+    """RSSSF é publisher independente (não-Wikimedia) para quórum editorial."""
+    data = _data()
+    publishers = {
+        str(s.get("publisher"))
+        for c in data["clusters"] for s in (c.get("sources") or [])
+    }
+    assert "RSSSF" in publishers
+    assert "wikipedia" not in "rsssf"
+    assert "wikimedia" not in "rsssf"
+
+
+def test_santos_brasileirao_cluster_absent_without_evidence():
+    """#048.6 batch 3 — dry-run mostrou 0 hits p/ santos_brasileirao: sem seed."""
+    by_id = {c["id"]: c["id"] for c in _data()["clusters"]}
+    assert "santos_brasileirao" not in by_id
+
+
 def _base_cluster(**over):
     cluster = {
         "id": "c1", "topic": "t",

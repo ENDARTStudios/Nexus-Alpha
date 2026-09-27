@@ -8,6 +8,10 @@ version: 1
 # Auditoria #058 (2026-09-23): 22 URLs avaliadas → 8 produtivas (todas wikipedia),
 # 4 fracas, 10 improdutivas. **Nenhuma fonte não-wiki de futebol é produtiva** —
 # anotado honestamente por fonte; não forçamos URL lixo (404/JS descartadas).
+#
+# #048.5 (2026-09-26): gazetadoparana produtiva (SER) no cluster garrincha_botafogo.
+# #048.6 batch 3 (2026-09-27): RSSSF produtiva (VENCEU tabular, dry-run #058.12
+# 9/9 gates) nos clusters de honras abaixo — primeira fonte tabular independente.
 defaults:
   min_distinct_domains: 3
   min_distinct_publishers: 2
@@ -97,3 +101,54 @@ clusters:
         domain: gazetadoparana.com.br
         publisher: Gazeta do Paraná
         productivity: productive  # extrai fato Garrincha --SER--> Botafogo (cross-domain válido)
+
+  - id: botafogo_libertadores
+    topic: "Botafogo e a Copa Libertadores (títulos)"
+    expected_predicate: VENCEU
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # 9 triplas, 8 football verbs — reforço do cluster (#058)
+      - url: https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # 200, raw 15, canon 10 — validado offline (#048.4)
+      - url: https://www.rsssf.org/sacups/copalib.html
+        domain: rsssf.org
+        publisher: RSSSF
+        productivity: productive  # dry-run #058.12: 4 triplas tabulares, hit botafogo_libertadores (2024)
+
+  - id: santos_libertadores
+    topic: "Santos FC e a Copa Libertadores (títulos)"
+    expected_predicate: VENCEU
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Santos_FC
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive
+      - url: https://en.wikipedia.org/wiki/Santos_FC
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive
+      - url: https://www.rsssf.org/sacups/copalib.html
+        domain: rsssf.org
+        publisher: RSSSF
+        productivity: productive  # dry-run #058.12: hit santos_libertadores (1962, 1963, 2011)
+
+  - id: botafogo_brasileirao
+    topic: "Botafogo e o Campeonato Brasileiro Série A (títulos)"
+    expected_predicate: VENCEU
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # 9 triplas, 8 football verbs — reforço do cluster (#058)
+      - url: https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # 200, raw 15, canon 10 — validado offline (#048.4)
+      - url: https://www.rsssf.org/tablesb/brazchamp.html
+        domain: rsssf.org
+        publisher: RSSSF
+        productivity: productive  # dry-run #058.12: 3 triplas tabulares, hit botafogo_brasileirao (1968, 1995, 2024)

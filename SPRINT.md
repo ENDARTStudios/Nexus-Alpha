@@ -2137,3 +2137,23 @@ contabilidade ou bug.
 - Testes: **437 passed, 18 skipped**
 - CI: **verde** (`36285015608`)
 - Métricas pós-fix: run_scoped_gap ≥ 0, graph_scoped_gap explicável.
+
+## #048.6 batch 3 — RSSSF seeds + worker incremental (PRÉ-WORKER)
+
+**Status:** 🟡 wiring + seeds commitados; worker pendente.
+
+### Preflight (§3)
+
+- **3.1 Wiring — AUSENTE, corrigido** (`8ed47fb`): `enrich_payload` só via texto limpo; HTML bruto descartado. Fix: `web_miner._mine_with_client` preserva `payload["raw_html"]` SÓ p/ URLs whitelistadas (lazy import, sem ciclo); `enrich_payload` chama `enrich_payload_with_tables` (consome+remove antes do POST; nunca quebra narrativa); `tests/test_table_wiring.py` (6 testes: fixture→tripla canônica via path real, não-whitelist, sem-html, narrativa preservada). CI verde (`36333583036`).
+- **3.2 Allowlist — OK sem mudança**: `rsssf.org` score **0.9** (TLD `.org` em `HIGH_TRUST_TLDS`); fora de `FORBIDDEN_DOMAINS`. Sem commit de segurança.
+- **3.3 URLs — 200 estáveis**: copalib.html (17090 B) + brazchamp.html (16760 B), mesmos bytes do #059, sem redirect.
+
+### Seeds (§4–§5)
+
+- **3 clusters novos** (santos_brasileirao NÃO criado — 0 hits, sem evidência):
+  - `botafogo_libertadores`: pt/en Botafogo wiki + copalib.html
+  - `santos_libertadores`: pt/en Santos wiki + copalib.html
+  - `botafogo_brasileirao`: pt/en Botafogo wiki + brazchamp.html
+- Todos: 3 domínios, 2 publishers (Wikimedia+RSSSF), 1 não-wiki, HTTPS, sem duplicatas.
+- Testes: `test_rsssf_honours_clusters_present_and_valid`, `test_rsssf_publisher_counts_as_independent`, `test_santos_brasileirao_cluster_absent_without_evidence` (13/13 no arquivo).
+- Header do manifest atualizado (nota #048.5/#048.6; "nenhuma não-wiki produtiva" agora histórica).
