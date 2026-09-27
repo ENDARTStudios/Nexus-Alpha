@@ -35,10 +35,9 @@ HONOURS_URL_ALLOWLIST: dict[str, str] = {
     "rsssf.org/tablesb/brazchamp.html": "CAMPEONATO BRASILEIRO SERIE A",
 }
 
-# #048.7 Fase C / #048.8 — honras wiki: URL (substring) -> (clube canônico,
-# competições habilitadas POR CLUBE, conforme colisão completa no dry-run).
-# Botafogo: Libertadores + Brasileirão (#048.7, full=2). Santos: só
-# Libertadores (#048.8: Brasileirão = partial, sem terceiro domínio → não habilitar).
+# #048.7/#048.8/#048.9 — honras wiki: URL (substring, minúscula e URL-decoded)
+# -> (clube canônico, competições habilitadas POR CLUBE, conforme colisão
+# completa no dry-run). Clubes/competições só entram com full_collision.
 WIKI_HONOURS_CLUBS: dict[str, tuple[str, frozenset[str]]] = {
     "wikipedia.org/wiki/botafogo_de_futebol_e_regatas": (
         "BOTAFOGO DE FUTEBOL E REGATAS",
@@ -48,6 +47,55 @@ WIKI_HONOURS_CLUBS: dict[str, tuple[str, frozenset[str]]] = {
         "SANTOS FUTEBOL CLUBE",
         frozenset({"COPA LIBERTADORES"}),
     ),
+    # #048.9 — multi-clube (dry-run full_collision):
+    "wikipedia.org/wiki/clube_de_regatas_do_flamengo": (
+        "CLUBE DE REGATAS DO FLAMENGO", frozenset({"COPA LIBERTADORES"}),
+    ),
+    "wikipedia.org/wiki/cr_flamengo": (
+        "CLUBE DE REGATAS DO FLAMENGO", frozenset({"COPA LIBERTADORES"}),
+    ),
+    "wikipedia.org/wiki/sociedade_esportiva_palmeiras": (
+        "SOCIEDADE ESPORTIVA PALMEIRAS",
+        frozenset({"COPA LIBERTADORES", "CAMPEONATO BRASILEIRO SERIE A"}),
+    ),
+    "wikipedia.org/wiki/se_palmeiras": (
+        "SOCIEDADE ESPORTIVA PALMEIRAS",
+        frozenset({"COPA LIBERTADORES", "CAMPEONATO BRASILEIRO SERIE A"}),
+    ),
+    "wikipedia.org/wiki/são_paulo_futebol_clube": (
+        "SÃO PAULO FUTEBOL CLUBE",
+        frozenset({"COPA LIBERTADORES", "CAMPEONATO BRASILEIRO SERIE A"}),
+    ),
+    "wikipedia.org/wiki/são_paulo_fc": (
+        "SÃO PAULO FUTEBOL CLUBE",
+        frozenset({"COPA LIBERTADORES", "CAMPEONATO BRASILEIRO SERIE A"}),
+    ),
+    "wikipedia.org/wiki/grêmio_foot-ball_porto_alegrense": (
+        "GREMIO FOOT BALL PORTO ALEGRENSE", frozenset({"COPA LIBERTADORES"}),
+    ),
+    "wikipedia.org/wiki/grêmio_fbpa": (
+        "GREMIO FOOT BALL PORTO ALEGRENSE", frozenset({"COPA LIBERTADORES"}),
+    ),
+    "wikipedia.org/wiki/sport_club_internacional": (
+        "SPORT CLUBE INTERNACIONAL", frozenset({"COPA LIBERTADORES"}),
+    ),
+    "wikipedia.org/wiki/sc_internacional": (
+        "SPORT CLUBE INTERNACIONAL", frozenset({"COPA LIBERTADORES"}),
+    ),
+}
+
+# #048.9 — a winners-list do RSSSF (copalib.html) usa nomes curtos
+# ("1981 Flamengo"). Mapa SOURCE-SCOPED (só no emit RSSSF) para o canônico.
+RSSSF_WINNER_ALIASES: dict[str, str] = {
+    "flamengo": "CLUBE DE REGATAS DO FLAMENGO",
+    "palmeiras": "SOCIEDADE ESPORTIVA PALMEIRAS",
+    "são paulo": "SÃO PAULO FUTEBOL CLUBE",
+    "sao paulo": "SÃO PAULO FUTEBOL CLUBE",
+    "grêmio": "GREMIO FOOT BALL PORTO ALEGRENSE",
+    "gremio": "GREMIO FOOT BALL PORTO ALEGRENSE",
+    "internacional": "SPORT CLUBE INTERNACIONAL",
+    "botafogo": "BOTAFOGO DE FUTEBOL E REGATAS",
+    "santos": "SANTOS FUTEBOL CLUBE",
 }
 
 # Normalização mínima de rótulo de competição (só contexto honours wiki).
@@ -70,12 +118,19 @@ COMPETITION_NORMALIZATIONS: dict[str, str] = {
 CLUB_ALLOWLIST: frozenset[str] = frozenset({
     "BOTAFOGO DE FUTEBOL E REGATAS",
     "SANTOS FUTEBOL CLUBE",
+    "CLUBE DE REGATAS DO FLAMENGO",
+    "SOCIEDADE ESPORTIVA PALMEIRAS",
+    "SÃO PAULO FUTEBOL CLUBE",
+    "GREMIO FOOT BALL PORTO ALEGRENSE",
+    "SPORT CLUBE INTERNACIONAL",
 })
 
 # Linha de vice/cabeçalho/genérica nunca vira fato.
 _RUNNER_UP_RE = re.compile(r"^\s*(2nd|3rd|runner|vice|runners?.?up)\b", re.IGNORECASE)
 _SCORE_RE = re.compile(r"\d+\s*[-–—x×]\s*\d+")
 _YEAR_RE = re.compile(r"\b(19\d{2}|20\d{2})\b")
+# Intervalo de anos (ex.: "1981–1984") indica tabela de PARTICIPAÇÕES, não títulos.
+_YEAR_RANGE_RE = re.compile(r"\b(19\d{2}|20\d{2})\s*[–—-]\s*(19\d{2}|20\d{2})")
 _GENERIC_ROW_TOKENS = frozenset({
     "total", "titles", "years", "competition", "season", "seasons",
     "runners-up", "runner-up", "runner", "vice", "club", "team",
@@ -203,7 +258,11 @@ def _club_mention_ok(mention: str) -> tuple[bool, str]:
     if not mention or len(mention) < 3:
         return False, "club_mention_too_short"
     folded = _fold(mention)
-    if any(tok in folded for tok in _GENERIC_ROW_TOKENS):
+    # Match por TOKEN (não substring): "clube"/"club" em nomes legítimos
+    # (Clube de Regatas do Flamengo, São Paulo Futebol Clube, Sport Club
+    # Internacional) NÃO podem ser confundidos com a linha genérica "club".
+    tokens = set(folded.split())
+    if tokens & _GENERIC_ROW_TOKENS or folded in _GENERIC_ROW_TOKENS:
         return False, "club_mention_generic"
     if _SCORE_RE.search(mention):
         return False, "score_line_skipped"
@@ -298,7 +357,9 @@ def _parse_table_honours(html: str) -> list[tuple[str, Optional[str], list[int]]
 
 
 def _lookup_wiki_club(source_url: str) -> Optional[tuple[str, frozenset[str]]]:
-    low = (source_url or "").lower()
+    from urllib.parse import unquote
+
+    low = unquote(source_url or "").lower()
     for fragment, club_cfg in WIKI_HONOURS_CLUBS.items():
         if fragment in low:
             return club_cfg
@@ -376,7 +437,7 @@ def _parse_wiki_honours(html: str) -> tuple[list[tuple[str, list[int]]], dict[st
                 if not campe_cells:
                     _wcount("wiki_pt_participation_without_title")
                     continue
-                years = [int(y) for y in _YEAR_RE.findall(" | ".join(campe_cells))]
+                year_src = " | ".join(campe_cells)
             else:
                 # Formato "Títulos"/"Seasons": anos na célula com mais anos
                 # (a célula de contagem, ex. "3", não casa com _YEAR_RE).
@@ -384,8 +445,13 @@ def _parse_wiki_honours(html: str) -> tuple[list[tuple[str, list[int]]], dict[st
                 if not year_cells:
                     _wcount("wiki_no_years")
                     continue
-                best = max(year_cells, key=lambda c: len(_YEAR_RE.findall(c)))
-                years = [int(y) for y in _YEAR_RE.findall(best)]
+                year_src = max(year_cells, key=lambda c: len(_YEAR_RE.findall(c)))
+            # Intervalo de anos (ex.: "1981–1984") = tabela de PARTICIPAÇÕES,
+            # não títulos (Flamengo PT tem ambas) → rejeita.
+            if _YEAR_RANGE_RE.search(year_src):
+                _wcount("wiki_year_range_participation")
+                continue
+            years = [int(y) for y in _YEAR_RE.findall(year_src)]
             if not years:
                 _wcount("wiki_no_years")
                 continue
@@ -469,6 +535,11 @@ def extract_honours_from_html(
             _count(reason)
             return
         club_canon = _canonicalize(club_mention)
+        if club_canon not in CLUB_ALLOWLIST:
+            # #048.9: winners-list RSSSF usa nomes curtos; mapa source-scoped.
+            aliased = RSSSF_WINNER_ALIASES.get(_fold(club_mention))
+            if aliased:
+                club_canon = aliased
         if club_canon not in CLUB_ALLOWLIST:
             _count("club_not_allowlisted")
             return

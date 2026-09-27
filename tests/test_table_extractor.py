@@ -112,8 +112,8 @@ def test_rsssf_pre_winners_list_botafogo_2024():
     # Excerto fiel ao formato real de rsssf.org/sacups/copalib.html (<pre>).
     html = """
     <html><body><pre>
-    2022 Flamengo
-    2023 Fluminense
+    2016 Penarol
+    2017 Nacional
     2024 Botafogo
     </pre>
     <pre>
@@ -145,7 +145,7 @@ def test_runner_up_lines_skipped():
 
 
 def test_club_outside_allowlist_rejected():
-    html = "<html><body><pre>1982 Penarol\n1983 Gremio\n</pre></body></html>"
+    html = "<html><body><pre>1982 Penarol\n1983 Nacional\n</pre></body></html>"
     triples, stats = _extract(html, COPA_URL)
     assert triples == []
     assert stats.get("club_not_allowlisted", 0) >= 1
@@ -163,4 +163,11 @@ def test_year_is_metadata_never_object():
 
 def test_subjects_are_allowlisted_clubs_only():
     assert CLUB_ALLOWLIST == frozenset({
-        "BOTAFOGO DE FUTEBOL E REGATAS", "SANTOS FUTEBOL CLUBE"})
+        "BOTAFOGO DE FUTEBOL E REGATAS",
+        "SANTOS FUTEBOL CLUBE",
+        "CLUBE DE REGATAS DO FLAMENGO",
+        "SOCIEDADE ESPORTIVA PALMEIRAS",
+        "SÃO PAULO FUTEBOL CLUBE",
+        "GREMIO FOOT BALL PORTO ALEGRENSE",
+        "SPORT CLUBE INTERNACIONAL",
+    })

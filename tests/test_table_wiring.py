@@ -12,8 +12,8 @@ COPA_URL = "https://www.rsssf.org/sacups/copalib.html"
 
 RSSSF_PRE = """
 <html><body><pre>
-2022 Flamengo
-2023 Fluminense
+2016 Penarol
+2017 Nacional
 2024 Botafogo
 </pre>
 <pre>
@@ -86,7 +86,7 @@ def test_is_honours_url_gating():
     assert is_honours_url("https://pt.wikipedia.org/wiki/Santos_FC")
     assert is_honours_url("https://en.wikipedia.org/wiki/Santos_FC")
     # Demais wikis continuam fora.
-    assert not is_honours_url("https://en.wikipedia.org/wiki/Flamengo")
+    assert not is_honours_url("https://en.wikipedia.org/wiki/Fluminense")
     assert not is_honours_url("https://www.rsssf.org/index.html")
     assert not is_honours_url("https://pt.wikipedia.org/wiki/Garrincha")
     assert not is_honours_url("")
