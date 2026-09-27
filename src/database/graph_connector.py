@@ -142,7 +142,9 @@ CALL { MATCH ()-[r:RELACIONA]->()
               sum(CASE WHEN coalesce(r.replays, 0) >= 2 THEN 1 ELSE 0 END) AS hebbian }
 CALL { MATCH (e:Episodio)
        RETURN count(e) AS episodes, toString(max(e.created_at)) AS last_episode }
-RETURN concepts, facts, verified, cross_source, max_confirmacoes, consolidated, hebbian, episodes, last_episode
+CALL { MATCH (fa:Fato)
+       RETURN count(DISTINCT fa.sujeito + '|' + fa.predicado + '|' + fa.objeto) AS distinct_fact_hashes }
+RETURN concepts, facts, verified, cross_source, max_confirmacoes, consolidated, hebbian, episodes, last_episode, distinct_fact_hashes
 """
 
 EPISODE_MERGE_QUERY = """

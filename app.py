@@ -247,10 +247,14 @@ class IngestAccounting:
             return accepted
 
     def snapshot(
-        self, raw_triples: int, rejected_noise: int, persisted_facts: int
+        self, raw_triples: int, rejected_noise: int, persisted_facts: int,
+        graph_distinct_fact_hashes: int = 0
     ) -> dict:
         distinct = self.distinct_canonical_keys
         duplicate_occurrences = max(0, self._occurrences - distinct)
+        run_persisted_facts_created = self.new_facts_created
+        run_scoped_gap = distinct - run_persisted_facts_created
+        graph_scoped_gap = graph_distinct_fact_hashes - persisted_facts
         return {
             "raw_triples": raw_triples,
             "canonical_triples": self._occurrences,
@@ -258,6 +262,11 @@ class IngestAccounting:
             "duplicate_canonical_occurrences": duplicate_occurrences,
             "persisted_facts": persisted_facts,
             "canonical_to_fact_gap": distinct - persisted_facts,
+            "run_scoped_gap": run_scoped_gap,
+            "graph_scoped_gap": graph_scoped_gap,
+            "graph_distinct_fact_hashes": graph_distinct_fact_hashes,
+            "run_distinct_canonical_keys": distinct,
+            "run_persisted_facts_created": run_persisted_facts_created,
             "unaccounted_raw": max(0, raw_triples - distinct - rejected_noise - duplicate_occurrences),
             "duplicate_same_source_url": self.duplicate_same_source_url,
             "duplicate_same_domain": self.duplicate_same_domain,
@@ -415,6 +424,7 @@ async def metrics() -> dict:
             raw_triples=_extraction_stats["raw_triples"],
             rejected_noise=_extraction_stats["rejected_noise"],
             persisted_facts=snapshot.get("facts", 0),
+            graph_distinct_fact_hashes=snapshot.get("distinct_fact_hashes", 0),
         ),
     }
 

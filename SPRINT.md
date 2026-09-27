@@ -1966,24 +1966,60 @@ Worker manual único de ingestão → medir `duplicate_cross_domain` /
 
 ---
 
-## #048.5 (Cenário B) — Terceiro domínio produtivo para Garrincha→Botafogo
+## #048.5 (Cenário B) — Busca de terceira fonte independente
 
-**Status:** 🟡 em execução (snapshot/baseline prontos; seed alterado; commit pendente).
+**Status:** 🟡 read-only concluído (batch 1); nenhuma candidata elegível encontrada.
 
-### Ação
+### Auditoria: `scripts/audit_third_domain_candidates.py`
 
-- **Substituição no cluster `garrincha_botafogo`** (`config/seed_clusters.yaml`):
-  `botafogo.com.br` (JS-only, 0 entidades no worker 36261835211) →
-  `gazetadoparana.com.br` (produtiva: extrai `MANUEL FRANCISCO DOS SANTOS --SER--> BOTAFOGO DE FUTEBOL E REGATAS`, cross-domain válido).
-- Validação de seeds: **OK** (4 clusters, 14 URLs, 6 domínios, 5 publishers,
-  ≥3 domínios, ≥2 publishers, ≥1 não-Wikipedia, HTTPS, sem duplicatas).
-- Worker manual pós-mudança disparará para medir se fato SER cross-domain
-  fecha `duplicate_cross_domain` (esperado +1) e se alguma fonte adicional
-  produz `DEFENDEU` para quórum 3 no fato original.
+- Candidatas testadas: 35 URLs (homepages/sections de grandes sites + Britannica/Guardian/FIFA/CBF/Conmebol/Reuters/APNews/Ge/UOL/Estadao/RSSSF).
+- **Elegíveis: 0** — nenhuma candidata extraiu o fato-alvo `DEFENDEU`/`JOGOU`/`ATUOU` com subject+object corretos.
+- Problemas observados:
+  - Homepages/sections (ge.globo, uol, estadao, uol) → 200 OK mas JS-heavy/paywall → `clean_html_empty` ou 0 canônicas.
+  - Britannica/Guardian → 200 OK mas extraem SER/other predicates, não DEFENDEU.
+  - FIFA/CBF/Conmebol/Reuters/APNews → 401/404/ConnectError/clean_html_empty.
+  - RSSSF → tabelas sem narrativa → 0 canônicas.
+- **Melhor fonte existente**: `gazetadoparana.com.br` (já no cluster) → extrai `MANUEL FRANCISCO DOS SANTOS --SER--> BOTAFOGO` (cross-domain válido, mas SER ≠ DEFENDEU).
 
-### Evidências
+### Conclusão do batch 1
 
-- Probe read-only: `reports/probe_third_domain_garrincha.json` (gazeta exact match subject+object, SER).
-- Inspeção detalhada: `.autonomous/incidents/inspect_candidates.py` output.
-- Snapshot pré-mudança: `reports/aura_snapshot_pre_seed_change.json` (3924 nós, 3295 rels, Fato=221).
-- Baseline: `reports/baseline_pre_seed_change.json`.
+Nenhuma terceira fonte **produtiva para DEFENDEU** encontrada em homepages/sections. Próxima iteração: buscar URLs de **artigos específicos** (não homepages) com frases declarativas como *"Garrincha played for Botafogo"* / *"Garrincha defendeu o Botafogo"*.
+
+### Próximo
+
+- Iterar busca por URLs de artigos específicos (DDG query focada + validação offline).
+- Se nenhuma elegível: registrar bloqueio e escalar para #048.6 (outros clusters).
+
+---
+
+## #052.2 — Separar contabilidade run-scoped vs graph-total
+
+**Status:** ✅ implementada + CI verde.
+
+### Problema
+
+O campo ``canonical_to_fact_gap`` no ``/api/metrics`` misturava:
+- ``distinct_canonical_keys`` (chaves vistas **neste run**, run-scoped)
+- ``persisted_facts`` (total de fatos no grafo, graph-total)
+
+Em runs incrementais isso gerava gap negativo (ex.: −22) sem indicação clara se era
+contabilidade ou bug.
+
+### Solução (commit `docs(autonomous): fix accounting split`)
+
+- **`src/database/graph_connector.py`**: adicionado ``distinct_fact_hashes`` ao
+  ``SNAPSHOT_QUERY`` (conta chaves distinct sujeito|predicado|objeto no grafo).
+- **`app.py`** — ``IngestAccounting.snapshot``: novos campos:
+  - ``run_distinct_canonical_keys`` (antes ``distinct_canonical_keys``)
+  - ``run_persisted_facts_created`` (= ``new_facts_created``)
+  - ``run_scoped_gap`` = ``run_distinct_canonical_keys - run_persisted_facts_created``
+  - ``graph_distinct_fact_hashes`` (do grafo)
+  - ``graph_scoped_gap`` = ``graph_distinct_fact_hashes - persisted_facts``
+  - ``canonical_to_fact_gap`` mantido (compatibilidade; run vs graph).
+- **`/api/metrics`**: passa ``graph_distinct_fact_hashes`` do snapshot do grafo.
+
+### Validação
+
+- Testes: **437 passed, 18 skipped**
+- CI: **verde** (`36285015608`)
+- Métricas pós-fix: run_scoped_gap ≥ 0, graph_scoped_gap explicável.
