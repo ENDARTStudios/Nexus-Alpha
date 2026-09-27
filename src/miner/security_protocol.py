@@ -33,6 +33,10 @@ REPUTABLE_PUBLISHERS = (
     "bbc.co.uk", "reuters.com", "apnews.com", "theguardian.com",
     # Instituições do futebol
     "fifa.com", "cbf.com.br", "conmebol.com", "uefa.com", "concacaf.com",
+    # Arquivos estatísticos/históricos (#059C: RSSSF e RSSSF Brasil — fontes
+    # estáticas independentes; rsssf.org já pontua .9 via TLD .org, mas .com
+    # exige entrada explícita p/ não cair na quarentena de domain_score).
+    "rsssf.org", "rsssfbrasil.com",
     # Clubes oficiais
     "santosfc.com.br", "flamengo.com.br", "botafogo.com.br", "gremio.net",
     "internacional.com.br", "corinthians.com.br", "palmeiras.com.br",
