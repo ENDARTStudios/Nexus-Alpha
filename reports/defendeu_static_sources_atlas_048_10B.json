@@ -1,0 +1,494 @@
+{
+  "audit_id": "defendeu_static_sources_atlas_048_10B",
+  "generated_at": "2026-09-27T21:35:52.245692+00:00",
+  "family": "player_defended_club",
+  "read_only": true,
+  "extraction_cap": 25,
+  "verification_rule": "confirmed >= 3 AND distinct_domains >= 2",
+  "policy": {
+    "allowed_players": [
+      "GARRINCHA",
+      "MANUEL FRANCISCO DOS SANTOS",
+      "PELÉ",
+      "PELE",
+      "EDSON ARANTES DO NASCIMENTO",
+      "NILTON SANTOS",
+      "DIDI",
+      "JAIRZINHO",
+      "HELENO DE FREITAS"
+    ],
+    "allowed_clubs": [
+      "BOTAFOGO DE FUTEBOL E REGATAS",
+      "SANTOS FUTEBOL CLUBE"
+    ],
+    "allowed_predicates": [
+      "DEFENDEU"
+    ],
+    "forbidden_objects": [
+      "SELEÇÃO BRASILEIRA",
+      "BRAZIL",
+      "BRASIL",
+      "COPA DO MUNDO",
+      "WORLD CUP",
+      "NATIONAL TEAM"
+    ]
+  },
+  "facts": [
+    {
+      "fact": "GARRINCHA --DEFENDEU--> BOTAFOGO DE FUTEBOL E REGATAS",
+      "sources": [
+        {
+          "url": "https://pt.wikipedia.org/wiki/Garrincha",
+          "final_url": "https://pt.wikipedia.org/wiki/Garrincha",
+          "domain": "pt.wikipedia.org",
+          "publisher": "Wikimedia",
+          "source_type": "wiki_narrative",
+          "http_status": 200,
+          "canonical_triples": 11,
+          "target_fact_hits": 1,
+          "matched_fact": true,
+          "would_persist": true
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Garrincha",
+          "final_url": "https://en.wikipedia.org/wiki/Garrincha",
+          "domain": "en.wikipedia.org",
+          "publisher": "Wikimedia",
+          "source_type": "wiki_narrative",
+          "http_status": 200,
+          "canonical_triples": 7,
+          "target_fact_hits": 1,
+          "matched_fact": true,
+          "would_persist": true
+        },
+        {
+          "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "final_url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "domain": "pt.wikipedia.org",
+          "publisher": "Wikimedia",
+          "source_type": "wiki_narrative",
+          "http_status": 200,
+          "canonical_triples": 8,
+          "target_fact_hits": 0,
+          "matched_fact": false,
+          "would_persist": false
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "final_url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "domain": "en.wikipedia.org",
+          "publisher": "Wikimedia",
+          "source_type": "wiki_narrative",
+          "http_status": 200,
+          "canonical_triples": 12,
+          "target_fact_hits": 0,
+          "matched_fact": false,
+          "would_persist": false
+        }
+      ],
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 2,
+      "predicted_publishers": [
+        "Wikimedia"
+      ],
+      "predicted_publisher_count": 1,
+      "predicted_confirmations": 2,
+      "predicted_verified": false,
+      "collision_status": "full_collision",
+      "eligible_for_runtime": false,
+      "blocking_reason": "confs<3"
+    },
+    {
+      "fact": "PELÉ --DEFENDEU--> SANTOS FUTEBOL CLUBE",
+      "sources": [
+        {
+          "url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+          "final_url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+          "domain": "pt.wikipedia.org",
+          "publisher": "Wikimedia",
+          "source_type": "wiki_narrative",
+          "http_status": 200,
+          "canonical_triples": 11,
+          "target_fact_hits": 1,
+          "matched_fact": true,
+          "would_persist": true
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+          "final_url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+          "domain": "en.wikipedia.org",
+          "publisher": "Wikimedia",
+          "source_type": "wiki_narrative",
+          "http_status": 200,
+          "canonical_triples": 8,
+          "target_fact_hits": 1,
+          "matched_fact": true,
+          "would_persist": true
+        },
+        {
+          "url": "https://pt.wikipedia.org/wiki/Santos_FC",
+          "final_url": "https://pt.wikipedia.org/wiki/Santos_FC",
+          "domain": "pt.wikipedia.org",
+          "publisher": "Wikimedia",
+          "source_type": "wiki_narrative",
+          "http_status": 200,
+          "canonical_triples": 8,
+          "target_fact_hits": 1,
+          "matched_fact": true,
+          "would_persist": true
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Santos_FC",
+          "final_url": "https://en.wikipedia.org/wiki/Santos_FC",
+          "domain": "en.wikipedia.org",
+          "publisher": "Wikimedia",
+          "source_type": "wiki_narrative",
+          "http_status": 200,
+          "canonical_triples": 8,
+          "target_fact_hits": 0,
+          "matched_fact": false,
+          "would_persist": false
+        }
+      ],
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 2,
+      "predicted_publishers": [
+        "Wikimedia"
+      ],
+      "predicted_publisher_count": 1,
+      "predicted_confirmations": 3,
+      "predicted_verified": true,
+      "collision_status": "full_collision",
+      "eligible_for_runtime": true,
+      "blocking_reason": null
+    },
+    {
+      "fact": "NILTON SANTOS --DEFENDEU--> BOTAFOGO DE FUTEBOL E REGATAS",
+      "sources": [
+        {
+          "url": "https://pt.wikipedia.org/wiki/Nilton_Santos",
+          "final_url": "https://pt.wikipedia.org/wiki/Nilton_Santos",
+          "domain": "pt.wikipedia.org",
+          "publisher": "Wikimedia",
+          "source_type": "wiki_narrative",
+          "http_status": 200,
+          "canonical_triples": 6,
+          "target_fact_hits": 0,
+          "matched_fact": false,
+          "would_persist": false
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Nilton_Santos",
+          "final_url": "https://en.wikipedia.org/wiki/Nilton_Santos",
+          "domain": "en.wikipedia.org",
+          "publisher": "Wikimedia",
+          "source_type": "wiki_narrative",
+          "http_status": 200,
+          "canonical_triples": 0,
+          "target_fact_hits": 0,
+          "matched_fact": false,
+          "would_persist": false
+        }
+      ],
+      "predicted_domains": [],
+      "predicted_domain_count": 0,
+      "predicted_publishers": [],
+      "predicted_publisher_count": 0,
+      "predicted_confirmations": 0,
+      "predicted_verified": false,
+      "collision_status": "no_collision",
+      "eligible_for_runtime": false,
+      "blocking_reason": "dom<2"
+    },
+    {
+      "fact": "DIDI --DEFENDEU--> BOTAFOGO DE FUTEBOL E REGATAS",
+      "sources": [
+        {
+          "url": "https://pt.wikipedia.org/wiki/Didi",
+          "final_url": "https://pt.wikipedia.org/wiki/Didi",
+          "domain": "pt.wikipedia.org",
+          "publisher": "Wikimedia",
+          "source_type": "wiki_narrative",
+          "http_status": 200,
+          "canonical_triples": 0,
+          "target_fact_hits": 0,
+          "matched_fact": false,
+          "would_persist": false
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Didi_(footballer)",
+          "final_url": "https://en.wikipedia.org/wiki/Didi_(footballer)",
+          "domain": "en.wikipedia.org",
+          "publisher": "Wikimedia",
+          "source_type": "wiki_narrative",
+          "http_status": 200,
+          "canonical_triples": 1,
+          "target_fact_hits": 0,
+          "matched_fact": false,
+          "would_persist": false
+        }
+      ],
+      "predicted_domains": [],
+      "predicted_domain_count": 0,
+      "predicted_publishers": [],
+      "predicted_publisher_count": 0,
+      "predicted_confirmations": 0,
+      "predicted_verified": false,
+      "collision_status": "no_collision",
+      "eligible_for_runtime": false,
+      "blocking_reason": "dom<2"
+    },
+    {
+      "fact": "JAIRZINHO --DEFENDEU--> BOTAFOGO DE FUTEBOL E REGATAS",
+      "sources": [
+        {
+          "url": "https://pt.wikipedia.org/wiki/Jairzinho",
+          "final_url": "https://pt.wikipedia.org/wiki/Jairzinho",
+          "domain": "pt.wikipedia.org",
+          "publisher": "Wikimedia",
+          "source_type": "wiki_narrative",
+          "http_status": 200,
+          "canonical_triples": 3,
+          "target_fact_hits": 0,
+          "matched_fact": false,
+          "would_persist": false
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Jairzinho",
+          "final_url": "https://en.wikipedia.org/wiki/Jairzinho",
+          "domain": "en.wikipedia.org",
+          "publisher": "Wikimedia",
+          "source_type": "wiki_narrative",
+          "http_status": 200,
+          "canonical_triples": 4,
+          "target_fact_hits": 0,
+          "matched_fact": false,
+          "would_persist": false
+        }
+      ],
+      "predicted_domains": [],
+      "predicted_domain_count": 0,
+      "predicted_publishers": [],
+      "predicted_publisher_count": 0,
+      "predicted_confirmations": 0,
+      "predicted_verified": false,
+      "collision_status": "no_collision",
+      "eligible_for_runtime": false,
+      "blocking_reason": "dom<2"
+    },
+    {
+      "fact": "HELENO DE FREITAS --DEFENDEU--> BOTAFOGO DE FUTEBOL E REGATAS",
+      "sources": [
+        {
+          "url": "https://pt.wikipedia.org/wiki/Heleno_de_Freitas",
+          "final_url": "https://pt.wikipedia.org/wiki/Heleno_de_Freitas",
+          "domain": "pt.wikipedia.org",
+          "publisher": "Wikimedia",
+          "source_type": "wiki_narrative",
+          "http_status": 200,
+          "canonical_triples": 8,
+          "target_fact_hits": 0,
+          "matched_fact": false,
+          "would_persist": false
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Heleno_de_Freitas",
+          "final_url": "https://en.wikipedia.org/wiki/Heleno_de_Freitas",
+          "domain": "en.wikipedia.org",
+          "publisher": "Wikimedia",
+          "source_type": "wiki_narrative",
+          "http_status": 200,
+          "canonical_triples": 2,
+          "target_fact_hits": 0,
+          "matched_fact": false,
+          "would_persist": false
+        }
+      ],
+      "predicted_domains": [],
+      "predicted_domain_count": 0,
+      "predicted_publishers": [],
+      "predicted_publisher_count": 0,
+      "predicted_confirmations": 0,
+      "predicted_verified": false,
+      "collision_status": "no_collision",
+      "eligible_for_runtime": false,
+      "blocking_reason": "dom<2"
+    }
+  ],
+  "per_url": {
+    "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas": {
+      "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+      "final_url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+      "domain": "en.wikipedia.org",
+      "publisher": "Wikimedia",
+      "http_status": 200,
+      "canonical_triples": 12,
+      "raw_triples": 18,
+      "error": ""
+    },
+    "https://en.wikipedia.org/wiki/Didi_(footballer)": {
+      "url": "https://en.wikipedia.org/wiki/Didi_(footballer)",
+      "final_url": "https://en.wikipedia.org/wiki/Didi_(footballer)",
+      "domain": "en.wikipedia.org",
+      "publisher": "Wikimedia",
+      "http_status": 200,
+      "canonical_triples": 1,
+      "raw_triples": 1,
+      "error": ""
+    },
+    "https://en.wikipedia.org/wiki/Garrincha": {
+      "url": "https://en.wikipedia.org/wiki/Garrincha",
+      "final_url": "https://en.wikipedia.org/wiki/Garrincha",
+      "domain": "en.wikipedia.org",
+      "publisher": "Wikimedia",
+      "http_status": 200,
+      "canonical_triples": 7,
+      "raw_triples": 21,
+      "error": ""
+    },
+    "https://en.wikipedia.org/wiki/Heleno_de_Freitas": {
+      "url": "https://en.wikipedia.org/wiki/Heleno_de_Freitas",
+      "final_url": "https://en.wikipedia.org/wiki/Heleno_de_Freitas",
+      "domain": "en.wikipedia.org",
+      "publisher": "Wikimedia",
+      "http_status": 200,
+      "canonical_triples": 2,
+      "raw_triples": 5,
+      "error": ""
+    },
+    "https://en.wikipedia.org/wiki/Jairzinho": {
+      "url": "https://en.wikipedia.org/wiki/Jairzinho",
+      "final_url": "https://en.wikipedia.org/wiki/Jairzinho",
+      "domain": "en.wikipedia.org",
+      "publisher": "Wikimedia",
+      "http_status": 200,
+      "canonical_triples": 4,
+      "raw_triples": 12,
+      "error": ""
+    },
+    "https://en.wikipedia.org/wiki/Nilton_Santos": {
+      "url": "https://en.wikipedia.org/wiki/Nilton_Santos",
+      "final_url": "https://en.wikipedia.org/wiki/Nilton_Santos",
+      "domain": "en.wikipedia.org",
+      "publisher": "Wikimedia",
+      "http_status": 200,
+      "canonical_triples": 0,
+      "raw_triples": 2,
+      "error": ""
+    },
+    "https://en.wikipedia.org/wiki/Pel%C3%A9": {
+      "url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+      "final_url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+      "domain": "en.wikipedia.org",
+      "publisher": "Wikimedia",
+      "http_status": 200,
+      "canonical_triples": 8,
+      "raw_triples": 25,
+      "error": ""
+    },
+    "https://en.wikipedia.org/wiki/Santos_FC": {
+      "url": "https://en.wikipedia.org/wiki/Santos_FC",
+      "final_url": "https://en.wikipedia.org/wiki/Santos_FC",
+      "domain": "en.wikipedia.org",
+      "publisher": "Wikimedia",
+      "http_status": 200,
+      "canonical_triples": 8,
+      "raw_triples": 13,
+      "error": ""
+    },
+    "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas": {
+      "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+      "final_url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+      "domain": "pt.wikipedia.org",
+      "publisher": "Wikimedia",
+      "http_status": 200,
+      "canonical_triples": 8,
+      "raw_triples": 25,
+      "error": ""
+    },
+    "https://pt.wikipedia.org/wiki/Didi": {
+      "url": "https://pt.wikipedia.org/wiki/Didi",
+      "final_url": "https://pt.wikipedia.org/wiki/Didi",
+      "domain": "pt.wikipedia.org",
+      "publisher": "Wikimedia",
+      "http_status": 200,
+      "canonical_triples": 0,
+      "raw_triples": 1,
+      "error": ""
+    },
+    "https://pt.wikipedia.org/wiki/Garrincha": {
+      "url": "https://pt.wikipedia.org/wiki/Garrincha",
+      "final_url": "https://pt.wikipedia.org/wiki/Garrincha",
+      "domain": "pt.wikipedia.org",
+      "publisher": "Wikimedia",
+      "http_status": 200,
+      "canonical_triples": 11,
+      "raw_triples": 25,
+      "error": ""
+    },
+    "https://pt.wikipedia.org/wiki/Heleno_de_Freitas": {
+      "url": "https://pt.wikipedia.org/wiki/Heleno_de_Freitas",
+      "final_url": "https://pt.wikipedia.org/wiki/Heleno_de_Freitas",
+      "domain": "pt.wikipedia.org",
+      "publisher": "Wikimedia",
+      "http_status": 200,
+      "canonical_triples": 8,
+      "raw_triples": 17,
+      "error": ""
+    },
+    "https://pt.wikipedia.org/wiki/Jairzinho": {
+      "url": "https://pt.wikipedia.org/wiki/Jairzinho",
+      "final_url": "https://pt.wikipedia.org/wiki/Jairzinho",
+      "domain": "pt.wikipedia.org",
+      "publisher": "Wikimedia",
+      "http_status": 200,
+      "canonical_triples": 3,
+      "raw_triples": 7,
+      "error": ""
+    },
+    "https://pt.wikipedia.org/wiki/Nilton_Santos": {
+      "url": "https://pt.wikipedia.org/wiki/Nilton_Santos",
+      "final_url": "https://pt.wikipedia.org/wiki/Nilton_Santos",
+      "domain": "pt.wikipedia.org",
+      "publisher": "Wikimedia",
+      "http_status": 200,
+      "canonical_triples": 6,
+      "raw_triples": 9,
+      "error": ""
+    },
+    "https://pt.wikipedia.org/wiki/Pel%C3%A9": {
+      "url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+      "final_url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+      "domain": "pt.wikipedia.org",
+      "publisher": "Wikimedia",
+      "http_status": 200,
+      "canonical_triples": 11,
+      "raw_triples": 25,
+      "error": ""
+    },
+    "https://pt.wikipedia.org/wiki/Santos_FC": {
+      "url": "https://pt.wikipedia.org/wiki/Santos_FC",
+      "final_url": "https://pt.wikipedia.org/wiki/Santos_FC",
+      "domain": "pt.wikipedia.org",
+      "publisher": "Wikimedia",
+      "http_status": 200,
+      "canonical_triples": 8,
+      "raw_triples": 25,
+      "error": ""
+    }
+  },
+  "summary": {
+    "facts_evaluated": 6,
+    "full_collision_facts": 2,
+    "partial_collision_facts": 0,
+    "predicted_new_verified": 1,
+    "eligible_for_runtime": true,
+    "recommended_next_step": "Fase 2 runtime DEFENDEU"
+  }
+}

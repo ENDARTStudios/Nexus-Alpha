@@ -2368,3 +2368,39 @@ Sem mudança de runtime/seeds; sem aliases/predicates novos (falha é de extraç
 
 ### Próximo issue
 **#048.10B** (extração controlada player→club / club→stadium / →city, resolvendo o clube como SUJEITO) + **#059** (fontes estáticas independentes não-Wikimedia) + **#053** (publishers). Não abrir #047.2/#045.3; **não treinar**; quórum 3.
+
+## #048.10B — Controlled DEFENDEU scale-up (target-aware selection)
+
+**Status:** PARTIAL — **Cenário B** — **Commits:** `031edf2` (runtime: target-aware) + este (docs/reports) — **CI:** verde — **Snapshot:** `reports/aura_snapshot_pre_048_10B.json` (Fato=328) — **Worker run:** `36352492698` (success).
+
+### O que mudou
+- **`src/cognition/extractor.py`** — target-aware selection (Fase 1): sentenças com jogador(allowlist)+clube+indício de defesa são processadas antes do cap; no sparse-band, triplas-alvo `JOGADOR --DEFENDEU--> CLUBE` whitelisted são promovidas antes do fallback. Sem tripla-alvo a ordem é a congelada (#058.8). Com a flag nominal/fallback off nada muda.
+- **`scripts/audit_defendeu_static_sources.py`** (novo) + **`tests/test_target_aware_selection.py`** (novo, 5 testes; 2 skip sem spaCy).
+- **Sem mudança de seeds/aliases** (Fase 0/2 não exigiu).
+
+### Atlas DEFENDEU (`reports/defendeu_static_sources_atlas_048_10B.json`)
+| Fato | confs | doms | verified(3-dom) |
+|---|---:|---:|---|
+| PELÉ→SANTOS | **3** | 2 | ✗ (2 domínios) |
+| GARRINCHA→BOTAFOGO | 2 | 2 | ✗ |
+| NILTON/DIDI/JAIRZINHO/HELENO | 0 | 0 | ✗ |
+
+### Métricas
+| Métrica | Antes | Depois | Delta |
+|---|---:|---:|---:|
+| duplicate_cross_domain | 11 | **12** | +1 |
+| facts_with_two_or_more_domains | 11 | **12** | +1 |
+| facts_with_three_or_more_domains | 10 | 10 | 0 |
+| verified_facts_domain_independent (canônico, 3 domínios) | 10 | **10** | 0 |
+| records_total (export) | 10 | 10 | 0 |
+| unique_predicates | 1 | 1 | 0 |
+| non_VENCEU_ratio | 0.0 | 0.0 | 0 |
+
+### Classificação
+**Cenário B** — extração destravada: `PELÉ --DEFENDEU--> SANTOS FUTEBOL CLUBE` agora tem `confs=3` (pt+en) e `duplicate_cross_domain` subiu, mas o **terceiro domínio independente** falta → `verified_facts_domain_independent` (definição canônica = 3 domínios) permanece 10, e o dataset de treino segue 10 (todas VENCEU).
+
+### Limitação / achado
+Divergência de definição registrada: a auditoria `confs>=3 AND doms>=2` dá 11; o flag canônico do Space exige **3 domínios** → 10. É a dívida **#053** (domínio ≠ publisher; e definição de independência).
+
+### Próximo passo
+**#059C** (terceira fonte estática INDEPENDENTE não-Wikimedia p/ player-club DEFENDEU) + **#053** (independência por publisher) + **#055** (Almanaque com licença). **Não treinar**; quórum 3.
