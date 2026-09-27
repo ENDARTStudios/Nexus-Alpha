@@ -2195,3 +2195,39 @@ Leitura: wiki nunca emite as chaves VENCEU canônicas via narrativa (honras wiki
 
 ### Próximo passo
 **#048.7 — estender whitelist tabular às tabelas de honras das páginas wiki** (pt/en Botafogo, pt/en Santos): mesmo parser/schema, competição por URL+caption; dry-run antes de seed. Secundário: **#058.12.1** — emissão table-only p/ URLs whitelistadas (conter junk narrativo tipo `COPA DE CAMPEONES SER...`). Não abrir #047.2/#045.3 (sem gap legítimo). Treino segue fechado (verified=0 < 10).
+
+## #058.12.1 + #048.7 — Table-only policy e honras wiki controladas
+
+**Status:** DONE — **Cenário A (vitória plena)** — **Commits:** `3e4fa8b` (Fase A) + `e34ffc1` (Fase C) — **CI:** verde nos dois — **Snapshot:** `reports/aura_snapshot_pre_048_7.json` (4144 nós, Fato=227) — **Worker run:** `36335999695` (success).
+
+### Fases
+- **A (policy):** `source_policy()` (rsssf=table_only, wiki=narrative_plus_table, resto default); narrativa suprimida p/ rsssf com reason `narrative_suppressed_table_only_source`; 7 testes. Em produção: copalib 2 + brazchamp 7 triplas suprimidas.
+- **B (dry-run wiki):** `scripts/audit_wiki_honours_table_extraction.py` → `full=2, partial=0, eligible=True`; bug real achado e corrigido (anos de Estreia/Última contaminavam PT — anos SÓ da célula Campeão).
+- **C (runtime):** `_parse_wiki_honours` + `WIKI_HONOURS_CLUBS` (só Botafogo pt/en) + normalização mínima de competição no `table_extractor.py`; 10 testes (incl. colisão 3-fontes); Em produção: pt wiki emitted=4, en wiki emitted=4.
+
+### Métricas
+| Métrica | Antes | Depois | Delta |
+|---|---:|---:|---:|
+| facts | 227 | 227 | 0 (só arestas CONFIRMA) |
+| duplicate_cross_domain | 1 | 3 | +2 |
+| facts_with_two_or_more_domains | 1 | 3 | +2 |
+| facts_with_three_or_more_domains | 0 | 2 | +2 |
+| verified_facts_domain_independent | 0 | **2** | **+2** |
+| table_extraction.canonical_triples_from_tables | 0 | 7+8 worker-side | + |
+| en_ser_share | — | estável | — |
+| run_scoped_gap | 0 | 0 | — |
+| graph_scoped_gap | explicado | explicado | — |
+| unaccounted_raw | 0 | 0 | — |
+| top_invalid_predicates | [] | [] | — |
+
+### Classificação
+**Cenário A — vitória plena.** Fatos verificados:
+- `BOTAFOGO --VENCEU--> COPA LIBERTADORES` (pt+en+rsssf, confs=3) ✅
+- `BOTAFOGO --VENCEU--> CAMPEONATO BRASILEIRO SERIE A` (pt+en+rsssf, confs=3) ✅
+- Garrincha DEFENDEU segue confs=2 (inalterado).
+
+### Limitação editorial
+Verificados vêm de pt.wiki + en.wiki + rsssf = **3 domínios, 2 publishers** (Wikimedia+RSSSF). Métrica inalterada; dívida **#053** (publisher/eTLD+1) registrada, não implementada.
+
+### Próximo passo
+**#048.8** — replicar padrão honours p/ Santos (dry-run próprio antes) + avaliar table-only wiki? Não. Sem #047.2/#045.3 (variantes medium = junk-vs-clean, promote=false). Treino segue fechado (verified=2 < 10).

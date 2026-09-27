@@ -1,0 +1,546 @@
+{
+  "audit_id": "entity_linking_audit_2026-09-27",
+  "generated_at": "2026-09-27T17:16:25.943310+00:00",
+  "build_space_commit": "e34ffc1",
+  "worker_run_id": "36335999695",
+  "quorum": 3,
+  "facts_total": 227,
+  "domains_total": 14,
+  "domain_coverage": {
+    "facts_total": 227,
+    "domains_total": 14,
+    "facts_by_domain": {
+      "pt.wikipedia.org": 88,
+      "en.wikipedia.org": 72,
+      "paperswithcode.com": 11,
+      "plato.stanford.edu": 11,
+      "ollama.com": 9,
+      "ibm.com": 8,
+      "scikit-learn.org": 8,
+      "geeksforgeeks.org": 4,
+      "tensorflow.org": 4,
+      "nist.gov": 2,
+      "rsssf.org": 2,
+      "santosfc.com.br": 2,
+      "spectrum.ieee.org": 2,
+      "huggingface.co": 1
+    },
+    "facts_with_one_domain": 224,
+    "facts_with_two_or_more_domains": 3
+  },
+  "candidate_pairs": {
+    "high": 0,
+    "medium": 7,
+    "low": 18
+  },
+  "potential_verified_if_high_aliasing": 0,
+  "potential_verified_if_medium_aliasing": 1,
+  "mismatch_types": {
+    "subject_variant": 1,
+    "object_variant": 6,
+    "predicate_variant": 0,
+    "true_unique": 220
+  },
+  "examples": [
+    {
+      "confidence": "medium",
+      "type": "object_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "manuel francisco dos santos|SER|incredible player",
+        "subject": "MANUEL FRANCISCO DOS SANTOS",
+        "predicate": "SER",
+        "object": "INCREDIBLE PLAYER",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "manuel francisco dos santos|SER|santos futebol clube",
+        "subject": "MANUEL FRANCISCO DOS SANTOS",
+        "predicate": "SER",
+        "object": "SANTOS FUTEBOL CLUBE",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "object_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "santos futebol clube|VENCEU|copa libertadores",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "COPA LIBERTADORES",
+        "domains": [
+          "rsssf.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "santos futebol clube|VENCEU|edson arantes do nascimento",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "EDSON ARANTES DO NASCIMENTO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "object_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "santos futebol clube|VENCEU|copa libertadores",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "COPA LIBERTADORES",
+        "domains": [
+          "rsssf.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "santos futebol clube|VENCEU|rio sao paulo",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "RIO SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "object_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "santos futebol clube|VENCEU|copa libertadores",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "COPA LIBERTADORES",
+        "domains": [
+          "rsssf.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "santos futebol clube|VENCEU|segunda partida",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "SEGUNDA PARTIDA",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "santos futebol clube|VENCEU|copa libertadores",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "COPA LIBERTADORES",
+        "domains": [
+          "rsssf.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "team also|VENCEU|copa libertadores",
+        "subject": "TEAM ALSO",
+        "predicate": "VENCEU",
+        "object": "COPA LIBERTADORES",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "object_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "santos futebol clube|VENCEU|edson arantes do nascimento",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "EDSON ARANTES DO NASCIMENTO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "santos futebol clube|VENCEU|segunda partida",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "SEGUNDA PARTIDA",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "object_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "santos futebol clube|VENCEU|rio sao paulo",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "RIO SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "santos futebol clube|VENCEU|segunda partida",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "SEGUNDA PARTIDA",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "low",
+      "type": "predicate_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "estádio urbano caldeira|SER|edson arantes do nascimento",
+        "subject": "ESTÁDIO URBANO CALDEIRA",
+        "predicate": "SER",
+        "object": "EDSON ARANTES DO NASCIMENTO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "santos futebol clube|VENCEU|edson arantes do nascimento",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "EDSON ARANTES DO NASCIMENTO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "low",
+      "type": "predicate_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "manuel francisco dos santos|DEFENDEU|campeonato sul americano de 1957",
+        "subject": "MANUEL FRANCISCO DOS SANTOS",
+        "predicate": "DEFENDEU",
+        "object": "CAMPEONATO SUL AMERICANO DE 1957",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "manuel francisco dos santos|SER|incredible player",
+        "subject": "MANUEL FRANCISCO DOS SANTOS",
+        "predicate": "SER",
+        "object": "INCREDIBLE PLAYER",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "low",
+      "type": "predicate_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "manuel francisco dos santos|DEFENDEU|primeira partida do torneio",
+        "subject": "MANUEL FRANCISCO DOS SANTOS",
+        "predicate": "DEFENDEU",
+        "object": "PRIMEIRA PARTIDA DO TORNEIO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "manuel francisco dos santos|SER|incredible player",
+        "subject": "MANUEL FRANCISCO DOS SANTOS",
+        "predicate": "SER",
+        "object": "INCREDIBLE PLAYER",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "low",
+      "type": "predicate_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "manuel francisco dos santos|EXECUTA|jogada semelhante",
+        "subject": "MANUEL FRANCISCO DOS SANTOS",
+        "predicate": "EXECUTA",
+        "object": "JOGADA SEMELHANTE",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "manuel francisco dos santos|SER|incredible player",
+        "subject": "MANUEL FRANCISCO DOS SANTOS",
+        "predicate": "SER",
+        "object": "INCREDIBLE PLAYER",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "low",
+      "type": "predicate_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "manuel francisco dos santos|EXECUTA|treino",
+        "subject": "MANUEL FRANCISCO DOS SANTOS",
+        "predicate": "EXECUTA",
+        "object": "TREINO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "manuel francisco dos santos|SER|incredible player",
+        "subject": "MANUEL FRANCISCO DOS SANTOS",
+        "predicate": "SER",
+        "object": "INCREDIBLE PLAYER",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "low",
+      "type": "predicate_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "santos futebol clube|DISPUTOU|amistoso",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "DISPUTOU",
+        "object": "AMISTOSO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "santos futebol clube|VENCEU|copa libertadores",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "COPA LIBERTADORES",
+        "domains": [
+          "rsssf.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "low",
+      "type": "predicate_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "santos futebol clube|DISPUTOU|amistoso",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "DISPUTOU",
+        "object": "AMISTOSO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "santos futebol clube|VENCEU|edson arantes do nascimento",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "EDSON ARANTES DO NASCIMENTO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "low",
+      "type": "predicate_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "santos futebol clube|DISPUTOU|amistoso",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "DISPUTOU",
+        "object": "AMISTOSO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "santos futebol clube|VENCEU|rio sao paulo",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "RIO SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "low",
+      "type": "predicate_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "santos futebol clube|DISPUTOU|campeonato paulista",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "DISPUTOU",
+        "object": "CAMPEONATO PAULISTA",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "santos futebol clube|VENCEU|copa libertadores",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "COPA LIBERTADORES",
+        "domains": [
+          "rsssf.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "low",
+      "type": "predicate_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "santos futebol clube|DISPUTOU|campeonato paulista",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "DISPUTOU",
+        "object": "CAMPEONATO PAULISTA",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "santos futebol clube|VENCEU|edson arantes do nascimento",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "EDSON ARANTES DO NASCIMENTO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "low",
+      "type": "predicate_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "santos futebol clube|DISPUTOU|campeonato paulista",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "DISPUTOU",
+        "object": "CAMPEONATO PAULISTA",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "santos futebol clube|VENCEU|rio sao paulo",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "RIO SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "low",
+      "type": "predicate_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "santos futebol clube|DISPUTOU|campeonato paulista",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "DISPUTOU",
+        "object": "CAMPEONATO PAULISTA",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "year santos|VENCEU|campeonato paulista",
+        "subject": "YEAR SANTOS",
+        "predicate": "VENCEU",
+        "object": "CAMPEONATO PAULISTA",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "low",
+      "type": "predicate_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "santos futebol clube|LOCALIZADO_EM|monte serrat",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "LOCALIZADO_EM",
+        "object": "MONTE SERRAT",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "santos futebol clube|VENCEU|copa libertadores",
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "COPA LIBERTADORES",
+        "domains": [
+          "rsssf.org"
+        ]
+      },
+      "promote_automatically": false
+    }
+  ],
+  "promote_automatically": false,
+  "parameters": {
+    "quorum": 3,
+    "high": 0.85,
+    "medium": 0.6,
+    "max_examples": 20,
+    "domains_require_disjoint": true,
+    "mismatch_types_scope": "fact_level_best_candidate_high_or_medium",
+    "qdrant_used": false
+  },
+  "truthfulness_note": {
+    "read_only": true,
+    "promote_automatically": false,
+    "qdrant_ignored": true,
+    "does_not_change_quorum_or_confirmacoes": true,
+    "medium_is_upper_bound": true,
+    "medium_does_not_imply_safe_aliasing": true,
+    "only_high_is_recommended_for_curated_alias_review": true,
+    "note": "Read-only; NAO promove fato, NAO altera confirmacoes/quorum, NAO usa Qdrant. medium e limite superior teorico; apenas high alimenta revisao de alias curado."
+  }
+}

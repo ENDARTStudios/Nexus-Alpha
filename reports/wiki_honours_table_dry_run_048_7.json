@@ -1,0 +1,249 @@
+{
+  "audit_id": "wiki_honours_table_dry_run_048_7",
+  "generated_at": "2026-09-27T17:06:22.474734+00:00",
+  "read_only": true,
+  "policy": {
+    "table_only_domains": [
+      "rsssf.org"
+    ],
+    "narrative_plus_table_domains": [
+      "pt.wikipedia.org",
+      "en.wikipedia.org"
+    ]
+  },
+  "targets": [
+    {
+      "fact": "BOTAFOGO --VENCEU--> COPA LIBERTADORES",
+      "fact_id": "botafogo_venceu_libertadores",
+      "sources": [
+        {
+          "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "domain": "pt.wikipedia.org",
+          "publisher": "Wikimedia",
+          "table_found": true,
+          "rows_parsed": 4,
+          "canonical_triples": 4,
+          "matched_fact": true,
+          "rejection_reasons": {
+            "wiki_competition_not_allowlisted": 48,
+            "wiki_runner_up_row": 3
+          },
+          "would_persist": true
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "domain": "en.wikipedia.org",
+          "publisher": "Wikimedia",
+          "table_found": true,
+          "rows_parsed": 4,
+          "canonical_triples": 4,
+          "matched_fact": true,
+          "rejection_reasons": {
+            "wiki_competition_not_allowlisted": 113
+          },
+          "would_persist": true
+        },
+        {
+          "url": "https://www.rsssf.org/sacups/copalib.html",
+          "domain": "rsssf.org",
+          "publisher": "RSSSF",
+          "table_found": true,
+          "rows_parsed": 4,
+          "canonical_triples": 4,
+          "matched_fact": true,
+          "rejection_reasons": {
+            "club_not_allowlisted": 61,
+            "club_mention_generic": 1,
+            "pre_unmatched_line": 47,
+            "pre_score_line_skipped": 139
+          },
+          "would_persist": true
+        },
+        {
+          "url": "https://www.rsssf.org/tablesb/brazchamp.html",
+          "domain": "rsssf.org",
+          "publisher": "RSSSF",
+          "table_found": true,
+          "rows_parsed": 3,
+          "canonical_triples": 3,
+          "matched_fact": false,
+          "rejection_reasons": {
+            "club_mention_generic": 55,
+            "club_not_allowlisted": 15,
+            "pre_runner_up_skipped": 72,
+            "pre_unmatched_line": 78,
+            "pre_score_line_skipped": 1
+          },
+          "would_persist": false
+        }
+      ],
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org",
+        "rsssf.org"
+      ],
+      "predicted_domain_count": 3,
+      "predicted_publisher_count": 2,
+      "predicted_confirmations": 3,
+      "predicted_verified": true,
+      "collision_status": "full_collision",
+      "blocking_reason": null,
+      "hit_samples": [
+        {
+          "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+          "predicate": "VENCEU",
+          "object": "COPA LIBERTADORES",
+          "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "year": 2024
+        },
+        {
+          "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+          "predicate": "VENCEU",
+          "object": "COPA LIBERTADORES",
+          "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "year": 2024
+        },
+        {
+          "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+          "predicate": "VENCEU",
+          "object": "COPA LIBERTADORES",
+          "url": "https://www.rsssf.org/sacups/copalib.html",
+          "year": 2024
+        }
+      ]
+    },
+    {
+      "fact": "BOTAFOGO --VENCEU--> CAMPEONATO BRASILEIRO",
+      "fact_id": "botafogo_venceu_brasileirao",
+      "sources": [
+        {
+          "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "domain": "pt.wikipedia.org",
+          "publisher": "Wikimedia",
+          "table_found": true,
+          "rows_parsed": 4,
+          "canonical_triples": 4,
+          "matched_fact": true,
+          "rejection_reasons": {
+            "wiki_competition_not_allowlisted": 48,
+            "wiki_runner_up_row": 3
+          },
+          "would_persist": true
+        },
+        {
+          "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "domain": "en.wikipedia.org",
+          "publisher": "Wikimedia",
+          "table_found": true,
+          "rows_parsed": 4,
+          "canonical_triples": 4,
+          "matched_fact": true,
+          "rejection_reasons": {
+            "wiki_competition_not_allowlisted": 113
+          },
+          "would_persist": true
+        },
+        {
+          "url": "https://www.rsssf.org/sacups/copalib.html",
+          "domain": "rsssf.org",
+          "publisher": "RSSSF",
+          "table_found": true,
+          "rows_parsed": 4,
+          "canonical_triples": 4,
+          "matched_fact": false,
+          "rejection_reasons": {
+            "club_not_allowlisted": 61,
+            "club_mention_generic": 1,
+            "pre_unmatched_line": 47,
+            "pre_score_line_skipped": 139
+          },
+          "would_persist": false
+        },
+        {
+          "url": "https://www.rsssf.org/tablesb/brazchamp.html",
+          "domain": "rsssf.org",
+          "publisher": "RSSSF",
+          "table_found": true,
+          "rows_parsed": 3,
+          "canonical_triples": 3,
+          "matched_fact": true,
+          "rejection_reasons": {
+            "club_mention_generic": 55,
+            "club_not_allowlisted": 15,
+            "pre_runner_up_skipped": 72,
+            "pre_unmatched_line": 78,
+            "pre_score_line_skipped": 1
+          },
+          "would_persist": true
+        }
+      ],
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org",
+        "rsssf.org"
+      ],
+      "predicted_domain_count": 3,
+      "predicted_publisher_count": 2,
+      "predicted_confirmations": 9,
+      "predicted_verified": true,
+      "collision_status": "full_collision",
+      "blocking_reason": null,
+      "hit_samples": [
+        {
+          "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+          "predicate": "VENCEU",
+          "object": "CAMPEONATO BRASILEIRO SERIE A",
+          "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "year": 1968
+        },
+        {
+          "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+          "predicate": "VENCEU",
+          "object": "CAMPEONATO BRASILEIRO SERIE A",
+          "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "year": 1995
+        },
+        {
+          "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+          "predicate": "VENCEU",
+          "object": "CAMPEONATO BRASILEIRO SERIE A",
+          "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "year": 2024
+        },
+        {
+          "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+          "predicate": "VENCEU",
+          "object": "CAMPEONATO BRASILEIRO SERIE A",
+          "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+          "year": 1968
+        }
+      ]
+    }
+  ],
+  "regression_checks": {
+    "pt_narrative_facts_expected_lost": 0,
+    "en_narrative_facts_expected_lost": 0,
+    "existing_garrincha_defendeu_preserved": true,
+    "new_generic_objects": 0,
+    "new_date_objects": 0,
+    "new_clause_objects": 0,
+    "ser_share_delta": -0.1786,
+    "note": "via tabular é aditiva; narrativa intocada (construção + baseline no mesmo corpus)"
+  },
+  "rejection_reasons": {
+    "wiki_competition_not_allowlisted": 161,
+    "wiki_runner_up_row": 3,
+    "club_not_allowlisted": 76,
+    "club_mention_generic": 56,
+    "pre_unmatched_line": 125,
+    "pre_score_line_skipped": 140,
+    "pre_runner_up_skipped": 72
+  },
+  "summary": {
+    "full_collision_targets": 2,
+    "partial_collision_targets": 0,
+    "eligible_for_runtime": true,
+    "predicted_verified_any": true,
+    "recommended_next_step": "Fase C runtime honras wiki"
+  }
+}
