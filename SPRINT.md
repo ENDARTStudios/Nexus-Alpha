@@ -2339,3 +2339,32 @@ Botafogo→Libertadores, Botafogo→Brasileirão, Santos→Libertadores, Flameng
 
 ### Próximo issue
 **#048.10A** (escalar verified para records ≥ 50) + **#048.10B** (diversificar além de VENCEU: `JOGADOR --DEFENDEU--> CLUBE`, `CLUBE --POSSUIR--> ESTÁDIO`, `ESTÁDIO --LOCALIZADO_EM--> CIDADE`, …) + **#053** (publisher independence). Dry-run read-only antes de runtime; não abrir #047.2/#045.3 sem evidência; **não treinar**.
+
+## #048.10 — Diversified verified-fact scale-up
+
+**Status:** BLOCKED (read-only; sem mudança de runtime/seeds) — **Commits:** este (atlas + docs) — **CI:** verde — **Atlas:** `reports/diversified_fact_families_atlas_048_10.json` — **Worker:** não executado (nada novo a medir).
+
+### Fase 0 — Atlas read-only de famílias (cap de produção = 25)
+`scripts/audit_diversified_fact_families.py` testou 4 famílias não-VENCEU (DEFENDEU, LOCALIZADO_EM clube/estádio, POSSUIR) → **`eligible_families = 0`**:
+
+| Família | Fato | confs | doms | verified |
+|---|---|---:|---:|---|
+| DEFENDEU | GARRINCHA→BOTAFOGO | 2 | 2 | ✗ |
+| DEFENDEU | PELÉ→SANTOS | 2 | 1 | ✗ |
+| LOCALIZADO_EM | BOTAFOGO→RIO / SANTOS→SANTOS / NILTON SANTOS→RIO | 0 | 0 | ✗ |
+| LOCALIZADO_EM | URBANO CALDEIRA→SANTOS | 1 | 1 | ✗ |
+| POSSUIR | SANTOS→URBANO CALDEIRA / BOTAFOGO→NILTON SANTOS | 0 | 0 | ✗ |
+
+### Causas-raiz (evidência)
+1. **Extração narrativa devolve junk, não o fato limpo**: `team --POSSUIR--> Estádio…` (sujeito genérico), `botafogo --LOCALIZADO_EM--> neighborhood of Botafogo` (invertido), `Mourisco Mar --LOCALIZADO_EM--> botafogo` (invertido). Não há gate de tabela p/ essas famílias (só honras).
+2. **Cap de produção (25)**: `PELÉ→SANTOS` só atinge `confs=3` com cap=300 (3º URL traz a tripla além do índice 25); elevar o cap é mudança ampla — não autorizado.
+3. **Sem 3º domínio p/ não-VENCEU**: RSSSF só cobre títulos; Wikimedia pt/en dão ≤2 domínios.
+
+### Decisão (conservadora)
+Sem mudança de runtime/seeds; sem aliases/predicates novos (falha é de extração de sujeito/objeto, não de rótulo); sem worker (nada novo). Não escalar apenas VENCEU (diretriz).
+
+### Classificação
+**Cenário D — `BLOCKED_RECORDS_INSUFFICIENT`** com causa-raiz **diversidade/cobertura** (também `DIVERSITY_GATE_FAILED`): records permanece 10 (<50); nenhuma família não-VENCEU verificável.
+
+### Próximo issue
+**#048.10B** (extração controlada player→club / club→stadium / →city, resolvendo o clube como SUJEITO) + **#059** (fontes estáticas independentes não-Wikimedia) + **#053** (publishers). Não abrir #047.2/#045.3; **não treinar**; quórum 3.

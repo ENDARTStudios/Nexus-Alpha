@@ -1,0 +1,549 @@
+{
+  "audit_id": "diversified_fact_families_atlas_048_10",
+  "generated_at": "2026-09-27T21:22:37.673976+00:00",
+  "read_only": true,
+  "extraction_cap": 25,
+  "verification_rule": "confirmed >= 3 AND distinct_domains >= 2",
+  "families": [
+    {
+      "family_id": "player_defended_club",
+      "predicate": "DEFENDEU",
+      "subject_type": "PLAYER",
+      "object_type": "CLUB",
+      "candidate_facts": [
+        {
+          "fact": "GARRINCHA --DEFENDEU--> BOTAFOGO DE FUTEBOL E REGATAS",
+          "sources": [
+            {
+              "url": "https://pt.wikipedia.org/wiki/Garrincha",
+              "final_url": "https://pt.wikipedia.org/wiki/Garrincha",
+              "domain": "pt.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 11,
+              "matched_fact": true,
+              "would_persist": true
+            },
+            {
+              "url": "https://en.wikipedia.org/wiki/Garrincha",
+              "final_url": "https://en.wikipedia.org/wiki/Garrincha",
+              "domain": "en.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 7,
+              "matched_fact": true,
+              "would_persist": true
+            },
+            {
+              "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "final_url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "domain": "pt.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 8,
+              "matched_fact": false,
+              "would_persist": false
+            },
+            {
+              "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "final_url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "domain": "en.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 12,
+              "matched_fact": false,
+              "would_persist": false
+            }
+          ],
+          "predicted_domains": [
+            "en.wikipedia.org",
+            "pt.wikipedia.org"
+          ],
+          "predicted_domain_count": 2,
+          "predicted_publishers": [
+            "Wikimedia"
+          ],
+          "predicted_publisher_count": 1,
+          "predicted_confirmations": 2,
+          "predicted_verified": false,
+          "collision_status": "partial_collision",
+          "eligible_for_runtime": false,
+          "blocking_reason": "confs<3"
+        },
+        {
+          "fact": "PELÉ --DEFENDEU--> SANTOS FUTEBOL CLUBE",
+          "sources": [
+            {
+              "url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+              "final_url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+              "domain": "pt.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 11,
+              "matched_fact": true,
+              "would_persist": true
+            },
+            {
+              "url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+              "final_url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+              "domain": "en.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 7,
+              "matched_fact": false,
+              "would_persist": false
+            },
+            {
+              "url": "https://pt.wikipedia.org/wiki/Santos_FC",
+              "final_url": "https://pt.wikipedia.org/wiki/Santos_FC",
+              "domain": "pt.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 8,
+              "matched_fact": true,
+              "would_persist": true
+            },
+            {
+              "url": "https://en.wikipedia.org/wiki/Santos_FC",
+              "final_url": "https://en.wikipedia.org/wiki/Santos_FC",
+              "domain": "en.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 8,
+              "matched_fact": false,
+              "would_persist": false
+            }
+          ],
+          "predicted_domains": [
+            "pt.wikipedia.org"
+          ],
+          "predicted_domain_count": 1,
+          "predicted_publishers": [
+            "Wikimedia"
+          ],
+          "predicted_publisher_count": 1,
+          "predicted_confirmations": 2,
+          "predicted_verified": false,
+          "collision_status": "no_collision",
+          "eligible_for_runtime": false,
+          "blocking_reason": "dominios<2"
+        }
+      ],
+      "family_eligible": false
+    },
+    {
+      "family_id": "club_located_in_city",
+      "predicate": "LOCALIZADO_EM",
+      "subject_type": "CLUB",
+      "object_type": "CITY",
+      "candidate_facts": [
+        {
+          "fact": "BOTAFOGO DE FUTEBOL E REGATAS --LOCALIZADO_EM--> RIO DE JANEIRO",
+          "sources": [
+            {
+              "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "final_url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "domain": "pt.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 8,
+              "matched_fact": false,
+              "would_persist": false
+            },
+            {
+              "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "final_url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "domain": "en.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 12,
+              "matched_fact": false,
+              "would_persist": false
+            },
+            {
+              "url": "https://pt.wikipedia.org/wiki/Rio_de_Janeiro",
+              "final_url": "https://pt.wikipedia.org/wiki/Rio_de_Janeiro",
+              "domain": "pt.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 4,
+              "matched_fact": false,
+              "would_persist": false
+            },
+            {
+              "url": "https://en.wikipedia.org/wiki/Rio_de_Janeiro",
+              "final_url": "https://en.wikipedia.org/wiki/Rio_de_Janeiro",
+              "domain": "en.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 13,
+              "matched_fact": false,
+              "would_persist": false
+            }
+          ],
+          "predicted_domains": [],
+          "predicted_domain_count": 0,
+          "predicted_publishers": [],
+          "predicted_publisher_count": 0,
+          "predicted_confirmations": 0,
+          "predicted_verified": false,
+          "collision_status": "no_collision",
+          "eligible_for_runtime": false,
+          "blocking_reason": "dominios<2"
+        },
+        {
+          "fact": "SANTOS FUTEBOL CLUBE --LOCALIZADO_EM--> SANTOS",
+          "sources": [
+            {
+              "url": "https://pt.wikipedia.org/wiki/Santos_FC",
+              "final_url": "https://pt.wikipedia.org/wiki/Santos_FC",
+              "domain": "pt.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 8,
+              "matched_fact": false,
+              "would_persist": false
+            },
+            {
+              "url": "https://en.wikipedia.org/wiki/Santos_FC",
+              "final_url": "https://en.wikipedia.org/wiki/Santos_FC",
+              "domain": "en.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 8,
+              "matched_fact": false,
+              "would_persist": false
+            }
+          ],
+          "predicted_domains": [],
+          "predicted_domain_count": 0,
+          "predicted_publishers": [],
+          "predicted_publisher_count": 0,
+          "predicted_confirmations": 0,
+          "predicted_verified": false,
+          "collision_status": "no_collision",
+          "eligible_for_runtime": false,
+          "blocking_reason": "dominios<2"
+        }
+      ],
+      "family_eligible": false
+    },
+    {
+      "family_id": "stadium_located_in_city",
+      "predicate": "LOCALIZADO_EM",
+      "subject_type": "STADIUM",
+      "object_type": "CITY",
+      "candidate_facts": [
+        {
+          "fact": "ESTÁDIO OLÍMPICO NILTON SANTOS --LOCALIZADO_EM--> RIO DE JANEIRO",
+          "sources": [
+            {
+              "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Ol%C3%ADmpico_Nilton_Santos",
+              "final_url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Ol%C3%ADmpico_Nilton_Santos",
+              "domain": "pt.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 8,
+              "matched_fact": false,
+              "would_persist": false
+            },
+            {
+              "url": "https://en.wikipedia.org/wiki/Est%C3%A1dio_Ol%C3%ADmpico_Nilton_Santos",
+              "final_url": "https://en.wikipedia.org/wiki/Est%C3%A1dio_Ol%C3%ADmpico_Nilton_Santos",
+              "domain": "en.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 3,
+              "matched_fact": false,
+              "would_persist": false
+            }
+          ],
+          "predicted_domains": [],
+          "predicted_domain_count": 0,
+          "predicted_publishers": [],
+          "predicted_publisher_count": 0,
+          "predicted_confirmations": 0,
+          "predicted_verified": false,
+          "collision_status": "no_collision",
+          "eligible_for_runtime": false,
+          "blocking_reason": "dominios<2"
+        },
+        {
+          "fact": "ESTÁDIO URBANO CALDEIRA --LOCALIZADO_EM--> SANTOS",
+          "sources": [
+            {
+              "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira",
+              "final_url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira",
+              "domain": "pt.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 7,
+              "matched_fact": true,
+              "would_persist": true
+            },
+            {
+              "url": "https://en.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira",
+              "final_url": "https://en.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira",
+              "domain": "en.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 8,
+              "matched_fact": false,
+              "would_persist": false
+            }
+          ],
+          "predicted_domains": [
+            "pt.wikipedia.org"
+          ],
+          "predicted_domain_count": 1,
+          "predicted_publishers": [
+            "Wikimedia"
+          ],
+          "predicted_publisher_count": 1,
+          "predicted_confirmations": 1,
+          "predicted_verified": false,
+          "collision_status": "no_collision",
+          "eligible_for_runtime": false,
+          "blocking_reason": "dominios<2"
+        }
+      ],
+      "family_eligible": false
+    },
+    {
+      "family_id": "club_owns_stadium",
+      "predicate": "POSSUIR",
+      "subject_type": "CLUB",
+      "object_type": "STADIUM",
+      "candidate_facts": [
+        {
+          "fact": "SANTOS FUTEBOL CLUBE --POSSUIR--> ESTÁDIO URBANO CALDEIRA",
+          "sources": [
+            {
+              "url": "https://pt.wikipedia.org/wiki/Santos_FC",
+              "final_url": "https://pt.wikipedia.org/wiki/Santos_FC",
+              "domain": "pt.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 8,
+              "matched_fact": false,
+              "would_persist": false
+            },
+            {
+              "url": "https://en.wikipedia.org/wiki/Santos_FC",
+              "final_url": "https://en.wikipedia.org/wiki/Santos_FC",
+              "domain": "en.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 8,
+              "matched_fact": false,
+              "would_persist": false
+            },
+            {
+              "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira",
+              "final_url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira",
+              "domain": "pt.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 7,
+              "matched_fact": false,
+              "would_persist": false
+            }
+          ],
+          "predicted_domains": [],
+          "predicted_domain_count": 0,
+          "predicted_publishers": [],
+          "predicted_publisher_count": 0,
+          "predicted_confirmations": 0,
+          "predicted_verified": false,
+          "collision_status": "no_collision",
+          "eligible_for_runtime": false,
+          "blocking_reason": "dominios<2"
+        },
+        {
+          "fact": "BOTAFOGO DE FUTEBOL E REGATAS --POSSUIR--> ESTÁDIO OLÍMPICO NILTON SANTOS",
+          "sources": [
+            {
+              "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "final_url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "domain": "pt.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 8,
+              "matched_fact": false,
+              "would_persist": false
+            },
+            {
+              "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "final_url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+              "domain": "en.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 12,
+              "matched_fact": false,
+              "would_persist": false
+            },
+            {
+              "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Ol%C3%ADmpico_Nilton_Santos",
+              "final_url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Ol%C3%ADmpico_Nilton_Santos",
+              "domain": "pt.wikipedia.org",
+              "publisher": "Wikimedia",
+              "http_status": 200,
+              "canonical_triples": 8,
+              "matched_fact": false,
+              "would_persist": false
+            }
+          ],
+          "predicted_domains": [],
+          "predicted_domain_count": 0,
+          "predicted_publishers": [],
+          "predicted_publisher_count": 0,
+          "predicted_confirmations": 0,
+          "predicted_verified": false,
+          "collision_status": "no_collision",
+          "eligible_for_runtime": false,
+          "blocking_reason": "dominios<2"
+        }
+      ],
+      "family_eligible": false
+    }
+  ],
+  "per_url": {
+    "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas": {
+      "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+      "final_url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+      "domain": "en.wikipedia.org",
+      "http_status": 200,
+      "canonical_triples": 12,
+      "error": "",
+      "publisher": "Wikimedia"
+    },
+    "https://en.wikipedia.org/wiki/Est%C3%A1dio_Ol%C3%ADmpico_Nilton_Santos": {
+      "url": "https://en.wikipedia.org/wiki/Est%C3%A1dio_Ol%C3%ADmpico_Nilton_Santos",
+      "final_url": "https://en.wikipedia.org/wiki/Est%C3%A1dio_Ol%C3%ADmpico_Nilton_Santos",
+      "domain": "en.wikipedia.org",
+      "http_status": 200,
+      "canonical_triples": 3,
+      "error": "",
+      "publisher": "Wikimedia"
+    },
+    "https://en.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira": {
+      "url": "https://en.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira",
+      "final_url": "https://en.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira",
+      "domain": "en.wikipedia.org",
+      "http_status": 200,
+      "canonical_triples": 8,
+      "error": "",
+      "publisher": "Wikimedia"
+    },
+    "https://en.wikipedia.org/wiki/Garrincha": {
+      "url": "https://en.wikipedia.org/wiki/Garrincha",
+      "final_url": "https://en.wikipedia.org/wiki/Garrincha",
+      "domain": "en.wikipedia.org",
+      "http_status": 200,
+      "canonical_triples": 7,
+      "error": "",
+      "publisher": "Wikimedia"
+    },
+    "https://en.wikipedia.org/wiki/Pel%C3%A9": {
+      "url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+      "final_url": "https://en.wikipedia.org/wiki/Pel%C3%A9",
+      "domain": "en.wikipedia.org",
+      "http_status": 200,
+      "canonical_triples": 7,
+      "error": "",
+      "publisher": "Wikimedia"
+    },
+    "https://en.wikipedia.org/wiki/Rio_de_Janeiro": {
+      "url": "https://en.wikipedia.org/wiki/Rio_de_Janeiro",
+      "final_url": "https://en.wikipedia.org/wiki/Rio_de_Janeiro",
+      "domain": "en.wikipedia.org",
+      "http_status": 200,
+      "canonical_triples": 13,
+      "error": "",
+      "publisher": "Wikimedia"
+    },
+    "https://en.wikipedia.org/wiki/Santos_FC": {
+      "url": "https://en.wikipedia.org/wiki/Santos_FC",
+      "final_url": "https://en.wikipedia.org/wiki/Santos_FC",
+      "domain": "en.wikipedia.org",
+      "http_status": 200,
+      "canonical_triples": 8,
+      "error": "",
+      "publisher": "Wikimedia"
+    },
+    "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas": {
+      "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+      "final_url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+      "domain": "pt.wikipedia.org",
+      "http_status": 200,
+      "canonical_triples": 8,
+      "error": "",
+      "publisher": "Wikimedia"
+    },
+    "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Ol%C3%ADmpico_Nilton_Santos": {
+      "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Ol%C3%ADmpico_Nilton_Santos",
+      "final_url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Ol%C3%ADmpico_Nilton_Santos",
+      "domain": "pt.wikipedia.org",
+      "http_status": 200,
+      "canonical_triples": 8,
+      "error": "",
+      "publisher": "Wikimedia"
+    },
+    "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira": {
+      "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira",
+      "final_url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira",
+      "domain": "pt.wikipedia.org",
+      "http_status": 200,
+      "canonical_triples": 7,
+      "error": "",
+      "publisher": "Wikimedia"
+    },
+    "https://pt.wikipedia.org/wiki/Garrincha": {
+      "url": "https://pt.wikipedia.org/wiki/Garrincha",
+      "final_url": "https://pt.wikipedia.org/wiki/Garrincha",
+      "domain": "pt.wikipedia.org",
+      "http_status": 200,
+      "canonical_triples": 11,
+      "error": "",
+      "publisher": "Wikimedia"
+    },
+    "https://pt.wikipedia.org/wiki/Pel%C3%A9": {
+      "url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+      "final_url": "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+      "domain": "pt.wikipedia.org",
+      "http_status": 200,
+      "canonical_triples": 11,
+      "error": "",
+      "publisher": "Wikimedia"
+    },
+    "https://pt.wikipedia.org/wiki/Rio_de_Janeiro": {
+      "url": "https://pt.wikipedia.org/wiki/Rio_de_Janeiro",
+      "final_url": "https://pt.wikipedia.org/wiki/Rio_de_Janeiro",
+      "domain": "pt.wikipedia.org",
+      "http_status": 200,
+      "canonical_triples": 4,
+      "error": "",
+      "publisher": "Wikimedia"
+    },
+    "https://pt.wikipedia.org/wiki/Santos_FC": {
+      "url": "https://pt.wikipedia.org/wiki/Santos_FC",
+      "final_url": "https://pt.wikipedia.org/wiki/Santos_FC",
+      "domain": "pt.wikipedia.org",
+      "http_status": 200,
+      "canonical_triples": 8,
+      "error": "",
+      "publisher": "Wikimedia"
+    }
+  },
+  "summary": {
+    "families_evaluated": 4,
+    "eligible_families": 0,
+    "predicted_new_verified": 0,
+    "predicted_records_total": 10,
+    "predicted_unique_predicates": 1,
+    "predicted_non_venceu_ratio": 0.0,
+    "predicted_publisher_count": 2,
+    "eligible_for_runtime": false,
+    "recommended_next_step": "parar; evidência para #053/#059"
+  }
+}
