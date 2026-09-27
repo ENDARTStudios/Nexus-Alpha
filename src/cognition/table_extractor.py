@@ -35,12 +35,19 @@ HONOURS_URL_ALLOWLIST: dict[str, str] = {
     "rsssf.org/tablesb/brazchamp.html": "CAMPEONATO BRASILEIRO SERIE A",
 }
 
-# #048.7 Fase C — honras wiki: URL (substring) -> clube canônico. Aqui o
-# sujeito vem da página e a COMPETIÇÃO vem da linha (célula normalizada).
-# Whitelist mínima: só Botafogo pt/en (dry-run Fase B aprovou). Santos e
-# demais entram só com dry-run próprio.
-WIKI_HONOURS_CLUBS: dict[str, str] = {
-    "wikipedia.org/wiki/botafogo_de_futebol_e_regatas": "BOTAFOGO DE FUTEBOL E REGATAS",
+# #048.7 Fase C / #048.8 — honras wiki: URL (substring) -> (clube canônico,
+# competições habilitadas POR CLUBE, conforme colisão completa no dry-run).
+# Botafogo: Libertadores + Brasileirão (#048.7, full=2). Santos: só
+# Libertadores (#048.8: Brasileirão = partial, sem terceiro domínio → não habilitar).
+WIKI_HONOURS_CLUBS: dict[str, tuple[str, frozenset[str]]] = {
+    "wikipedia.org/wiki/botafogo_de_futebol_e_regatas": (
+        "BOTAFOGO DE FUTEBOL E REGATAS",
+        frozenset({"COPA LIBERTADORES", "CAMPEONATO BRASILEIRO SERIE A"}),
+    ),
+    "wikipedia.org/wiki/santos_fc": (
+        "SANTOS FUTEBOL CLUBE",
+        frozenset({"COPA LIBERTADORES"}),
+    ),
 }
 
 # Normalização mínima de rótulo de competição (só contexto honours wiki).
@@ -50,15 +57,13 @@ COMPETITION_NORMALIZATIONS: dict[str, str] = {
     "copa libertadores": "COPA LIBERTADORES",
     "copa toyota libertadores": "COPA LIBERTADORES",
     "copa conmebol libertadores": "COPA LIBERTADORES",
+    "conmebol libertadores": "COPA LIBERTADORES",
     "campeonato brasileiro série a": "CAMPEONATO BRASILEIRO SERIE A",
+    "campeonato brasileiro - série a": "CAMPEONATO BRASILEIRO SERIE A",
     "campeonato brasileiro": "CAMPEONATO BRASILEIRO SERIE A",
     "brasileirão série a": "CAMPEONATO BRASILEIRO SERIE A",
     "brazilian championship": "CAMPEONATO BRASILEIRO SERIE A",
 }
-
-WIKI_ALLOWED_COMPETITIONS: frozenset[str] = frozenset({
-    "COPA LIBERTADORES", "CAMPEONATO BRASILEIRO SERIE A",
-})
 
 # Clubes no escopo do Almanaque (forma canônica). Outros clubes parseados são
 # descartados (motivo ``club_not_allowlisted``) — sem fatos fora do escopo.
@@ -233,6 +238,7 @@ def _parse_pre_winners(html: str) -> tuple[list[tuple[str, Optional[int]]], dict
             if _SCORE_RE.search(stripped):
                 _pcount("pre_score_line_skipped")
                 continue
+            # Match lines starting with a year (19xx or 20xx) followed by team name
             match = _WINNERS_LINE_RE.match(stripped)
             if match is None:
                 _pcount("pre_unmatched_line")
@@ -291,33 +297,39 @@ def _parse_table_honours(html: str) -> list[tuple[str, Optional[str], list[int]]
     return out
 
 
-def _lookup_wiki_club(source_url: str) -> Optional[str]:
+def _lookup_wiki_club(source_url: str) -> Optional[tuple[str, frozenset[str]]]:
     low = (source_url or "").lower()
-    for fragment, club in WIKI_HONOURS_CLUBS.items():
+    for fragment, club_cfg in WIKI_HONOURS_CLUBS.items():
         if fragment in low:
-            return club
+            return club_cfg
     return None
 
 
-def _normalize_competition(raw: str, canonicalize) -> Optional[str]:
-    """Rótulo de competição -> canônica allowlistada (só honours wiki)."""
+def _normalize_competition(raw: str, canonicalize, allowed: frozenset[str]) -> Optional[str]:
+    """Rótulo de competição -> canônica permitida POR CLUBE (honours wiki)."""
     folded = _fold(raw).rstrip(":")
     folded = re.sub(r"\[\d+\]", "", folded).strip()
     if folded in COMPETITION_NORMALIZATIONS:
-        return COMPETITION_NORMALIZATIONS[folded]
+        return COMPETITION_NORMALIZATIONS[folded] if COMPETITION_NORMALIZATIONS[folded] in allowed else None
     try:
         canon = canonicalize(raw)
     except Exception:
         return None
-    return canon if canon in WIKI_ALLOWED_COMPETITIONS else None
+    return canon if canon in allowed else None
 
 
 def _parse_wiki_honours(html: str) -> tuple[list[tuple[str, list[int]]], dict[str, int]]:
     """Linhas de honras wiki: ``[(competition_mention, years)]``.
 
-    EN: `Competição || Títulos || Temporadas`. PT (participações): exige
-    "Campeão" (nunca "Vice") e anos SÓ da célula de título (Estreia/Última
-    não são conquistas). Seções genéricas, vice, elenco e recordes pulados.
+    Cobre 3 formatos (#048.7 Botafogo + #048.8 Santos):
+    - EN `wikitable`: `Competitions | Titles | Seasons`;
+    - PT "Títulos": `Competição | Títulos | Temporadas` (anos na última célula,
+      classe livre — não necessariamente ``wikitable``);
+    - PT "Participações": exige "Campeão" (nunca "Vice"); anos SÓ da célula de
+      título (Estreia/Última não são conquistas).
+
+    Só analisa tabelas de honras (alguma célula com "Competi*"); navboxes
+    (`Ligações externas`), elenco, treinadores e recordes são pulados.
     """
     soup = BeautifulSoup(html, "html.parser")
     out: list[tuple[str, list[int]]] = []
@@ -326,10 +338,16 @@ def _parse_wiki_honours(html: str) -> tuple[list[tuple[str, list[int]]], dict[st
     def _wcount(reason: str) -> None:
         stats[reason] = stats.get(reason, 0) + 1
 
-    for table in soup.find_all("table", class_=lambda x: x and "wikitable" in x):
-        first_tr = table.find("tr")
-        header_row = _fold(first_tr.get_text()) if first_tr else ""
-        pt_style = "melhor campanha" in header_row
+    for table in soup.find_all("table"):
+        classes = " ".join(table.get("class") or []).casefold()
+        if any(bad in classes for bad in ("navbox", "nowraplinks", "hlist", "collapsible")):
+            _wcount("wiki_navbox_table_skipped")
+            continue
+        table_text = _fold(table.get_text())
+        if "competi" not in table_text:
+            _wcount("wiki_not_honours_table")
+            continue
+        pt_participacoes = "melhor campanha" in table_text
         for tr in table.find_all("tr"):
             cells = [
                 re.sub(r"\s+", " ", (td.get_text() or "")).strip()
@@ -342,21 +360,32 @@ def _parse_wiki_honours(html: str) -> tuple[list[tuple[str, list[int]]], dict[st
                 continue  # cabeçalho puro
             joined = " | ".join(cells)
             low = joined.casefold()
-            if re.match(r"^(continental|national|inter-state|state)\b", low):
+            # Seções de agrupamento (EN/PT) e vice nunca são fato.
+            if re.match(
+                r"^(continental|national|inter-state|state|mundiais|internacionais|nacionais)\b",
+                low,
+            ):
                 _wcount("wiki_section_row")
                 continue
-            if "vice" in low or "runner" in low:
+            if "vice" in low or "runner" in low or "runners" in low:
                 _wcount("wiki_runner_up_row")
                 continue
             comp_raw = re.sub(r"\[\d+\]", "", cells[0]).strip()
-            if pt_style:
+            if pt_participacoes:
                 campe_cells = [c for c in cells if "campe" in c.casefold()]
                 if not campe_cells:
                     _wcount("wiki_pt_participation_without_title")
                     continue
                 years = [int(y) for y in _YEAR_RE.findall(" | ".join(campe_cells))]
             else:
-                years = [int(y) for y in _YEAR_RE.findall(" | ".join(cells[1:]))]
+                # Formato "Títulos"/"Seasons": anos na célula com mais anos
+                # (a célula de contagem, ex. "3", não casa com _YEAR_RE).
+                year_cells = [c for c in cells[1:] if _YEAR_RE.findall(c)]
+                if not year_cells:
+                    _wcount("wiki_no_years")
+                    continue
+                best = max(year_cells, key=lambda c: len(_YEAR_RE.findall(c)))
+                years = [int(y) for y in _YEAR_RE.findall(best)]
             if not years:
                 _wcount("wiki_no_years")
                 continue
@@ -415,20 +444,22 @@ def extract_honours_from_html(
         _count("emitted")
 
     if wiki_club is not None:
-        # Modo wiki (#048.7): sujeito fixo da página; competição da linha.
-        if wiki_club not in CLUB_ALLOWLIST:
+        # Modo wiki (#048.7/#048.8): sujeito fixo da página; competição da
+        # linha, restrita ao allowlist POR CLUBE (evidência de dry-run).
+        club_name, club_competitions = wiki_club
+        if club_name not in CLUB_ALLOWLIST:
             _count("wiki_club_not_allowlisted")
             return triples, stats
         wiki_rows, wiki_stats = _parse_wiki_honours(html or "")
         for key, value in wiki_stats.items():
             stats[key] = stats.get(key, 0) + value
         for comp_mention, years in wiki_rows:
-            comp_canon = _normalize_competition(comp_mention, _canonicalize)
+            comp_canon = _normalize_competition(comp_mention, _canonicalize, club_competitions)
             if comp_canon is None:
                 _count("wiki_competition_not_allowlisted")
                 continue
             for year in years:
-                _emit_table(wiki_club, comp_canon, year,
+                _emit_table(club_name, comp_canon, year,
                             schema="honours_competition_year_wiki")
         return triples, stats
 

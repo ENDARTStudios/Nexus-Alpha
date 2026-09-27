@@ -80,11 +80,13 @@ def test_enrich_payload_preserves_narrative_triples():
 def test_is_honours_url_gating():
     assert is_honours_url(COPA_URL)
     assert is_honours_url("https://www.rsssf.org/tablesb/brazchamp.html")
-    # #048.7 Fase C: honras wiki do Botafogo whitelistadas (dry-run aprovou).
+    # #048.7/#048.8: honras wiki Botafogo + Santos whitelistadas (dry-run).
     assert is_honours_url("https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas")
     assert is_honours_url("https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas")
-    # Demais wikis continuam fora (Santos só com dry-run próprio).
-    assert not is_honours_url("https://en.wikipedia.org/wiki/Santos_FC")
+    assert is_honours_url("https://pt.wikipedia.org/wiki/Santos_FC")
+    assert is_honours_url("https://en.wikipedia.org/wiki/Santos_FC")
+    # Demais wikis continuam fora.
+    assert not is_honours_url("https://en.wikipedia.org/wiki/Flamengo")
     assert not is_honours_url("https://www.rsssf.org/index.html")
     assert not is_honours_url("https://pt.wikipedia.org/wiki/Garrincha")
     assert not is_honours_url("")

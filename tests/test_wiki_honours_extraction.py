@@ -143,7 +143,55 @@ def test_non_whitelisted_wiki_page_gets_no_table_triples():
       <tr><td>Copa Libertadores</td><td>1</td><td>2024</td></tr>
       </table></body></html>"""
     triples, stats = extract_honours_from_html(
-        html, "https://en.wikipedia.org/wiki/Santos_FC", CANON)
+        html, "https://en.wikipedia.org/wiki/Flamengo", CANON)
     assert triples == []
     assert stats.get("not_whitelisted_url") == 1
-    assert not is_honours_url("https://en.wikipedia.org/wiki/Santos_FC")
+    assert not is_honours_url("https://en.wikipedia.org/wiki/Flamengo")
+
+
+def test_santos_is_whitelisted_phase_048_8():
+    # #048.8: Santos pt/en habilitado (dry-run full_collision Libertadores).
+    assert is_honours_url("https://pt.wikipedia.org/wiki/Santos_FC")
+    assert is_honours_url("https://en.wikipedia.org/wiki/Santos_FC")
+
+
+def test_santos_pt_titulos_table_emits_key():
+    # Formato PT "Títulos" (classe livre, anos na célula de temporadas).
+    html = """<html><body><table class="infobox">
+      <tr><td>Mundiais</td></tr>
+      <tr><th>Competição</th><th>Títulos</th><th>Temporadas</th></tr>
+      <tr><td>Copa Libertadores da América</td><td>3</td><td>1962, 1963 e 2011</td></tr>
+      <tr><td>Campeonato Brasileiro - Série A</td><td>8</td><td>1961, 1962 e 2004</td></tr>
+      </table></body></html>"""
+    triples, _ = extract_honours_from_html(
+        html, "https://pt.wikipedia.org/wiki/Santos_FC", CANON)
+    keys = {(t["subject"], t["object"]) for t in triples}
+    years = {t["metadata"]["year"] for t in triples}
+    assert ("SANTOS FUTEBOL CLUBE", "COPA LIBERTADORES") in keys
+    assert {1962, 1963, 2011}.issubset(years)
+    # #048.8: Brasileirão NÃO habilitado p/ Santos (colisão parcial).
+    assert ("SANTOS FUTEBOL CLUBE", "CAMPEONATO BRASILEIRO SERIE A") not in keys
+
+
+def test_santos_navbox_not_parsed_as_honours():
+    # Navbox "Ligações externas" lista edições; nunca vira fato.
+    html = """<html><body><table class="navbox-inner">
+      <tr><td>Campeonato Brasileiro - Série A</td><td>1989 1990 1991 1992</td></tr>
+      </table></body></html>"""
+    triples, _ = extract_honours_from_html(
+        html, "https://pt.wikipedia.org/wiki/Santos_FC", CANON)
+    assert triples == []
+
+
+def test_botafogo_brasileirao_still_enabled():
+    # Regressão #048.7: Botafogo mantém Libertadores + Brasileirão.
+    html = """<html><body><table class="wikitable">
+      <tr><th>Competitions</th><th>Titles</th><th>Seasons</th></tr>
+      <tr><td>Campeonato Brasileiro Série A</td><td>3</td><td>1968, 1995, 2024</td></tr>
+      <tr><td>Copa Libertadores</td><td>1</td><td>2024</td></tr>
+      </table></body></html>"""
+    triples, _ = extract_honours_from_html(
+        html, "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas", CANON)
+    keys = {(t["subject"], t["object"]) for t in triples}
+    assert ("BOTAFOGO DE FUTEBOL E REGATAS", "CAMPEONATO BRASILEIRO SERIE A") in keys
+    assert ("BOTAFOGO DE FUTEBOL E REGATAS", "COPA LIBERTADORES") in keys
