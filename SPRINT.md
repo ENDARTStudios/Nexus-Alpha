@@ -2040,6 +2040,35 @@ Nenhuma terceira fonte **produtiva para DEFENDEU** encontrada em homepages/secti
 
 ---
 
+## #059 — Atlas read-only de fontes estáticas/tabulares independentes ✅ COMPLETO
+
+**Status:** ✅ completo — `eligible_for_058_12 = 2`. **Gate #058.12 ATINGIDO.**
+
+**Artefatos:** `scripts/audit_static_tabular_sources.py` → `reports/static_tabular_source_atlas_059.json`.
+
+**Achado estrutural:** RSSSF usa `<pre>` (texto pré-formatado `ANO Clube`), não `<table>`. Parser do atlas cobre ambos.
+
+| URL | Status | Tabelas/pre | Rows alvo | Elegível |
+|---|---|---|---|---|
+| `rsssf.org/sacups/copalib.html` (Libertadores) | 200 | 2 pre | 22 (`2024 Botafogo`, finais) | ✅ |
+| `rsssf.org/tablesb/brazchamp.html` (Brasileirão) | 200 | 5 pre | 32 (`1968/1995/2024 Botafogo`, `1961/62... Santos`) | ✅ |
+| rsssfbrasil.com | 200 | 0 | 0 | ❌ (sem tabela parseável) |
+| worldfootball.net | 403 | — | — | ❌ bot protection |
+| cbf.com.br | ConnectError | — | — | ❌ |
+| conmebol.com | 200 | 0 | 0 | ❌ JS |
+
+**Caveat registrado:** match em `<pre>` é subject-only; alinhamento linha↔competição (copalib↔Libertadores, brazchamp↔Brasileirão) deve ser fixado no schema #058.12 por URL whitelistada. brazchamp NÃO sustenta alvo Libertadores.
+
+**Mapeamento alvo→fonte:**
+- `BOTAFOGO --VENCEU--> COPA LIBERTADORES` ← copalib.html
+- `BOTAFOGO --VENCEU--> CAMPEONATO BRASILEIRO SERIE A` ← brazchamp.html
+- `SANTOS --VENCEU--> COPA LIBERTADORES` ← copalib.html
+- `SANTOS --VENCEU--> CAMPEONATO BRASILEIRO SERIE A` ← brazchamp.html
+
+**Decisão:** abrir **#058.12 — extração tabular controlada** com schema mínimo `honours_competition_year` (clube --VENCEU--> competição, ano como metadado).
+
+---
+
 ## #052.2 — Separar contabilidade run-scoped vs graph-total
 
 **Status:** ✅ implementada + CI verde.
