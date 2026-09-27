@@ -92,6 +92,24 @@ class WebMiner:
         self.renderer = renderer
         self.min_content_length = min_content_length
 
+    @staticmethod
+    def _decode_response(response: httpx.Response) -> str:
+        """Decodifica o corpo preservando charset (#048.9).
+
+        `response.text` usa o charset declarado (ou utf-8); páginas latin-1 sem
+        charset (ex.: rsssf.org) viram mojibake e nomes acentuados (São Paulo,
+        Grêmio, Peñarol) não casam. Tenta utf-8 e cai para latin-1.
+        """
+        raw = getattr(response, "content", None)
+        if raw is None:
+            return response.text
+        for encoding in ("utf-8", "latin-1"):
+            try:
+                return raw.decode(encoding)
+            except Exception:
+                continue
+        return response.text
+
     async def fetch_page(self, client: httpx.AsyncClient, url: str) -> str:
         last_exc: Optional[Exception] = None
         for attempt in range(1, self.max_retries + 1):
@@ -106,7 +124,7 @@ class WebMiner:
                     request_kwargs["proxy"] = proxy
                 response = await client.get(url, **request_kwargs)
                 if response.status_code == 200:
-                    return response.text
+                    return self._decode_response(response)
                 if response.status_code in self.RETRYABLE_STATUS:
                     logger.warning(
                         "[%s] status %s — tentativa %d/%d",
