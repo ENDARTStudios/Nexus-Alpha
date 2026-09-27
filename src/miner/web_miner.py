@@ -199,9 +199,16 @@ class WebMiner:
             return_exceptions=False,
         )
         cleaned = []
+        # Lazy para evitar import circular (cognition/__init__ -> miner).
+        from src.cognition.table_extractor import is_honours_url
         for url, html in zip(urls, raw_pages):
             if html:
                 data = self.clean_html(html, source_url=url)
+                if data.get("payload") is not None and is_honours_url(url):
+                    # #058.12: preserva HTML bruto SÓ p/ URLs whitelistadas
+                    # (extração tabular); enrich_payload consome e remove
+                    # antes do POST — ingest segue limpo.
+                    data["payload"]["raw_html"] = html
             else:
                 data = {"title": "", "content": "", "metadata": {}, "payload": None}
             if len(data.get("content", "")) < self.min_content_length:

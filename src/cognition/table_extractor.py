@@ -71,6 +71,60 @@ def _lookup_competition(source_url: str) -> Optional[str]:
     return None
 
 
+def is_honours_url(source_url: str) -> bool:
+    """URL whitelistada para extração tabular (competição por contexto)."""
+    return _lookup_competition(source_url) is not None
+
+
+def enrich_payload_with_tables(
+    payload: dict[str, Any], canonicalizer: Any = None
+) -> dict[str, int]:
+    """Via tabular controlada dentro do path do worker (`enrich_payload`).
+
+    Consome e remove ``payload["raw_html"]`` (preservado pelo miner só para
+    URLs whitelistadas; POST segue limpo). Emite triplas slim
+    ``{subject, predicate, object, confidence}`` (mesmo shape de
+    ``Triple.to_dict()``) appendadas a ``extracted_entities``.
+
+    Nunca levanta exceção: qualquer falha devolve stats com ``error`` e o
+    caminho narrativo segue intacto.
+    """
+    stats: dict[str, int] = {
+        "attempted": 0, "emitted": 0,
+        "skipped_no_html": 0, "skipped_not_whitelisted": 0, "error": 0,
+    }
+    try:
+        if not isinstance(payload, dict):
+            stats["error"] += 1
+            return stats
+        html = payload.pop("raw_html", None)
+        url = payload.get("source_url", "")
+        if not html:
+            stats["skipped_no_html"] += 1
+            return stats
+        if not is_honours_url(url):
+            stats["skipped_not_whitelisted"] += 1
+            return stats
+        if canonicalizer is None:
+            from src.cognition.canonicalizer import SemanticCanonicalizer
+            canonicalizer = SemanticCanonicalizer()
+        triples, _parse_stats = extract_honours_from_html(html, url, canonicalizer)
+        stats["attempted"] += len(triples)
+        entities = payload.setdefault("extracted_entities", [])
+        for t in triples:
+            entities.append({
+                "subject": t["subject"],
+                "predicate": t["predicate"],
+                "object": t["object"],
+                "confidence": t.get("confidence", TABLE_CONFIDENCE),
+            })
+            stats["emitted"] += 1
+        return stats
+    except Exception:
+        stats["error"] += 1
+        return stats
+
+
 def _clean_club_mention(raw: str) -> str:
     text = _strip_parenthetical(re.sub(r"\s+", " ", raw or "").strip())
     return text.strip(" -–—:;.,")

@@ -898,6 +898,21 @@ class EntityExtractor:
         text = payload.get("content") or payload.get("title") or ""
         triples = self.extract(text)
         payload["extracted_entities"] = [t.to_dict() for t in triples]
+        # #058.12: via tabular controlada p/ URLs whitelistadas (o miner
+        # preserva raw_html só nesses casos; o helper consome e remove antes
+        # do POST). Nunca quebra o caminho narrativo.
+        try:
+            from src.cognition.table_extractor import enrich_payload_with_tables
+            table_stats = enrich_payload_with_tables(payload)
+            if table_stats.get("emitted"):
+                logger.info(
+                    "Extração tabular %s em %s.",
+                    dict(table_stats), payload.get("source_url"),
+                )
+        except Exception as exc:
+            logger.warning(
+                "Extração tabular falhou (%s): %s", payload.get("source_url"), exc
+            )
         rejected = sum(self.rejection_reasons.values())
         logger.info(
             "Extrator produziu %d tripletas (%d predicados rejeitados pelo guard: %s).",
