@@ -1,5 +1,9 @@
 # BLOCKED_048_10G_SPACE_REDEPLOY
 
+> **#048.10H.1:** o worker agora **se autobloqueia** em Space stale
+> (`src/ops/space_telemetry.py` + gate em `scripts/worker_cycle.py`). Isso reduz risco de ingestão cega:
+> nenhum fetch/miner/ingest/escrita ocorre enquanto a telemetria não estiver presente.
+
 **Data:** 2026-09-28
 **Repo:** `ENDARTStudios/Nexus-Alpha`
 

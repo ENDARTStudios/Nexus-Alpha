@@ -2694,3 +2694,24 @@ ALLIANZ PARQUE · MORUMBI · PACAEMBU · NEO QUÍMICA ARENA --LOCALIZADO_EM--> S
 
 - Script read-only: `scripts/audit_defendeu_botafogo_rsssf_atlas.py` → `reports/defendeu_botafogo_rsssf_atlas_048_10I.json`.
 - A citação "Source: RSSSF Brasil – Botafogo" **não** é fonte independente por si só; sem URL dedicada acessível.
+
+## #048.10H.1 — Hard telemetry gate + GEO expected-fact validator
+
+**Status:** DONE
+**Space preflight:** STALE (`check_space_telemetry` → `BLOCKED_SPACE_STALE_TELEMETRY`)
+**Worker executado:** NÃO
+**Gate duro implementado:** SIM — `src/ops/space_telemetry.py` + enforcement em `scripts/worker_cycle.py`
+(fail-fast **antes** de fetch/miner/ingest; nenhuma escrita tentada)
+**Validador GEO implementado:** SIM — `scripts/validate_geo_expected_facts.py` + registry
+`reports/geo_expected_facts_048_10H.json` (offline, sem rede)
+**Pronto para #048.10H:** true (após redeploy do Space)
+
+- Gate valida: `concept_count`, `fact_count`, `run_scoped_gap`, `graph_scoped_gap`, `unaccounted_raw=0`,
+  `quorum=3`, `fallback_promoted_to_graph=0`, `top_invalid_predicates=[]`; razões:
+  `BLOCKED_SPACE_STALE_TELEMETRY` / `BLOCKED_QUORUM_MISMATCH` / `BLOCKED_FALLBACK_PROMOTED` /
+  `BLOCKED_INVALID_PREDICATES` / `BLOCKED_UNACCOUNTED_RAW` / `MISSING_SPACE_CREDENTIALS` / `MISSING_SPACE_URL`.
+- Escape offline/local: `--allow-unverified-local` / `NEXUS_ALLOW_UNVERIFIED_LOCAL=true` (nunca em produção).
+
+> Este ciclo **não executou worker**. **Não escreveu** em Neo4j/Qdrant. **Não treinou.**
+> O worker agora **se recusa a abrir a porta sozinho** em Space stale. O #048.10H real permanece
+> dependente do redeploy do Space pelo Operador.
