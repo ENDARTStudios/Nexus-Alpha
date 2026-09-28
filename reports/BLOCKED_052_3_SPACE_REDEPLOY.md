@@ -57,3 +57,34 @@ Além disso, o build antigo **não conhece** os novos campos de clareza (`concep
 - `quorum` = 3
 
 > Nenhum worker deve ser executado nesta task; nenhuma seed alterada; nenhum treino.
+
+## Tentativa automática #059E
+
+- Espaço derivado: **sim** (`endartstudios/nexus-alpha`, de `endartstudios-nexus-alpha.hf.space`).
+- Script de deploy disponível: **sim** (`scripts/deploy_hf_space.py`), mas inutilizável localmente.
+- Dependências ausentes: `huggingface_hub` (módulo ausente), `hf`/`huggingface-cli` (ausentes). Nada instalado.
+- API GET space info: **200** — `id=ENDARTStudios/Nexus-Alpha`, `sha=85355c6d...`,
+  `lastModified=2026-09-25T03:03:55Z`, `runtime.stage=RUNNING`, `sdk=docker`.
+- API restart: **200** — `POST /api/spaces/endartstudios/nexus-alpha/restart` com `{"factory_reboot": true}`
+  → `stage=RUNNING_BUILDING` (mesmo `sha` antigo).
+- Resultado: após 6 polls (`/api/metrics` 200), `concept_count`/`fact_count`/`run_scoped_gap`/`graph_scoped_gap`
+  **ainda ausentes**.
+- Campos após polling: `facts=1894`, `persisted_facts=335`, `verified_facts_domain_independent=11`,
+  `duplicate_cross_domain=23`, `top_invalid_predicates=[]`, `fallback_promoted_to_graph=0`, `unaccounted_raw=0`.
+- Classificação: **`SPACE_SOURCE_STALE_REQUIRES_REDEPLOY`** (restart rebuilda o source antigo; não há upload do
+  código novo). O restart **não** causa impacto no grafo; apenas indisponibilidade breve.
+
+### Ação manual do Operador
+
+1. Abrir o HF Space `endartstudios/nexus-alpha`.
+2. Confirmar que o Space está vinculado ao repo/branch corretos.
+3. Fazer **Factory Reboot / Redeploy** para o commit `c10253b` (ou posterior).
+4. Se o Space **não** estiver sincronizado com o repositório, reconectar/reimportar o repositório — ou usar o
+   script manual de deploy em ambiente com `huggingface_hub`:
+   ```powershell
+   $env:HF_TOKEN="<seu-token>"; $env:HF_SPACE_URL="https://huggingface.co/spaces/endartstudios/nexus-alpha"
+   python scripts/deploy_hf_space.py
+   ```
+5. Validar `/api/metrics` esperando:
+   - `concept_count` e `fact_count`;
+   - `ingestion_accounting.run_scoped_gap` e `ingestion_accounting.graph_scoped_gap`.

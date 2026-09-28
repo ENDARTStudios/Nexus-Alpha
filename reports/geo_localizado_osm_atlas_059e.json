@@ -1,0 +1,653 @@
+{
+  "audit_id": "geo_localizado_osm_atlas_059e",
+  "generated_at": "2026-09-28T19:45:46.518256+00:00",
+  "policy": {
+    "allowed_stadiums": [
+      "ESTADIO OLIMPICO NILTON SANTOS",
+      "ESTADIO URBANO CALDEIRA",
+      "MARACANA",
+      "ALLIANZ PARQUE",
+      "MINEIRAO",
+      "BEIRA-RIO",
+      "MORUMBI",
+      "PACAEMBU",
+      "NEO QUIMICA ARENA",
+      "SAO JANUARIO"
+    ],
+    "allowed_cities": [
+      "RIO DE JANEIRO",
+      "SANTOS",
+      "SAO PAULO",
+      "PORTO ALEGRE",
+      "BELO HORIZONTE"
+    ],
+    "osm_endpoints": [
+      "https://nominatim.openstreetmap.org/search"
+    ],
+    "attribution": "(c) OpenStreetMap contributors",
+    "license": "ODbL",
+    "forbidden_objects": [
+      "NEIGHBORHOOD",
+      "ADDRESS",
+      "COUNTRY",
+      "COORDINATE",
+      "STATE_AS_CITY"
+    ]
+  },
+  "candidates": [
+    {
+      "entity": "ESTADIO OLIMPICO NILTON SANTOS",
+      "osm_query": "Estadio Olimpico Nilton Santos",
+      "osm_features": [
+        {
+          "osm_type": "relation",
+          "osm_id": 2339171,
+          "display_name": "Estádio Olímpico Nilton Santos, 425, Rua José dos Reis, Engenho de Dentro, Rio de Janeiro, Região Sudeste, 20770-001, Br",
+          "address": {
+            "leisure": "Estádio Olímpico Nilton Santos",
+            "house_number": "425",
+            "road": "Rua José dos Reis",
+            "suburb": "Engenho de Dentro",
+            "city": "Rio de Janeiro",
+            "state": "Rio de Janeiro",
+            "ISO3166-2-lvl4": "BR-RJ",
+            "region": "Região Sudeste",
+            "postcode": "20770-001",
+            "country": "Brasil",
+            "country_code": "br"
+          },
+          "resolved_city": "RIO DE JANEIRO",
+          "eligible": true,
+          "blocking_reason": null,
+          "attribution": "(c) OpenStreetMap contributors",
+          "license": "ODbL"
+        }
+      ],
+      "wiki_sources": [
+        {
+          "lang": "pt",
+          "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Ol%C3%ADmpico_Nilton_Santos",
+          "http_status": 200,
+          "city": "RIO DE JANEIRO"
+        },
+        {
+          "lang": "en",
+          "url": "https://en.wikipedia.org/wiki/Nilton_Santos_Olympic_Stadium",
+          "http_status": 404,
+          "city": null
+        }
+      ],
+      "resolved_city": "RIO DE JANEIRO",
+      "predicted_domains": [
+        "openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 2,
+      "predicted_publishers": [
+        "openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_publisher_families": [
+        "OpenStreetMap",
+        "Wikimedia"
+      ],
+      "predicted_effective_publisher_count": 2,
+      "collision_status": "partial_collision",
+      "eligible_for_runtime": false,
+      "blocking_reason": "needs_third_domain"
+    },
+    {
+      "entity": "ESTADIO URBANO CALDEIRA",
+      "osm_query": "Estadio Urbano Caldeira",
+      "osm_features": [
+        {
+          "osm_type": "way",
+          "osm_id": 1013950391,
+          "display_name": "Estádio Urbano Caldeira, Rua Princesa Isabel, Vila Belmiro, Santos, São Paulo, Região Sudeste, 11075-501, Brasil",
+          "address": {
+            "leisure": "Estádio Urbano Caldeira",
+            "road": "Rua Princesa Isabel",
+            "suburb": "Vila Belmiro",
+            "city_district": "Santos",
+            "city": "Santos",
+            "state": "São Paulo",
+            "ISO3166-2-lvl4": "BR-SP",
+            "region": "Região Sudeste",
+            "postcode": "11075-501",
+            "country": "Brasil",
+            "country_code": "br"
+          },
+          "resolved_city": "SANTOS",
+          "eligible": true,
+          "blocking_reason": null,
+          "attribution": "(c) OpenStreetMap contributors",
+          "license": "ODbL"
+        }
+      ],
+      "wiki_sources": [
+        {
+          "lang": "pt",
+          "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira",
+          "http_status": 200,
+          "city": null
+        },
+        {
+          "lang": "en",
+          "url": "https://en.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira",
+          "http_status": 200,
+          "city": "SANTOS"
+        }
+      ],
+      "resolved_city": "SANTOS",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "openstreetmap.org"
+      ],
+      "predicted_domain_count": 2,
+      "predicted_publishers": [
+        "en.wikipedia.org",
+        "openstreetmap.org"
+      ],
+      "predicted_publisher_families": [
+        "OpenStreetMap",
+        "Wikimedia"
+      ],
+      "predicted_effective_publisher_count": 2,
+      "collision_status": "partial_collision",
+      "eligible_for_runtime": false,
+      "blocking_reason": "needs_third_domain"
+    },
+    {
+      "entity": "MARACANA",
+      "osm_query": "Estadio do Maracana",
+      "osm_features": [
+        {
+          "osm_type": "relation",
+          "osm_id": 4587734,
+          "display_name": "Estádio Jornalista Mário Filho, Avenida Rei Pelé, Maracanã, Rio de Janeiro, Região Sudeste, 20271-130, Brasil",
+          "address": {
+            "leisure": "Estádio Jornalista Mário Filho",
+            "road": "Avenida Rei Pelé",
+            "suburb": "Maracanã",
+            "city": "Rio de Janeiro",
+            "state": "Rio de Janeiro",
+            "ISO3166-2-lvl4": "BR-RJ",
+            "region": "Região Sudeste",
+            "postcode": "20271-130",
+            "country": "Brasil",
+            "country_code": "br"
+          },
+          "resolved_city": "RIO DE JANEIRO",
+          "eligible": true,
+          "blocking_reason": null,
+          "attribution": "(c) OpenStreetMap contributors",
+          "license": "ODbL"
+        }
+      ],
+      "wiki_sources": [
+        {
+          "lang": "pt",
+          "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_do_Maracan%C3%A3",
+          "http_status": 200,
+          "city": "RIO DE JANEIRO"
+        },
+        {
+          "lang": "en",
+          "url": "https://en.wikipedia.org/wiki/Maracan%C3%A3_Stadium",
+          "http_status": 200,
+          "city": null
+        }
+      ],
+      "resolved_city": "RIO DE JANEIRO",
+      "predicted_domains": [
+        "openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 2,
+      "predicted_publishers": [
+        "openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_publisher_families": [
+        "OpenStreetMap",
+        "Wikimedia"
+      ],
+      "predicted_effective_publisher_count": 2,
+      "collision_status": "partial_collision",
+      "eligible_for_runtime": false,
+      "blocking_reason": "needs_third_domain"
+    },
+    {
+      "entity": "ALLIANZ PARQUE",
+      "osm_query": "Allianz Parque",
+      "osm_features": [
+        {
+          "osm_type": "way",
+          "osm_id": 231044849,
+          "display_name": "Nubank Parque, 1840, Rua Palestra Itália, Pompéia, Perdizes, São Paulo, Região Sudeste, 05005-000, Brasil",
+          "address": {
+            "leisure": "Nubank Parque",
+            "house_number": "1840",
+            "road": "Rua Palestra Itália",
+            "suburb": "Pompéia",
+            "city_district": "Perdizes",
+            "city": "São Paulo",
+            "state": "São Paulo",
+            "ISO3166-2-lvl4": "BR-SP",
+            "region": "Região Sudeste",
+            "postcode": "05005-000",
+            "country": "Brasil",
+            "country_code": "br"
+          },
+          "resolved_city": "SAO PAULO",
+          "eligible": true,
+          "blocking_reason": null,
+          "attribution": "(c) OpenStreetMap contributors",
+          "license": "ODbL"
+        }
+      ],
+      "wiki_sources": [
+        {
+          "lang": "pt",
+          "url": "https://pt.wikipedia.org/wiki/Allianz_Parque",
+          "http_status": 200,
+          "city": "SAO PAULO"
+        },
+        {
+          "lang": "en",
+          "url": "https://en.wikipedia.org/wiki/Allianz_Parque",
+          "http_status": 200,
+          "city": "SAO PAULO"
+        }
+      ],
+      "resolved_city": "SAO PAULO",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 3,
+      "predicted_publishers": [
+        "en.wikipedia.org",
+        "openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_publisher_families": [
+        "OpenStreetMap",
+        "Wikimedia"
+      ],
+      "predicted_effective_publisher_count": 2,
+      "collision_status": "full_collision",
+      "eligible_for_runtime": true,
+      "blocking_reason": null
+    },
+    {
+      "entity": "MINEIRAO",
+      "osm_query": "Estadio Mineirao",
+      "osm_features": [
+        {
+          "osm_type": "relation",
+          "osm_id": 5545668,
+          "display_name": "Estádio Claudemiro Fernandes Torres, Rua Doutor Rodolfo Mallard, Centro, São Francisco, Buritizeiro, Minas Gerais, Regiã",
+          "address": {
+            "leisure": "Estádio Claudemiro Fernandes Torres",
+            "road": "Rua Doutor Rodolfo Mallard",
+            "neighbourhood": "Centro",
+            "suburb": "São Francisco",
+            "town": "Buritizeiro",
+            "state": "Minas Gerais",
+            "ISO3166-2-lvl4": "BR-MG",
+            "region": "Região Sudeste",
+            "postcode": "39280-000",
+            "country": "Brasil",
+            "country_code": "br"
+          },
+          "resolved_city": null,
+          "eligible": false,
+          "blocking_reason": "no_clean_city_evidence",
+          "attribution": "(c) OpenStreetMap contributors",
+          "license": "ODbL"
+        }
+      ],
+      "wiki_sources": [
+        {
+          "lang": "pt",
+          "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Governador_Magalh%C3%A3es_Pinto",
+          "http_status": 200,
+          "city": "BELO HORIZONTE"
+        },
+        {
+          "lang": "en",
+          "url": "https://en.wikipedia.org/wiki/Mineir%C3%A3o",
+          "http_status": 200,
+          "city": "BELO HORIZONTE"
+        }
+      ],
+      "resolved_city": null,
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 2,
+      "predicted_publishers": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_publisher_families": [
+        "Wikimedia"
+      ],
+      "predicted_effective_publisher_count": 1,
+      "collision_status": "no_collision",
+      "eligible_for_runtime": false,
+      "blocking_reason": "no_city_evidence"
+    },
+    {
+      "entity": "BEIRA-RIO",
+      "osm_query": "Estadio Beira-Rio",
+      "osm_features": [
+        {
+          "osm_type": "way",
+          "osm_id": 554772648,
+          "display_name": "Estádio Beira Rio, Santana de Cataguases, Minas Gerais, Região Sudeste, Brasil",
+          "address": {
+            "park": "Estádio Beira Rio",
+            "village": "Santana de Cataguases",
+            "state": "Minas Gerais",
+            "ISO3166-2-lvl4": "BR-MG",
+            "region": "Região Sudeste",
+            "country": "Brasil",
+            "country_code": "br"
+          },
+          "resolved_city": null,
+          "eligible": false,
+          "blocking_reason": "no_clean_city_evidence",
+          "attribution": "(c) OpenStreetMap contributors",
+          "license": "ODbL"
+        }
+      ],
+      "wiki_sources": [
+        {
+          "lang": "pt",
+          "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Beira-Rio",
+          "http_status": 200,
+          "city": null
+        },
+        {
+          "lang": "en",
+          "url": "https://en.wikipedia.org/wiki/Est%C3%A1dio_Beira-Rio",
+          "http_status": 200,
+          "city": null
+        }
+      ],
+      "resolved_city": null,
+      "predicted_domains": [],
+      "predicted_domain_count": 0,
+      "predicted_publishers": [],
+      "predicted_publisher_families": [],
+      "predicted_effective_publisher_count": 0,
+      "collision_status": "no_collision",
+      "eligible_for_runtime": false,
+      "blocking_reason": "no_city_evidence"
+    },
+    {
+      "entity": "MORUMBI",
+      "osm_query": "Estadio do Morumbi",
+      "osm_features": [
+        {
+          "osm_type": "way",
+          "osm_id": 715674760,
+          "display_name": "MorumBIS, 1, Praça Roberto Gomes Pedrosa, Morumbi, São Paulo, Região Sudeste, 05653-070, Brasil",
+          "address": {
+            "leisure": "MorumBIS",
+            "house_number": "1",
+            "road": "Praça Roberto Gomes Pedrosa",
+            "suburb": "Morumbi",
+            "city": "São Paulo",
+            "state": "São Paulo",
+            "ISO3166-2-lvl4": "BR-SP",
+            "region": "Região Sudeste",
+            "postcode": "05653-070",
+            "country": "Brasil",
+            "country_code": "br"
+          },
+          "resolved_city": "SAO PAULO",
+          "eligible": true,
+          "blocking_reason": null,
+          "attribution": "(c) OpenStreetMap contributors",
+          "license": "ODbL"
+        }
+      ],
+      "wiki_sources": [
+        {
+          "lang": "pt",
+          "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_do_Morumbi",
+          "http_status": 200,
+          "city": "SAO PAULO"
+        },
+        {
+          "lang": "en",
+          "url": "https://en.wikipedia.org/wiki/Morumbi_Stadium",
+          "http_status": 200,
+          "city": "SAO PAULO"
+        }
+      ],
+      "resolved_city": "SAO PAULO",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 3,
+      "predicted_publishers": [
+        "en.wikipedia.org",
+        "openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_publisher_families": [
+        "OpenStreetMap",
+        "Wikimedia"
+      ],
+      "predicted_effective_publisher_count": 2,
+      "collision_status": "full_collision",
+      "eligible_for_runtime": true,
+      "blocking_reason": null
+    },
+    {
+      "entity": "PACAEMBU",
+      "osm_query": "Estadio do Pacaembu",
+      "osm_features": [
+        {
+          "osm_type": "way",
+          "osm_id": 666148829,
+          "display_name": "Mercado Livre Arena Pacaembu, Praça Charles Miller, Pacaembu, Consolação, São Paulo, Região Sudeste, 01234-010, Brasil",
+          "address": {
+            "leisure": "Mercado Livre Arena Pacaembu",
+            "road": "Praça Charles Miller",
+            "suburb": "Pacaembu",
+            "city_district": "Consolação",
+            "city": "São Paulo",
+            "state": "São Paulo",
+            "ISO3166-2-lvl4": "BR-SP",
+            "region": "Região Sudeste",
+            "postcode": "01234-010",
+            "country": "Brasil",
+            "country_code": "br"
+          },
+          "resolved_city": "SAO PAULO",
+          "eligible": true,
+          "blocking_reason": null,
+          "attribution": "(c) OpenStreetMap contributors",
+          "license": "ODbL"
+        }
+      ],
+      "wiki_sources": [
+        {
+          "lang": "pt",
+          "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_do_Pacaembu",
+          "http_status": 200,
+          "city": "SAO PAULO"
+        },
+        {
+          "lang": "en",
+          "url": "https://en.wikipedia.org/wiki/Pacaembu_Stadium",
+          "http_status": 200,
+          "city": "SAO PAULO"
+        }
+      ],
+      "resolved_city": "SAO PAULO",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 3,
+      "predicted_publishers": [
+        "en.wikipedia.org",
+        "openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_publisher_families": [
+        "OpenStreetMap",
+        "Wikimedia"
+      ],
+      "predicted_effective_publisher_count": 2,
+      "collision_status": "full_collision",
+      "eligible_for_runtime": true,
+      "blocking_reason": null
+    },
+    {
+      "entity": "NEO QUIMICA ARENA",
+      "osm_query": "Neo Quimica Arena",
+      "osm_features": [
+        {
+          "osm_type": "way",
+          "osm_id": 218678632,
+          "display_name": "Neo Química Arena, 111, Avenida Miguel Inácio Curi, Cidade Antônio Estêvão de Carvalho, Itaquera, São Paulo, Região Sude",
+          "address": {
+            "leisure": "Neo Química Arena",
+            "house_number": "111",
+            "road": "Avenida Miguel Inácio Curi",
+            "suburb": "Cidade Antônio Estêvão de Carvalho",
+            "city": "São Paulo",
+            "state": "São Paulo",
+            "ISO3166-2-lvl4": "BR-SP",
+            "region": "Região Sudeste",
+            "postcode": "08295-005",
+            "country": "Brasil",
+            "country_code": "br"
+          },
+          "resolved_city": "SAO PAULO",
+          "eligible": true,
+          "blocking_reason": null,
+          "attribution": "(c) OpenStreetMap contributors",
+          "license": "ODbL"
+        }
+      ],
+      "wiki_sources": [
+        {
+          "lang": "pt",
+          "url": "https://pt.wikipedia.org/wiki/Neo_Qu%C3%ADmica_Arena",
+          "http_status": 200,
+          "city": "SAO PAULO"
+        },
+        {
+          "lang": "en",
+          "url": "https://en.wikipedia.org/wiki/Neo_Qu%C3%ADmica_Arena",
+          "http_status": 200,
+          "city": "SAO PAULO"
+        }
+      ],
+      "resolved_city": "SAO PAULO",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 3,
+      "predicted_publishers": [
+        "en.wikipedia.org",
+        "openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_publisher_families": [
+        "OpenStreetMap",
+        "Wikimedia"
+      ],
+      "predicted_effective_publisher_count": 2,
+      "collision_status": "full_collision",
+      "eligible_for_runtime": true,
+      "blocking_reason": null
+    },
+    {
+      "entity": "SAO JANUARIO",
+      "osm_query": "Estadio Sao Januario",
+      "osm_features": [
+        {
+          "osm_type": "way",
+          "osm_id": 353439809,
+          "display_name": "Estádio Vasco da Gama, 10, Avenida Roberto Dinamite, Vasco da Gama, Rio de Janeiro, Região Sudeste, 20921-270, Brasil",
+          "address": {
+            "leisure": "Estádio Vasco da Gama",
+            "house_number": "10",
+            "road": "Avenida Roberto Dinamite",
+            "suburb": "Vasco da Gama",
+            "city": "Rio de Janeiro",
+            "state": "Rio de Janeiro",
+            "ISO3166-2-lvl4": "BR-RJ",
+            "region": "Região Sudeste",
+            "postcode": "20921-270",
+            "country": "Brasil",
+            "country_code": "br"
+          },
+          "resolved_city": "RIO DE JANEIRO",
+          "eligible": true,
+          "blocking_reason": null,
+          "attribution": "(c) OpenStreetMap contributors",
+          "license": "ODbL"
+        }
+      ],
+      "wiki_sources": [
+        {
+          "lang": "pt",
+          "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_S%C3%A3o_Janu%C3%A1rio",
+          "http_status": 200,
+          "city": "RIO DE JANEIRO"
+        },
+        {
+          "lang": "en",
+          "url": "https://en.wikipedia.org/wiki/Est%C3%A1dio_S%C3%A3o_Janu%C3%A1rio",
+          "http_status": 200,
+          "city": null
+        }
+      ],
+      "resolved_city": "RIO DE JANEIRO",
+      "predicted_domains": [
+        "openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 2,
+      "predicted_publishers": [
+        "openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_publisher_families": [
+        "OpenStreetMap",
+        "Wikimedia"
+      ],
+      "predicted_effective_publisher_count": 2,
+      "collision_status": "partial_collision",
+      "eligible_for_runtime": false,
+      "blocking_reason": "needs_third_domain"
+    }
+  ],
+  "summary": {
+    "stadiums_evaluated": 10,
+    "osm_features_found": 10,
+    "osm_city_evidence_found": 8,
+    "geo_full_collision_facts": 4,
+    "geo_partial_collision_facts": 4,
+    "predicted_new_verified": 4,
+    "eligible_for_runtime": true,
+    "recommended_next_step": "#048.10F runtime condicional para LOCALIZADO_EM via OSM (somente apos Space no HEAD)."
+  }
+}

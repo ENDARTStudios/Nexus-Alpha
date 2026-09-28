@@ -2600,3 +2600,20 @@ Isso causou leitura ambígua de `facts=1894` como se fossem 1894 fatos (o `:Fato
 
 - Classificação: `PARTIAL_052_3_CODE_READY_SPACE_STALE` (código pronto; Space pendente de redeploy manual).
 - Referência: `reports/RECONCILIATION_052_3_METRICS_CLARITY.md`.
+
+## #059E — Atlas DISPUTOU/OSM/DEFENDEU alternativo
+
+**Status:** PARTIAL (read-only; sem worker, sem seeds, sem treino)
+**Space restoration:** tentado (`POST .../restart` factory_reboot = 200) mas **source stale**
+(`sha=85355c6d`, 2026-09-25) → `SPACE_SOURCE_STALE_REQUIRES_REDEPLOY`; campos novos ainda ausentes.
+**DISPUTOU full collision:** 0 (partial 3) — sem terceira fonte gratuita independente.
+**GEO full collision:** 4 (partial 4) — READY (gate >= 3).
+**DEFENDEU alternative full collision:** skipped_budget.
+**Classification:** `PARTIAL_059E_ATLAS_READY_SPACE_STALE`.
+**Next step:** Operador redeploya o Space (runbook). Depois, runtime condicional para LOCALIZADO_EM;
+DISPUTOU reavalia #055 (licença) ou fonte estática alternativa.
+
+- Scripts read-only: `scripts/audit_disputou_participation_atlas.py`, `scripts/audit_geo_localizado_osm.py`
+  (OSM via Nominatim/ODbL; Overpass instável nesta janela), `tests/test_audit_059e_atlases.py`.
+- Relatórios: `reports/disputou_participation_atlas_059e.json`, `reports/geo_localizado_osm_atlas_059e.json`,
+  `reports/059e_dry_run_integrated.json`.

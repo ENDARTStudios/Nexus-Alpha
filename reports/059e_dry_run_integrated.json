@@ -1,0 +1,75 @@
+{
+  "audit_id": "059e_dry_run_integrated",
+  "generated_at": "2026-09-28T00:00:00+00:00",
+  "space_restoration": {
+    "attempted": true,
+    "method": "huggingface.co/api/spaces/endartstudios/nexus-alpha/restart (factory_reboot)",
+    "restart_http": 200,
+    "space_sha_observed": "85355c6d0e32651eebe4acdf1eb7c7103f6fc245",
+    "space_last_modified": "2026-09-25T03:03:55.000Z",
+    "telemetry_fields_present_after_restart": false,
+    "classification": "SPACE_SOURCE_STALE_REQUIRES_REDEPLOY"
+  },
+  "families": {
+    "disputou": {
+      "full_collision_facts": 0,
+      "partial_collision_facts": 3,
+      "junction_objects": 0,
+      "ready": false,
+      "blocking": "no_independent_third_domain_free_source"
+    },
+    "geo_localizado_em": {
+      "full_collision_facts": 4,
+      "partial_collision_facts": 4,
+      "junction_objects": 0,
+      "ready": true,
+      "sources": ["openstreetmap.org (Nominatim)", "pt.wikipedia.org", "en.wikipedia.org"],
+      "attribution": "(c) OpenStreetMap contributors (ODbL)"
+    },
+    "defendeu_alternative": {
+      "executed": false,
+      "skipped_reason": "skipped_budget",
+      "full_collision_facts": 0,
+      "ready": false
+    }
+  },
+  "projection": {
+    "note": "estimated; no worker, no write",
+    "verified_facts_domain_independent_before": 11,
+    "predicted_new_verified": 4,
+    "predicted_records_total": 15,
+    "predicted_unique_predicates": 3,
+    "predicted_non_venceu_ratio": 0.33,
+    "predicted_top_predicate_share": "VENCEU permanece dominante",
+    "publisher_family_distribution": ["Wikimedia", "RSSSF", "OpenStreetMap"]
+  },
+  "disputou_gate": {
+    "threshold_full_collision_ge_3": false,
+    "zero_junk_objects": true,
+    "zero_year_as_object": true,
+    "zero_round_as_object": true,
+    "zero_position_as_object": true,
+    "zero_points_as_object": true,
+    "zero_result_as_object": true,
+    "zero_clause_objects": true,
+    "zero_generic_objects": true,
+    "top_invalid_predicates_prediction": []
+  },
+  "geo_gate": {
+    "threshold_full_collision_ge_3": true,
+    "zero_neighborhood_as_city": true,
+    "zero_address_as_city": true,
+    "zero_country_as_city": true,
+    "zero_coordinate_as_city": true,
+    "zero_state_as_city": true,
+    "wiki_clean_object": true,
+    "osm_clean_city_evidence": true
+  },
+  "defendeu_gate": {
+    "threshold_full_collision_ge_1": false,
+    "national_team_objects": 0,
+    "ambiguous_club_context": 0
+  },
+  "classification": "PARTIAL_059E_ATLAS_READY_SPACE_STALE",
+  "recommended_next_step": "Operador faz redeploy do Space para c10253b+ (runbook reports/BLOCKED_052_3_SPACE_REDEPLOY.md). Depois, implementar runtime condicional LOCALIZADO_EM (geo_full=4) em ciclo separado; DISPUTOU segue sem terceira fonte gratuita (reavaliar #055)."
+}
