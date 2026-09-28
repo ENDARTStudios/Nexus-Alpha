@@ -1,0 +1,94 @@
+{
+  "audit_id": "third_predicate_family_atlas_048_10D",
+  "generated_at": "2026-09-28T00:17:45.614613+00:00",
+  "read_only": true,
+  "families": [
+    {
+      "family_id": "club_located_in_city",
+      "predicate": "LOCALIZADO_EM",
+      "candidate_facts": [
+        {
+          "fact": "BOTAFOGO DE FUTEBOL E REGATAS --LOCALIZADO_EM--> RIO DE JANEIRO",
+          "predicted_domains": [],
+          "predicted_domain_count": 0,
+          "junk_signals": 0,
+          "collision_status": "no_collision",
+          "eligible_for_runtime": false,
+          "blocking_reason": "dom<3"
+        },
+        {
+          "fact": "SANTOS FUTEBOL CLUBE --LOCALIZADO_EM--> SANTOS",
+          "predicted_domains": [],
+          "predicted_domain_count": 0,
+          "junk_signals": 0,
+          "collision_status": "no_collision",
+          "eligible_for_runtime": false,
+          "blocking_reason": "dom<3"
+        }
+      ],
+      "eligible_for_runtime": false,
+      "blocking_reason": "sem colisao 3-dominios limpa"
+    },
+    {
+      "family_id": "stadium_located_in_city",
+      "predicate": "LOCALIZADO_EM",
+      "candidate_facts": [
+        {
+          "fact": "ESTÁDIO OLÍMPICO NILTON SANTOS --LOCALIZADO_EM--> RIO DE JANEIRO",
+          "predicted_domains": [],
+          "predicted_domain_count": 0,
+          "junk_signals": 0,
+          "collision_status": "no_collision",
+          "eligible_for_runtime": false,
+          "blocking_reason": "dom<3"
+        },
+        {
+          "fact": "ESTÁDIO URBANO CALDEIRA --LOCALIZADO_EM--> SANTOS",
+          "predicted_domains": [
+            "pt.wikipedia.org"
+          ],
+          "predicted_domain_count": 1,
+          "junk_signals": 0,
+          "collision_status": "no_collision",
+          "eligible_for_runtime": false,
+          "blocking_reason": "dom<3"
+        }
+      ],
+      "eligible_for_runtime": false,
+      "blocking_reason": "sem colisao 3-dominios limpa"
+    },
+    {
+      "family_id": "club_has_stadium",
+      "predicate": "POSSUIR",
+      "candidate_facts": [
+        {
+          "fact": "SANTOS FUTEBOL CLUBE --POSSUIR--> ESTÁDIO URBANO CALDEIRA",
+          "predicted_domains": [],
+          "predicted_domain_count": 0,
+          "junk_signals": 0,
+          "collision_status": "no_collision",
+          "eligible_for_runtime": false,
+          "blocking_reason": "dom<3"
+        },
+        {
+          "fact": "BOTAFOGO DE FUTEBOL E REGATAS --POSSUIR--> ESTÁDIO OLÍMPICO NILTON SANTOS",
+          "predicted_domains": [],
+          "predicted_domain_count": 0,
+          "junk_signals": 0,
+          "collision_status": "no_collision",
+          "eligible_for_runtime": false,
+          "blocking_reason": "dom<3"
+        }
+      ],
+      "eligible_for_runtime": false,
+      "blocking_reason": "sem colisao 3-dominios limpa"
+    }
+  ],
+  "summary": {
+    "eligible_families": 0,
+    "full_collision_facts": 0,
+    "predicted_new_verified": 0,
+    "predicted_unique_predicates": 2,
+    "recommended_next_step": "BLOCKED_THIRD_PREDICATE_FAMILY"
+  }
+}

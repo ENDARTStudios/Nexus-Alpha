@@ -1,0 +1,50 @@
+{
+  "audit_id": "training_gate_evaluation_060",
+  "generated_at": "2026-09-28T00:19:31.562357+00:00",
+  "head_initial": "b7fe512",
+  "head_final": "see SPRINT",
+  "commits_created": [],
+  "ci_status": "green",
+  "verified_facts_domain_independent": 11,
+  "numeric_gate": {
+    "verified_facts_gate": true,
+    "records_gate": false,
+    "schema_gate": true,
+    "sanitization_gate": true
+  },
+  "quality_gate": {
+    "diversity_gate": false,
+    "publisher_independence_gate": true,
+    "provenance_gate": true
+  },
+  "environment_gate": {
+    "python_gate": true,
+    "gpu_gate": false,
+    "llamafactory_gate": false,
+    "training_enable_gate": false,
+    "details": {
+      "python_version": "3.11.15",
+      "python_ok": true,
+      "gpu_available": false,
+      "kaggle_credentials_present": false,
+      "llamafactory_installed": false,
+      "requirements_llamafactory_present": true,
+      "training_enable_flag_present": false
+    }
+  },
+  "dataset_summary_path": "reports/training_dataset_export_summary_048_10D.json",
+  "unique_publisher_families": 2,
+  "publisher_family_distribution": {
+    "Wikimedia": 22,
+    "RSSSF": 11
+  },
+  "training_recommended": false,
+  "training_allowed": false,
+  "blocking_reasons": [
+    "BLOCKED_RECORDS_INSUFFICIENT",
+    "DIVERSITY_GATE_FAILED",
+    "TRAINING_BLOCKED_ENVIRONMENT"
+  ],
+  "next_issue_recommendation": "#048.10A — escalar fatos verificados para records >= 50 (e #048.10B para diversidade além de VENCEU)",
+  "notes": "Gate numérico verified>=10 atingido. Treino NÃO executado. Recomendação depende de records>=50, diversidade, publishers e ambiente."
+}

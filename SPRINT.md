@@ -2446,3 +2446,44 @@ Atlas (`reports/defendeu_third_source_atlas_059c.json`):
 
 ### Próximo passo
 **#048.10D** — escalar DEFENDEU para mais jogadores/clubes com o mesmo padrão (H1 club-context; ex.: incluir mais páginas RSSSF Brasil / competições), rumo a records ≥ 50 e diversidade. **Não treinar** (records<50, diversity fail, ambiente). Quórum 3.
+
+## #048.10D — Controlled DEFENDEU scale-up + third predicate family readiness
+
+**Status:** BLOCKED (read-only; **Cenário C**) — **Commits:** este (atlases + #053.1 telemetria + docs) — **CI:** verde — **Worker:** NÃO executado (`predicted_new_verified = 0`).
+
+### Trilho A — escala DEFENDEU
+Atlas `reports/defendeu_scale_atlas_048_10D.json` → `full_collision=1` (PELÉ, já verificado), **0 novos**:
+- `rsssfbrasil.com/sel/jogclub.htm` só cita Pelé+Jairzinho (allowlist); demais jogadores ausentes (grep=0).
+- `perfis.htm` = perfis de membros (não jogadores); `rsssf.org/tables/*full.html` só crônicas (sem clube).
+- GARRINCHA→BOTAFOGO fica partial (pt+en; falta 3º domínio); JAIRZINHO só na 3ª fonte.
+
+### Trilho B — 3ª família predical
+Atlas `reports/third_predicate_family_atlas_048_10D.json` → `eligible_families=0`:
+- LOCALIZADO_EM: só `BOTAFOGO→RIO` limpo (pt.wiki, 1 domínio); en.wiki devolve bairro; estádios 0.
+- POSSUIR: junk estrutural. **Sem colisão 3-domínios limpa.**
+
+### #053.1 — telemetria (sem mudar métrica)
+`evaluate_training_gate.py`: +`unique_publisher_families`/`effective_publisher_count`/`publisher_family_distribution`/`publisher_family_independence_ok`. Resultado: domínios 3, **famílias 2** (RSSSF unifica rsssf.org+rsssfbrasil.com) → WARNING confirmado. `verified_facts_domain_independent`/quórum inalterados. +1 teste.
+
+### Métricas
+| Métrica | Antes | Depois | Delta |
+|---|---:|---:|---:|
+| verified_facts_domain_independent | 11 | 11 | 0 |
+| duplicate_cross_domain | 12 | 12 | 0 |
+| facts_with_three_or_more_domains | 11 | 11 | 0 |
+| records_total | 11 | 11 | 0 |
+| unique_predicates | 2 | 2 | 0 |
+| non_VENCEU_ratio | 0.09 | 0.09 | 0 |
+| top_predicate_share | ~0.91 | ~0.91 | 0 |
+| unique_publisher_families | — | **2** | (novo; #053.1) |
+| player_club_canonical_triples | 2 | 2 | 0 |
+
+### Classificação
+**Cenário C — records insuficientes** (sem terceira fonte DEFENDEU; sem 3ª família segura).
+`diversity_gate=false`; publisher independence = domínios PASS / família WARNING (#053.1); `environment_gate=false`. **Não treinar.**
+
+### Limitação editorial
+`rsssf.org` e `rsssfbrasil.com` = mesma família (RSSSF) → `effective_publisher_count=2`. Dívida #053/#053.1.
+
+### Próximo passo
+**#059D** (fontes estáticas independentes amplas p/ player-club) + **#048.10E** (3ª família segura) + **#055** (licença). Treino fechado; quórum 3.

@@ -1,0 +1,208 @@
+{
+  "audit_id": "defendeu_scale_atlas_048_10D",
+  "generated_at": "2026-09-28T00:20:53.606452+00:00",
+  "family": "player_defended_club",
+  "read_only": true,
+  "hypotheses": [
+    "H1",
+    "H2",
+    "H3"
+  ],
+  "allowed_players": [
+    "GARRINCHA",
+    "MANUEL FRANCISCO DOS SANTOS",
+    "PELÉ",
+    "PELE",
+    "EDSON ARANTES DO NASCIMENTO",
+    "NILTON SANTOS",
+    "DIDI",
+    "JAIRZINHO",
+    "HELENO DE FREITAS",
+    "ZAGALLO",
+    "AMARILDO",
+    "MANGA",
+    "GENINHO"
+  ],
+  "allowed_clubs": [
+    "BOTAFOGO DE FUTEBOL E REGATAS",
+    "SANTOS FUTEBOL CLUBE",
+    "CLUBE DE REGATAS DO FLAMENGO",
+    "SOCIEDADE ESPORTIVA PALMEIRAS",
+    "SÃO PAULO FUTEBOL CLUBE",
+    "GRÊMIO FOOT-BALL PORTO ALEGRENSE",
+    "SPORT CLUBE INTERNACIONAL"
+  ],
+  "candidates": [
+    "https://www.rsssfbrasil.com/sel/jogclub.htm",
+    "https://www.rsssf.org/tables/58full.html",
+    "https://www.rsssf.org/tables/62full.html",
+    "https://www.rsssf.org/tables/70full.html",
+    "https://www.rsssf.org/miscellaneous/torre-sac-best.html"
+  ],
+  "third_party_meta": {
+    "https://www.rsssfbrasil.com/sel/jogclub.htm": {
+      "domain": "rsssfbrasil.com",
+      "publisher": "RSSSF Brasil",
+      "source_type": "rsssf_club_records",
+      "http_status": 200,
+      "keys": 2
+    },
+    "https://www.rsssf.org/tables/58full.html": {
+      "domain": "rsssf.org",
+      "publisher": "RSSSF",
+      "source_type": "rsssf_squad",
+      "http_status": 200,
+      "keys": 0
+    },
+    "https://www.rsssf.org/tables/62full.html": {
+      "domain": "rsssf.org",
+      "publisher": "RSSSF",
+      "source_type": "rsssf_squad",
+      "http_status": 200,
+      "keys": 0
+    },
+    "https://www.rsssf.org/tables/70full.html": {
+      "domain": "rsssf.org",
+      "publisher": "RSSSF",
+      "source_type": "rsssf_squad",
+      "http_status": 200,
+      "keys": 0
+    },
+    "https://www.rsssf.org/miscellaneous/torre-sac-best.html": {
+      "domain": "rsssf.org",
+      "publisher": "RSSSF",
+      "source_type": "rsssf_squad",
+      "http_status": 200,
+      "keys": 0
+    }
+  },
+  "facts": [
+    {
+      "fact": "GARRINCHA --DEFENDEU--> BOTAFOGO",
+      "wiki_sources": [
+        "https://pt.wikipedia.org/wiki/Garrincha",
+        "https://en.wikipedia.org/wiki/Garrincha"
+      ],
+      "third_party_sources": [],
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 2,
+      "predicted_publishers": [
+        "Wikimedia"
+      ],
+      "predicted_publisher_families": [
+        "Wikimedia"
+      ],
+      "collision_status": "partial_collision",
+      "eligible_for_runtime": false,
+      "blocking_reason": "dom<3"
+    },
+    {
+      "fact": "PELÉ --DEFENDEU--> SANTOS",
+      "wiki_sources": [
+        "https://pt.wikipedia.org/wiki/Pel%C3%A9",
+        "https://en.wikipedia.org/wiki/Pel%C3%A9"
+      ],
+      "third_party_sources": [
+        "https://www.rsssfbrasil.com/sel/jogclub.htm"
+      ],
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org",
+        "rsssfbrasil.com"
+      ],
+      "predicted_domain_count": 3,
+      "predicted_publishers": [
+        "RSSSF",
+        "Wikimedia"
+      ],
+      "predicted_publisher_families": [
+        "RSSSF",
+        "Wikimedia"
+      ],
+      "collision_status": "full_collision",
+      "eligible_for_runtime": true,
+      "blocking_reason": null
+    },
+    {
+      "fact": "NILTON SANTOS --DEFENDEU--> BOTAFOGO",
+      "wiki_sources": [
+        "https://pt.wikipedia.org/wiki/Nilton_Santos",
+        "https://en.wikipedia.org/wiki/Nilton_Santos"
+      ],
+      "third_party_sources": [],
+      "predicted_domains": [],
+      "predicted_domain_count": 0,
+      "predicted_publishers": [],
+      "predicted_publisher_families": [],
+      "collision_status": "no_collision",
+      "eligible_for_runtime": false,
+      "blocking_reason": "dom<3"
+    },
+    {
+      "fact": "DIDI --DEFENDEU--> BOTAFOGO",
+      "wiki_sources": [
+        "https://pt.wikipedia.org/wiki/Didi",
+        "https://en.wikipedia.org/wiki/Didi_(footballer)"
+      ],
+      "third_party_sources": [],
+      "predicted_domains": [],
+      "predicted_domain_count": 0,
+      "predicted_publishers": [],
+      "predicted_publisher_families": [],
+      "collision_status": "no_collision",
+      "eligible_for_runtime": false,
+      "blocking_reason": "dom<3"
+    },
+    {
+      "fact": "JAIRZINHO --DEFENDEU--> BOTAFOGO",
+      "wiki_sources": [
+        "https://pt.wikipedia.org/wiki/Jairzinho",
+        "https://en.wikipedia.org/wiki/Jairzinho"
+      ],
+      "third_party_sources": [
+        "https://www.rsssfbrasil.com/sel/jogclub.htm"
+      ],
+      "predicted_domains": [
+        "rsssfbrasil.com"
+      ],
+      "predicted_domain_count": 1,
+      "predicted_publishers": [
+        "RSSSF"
+      ],
+      "predicted_publisher_families": [
+        "RSSSF"
+      ],
+      "collision_status": "no_collision",
+      "eligible_for_runtime": false,
+      "blocking_reason": "dom<3"
+    },
+    {
+      "fact": "HELENO DE FREITAS --DEFENDEU--> BOTAFOGO",
+      "wiki_sources": [
+        "https://pt.wikipedia.org/wiki/Heleno_de_Freitas",
+        "https://en.wikipedia.org/wiki/Heleno_de_Freitas"
+      ],
+      "third_party_sources": [],
+      "predicted_domains": [],
+      "predicted_domain_count": 0,
+      "predicted_publishers": [],
+      "predicted_publisher_families": [],
+      "collision_status": "no_collision",
+      "eligible_for_runtime": false,
+      "blocking_reason": "dom<3"
+    }
+  ],
+  "summary": {
+    "urls_tested": 17,
+    "accessible_urls": 17,
+    "third_party_eligible_sources": 1,
+    "full_collision_facts": 1,
+    "partial_collision_facts": 1,
+    "predicted_new_verified": 1,
+    "eligible_for_runtime": true,
+    "recommended_next_step": "Fase 1 runtime escala DEFENDEU"
+  }
+}
