@@ -1,0 +1,47 @@
+{
+  "audit_id": "geo_expected_facts_048_10H",
+  "generated_at": "2026-09-28T00:00:00+00:00",
+  "expected_facts": [
+    {
+      "fact": "ALLIANZ PARQUE --LOCALIZADO_EM--> SÃO PAULO",
+      "subject": "ALLIANZ PARQUE",
+      "predicate": "LOCALIZADO_EM",
+      "object": "SÃO PAULO",
+      "required_domains": ["pt.wikipedia.org", "en.wikipedia.org", "nominatim.openstreetmap.org"],
+      "min_domain_count": 3,
+      "must_be_verified": true
+    },
+    {
+      "fact": "MORUMBI --LOCALIZADO_EM--> SÃO PAULO",
+      "subject": "MORUMBI",
+      "predicate": "LOCALIZADO_EM",
+      "object": "SÃO PAULO",
+      "required_domains": ["pt.wikipedia.org", "en.wikipedia.org", "nominatim.openstreetmap.org"],
+      "min_domain_count": 3,
+      "must_be_verified": true
+    },
+    {
+      "fact": "PACAEMBU --LOCALIZADO_EM--> SÃO PAULO",
+      "subject": "PACAEMBU",
+      "predicate": "LOCALIZADO_EM",
+      "object": "SÃO PAULO",
+      "required_domains": ["pt.wikipedia.org", "en.wikipedia.org", "nominatim.openstreetmap.org"],
+      "min_domain_count": 3,
+      "must_be_verified": true
+    },
+    {
+      "fact": "NEO QUÍMICA ARENA --LOCALIZADO_EM--> SÃO PAULO",
+      "subject": "NEO QUÍMICA ARENA",
+      "predicate": "LOCALIZADO_EM",
+      "object": "SÃO PAULO",
+      "required_domains": ["pt.wikipedia.org", "en.wikipedia.org", "nominatim.openstreetmap.org"],
+      "min_domain_count": 3,
+      "must_be_verified": true
+    }
+  ],
+  "forbidden_objects": [
+    "bairro", "neighborhood", "endereço", "address", "país", "country",
+    "state_as_city", "coordenada", "coordinate", "cláusula", "clause", "genérico", "generic"
+  ],
+  "forbidden_predicates": ["SER", "RESULTS", "DESCREVER", "REPRESENTAR"]
+}
