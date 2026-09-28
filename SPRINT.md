@@ -2671,3 +2671,26 @@ ALLIANZ PARQUE · MORUMBI · PACAEMBU · NEO QUÍMICA ARENA --LOCALIZADO_EM--> S
 
 > Este ciclo **não executou worker**. **Não escreveu** em Neo4j/Qdrant. **Não treinou.**
 > Aguarda redeploy do Space para o #048.10H.
+
+## #048.10H — GEO worker incremental (condicional)
+
+**Status:** **BLOCKED** (Space stale)
+**Space preflight:** **STALE** — `scripts/check_space_telemetry.py` → `BLOCKED_SPACE_STALE_TELEMETRY`
+(faltando `concept_count`, `fact_count`, `run_scoped_gap`, `graph_scoped_gap`).
+**Worker run:** **NÃO executado** (preflight reprovou; nenhum snapshot, nenhuma escrita).
+**Classificação principal:** `BLOCKED_048_10H_SPACE_STALE`.
+
+> Este ciclo **não executou worker**. **Não escreveu** em Neo4j/Qdrant. **Não treinou.**
+
+## #048.10I — Atlas DEFENDEU Botafogo (fallback read-only)
+
+**Status:** **BLOCKED**
+**RSSSF Brasil (página dedicada do Botafogo):** **não encontrada** — `clubes/botafogo.htm`,
+`clubes/bfr.htm`, `tablesn/botafogo.htm`, `sel/botafogo.htm`, `recordes/botafogo.htm` → **404**.
+**defendeu_full_collision_facts:** **0** · **defendeu_partial_collision_facts:** **0**.
+**Evidência de domínio único:** NILTON SANTOS (pt.wikipedia.org) · JAIRZINHO (`rsssfbrasil.com/sel/jogclub.htm`).
+**Classificação secundária:** `BLOCKED_048_10I_NO_THIRD_SOURCE`.
+**Próximo passo:** retomar **#048.10H** após o redeploy do Space; DEFENDEU aguarda **#055** (licença) ou 3ª fonte.
+
+- Script read-only: `scripts/audit_defendeu_botafogo_rsssf_atlas.py` → `reports/defendeu_botafogo_rsssf_atlas_048_10I.json`.
+- A citação "Source: RSSSF Brasil – Botafogo" **não** é fonte independente por si só; sem URL dedicada acessível.

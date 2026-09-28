@@ -1,0 +1,238 @@
+{
+  "audit_id": "defendeu_botafogo_rsssf_atlas_048_10I",
+  "generated_at": "2026-09-28T20:41:19.944846+00:00",
+  "family": "player_defended_club",
+  "hypothesis": "RSSSF Brasil Botafogo club-context player records",
+  "policy": {
+    "allowed_players": [
+      "GARRINCHA",
+      "NILTON SANTOS",
+      "DIDI",
+      "JAIRZINHO",
+      "HELENO DE FREITAS",
+      "QUARENTINHA",
+      "CARVALHO LEITE",
+      "MANGA",
+      "GENINHO",
+      "MENDONCA",
+      "ROBERTO MIRANDA",
+      "AMARILDO",
+      "ZAGALLO"
+    ],
+    "allowed_clubs": [
+      "BOTAFOGO DE FUTEBOL E REGATAS"
+    ],
+    "forbidden_objects": [
+      "NATIONAL_TEAM",
+      "COMPETITION",
+      "YEAR",
+      "NUMBER",
+      "PERIOD",
+      "PRONOUN",
+      "CLAUSE",
+      "AMBIGUOUS_CLUB"
+    ]
+  },
+  "candidates": [
+    {
+      "url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+      "domain": "en.wikipedia.org",
+      "http_status": 200,
+      "cleaned_text_length": 41234,
+      "tables_found": 0,
+      "facts": [],
+      "rejection_reasons": {
+        "national_team_or_competition": 2
+      },
+      "final_url": "https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+      "blocked_reason": null
+    },
+    {
+      "url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+      "domain": "pt.wikipedia.org",
+      "http_status": 200,
+      "cleaned_text_length": 106750,
+      "tables_found": 0,
+      "facts": [
+        {
+          "player": "NILTON SANTOS",
+          "club": "BOTAFOGO DE FUTEBOL E REGATAS",
+          "evidence": "explicit_player_club"
+        }
+      ],
+      "rejection_reasons": {
+        "national_team_or_competition": 21
+      },
+      "final_url": "https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas",
+      "blocked_reason": null
+    },
+    {
+      "url": "https://www.rsssfbrasil.com/clubes/botafogo.htm",
+      "final_url": "https://www.rsssfbrasil.com/clubes/botafogo.htm",
+      "domain": "www.rsssfbrasil.com",
+      "http_status": 404,
+      "blocked_reason": "http_error",
+      "facts": [],
+      "rejection_reasons": {}
+    },
+    {
+      "url": "https://www.rsssfbrasil.com/clubes/bfr.htm",
+      "final_url": "https://www.rsssfbrasil.com/clubes/bfr.htm",
+      "domain": "www.rsssfbrasil.com",
+      "http_status": 404,
+      "blocked_reason": "http_error",
+      "facts": [],
+      "rejection_reasons": {}
+    },
+    {
+      "url": "https://www.rsssfbrasil.com/tablesn/botafogo.htm",
+      "final_url": "https://www.rsssfbrasil.com/tablesn/botafogo.htm",
+      "domain": "www.rsssfbrasil.com",
+      "http_status": 404,
+      "blocked_reason": "http_error",
+      "facts": [],
+      "rejection_reasons": {}
+    },
+    {
+      "url": "https://www.rsssfbrasil.com/sel/botafogo.htm",
+      "final_url": "https://www.rsssfbrasil.com/sel/botafogo.htm",
+      "domain": "www.rsssfbrasil.com",
+      "http_status": 404,
+      "blocked_reason": "http_error",
+      "facts": [],
+      "rejection_reasons": {}
+    },
+    {
+      "url": "https://www.rsssfbrasil.com/recordes/botafogo.htm",
+      "final_url": "https://www.rsssfbrasil.com/recordes/botafogo.htm",
+      "domain": "www.rsssfbrasil.com",
+      "http_status": 404,
+      "blocked_reason": "http_error",
+      "facts": [],
+      "rejection_reasons": {}
+    },
+    {
+      "url": "https://www.rsssfbrasil.com/sel/jogclub.htm",
+      "domain": "www.rsssfbrasil.com",
+      "http_status": 200,
+      "cleaned_text_length": 15939,
+      "tables_found": 0,
+      "facts": [
+        {
+          "player": "JAIRZINHO",
+          "club": "BOTAFOGO DE FUTEBOL E REGATAS",
+          "evidence": "explicit_player_club"
+        }
+      ],
+      "rejection_reasons": {},
+      "final_url": "https://www.rsssfbrasil.com/sel/jogclub.htm",
+      "blocked_reason": null
+    },
+    {
+      "url": "https://web.archive.org/web/20100201210855/http://www.rsssf.com/miscellaneous/torre-sac-best.html",
+      "final_url": "https://web.archive.org/web/20100201210855/http://www.rsssf.com/miscellaneous/torre-sac-best.html",
+      "domain": "web.archive.org",
+      "http_status": 0,
+      "blocked_reason": "http_error",
+      "facts": [],
+      "rejection_reasons": {}
+    },
+    {
+      "url": "http://www.rsssfbrasil.com/sel/jogclub.htm",
+      "domain": "www.rsssfbrasil.com",
+      "http_status": 200,
+      "cleaned_text_length": 15939,
+      "tables_found": 0,
+      "facts": [
+        {
+          "player": "JAIRZINHO",
+          "club": "BOTAFOGO DE FUTEBOL E REGATAS",
+          "evidence": "explicit_player_club"
+        }
+      ],
+      "rejection_reasons": {},
+      "final_url": "http://www.rsssfbrasil.com/sel/jogclub.htm",
+      "blocked_reason": null
+    },
+    {
+      "url": "https://web.archive.org/web/20151001112809/http://www.rsssfbrasil.com/sel/jogclub.htm",
+      "final_url": "https://web.archive.org/web/20151001112809/http://www.rsssfbrasil.com/sel/jogclub.htm",
+      "domain": "web.archive.org",
+      "http_status": 0,
+      "blocked_reason": "http_error",
+      "facts": [],
+      "rejection_reasons": {}
+    },
+    {
+      "url": "https://web.archive.org/web/20100306040418/http://www.rsssfbrasil.com/tablesrz/rjspcamp.htm",
+      "final_url": "https://web.archive.org/web/20100306040418/http://www.rsssfbrasil.com/tablesrz/rjspcamp.htm",
+      "domain": "web.archive.org",
+      "http_status": 0,
+      "blocked_reason": "http_error",
+      "facts": [],
+      "rejection_reasons": {}
+    },
+    {
+      "url": "http://www.rsssfbrasil.com/tablesrz/rjspcamp.htm",
+      "final_url": "http://www.rsssfbrasil.com/tablesrz/rjspcamp.htm",
+      "domain": "www.rsssfbrasil.com",
+      "http_status": 404,
+      "blocked_reason": "http_error",
+      "facts": [],
+      "rejection_reasons": {}
+    }
+  ],
+  "facts": [
+    {
+      "fact": "NILTON SANTOS --DEFENDEU--> BOTAFOGO DE FUTEBOL E REGATAS",
+      "sources": [
+        "pt.wikipedia.org"
+      ],
+      "predicted_domains": [
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 1,
+      "predicted_publishers": [
+        "Wikimedia"
+      ],
+      "predicted_publisher_families": [
+        "Wikimedia"
+      ],
+      "predicted_effective_publisher_count": 1,
+      "collision_status": "no_collision",
+      "eligible_for_runtime": false,
+      "blocking_reason": "insufficient_independent_domains"
+    },
+    {
+      "fact": "JAIRZINHO --DEFENDEU--> BOTAFOGO DE FUTEBOL E REGATAS",
+      "sources": [
+        "www.rsssfbrasil.com"
+      ],
+      "predicted_domains": [
+        "www.rsssfbrasil.com"
+      ],
+      "predicted_domain_count": 1,
+      "predicted_publishers": [
+        "RSSSF"
+      ],
+      "predicted_publisher_families": [
+        "RSSSF"
+      ],
+      "predicted_effective_publisher_count": 1,
+      "collision_status": "no_collision",
+      "eligible_for_runtime": false,
+      "blocking_reason": "insufficient_independent_domains"
+    }
+  ],
+  "summary": {
+    "urls_tested": 14,
+    "accessible_urls": 5,
+    "rsssf_botafogo_page_found": false,
+    "defendeu_full_collision_facts": 0,
+    "defendeu_partial_collision_facts": 0,
+    "predicted_new_verified": 0,
+    "eligible_for_runtime": false,
+    "classification": "BLOCKED_048_10I_NO_THIRD_SOURCE",
+    "recommended_next_step": "DEFENDEU permanece sem 3a fonte independente; retomar apos #055 (licenca) ou redeploy GEO."
+  }
+}
