@@ -18,5 +18,22 @@
   "triangulation": {
     "quorum": 3,
     "min_domain_score": 0.7
+  },
+  "trusted_domains": {
+    "nominatim.openstreetmap.org": {
+      "score": 0.85,
+      "publisher": "OpenStreetMap",
+      "publisher_family": "OpenStreetMap",
+      "allowed_content_types": ["application/json"],
+      "rate_limit_rps": 1,
+      "license": "ODbL",
+      "attribution": "(c) OpenStreetMap contributors"
+    }
+  },
+  "publisher_families": {
+    "OpenStreetMap": {
+      "independent_from": ["Wikimedia", "RSSSF"],
+      "license": "ODbL"
+    }
   }
 }
