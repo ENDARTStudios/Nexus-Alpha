@@ -2518,3 +2518,33 @@ Terceira família editorial (worldfootball/fbref) bloqueada por bot protection �
 
 ### Próximo passo
 **#048.10F/#059E** (fonte estática acessível para 3ª família) ou **#055** (Almanaque com licença). Não treinar; quórum 3.
+
+---
+
+## Modo Vercel-degradada — a Vercel não é caminho crítico
+
+O deploy público na Vercel está bloqueado por quota do plano Hobby (`api-deployments-free-per-day` /
+"Deployment rate limited — retry in 24 hours"). Isso **não** bloqueia o núcleo cognitivo do Nexus-Alpha.
+
+**Fonte de verdade funcional:**
+- HF Space para runtime/API/metrics (`status: online`);
+- GitHub Actions / worker manual para ingestão;
+- Neo4j AuraDB / Qdrant para memória;
+- testes locais + CI `validate-project` para qualidade;
+- auditorias read-only para evidência cognitiva.
+
+A Vercel passa a ser tratada como camada **opcional** de publicação/visualização pública, salvo decisão
+futura do Operador.
+
+**Status (2026-09-28):**
+- Vercel deploy: `BLOCKED_VERCEL_HOBBY_QUOTA` (**non-required**);
+- Required checks: **nenhum** (branch `main` sem proteção; `Vercel=failure` é commit status não-obrigatório);
+- CI required: **verde** (`validate-project=success`);
+- Núcleo cognitivo: **CONTINUING**;
+- Treino: bloqueado conforme gate (#059D/#048.10E; quórum 3);
+- Classificação: **SUCCESS_VERCEL_DEGRADED_MODE**.
+
+**DoD:** `DONE = CI required verde + testes locais + Space saudável quando aplicável + evidência read-only`.
+`DONE` **não** exige Vercel verde enquanto a Vercel estiver em modo degradado/non-required.
+
+**Referência:** `reports/BLOCKED_VERCEL_HOBBY_QUOTA.md`.
