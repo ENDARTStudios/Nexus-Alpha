@@ -27,6 +27,7 @@ from src.cognition.geo_extractor import (
     fetch_and_extract_geo,
     is_geo_nominatim_url,
 )
+from src.ops.space_telemetry import check_space_telemetry
 from src.miner.seed_loader import cluster_to_seeds, load_seed_clusters, manifest_health, validate_seed_clusters
 from src.miner.source_productivity import payload_telemetry
 from src.miner.web_miner import WebMiner
@@ -175,7 +176,30 @@ def _build_geo_payloads(
     return payloads, telemetry
 
 
-async def run_cycle() -> None:
+class TelemetryBlocked(RuntimeError):
+    """Gate duro: o worker recusa a abrir a porta quando a telemetria está stale."""
+
+
+def _telemetry_gate(allow_unverified_local: bool = False):
+    return check_space_telemetry(allow_unverified_local=allow_unverified_local)
+
+
+def _enforce_telemetry_gate(result) -> None:
+    if result.ok:
+        return
+    reason = result.reason or "BLOCKED_SPACE_STALE_TELEMETRY"
+    message = (
+        f"{reason}\n"
+        f"missing_fields: {result.missing_fields}\n"
+        f"reason: {result.reason}\n"
+        f"No writes were attempted."
+    )
+    logger.error(message)
+    raise TelemetryBlocked(message)
+
+
+async def run_cycle(allow_unverified_local: bool = False) -> None:
+    _enforce_telemetry_gate(_telemetry_gate(allow_unverified_local=allow_unverified_local))
     token = os.environ.get("NEXUS_API_TOKEN", "")
     api_base = os.environ.get("HF_SPACE_URL", "").rstrip("/")
     hf_token = os.environ.get("HF_TOKEN", "")
@@ -301,4 +325,19 @@ async def run_cycle() -> None:
 
 
 if __name__ == "__main__":
-    asyncio.run(run_cycle())
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Worker autônomo Nexus-Alpha (gate de telemetria obrigatório).")
+    parser.add_argument(
+        "--allow-unverified-local",
+        action="store_true",
+        help="NÃO usar em produção: pula o gate de telemetria (apenas offline/local).",
+    )
+    _args = parser.parse_args()
+    if _args.allow_unverified_local:
+        logger.warning("Gate de telemetria PULADO (--allow-unverified-local). NÃO usar em produção.")
+    try:
+        asyncio.run(run_cycle(allow_unverified_local=_args.allow_unverified_local))
+    except TelemetryBlocked as exc:
+        logger.error("%s", exc)
+        raise SystemExit(1)
