@@ -2617,3 +2617,38 @@ DISPUTOU reavalia #055 (licença) ou fonte estática alternativa.
   (OSM via Nominatim/ODbL; Overpass instável nesta janela), `tests/test_audit_059e_atlases.py`.
 - Relatórios: `reports/disputou_participation_atlas_059e.json`, `reports/geo_localizado_osm_atlas_059e.json`,
   `reports/059e_dry_run_integrated.json`.
+
+## #048.10G — Controlled LOCALIZADO_EM via OSM/Nominatim
+
+**Status:** DONE (código + testes + CI; **worker NÃO executado**)
+**Space redeploy:** pendente do Operador (`reports/BLOCKED_048_10G_SPACE_REDEPLOY.md`)
+**DISPUTOU:** adiado — sem terceira fonte gratuita com full collision
+**GEO:** implementado/testado; pronto para worker futuro após redeploy
+
+### Candidatos GEO (full collision, atlas #059E)
+
+ALLIANZ PARQUE · MORUMBI · PACAEMBU · NEO QUÍMICA ARENA --LOCALIZADO_EM--> SÃO PAULO.
+
+### Módulos/camadas
+
+- `src/cognition/geo_extractor.py` — extração pura (OSM JSON + wiki) + `fetch_nominatim_json` seguro.
+- `config/security_policies.json` — allowlist `nominatim.openstreetmap.org` (ODbL) + família `OpenStreetMap`.
+- `config/seed_clusters.yaml` — 4 clusters GEO (pt + en + OSM/Nominatim).
+- `scripts/audit_geo_localization_dry_run.py` → `reports/geo_localization_dry_run_048_10G.json`.
+- `scripts/check_space_telemetry.py` — preflight anti-worker em Space stale.
+
+### Métricas projetadas (dry-run offline; aprovado)
+
+| Métrica | Antes | Projetado |
+|---|---:|---:|
+| verified_facts_domain_independent | 11 | 15 |
+| records_total | 11 | 15 |
+| unique_predicates | 2 | 3 |
+| non_VENCEU_ratio | 0.09 | 0.33 |
+| top_predicate_share | 0.91 | 0.67 |
+| publisher_family_count | 2 | 3 (OSM) |
+
+### Limitações
+
+- `top_predicate_share` ainda > 0.50; `records_total` < 50; treino continua **fechado**.
+- Worker não executado porque o Space está stale (source antigo).
