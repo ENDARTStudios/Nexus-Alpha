@@ -376,7 +376,11 @@ async def metrics() -> dict:
     return {
         "status": "online",
         "timestamp": int(time.time()),
+        # #052.3 metrics clarity: `facts` is kept for backward compatibility and
+        # currently carries the :Conceito count. Use `concept_count` / `fact_count`.
         "facts": snapshot["concepts"],
+        "concept_count": snapshot.get("concepts", 0),
+        "fact_count": snapshot.get("facts", 0),
         "verified_facts": snapshot["verified"],
         "vectors": vectors,
         "quarantine": quarantined,
@@ -426,6 +430,16 @@ async def metrics() -> dict:
             persisted_facts=snapshot.get("facts", 0),
             graph_distinct_fact_hashes=snapshot.get("distinct_fact_hashes", 0),
         ),
+        "metric_glossary": {
+            "facts": "legacy/compat: node count of :Conceito",
+            "concept_count": "node count of :Conceito",
+            "fact_count": "persisted node count of :Fato",
+            "verified_facts_domain_independent": "facts with >= quorum distinct domains",
+            "facts_with_multi_domain": "facts corroborated by >= 2 distinct domains",
+            "duplicate_cross_domain": "runtime ingest counter of cross-domain duplicates",
+            "run_scoped_gap": "run-scoped accounting gap (distinct_canonical_keys - new_facts_created)",
+            "graph_scoped_gap": "graph-total accounting gap (distinct_fact_hashes - persisted_facts)",
+        },
     }
 
 
