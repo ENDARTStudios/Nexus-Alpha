@@ -1,5 +1,10 @@
 # BLOCKED_052_4_SPACE_SYNC
 
+> **RESOLVIDO em #052.5** (`reports/SPACE_DEPLOY_052_5.md`): o Space foi redeployado via **upload
+> allowlisted** (`scripts/deploy_hf_space_safe.py --execute`), novo `sha=3aa1ad22…`, telemetria
+> **READY** (`ok=true`). Este documento permanece como registro do diagnóstico de divergência
+> (git push não é o caminho para o Space).
+
 ## Problema
 
 A tentativa automática de sincronizar o HF Space para o HEAD atual **não foi permitida**:

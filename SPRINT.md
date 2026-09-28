@@ -2770,3 +2770,26 @@ ARENA FONTE NOVA --LOCALIZADO_EM--> SALVADOR
 
 > Este ciclo **não executou worker**. **Não escreveu** em Neo4j/Qdrant. **Não treinou.**
 > **Não fez force-push.** **Não alterou quórum.**
+
+## #052.5 — Safe HF Space redeploy
+
+**Status:** DONE
+**Deploy automático tentado:** SIM (upload allowlisted; **não** git push)
+**Dry-run:** `DRY_RUN_OK` (79 arquivos, 499417 bytes, sem segredos)
+**Upload:** `UPLOAD_OK`
+**Build:** `RUNNING` (novo `sha=3aa1ad22…`, `lastModified=2026-09-28T22:30:33Z`)
+**Telemetria após deploy:** **READY** (`ok=true`) — `concept_count=1894`, `fact_count=335`,
+`run_scoped_gap=0`, `graph_scoped_gap=-335`, `unaccounted_raw=0`, `quorum=3`,
+`fallback_promoted_to_graph=0`, `top_invalid_predicates=[]`
+**Worker executado:** NÃO
+**Pronto para #048.10H:** **true**
+
+- Wrapper endurecido: `scripts/deploy_hf_space_safe.py` (dry-run padrão, scan anti-leak, manifest
+  path/size/sha256, `--execute` explícito; nunca imprime/embute token).
+- Venv isolado `.autonomous/deploy/deploy_venv` (`huggingface_hub==2.0.0`) — não instalado no `.venv` principal.
+- O repo do Space é **snapshot divergente**; deploy correto é **upload allowlisted**, não fast-forward git.
+
+> Este ciclo **não executou worker**. **Não escreveu** em Neo4j/Qdrant. **Não treinou.**
+> **Não fez force-push.** **Não alterou quórum.**
+> Próximo: **#048.10H real** (worker GEO lote atual), com snapshot/baseline/worker/post/audits e
+> `validate_geo_expected_facts`.

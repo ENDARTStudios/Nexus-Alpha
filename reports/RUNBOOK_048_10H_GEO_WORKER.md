@@ -4,9 +4,10 @@ Pré-requisitos e passos para o **worker incremental GEO** (#048.10H). **Não ex
 
 ## Pré-condições
 
-1. **Operador** faz upload/redeploy do HF Space para o commit `bdc9452` ou posterior
-   (não apenas restart — ver `reports/BLOCKED_048_10G_SPACE_REDEPLOY.md`).
-2. Validar `/api/metrics` com:
+1. **Operador/#052.5** restaurou a telemetria do Space (`SPACE_TELEMETRY_READY = true` —
+   ver `reports/SPACE_DEPLOY_052_5.md`). Se não, o worker permanece **bloqueado** pelo hard gate.
+2. **Operador** garante o upload/redeploy do HF Space para o commit atual do `main`.
+3. Validar `/api/metrics` com:
    - `concept_count` presente
    - `fact_count` presente
    - `ingestion_accounting.run_scoped_gap` presente
