@@ -59,6 +59,7 @@ def test_build_geo_payloads_with_fake_fetcher():
     payload = payloads[0]
     assert payload["source_url"] == NOMINATIM
     assert payload["extracted_entities"][0]["predicate"] == "LOCALIZADO_EM"
+    assert 0.0 <= payload["extracted_entities"][0]["confidence"] <= 1.0
     assert payload["metadata"]["license"] == "ODbL"
     assert payload["metadata"]["publisher_family"] == "OpenStreetMap"
     assert telemetry["geo_triples_canonical"] == 1

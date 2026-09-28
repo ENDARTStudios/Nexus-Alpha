@@ -156,6 +156,8 @@ def _build_geo_payloads(
             telemetry["rejection_reasons"][reason] = telemetry["rejection_reasons"].get(reason, 0) + count
         if triples:
             telemetry["geo_triples_canonical"] += len(triples)
+            # EntityItem do Space exige `confidence` (0..1); o extrator GEO nao o define.
+            entities = [{**t, "confidence": float(t.get("confidence", 0.9))} for t in triples]
             payloads.append(
                 {
                     "source_url": url,
@@ -170,7 +172,7 @@ def _build_geo_payloads(
                     },
                     "title": "GEO/OSM",
                     "content": "",
-                    "extracted_entities": triples,
+                    "extracted_entities": entities,
                 }
             )
     return payloads, telemetry
