@@ -2742,3 +2742,31 @@ ARENA FONTE NOVA --LOCALIZADO_EM--> SALVADOR
 > Este ciclo **não executou worker**. **Não escreveu** em Neo4j/Qdrant. **Não alterou seeds.**
 > **Não alterou runtime GEO.** **Não treinou.** O #048.10H real permanece dependente do redeploy do Space.
 > A expansão GEO futura depende deste atlas e de novo dry-run/runtime em **#048.10L**.
+
+## #052.4 — Safe HF Space source synchronization
+
+**Status:** BLOCKED (histórico divergente) + fallback local pronto
+**Space sync tentado:** SIM
+**Push permitido:** NÃO (`space/main` não é ancestral de `HEAD`)
+**Push executado:** NÃO
+**Build resultado:** N/A
+**Telemetria após sync:** ainda ausente
+**Worker executado:** NÃO
+**Pronto para #048.10H:** false (aguarda redeploy do Space pelo Operador)
+
+- Diagnóstico: Space `sha=85355c6d…` (`2026-09-25`), `private=true`, `stage=RUNNING`; git remoto
+  acessível; backup clonado (sha `85355c6d…`).
+- Causa: o repo do Space é **snapshot de deploy** com histórico próprio → sem fast-forward.
+  Caminho correto = `scripts/deploy_hf_space.py` (upload de subconjunto).
+- Classificação: **`BLOCKED_052_4_SPACE_HISTORY_DIVERGED`**.
+
+### Fallback local (executado)
+
+- Validador GEO **multi-lote** (`--expected-next`) com status por lote
+  (`PENDING_WORKER` / `FUTURE_BATCH_NOT_SEEDED` / `OK` / `FAIL`) e agregação.
+- Next batch dry-run offline: `reports/geo_next_batch_dry_run_052_4.json`
+  (`next_batch_full_collision_facts=5`, `junk=0`, `forbidden=0`, `eligible=true`).
+- Seeds **não** alteradas; runtime GEO **não** alterado; espaço **não** redeployado.
+
+> Este ciclo **não executou worker**. **Não escreveu** em Neo4j/Qdrant. **Não treinou.**
+> **Não fez force-push.** **Não alterou quórum.**

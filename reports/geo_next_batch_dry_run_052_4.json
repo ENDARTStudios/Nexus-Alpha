@@ -1,0 +1,14 @@
+{
+  "audit_id": "geo_next_batch_dry_run_052_4",
+  "generated_at": "2026-09-28T22:10:44.157315+00:00",
+  "offline": true,
+  "source_atlas": "reports\\geo_expansion_atlas_048_10k.json",
+  "source_registry": "reports\\geo_expected_facts_next_batch_048_10k.json",
+  "next_batch_expected_facts": 5,
+  "next_batch_full_collision_facts": 5,
+  "next_batch_junk_objects": 0,
+  "next_batch_forbidden_objects": 0,
+  "next_batch_predicted_new_verified": 5,
+  "next_batch_eligible_for_runtime": true,
+  "note": "Dry-run offline; o worker real depende do #048.10H e do Space no HEAD."
+}
