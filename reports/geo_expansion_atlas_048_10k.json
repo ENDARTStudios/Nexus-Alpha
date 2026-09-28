@@ -1,0 +1,405 @@
+{
+  "audit_id": "geo_expansion_atlas_048_10k",
+  "generated_at": "2026-09-28T21:55:14.561420+00:00",
+  "policy": {
+    "family": "stadium_located_in_city",
+    "predicate": "LOCALIZADO_EM",
+    "allowed_cities": [
+      "RIO DE JANEIRO",
+      "SANTOS",
+      "SÃO PAULO",
+      "PORTO ALEGRE",
+      "BELO HORIZONTE",
+      "FORTALEZA",
+      "CURITIBA",
+      "BRASÍLIA",
+      "CUIABÁ",
+      "MACEIÓ",
+      "NATAL",
+      "SALVADOR"
+    ],
+    "candidate_stadiums": [
+      "ESTÁDIO OLÍMPICO NILTON SANTOS",
+      "MARACANÃ",
+      "VILA BELMIRO",
+      "BEIRA-RIO",
+      "ARENA DO GRÊMIO",
+      "MINEIRÃO",
+      "CASTELÃO",
+      "ARENA DA BAIXADA",
+      "MANÉ GARRINCHA",
+      "ARENA FONTE NOVA"
+    ],
+    "required_domains": [
+      "pt.wikipedia.org",
+      "en.wikipedia.org",
+      "nominatim.openstreetmap.org"
+    ],
+    "forbidden_objects": [
+      "NEIGHBORHOOD",
+      "DISTRICT",
+      "ADDRESS",
+      "COUNTRY",
+      "STATE_AS_CITY",
+      "COORDINATE",
+      "CLAUSE",
+      "GENERIC",
+      "POSTCODE"
+    ],
+    "network_budget": {
+      "max_requests_total": 80,
+      "max_requests_per_domain": 12,
+      "timeout_seconds": 15,
+      "delay_between_requests_seconds": 2,
+      "nominatim_max_rps": 1
+    },
+    "osm_attribution": "(c) OpenStreetMap contributors",
+    "osm_license": "ODbL",
+    "requests_used": 30
+  },
+  "candidates": [
+    {
+      "stadium": "ESTÁDIO OLÍMPICO NILTON SANTOS",
+      "city_target": "RIO DE JANEIRO",
+      "wiki_sources": {
+        "pt": "RIO DE JANEIRO",
+        "en": "RIO DE JANEIRO"
+      },
+      "osm": {
+        "resolved_city": "RIO DE JANEIRO",
+        "city_tag_key": "address.city"
+      },
+      "predicted_fact": "ESTÁDIO OLÍMPICO NILTON SANTOS --LOCALIZADO_EM--> RIO DE JANEIRO",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 3,
+      "predicted_publishers": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_publisher_families": [
+        "OpenStreetMap",
+        "Wikimedia"
+      ],
+      "predicted_effective_publisher_count": 2,
+      "collision_status": "full_collision",
+      "eligible_for_runtime": true,
+      "rejection_reasons": {},
+      "blocking_reason": null
+    },
+    {
+      "stadium": "MARACANÃ",
+      "city_target": "RIO DE JANEIRO",
+      "wiki_sources": {
+        "pt": "RIO DE JANEIRO",
+        "en": "RIO DE JANEIRO"
+      },
+      "osm": {
+        "resolved_city": "RIO DE JANEIRO",
+        "city_tag_key": "address.city"
+      },
+      "predicted_fact": "MARACANÃ --LOCALIZADO_EM--> RIO DE JANEIRO",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 3,
+      "predicted_publishers": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_publisher_families": [
+        "OpenStreetMap",
+        "Wikimedia"
+      ],
+      "predicted_effective_publisher_count": 2,
+      "collision_status": "full_collision",
+      "eligible_for_runtime": true,
+      "rejection_reasons": {},
+      "blocking_reason": null
+    },
+    {
+      "stadium": "VILA BELMIRO",
+      "city_target": "SANTOS",
+      "wiki_sources": {
+        "pt": "SANTOS",
+        "en": "SÃO PAULO"
+      },
+      "osm": {
+        "resolved_city": "SANTOS",
+        "city_tag_key": "address.city"
+      },
+      "predicted_fact": "VILA BELMIRO --LOCALIZADO_EM--> SANTOS",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 3,
+      "predicted_publishers": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_publisher_families": [
+        "OpenStreetMap",
+        "Wikimedia"
+      ],
+      "predicted_effective_publisher_count": 2,
+      "collision_status": "no_collision",
+      "eligible_for_runtime": false,
+      "rejection_reasons": {},
+      "blocking_reason": "insufficient_independent_domains"
+    },
+    {
+      "stadium": "BEIRA-RIO",
+      "city_target": "PORTO ALEGRE",
+      "wiki_sources": {
+        "pt": "PORTO ALEGRE",
+        "en": "PORTO ALEGRE"
+      },
+      "osm": {
+        "resolved_city": "PORTO ALEGRE",
+        "city_tag_key": "address.city"
+      },
+      "predicted_fact": "BEIRA-RIO --LOCALIZADO_EM--> PORTO ALEGRE",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 3,
+      "predicted_publishers": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_publisher_families": [
+        "OpenStreetMap",
+        "Wikimedia"
+      ],
+      "predicted_effective_publisher_count": 2,
+      "collision_status": "full_collision",
+      "eligible_for_runtime": true,
+      "rejection_reasons": {},
+      "blocking_reason": null
+    },
+    {
+      "stadium": "ARENA DO GRÊMIO",
+      "city_target": "PORTO ALEGRE",
+      "wiki_sources": {
+        "pt": null,
+        "en": "PORTO ALEGRE"
+      },
+      "osm": {
+        "resolved_city": "PORTO ALEGRE",
+        "city_tag_key": "address.city"
+      },
+      "predicted_fact": "ARENA DO GRÊMIO --LOCALIZADO_EM--> PORTO ALEGRE",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org"
+      ],
+      "predicted_domain_count": 2,
+      "predicted_publishers": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org"
+      ],
+      "predicted_publisher_families": [
+        "OpenStreetMap",
+        "Wikimedia"
+      ],
+      "predicted_effective_publisher_count": 2,
+      "collision_status": "partial_collision",
+      "eligible_for_runtime": false,
+      "rejection_reasons": {
+        "wiki_pt_no_clean_city": 1
+      },
+      "blocking_reason": "insufficient_independent_domains"
+    },
+    {
+      "stadium": "MINEIRÃO",
+      "city_target": "BELO HORIZONTE",
+      "wiki_sources": {
+        "pt": "BELO HORIZONTE",
+        "en": "BELO HORIZONTE"
+      },
+      "osm": {
+        "resolved_city": "BELO HORIZONTE",
+        "city_tag_key": "address.city"
+      },
+      "predicted_fact": "MINEIRÃO --LOCALIZADO_EM--> BELO HORIZONTE",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 3,
+      "predicted_publishers": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_publisher_families": [
+        "OpenStreetMap",
+        "Wikimedia"
+      ],
+      "predicted_effective_publisher_count": 2,
+      "collision_status": "full_collision",
+      "eligible_for_runtime": true,
+      "rejection_reasons": {},
+      "blocking_reason": null
+    },
+    {
+      "stadium": "CASTELÃO",
+      "city_target": "FORTALEZA",
+      "wiki_sources": {
+        "pt": "FORTALEZA",
+        "en": null
+      },
+      "osm": {
+        "resolved_city": "FORTALEZA",
+        "city_tag_key": "address.municipality"
+      },
+      "predicted_fact": "CASTELÃO --LOCALIZADO_EM--> FORTALEZA",
+      "predicted_domains": [
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 2,
+      "predicted_publishers": [
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_publisher_families": [
+        "OpenStreetMap",
+        "Wikimedia"
+      ],
+      "predicted_effective_publisher_count": 2,
+      "collision_status": "partial_collision",
+      "eligible_for_runtime": false,
+      "rejection_reasons": {},
+      "blocking_reason": "insufficient_independent_domains"
+    },
+    {
+      "stadium": "ARENA DA BAIXADA",
+      "city_target": "CURITIBA",
+      "wiki_sources": {
+        "pt": "CURITIBA",
+        "en": "CURITIBA"
+      },
+      "osm": {
+        "resolved_city": null,
+        "city_tag_key": null
+      },
+      "predicted_fact": "ARENA DA BAIXADA --LOCALIZADO_EM--> CURITIBA",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 2,
+      "predicted_publishers": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_publisher_families": [
+        "Wikimedia"
+      ],
+      "predicted_effective_publisher_count": 1,
+      "collision_status": "partial_collision",
+      "eligible_for_runtime": false,
+      "rejection_reasons": {},
+      "blocking_reason": "insufficient_independent_domains"
+    },
+    {
+      "stadium": "MANÉ GARRINCHA",
+      "city_target": "BRASÍLIA",
+      "wiki_sources": {
+        "pt": "BRASÍLIA",
+        "en": "BRASÍLIA"
+      },
+      "osm": {
+        "resolved_city": null,
+        "city_tag_key": null
+      },
+      "predicted_fact": "MANÉ GARRINCHA --LOCALIZADO_EM--> BRASÍLIA",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 2,
+      "predicted_publishers": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_publisher_families": [
+        "Wikimedia"
+      ],
+      "predicted_effective_publisher_count": 1,
+      "collision_status": "partial_collision",
+      "eligible_for_runtime": false,
+      "rejection_reasons": {},
+      "blocking_reason": "insufficient_independent_domains"
+    },
+    {
+      "stadium": "ARENA FONTE NOVA",
+      "city_target": "SALVADOR",
+      "wiki_sources": {
+        "pt": "SALVADOR",
+        "en": "SALVADOR"
+      },
+      "osm": {
+        "resolved_city": "SALVADOR",
+        "city_tag_key": "address.city"
+      },
+      "predicted_fact": "ARENA FONTE NOVA --LOCALIZADO_EM--> SALVADOR",
+      "predicted_domains": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_domain_count": 3,
+      "predicted_publishers": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "predicted_publisher_families": [
+        "OpenStreetMap",
+        "Wikimedia"
+      ],
+      "predicted_effective_publisher_count": 2,
+      "collision_status": "full_collision",
+      "eligible_for_runtime": true,
+      "rejection_reasons": {},
+      "blocking_reason": null
+    }
+  ],
+  "summary": {
+    "stadiums_evaluated": 10,
+    "wiki_pages_accessible": 19,
+    "osm_queries_successful": 10,
+    "osm_city_evidence_found": 8,
+    "full_collision_facts": 5,
+    "partial_collision_facts": 4,
+    "junk_objects_detected": 0,
+    "forbidden_objects_detected": 0,
+    "ambiguous_stadium_matches": 0,
+    "state_city_ambiguous": 0,
+    "neighborhood_as_city": 0,
+    "address_as_city": 0,
+    "country_as_city": 0,
+    "coordinate_as_city": 0,
+    "clause_objects": 0,
+    "generic_objects": 0,
+    "predicted_new_verified_if_runtime_implemented": 5,
+    "eligible_for_runtime_next_batch": true,
+    "recommended_next_step": "#048.10L — runtime/seeds GEO do next batch (apos #048.10H real e Space no HEAD)."
+  }
+}

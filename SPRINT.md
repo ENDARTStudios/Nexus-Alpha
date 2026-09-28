@@ -2715,3 +2715,30 @@ ALLIANZ PARQUE · MORUMBI · PACAEMBU · NEO QUÍMICA ARENA --LOCALIZADO_EM--> S
 > Este ciclo **não executou worker**. **Não escreveu** em Neo4j/Qdrant. **Não treinou.**
 > O worker agora **se recusa a abrir a porta sozinho** em Space stale. O #048.10H real permanece
 > dependente do redeploy do Space pelo Operador.
+
+## #048.10K — GEO expansion read-only atlas
+
+**Status:** DONE
+**Space preflight:** STALE (worker não executado)
+**Novos full_collision GEO candidatos:** 5
+**Next batch registry:** `reports/geo_expected_facts_next_batch_048_10k.json`
+**Pronto para #048.10L:** true (após #048.10H real)
+
+Lote candidato (atlas #048.10K; pt+en+Nominatim/ODbL):
+
+```text
+ESTÁDIO OLÍMPICO NILTON SANTOS --LOCALIZADO_EM--> RIO DE JANEIRO
+MARACANÃ --LOCALIZADO_EM--> RIO DE JANEIRO
+BEIRA-RIO --LOCALIZADO_EM--> PORTO ALEGRE
+MINEIRÃO --LOCALIZADO_EM--> BELO HORIZONTE
+ARENA FONTE NOVA --LOCALIZADO_EM--> SALVADOR
+```
+
+- Script read-only: `scripts/audit_geo_expansion_atlas_048_10k.py` → `reports/geo_expansion_atlas_048_10k.json`
+  (10 estádios; 30 requests ≤ orçamento 80; `junk=0`; `forbidden=0`; `ambiguous=0`).
+- Runbook: `reports/RUNBOOK_048_10L_GEO_EXPANSION.md`.
+- `pytest = 578 passed, 39 skipped`.
+
+> Este ciclo **não executou worker**. **Não escreveu** em Neo4j/Qdrant. **Não alterou seeds.**
+> **Não alterou runtime GEO.** **Não treinou.** O #048.10H real permanece dependente do redeploy do Space.
+> A expansão GEO futura depende deste atlas e de novo dry-run/runtime em **#048.10L**.

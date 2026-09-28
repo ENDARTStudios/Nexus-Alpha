@@ -1,0 +1,87 @@
+{
+  "audit_id": "geo_expected_facts_next_batch_048_10k",
+  "generated_at": "2026-09-28T21:56:19.650033+00:00",
+  "batch": "next",
+  "expected_facts": [
+    {
+      "fact": "ESTÁDIO OLÍMPICO NILTON SANTOS --LOCALIZADO_EM--> RIO DE JANEIRO",
+      "subject": "ESTÁDIO OLÍMPICO NILTON SANTOS",
+      "predicate": "LOCALIZADO_EM",
+      "object": "RIO DE JANEIRO",
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org"
+      ],
+      "min_domain_count": 3,
+      "must_be_verified": true
+    },
+    {
+      "fact": "MARACANÃ --LOCALIZADO_EM--> RIO DE JANEIRO",
+      "subject": "MARACANÃ",
+      "predicate": "LOCALIZADO_EM",
+      "object": "RIO DE JANEIRO",
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org"
+      ],
+      "min_domain_count": 3,
+      "must_be_verified": true
+    },
+    {
+      "fact": "BEIRA-RIO --LOCALIZADO_EM--> PORTO ALEGRE",
+      "subject": "BEIRA-RIO",
+      "predicate": "LOCALIZADO_EM",
+      "object": "PORTO ALEGRE",
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org"
+      ],
+      "min_domain_count": 3,
+      "must_be_verified": true
+    },
+    {
+      "fact": "MINEIRÃO --LOCALIZADO_EM--> BELO HORIZONTE",
+      "subject": "MINEIRÃO",
+      "predicate": "LOCALIZADO_EM",
+      "object": "BELO HORIZONTE",
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org"
+      ],
+      "min_domain_count": 3,
+      "must_be_verified": true
+    },
+    {
+      "fact": "ARENA FONTE NOVA --LOCALIZADO_EM--> SALVADOR",
+      "subject": "ARENA FONTE NOVA",
+      "predicate": "LOCALIZADO_EM",
+      "object": "SALVADOR",
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org"
+      ],
+      "min_domain_count": 3,
+      "must_be_verified": true
+    }
+  ],
+  "forbidden_objects": [
+    "NEIGHBORHOOD",
+    "ADDRESS",
+    "COUNTRY",
+    "STATE_AS_CITY",
+    "COORDINATE",
+    "CLAUSE",
+    "GENERIC"
+  ],
+  "forbidden_predicates": [
+    "SER",
+    "RESULTS",
+    "DESCREVER",
+    "REPRESENTAR"
+  ]
+}
