@@ -220,3 +220,36 @@ def test_pele_santos_third_source_defendeu():
     rsssf = next(s for s in cluster["sources"] if s["domain"] == "rsssfbrasil.com")
     assert rsssf["url"].startswith("https://")
     assert rsssf["publisher"] == "RSSSF Brasil"
+
+
+GEO_CLUSTERS = (
+    "allianz_parque_localization",
+    "morumbi_localization",
+    "pacaembu_localization",
+    "neo_quimica_arena_localization",
+)
+
+
+def test_geo_localization_clusters_present_and_valid():
+    """#048.10G — clusters GEO com OSM/Nominatim como terceira família independente."""
+    by_id = {c["id"]: c for c in _data()["clusters"]}
+    for cid in GEO_CLUSTERS:
+        assert cid in by_id, f"cluster GEO ausente: {cid}"
+        cluster = by_id[cid]
+        assert cluster.get("expected_predicate") == "LOCALIZADO_EM", cid
+        domains = {s["domain"] for s in cluster["sources"]}
+        publishers = {s["publisher"] for s in cluster["sources"]}
+        assert len(domains) >= 3, cid
+        assert "nominatim.openstreetmap.org" in domains, cid
+        assert "OpenStreetMap" in publishers, cid
+        assert len(publishers) >= 2, cid
+        nominatim = next(s for s in cluster["sources"] if s["domain"] == "nominatim.openstreetmap.org")
+        assert "format=json" in nominatim["url"], cid
+        assert "addressdetails=1" in nominatim["url"], cid
+
+
+def test_openstreetmap_not_treated_as_wikimedia():
+    """OSM é família editorial independente; não conta como Wikimedia."""
+    from src.miner.seed_loader import _is_wikipedia
+
+    assert not _is_wikipedia("OpenStreetMap")

@@ -249,3 +249,73 @@ clusters:
         domain: rsssf.org
         publisher: RSSSF
         productivity: productive  # #048.9: winners-list (Internacional 2006/2010)
+
+  # #048.10G — GEO: ESTÁDIO --LOCALIZADO_EM--> CIDADE via OSM/Nominatim (3ª família).
+  # Fontes validadas no atlas #059E (full collision: pt + en + OSM/Nominatim, ODbL).
+  - id: allianz_parque_localization
+    topic: "Allianz Parque — localização (São Paulo)"
+    expected_predicate: LOCALIZADO_EM
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Allianz_Parque
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #059E full collision
+      - url: https://en.wikipedia.org/wiki/Allianz_Parque
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #059E full collision
+      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Allianz%20Parque
+        domain: nominatim.openstreetmap.org
+        publisher: OpenStreetMap
+        productivity: productive  # #059E: addr:city=São Paulo (ODbL)
+
+  - id: morumbi_localization
+    topic: "Morumbi — localização (São Paulo)"
+    expected_predicate: LOCALIZADO_EM
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_do_Morumbi
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #059E full collision
+      - url: https://en.wikipedia.org/wiki/Morumbi_Stadium
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #059E full collision
+      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20do%20Morumbi
+        domain: nominatim.openstreetmap.org
+        publisher: OpenStreetMap
+        productivity: productive  # #059E: addr:city=São Paulo (ODbL)
+
+  - id: pacaembu_localization
+    topic: "Pacaembu — localização (São Paulo)"
+    expected_predicate: LOCALIZADO_EM
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_do_Pacaembu
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #059E full collision
+      - url: https://en.wikipedia.org/wiki/Pacaembu_Stadium
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #059E full collision
+      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20do%20Pacaembu
+        domain: nominatim.openstreetmap.org
+        publisher: OpenStreetMap
+        productivity: productive  # #059E: addr:city=São Paulo (ODbL)
+
+  - id: neo_quimica_arena_localization
+    topic: "Neo Química Arena — localização (São Paulo)"
+    expected_predicate: LOCALIZADO_EM
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Neo_Qu%C3%ADmica_Arena
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #059E full collision
+      - url: https://en.wikipedia.org/wiki/Neo_Qu%C3%ADmica_Arena
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #059E full collision
+      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Neo%20Quimica%20Arena
+        domain: nominatim.openstreetmap.org
+        publisher: OpenStreetMap
+        productivity: productive  # #059E: addr:city=São Paulo (ODbL)

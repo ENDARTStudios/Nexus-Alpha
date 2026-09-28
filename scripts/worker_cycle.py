@@ -79,7 +79,8 @@ def _to_urls(queries: list[str]) -> list[str]:
 # #048.6 batch 3: teto de mineração do RAG. O top_k trunca a cauda de
 # target_urls SILENCIOSAMENTE (foi assim que as RSSSF caíram no run
 # 36333813255); manter >= total de seeds+clusters curados.
-WORKER_TOP_K = 60
+# #048.10G: +4 clusters GEO (12 URLs) — ajustado 60 -> 64.
+WORKER_TOP_K = 64
 
 
 def _merge_urls(base_urls: list[str], cluster_urls: list[str]) -> list[str]:
