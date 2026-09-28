@@ -65,6 +65,24 @@ def _publisher_for(domain: str) -> str:
     return d or "unknown"
 
 
+# #053.1 — publisher FAMILY (telemetria read-only; NÃO altera a métrica de
+# verificação). rsssf.org e rsssfbrasil.com são provavelmente a mesma família
+# editorial; múltiplos idiomas Wikipedia = 1 família (Wikimedia).
+_PUBLISHER_FAMILY = {
+    "rsssf.org": "RSSSF",
+    "rsssfbrasil.com": "RSSSF",
+}
+
+
+def _publisher_family(domain: str) -> str:
+    d = (domain or "").lower()
+    if "wikipedia.org" in d or "wikimedia.org" in d or "wikidata.org" in d:
+        return "Wikimedia"
+    if d in _PUBLISHER_FAMILY:
+        return _PUBLISHER_FAMILY[d]
+    return d or "unknown"
+
+
 async def _load_facts(limit: int) -> list[dict]:
     from src.database.graph_connector import GraphConnector
 
@@ -154,6 +172,7 @@ def main() -> None:
     objects = collections.Counter()
     domains = collections.Counter()
     publishers = collections.Counter()
+    publisher_families = collections.Counter()
     fact_hashes = set()
     dup_keys: collections.Counter = collections.Counter()
     with_provenance = 0
@@ -173,6 +192,7 @@ def main() -> None:
         for d in dlist:
             domains[d] += 1
             publishers[_publisher_for(d)] += 1
+            publisher_families[_publisher_family(d)] += 1
         fh = str(f.get("fact_hash") or "").strip()
         if fh:
             fact_hashes.add(fh)
@@ -284,11 +304,13 @@ def main() -> None:
         "unique_objects": len(objects),
         "unique_domains": len(domains),
         "unique_publishers": len(publishers),
+        "unique_publisher_families": len(publisher_families),
         "predicate_distribution": dict(predicates),
         "object_distribution": dict(objects),
         "subject_distribution": dict(subjects),
         "domain_distribution": dict(domains),
         "publisher_distribution": dict(publishers),
+        "publisher_family_distribution": dict(publisher_families),
         "source_type_distribution": {"table": total},
         "language_distribution": {"mixed_pt_en": total},
         "avg_instruction_chars": char_stats["avg_instruction_chars"],
@@ -306,9 +328,15 @@ def main() -> None:
         },
         "publisher_independence": {
             "unique_publishers": len(publishers),
+            "unique_publisher_families": len(publisher_families),
+            "effective_publisher_count": len(publisher_families),
+            "publisher_family_distribution": dict(publisher_families),
             "records_with_publisher_count_ge_3": records_ge3,
             "ratio_records_with_publisher_count_ge_3": ratio_ge3,
             "publisher_independence_ok": publisher_ok,
+            "publisher_family_independence_ok": len(publisher_families) >= 3,
+            "note": "#053.1 telemetria: rsssf.org/rsssfbrasil.com contam como 1 família (RSSSF);"
+                    " métrica de verificação (domínios) inalterada.",
         },
         "records_gate_passed": records_gate,
         "blocking_reasons": blocking,
@@ -343,6 +371,8 @@ def main() -> None:
             "details": env,
         },
         "dataset_summary_path": args.out_summary,
+        "unique_publisher_families": len(publisher_families),
+        "publisher_family_distribution": dict(publisher_families),
         "training_recommended": False,
         "training_allowed": False,
         "blocking_reasons": blocking,

@@ -21,6 +21,15 @@ def test_publisher_mapping():
     assert etg._publisher_for("gazetadoparana.com.br") == "gazetadoparana.com.br"
 
 
+def test_publisher_family_collapses_rsssf_and_wikimedia():
+    # #053.1 — telemetria de família editorial (não altera a métrica de domínios).
+    assert etg._publisher_family("rsssf.org") == "RSSSF"
+    assert etg._publisher_family("rsssfbrasil.com") == "RSSSF"
+    assert etg._publisher_family("pt.wikipedia.org") == "Wikimedia"
+    assert etg._publisher_family("es.wikipedia.org") == "Wikimedia"
+    assert etg._publisher_family("cbf.com.br") == "cbf.com.br"
+
+
 def test_validate_jsonl_detects_invalid_and_secrets(tmp_path):
     p = tmp_path / "d.jsonl"
     p.write_text(
