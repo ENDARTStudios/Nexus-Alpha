@@ -2652,3 +2652,22 @@ ALLIANZ PARQUE · MORUMBI · PACAEMBU · NEO QUÍMICA ARENA --LOCALIZADO_EM--> S
 
 - `top_predicate_share` ainda > 0.50; `records_total` < 50; treino continua **fechado**.
 - Worker não executado porque o Space está stale (source antigo).
+
+## #048.10G.1 — Caminho seguro de ingestão GEO no worker
+
+**Status:** DONE (código + testes + CI; **worker NÃO executado**)
+**Space redeploy:** pendente do Operador (`reports/RUNBOOK_048_10H_GEO_WORKER.md`)
+**Arquitetura escolhida:** **caminho isolado no worker** (Nominatim JSON → `geo_extractor`),
+**sem alterar `web_miner.py`**.
+**Dry-run GEO worker:** 4 triplas previstas; gate **aprovado**.
+**Pronto para #048.10H:** true (após redeploy do Space).
+
+- `scripts/worker_cycle.py`: separa URLs Nominatim (`_split_geo_urls`) do pipeline HTML e injeta os
+  payloads GEO (`_build_geo_payloads`) no mesmo refine/ingest — sem bypass de validação.
+- `WORKER_TOP_K` agora é **seed-aware**: `max(64, len(SEED_QUERIES) + active_seed_urls + 10)`
+  (atual: **74**; `active_seed_urls=39`; `truncation_risk=false`).
+- Dry-run: `scripts/audit_geo_worker_dry_run.py` → `reports/geo_worker_dry_run_048_10G_1.json`.
+- Classificação: `SUCCESS_048_10G_1_WORKER_PATH_READY_SPACE_STALE`.
+
+> Este ciclo **não executou worker**. **Não escreveu** em Neo4j/Qdrant. **Não treinou.**
+> Aguarda redeploy do Space para o #048.10H.
