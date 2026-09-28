@@ -1,0 +1,156 @@
+{
+  "audit_id": "broad_third_family_atlas_059d",
+  "generated_at": "2026-09-28T00:48:52.559861+00:00",
+  "read_only": true,
+  "policy": {
+    "max_requests_total": 80,
+    "max_requests_per_domain": 12,
+    "timeout_seconds": 15,
+    "forbidden_as_independent": [
+      "Wikimedia",
+      "WaybackMirror",
+      "AlmanaqueWithoutLicense"
+    ]
+  },
+  "breadcrumbs": {
+    "botafogo_rsssf_brasil_url": "http://www.rsssfbrasil.com/sel/jogclub.htm",
+    "santos_rsssf_brasil_url": null,
+    "note": "A citação 'RSSSF Brasil' na página EN Botafogo é 'Jogadores cedidos por clube' -> jogclub.htm (já explorado)."
+  },
+  "candidates": [
+    {
+      "url": "http://www.rsssfbrasil.com/sel/jogclub.htm",
+      "publisher": "RSSSF Brasil",
+      "source_type": "rsssf_club_records",
+      "http_status": 200,
+      "blocked_reason": null,
+      "cleaned_text_length": 0,
+      "defendeu_target_fact_hits": 2,
+      "disputou_target_fact_hits": 0,
+      "matched_facts": []
+    },
+    {
+      "url": "https://www.rsssfbrasil.com/historical.htm",
+      "publisher": "RSSSF Brasil",
+      "source_type": "rsssf_club_records",
+      "http_status": 200,
+      "blocked_reason": null,
+      "cleaned_text_length": 21582,
+      "defendeu_target_fact_hits": 0,
+      "disputou_target_fact_hits": 0,
+      "matched_facts": []
+    },
+    {
+      "url": "https://www.rsssfbrasil.com/national.htm",
+      "publisher": "RSSSF Brasil",
+      "source_type": "season_table",
+      "http_status": 200,
+      "blocked_reason": null,
+      "cleaned_text_length": 2250,
+      "defendeu_target_fact_hits": 0,
+      "disputou_target_fact_hits": 0,
+      "matched_facts": []
+    },
+    {
+      "url": "https://www.rsssf.org/tablesb/brazchamp.html",
+      "publisher": "RSSSF",
+      "source_type": "season_table",
+      "http_status": 200,
+      "blocked_reason": null,
+      "cleaned_text_length": 11247,
+      "defendeu_target_fact_hits": 0,
+      "disputou_target_fact_hits": 0,
+      "matched_facts": []
+    },
+    {
+      "url": "https://www.rsssf.org/tablesb/brabra.html",
+      "publisher": "RSSSF",
+      "source_type": "season_table",
+      "http_status": 404,
+      "blocked_reason": "http_404",
+      "cleaned_text_length": 0,
+      "defendeu_target_fact_hits": 0,
+      "disputou_target_fact_hits": 0,
+      "matched_facts": []
+    },
+    {
+      "url": "https://www.worldfootball.net/teams/botafogo-fr/1/",
+      "publisher": "WorldFootball",
+      "source_type": "worldfootball",
+      "http_status": 403,
+      "blocked_reason": "blocked_network",
+      "cleaned_text_length": 0,
+      "defendeu_target_fact_hits": 0,
+      "disputou_target_fact_hits": 0,
+      "matched_facts": []
+    },
+    {
+      "url": "https://www.worldfootball.net/teams/santos-fc/1/",
+      "publisher": "WorldFootball",
+      "source_type": "worldfootball",
+      "http_status": 403,
+      "blocked_reason": "blocked_network",
+      "cleaned_text_length": 0,
+      "defendeu_target_fact_hits": 0,
+      "disputou_target_fact_hits": 0,
+      "matched_facts": []
+    },
+    {
+      "url": "https://www.national-football-teams.com/player/19039/Garrincha.html",
+      "publisher": "NationalFootballTeams",
+      "source_type": "national_teams",
+      "http_status": 200,
+      "blocked_reason": null,
+      "cleaned_text_length": 5354,
+      "defendeu_target_fact_hits": 0,
+      "disputou_target_fact_hits": 0,
+      "matched_facts": []
+    },
+    {
+      "url": "https://fbref.com/en/squads/",
+      "publisher": "FBref",
+      "source_type": "fbref",
+      "http_status": 403,
+      "blocked_reason": "blocked_network",
+      "cleaned_text_length": 0,
+      "defendeu_target_fact_hits": 0,
+      "disputou_target_fact_hits": 0,
+      "matched_facts": []
+    }
+  ],
+  "facts": [
+    {
+      "fact": "EDSON ARANTES DO NASCIMENTO --DEFENDEU--> SANTOS FUTEBOL CLUBE",
+      "predicate": "DEFENDEU",
+      "third_party_publishers": [
+        "RSSSF Brasil"
+      ],
+      "predicted_domain_count": 3,
+      "eligible_for_runtime": false,
+      "blocking_reason": "wiki pt/en dão só 2 domínios; 3º depende de fonte não-Wikimedia"
+    },
+    {
+      "fact": "JAIRZINHO --DEFENDEU--> BOTAFOGO DE FUTEBOL E REGATAS",
+      "predicate": "DEFENDEU",
+      "third_party_publishers": [
+        "RSSSF Brasil"
+      ],
+      "predicted_domain_count": 3,
+      "eligible_for_runtime": false,
+      "blocking_reason": "wiki pt/en dão só 2 domínios; 3º depende de fonte não-Wikimedia"
+    }
+  ],
+  "disputou_predicate_controlled": true,
+  "summary": {
+    "urls_tested": 9,
+    "accessible_urls": 5,
+    "third_family_eligible_sources": 0,
+    "rsssf_club_pages_found": 1,
+    "defendeu_full_collision_facts": 0,
+    "defendeu_partial_collision_facts": 2,
+    "disputou_full_collision_facts": 0,
+    "predicted_new_verified": 0,
+    "eligible_for_runtime": false,
+    "recommended_next_step": "BLOCKED_059D_INSUFFICIENT_SCALE"
+  }
+}

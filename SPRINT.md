@@ -2487,3 +2487,34 @@ Atlas `reports/third_predicate_family_atlas_048_10D.json` → `eligible_families
 
 ### Próximo passo
 **#059D** (fontes estáticas independentes amplas p/ player-club) + **#048.10E** (3ª família segura) + **#055** (licença). Treino fechado; quórum 3.
+
+## #059D + #048.10E — Broad third-family atlas e escala condicional DEFENDEU/DISPUTOU
+
+**Status:** BLOCKED (read-only; **Cenário C**) — **Commits:** este (atlas + docs) — **CI:** verde — **Worker:** NÃO executado (`predicted_new_verified = 0`).
+
+### Descobertas
+- **Breadcrumb EN Botafogo → `rsssfbrasil.com/sel/jogclub.htm`** (o mesmo já explorado); não há página RSSSF Brasil dedicada ao Botafogo.
+- Fontes externas: **worldfootball.net 403**, **fbref 403** (bot protection); `national-football-teams.com` 200 mas 0 player-club.
+- **DISPUTOU é predicado controlado**, mas narrativa wiki produz junk (`jogo de abertura`/`amistoso`); `brazchamp.html` lista campeões (não participantes) → sem colisão limpa.
+
+### Atlas `reports/broad_third_family_atlas_059d.json`
+`predicted_new_verified = 0`; `defendeu_partial_collision_facts = 2` (Pelé/Jairzinho, já conhecidos); `third_family_eligible_sources = 0`.
+
+### Métricas (inalteradas)
+| Métrica | Antes | Depois | Delta |
+|---|---:|---:|---:|
+| verified_facts_domain_independent | 11 | 11 | 0 |
+| records_total | 11 | 11 | 0 |
+| unique_predicates | 2 | 2 | 0 |
+| non_VENCEU_ratio | 0.09 | 0.09 | 0 |
+| publisher_family_count | 2 | 2 | 0 |
+| player_club_canonical_triples | 2 | 2 | 0 |
+
+### Classificação
+**Cenário C — records insuficientes.** `predicted_new_verified = 0` (< 3); nenhuma fonte de terceira família acessível por HTML estático; DISPUTOU sem colisão limpa.
+
+### Limitação editorial
+Terceira família editorial (worldfootball/fbref) bloqueada por bot protection → permanece Wikimedia + RSSSF (`publisher_family_count = 2`, WARNING #053.1).
+
+### Próximo passo
+**#048.10F/#059E** (fonte estática acessível para 3ª família) ou **#055** (Almanaque com licença). Não treinar; quórum 3.
