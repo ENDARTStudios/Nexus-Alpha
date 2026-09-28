@@ -2563,3 +2563,40 @@ futura do Operador.
 - **Classificação: `RECONCILED_BENIGN_METRIC_DEFINITION`.** Próximo passo: redeploy do Space (após confirmar HEAD) para
   restaurar telemetria. Nenhum worker executado; nenhuma seed alterada; nenhum treino; invarianties preservadas.
 - Referência: `reports/RECONCILIATION_059E_METRICS_JUMP.md`.
+
+## #052.3 — Clareza métrica e restauração de telemetria
+
+### Problema
+
+O campo legado `facts` no `/api/metrics` representava contagem de `:Conceito`, não de `:Fato`.
+Isso causou leitura ambígua de `facts=1894` como se fossem 1894 fatos (o `:Fato` real era 335).
+
+### Correção
+
+- `facts` foi mantido para compatibilidade.
+- `concept_count` passou a representar explicitamente `:Conceito`.
+- `fact_count` passou a representar explicitamente `:Fato`/`persisted_facts`.
+- `metric_glossary` foi adicionado ao payload.
+- `run_scoped_gap` e `graph_scoped_gap` já existem no código (`_ingest_accounting.snapshot()`); a ausência
+  no payload é **build antigo do Space** (anterior ao #052.2) — requer redeploy (runbook
+  `reports/BLOCKED_052_3_SPACE_REDEPLOY.md`).
+
+### Glossário
+
+| Campo | Significado |
+|---|---|
+| facts | legado; para compatibilidade representa contagem de `:Conceito` |
+| concept_count | contagem de nós `:Conceito` |
+| fact_count | contagem de nós `:Fato` persistidos |
+| persisted_facts | contador interno de fatos persistidos (`:Fato`) |
+| duplicate_cross_domain | contador de runtime do ingest para duplicatas cross-domain |
+| facts_with_multi_domain | fatos com >= 2 domínios distintos |
+| verified_facts_domain_independent | fatos com >= quórum de domínios distintos |
+| run_scoped_gap | gap contábil do run atual |
+| graph_scoped_gap | gap contábil total do grafo |
+| unaccounted_raw | raw não contabilizado (deve ser 0) |
+| fallback_promoted_to_graph | deve ser 0 |
+| top_invalid_predicates | deve ser [] |
+
+- Classificação: `PARTIAL_052_3_CODE_READY_SPACE_STALE` (código pronto; Space pendente de redeploy manual).
+- Referência: `reports/RECONCILIATION_052_3_METRICS_CLARITY.md`.
