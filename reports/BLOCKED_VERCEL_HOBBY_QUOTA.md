@@ -60,3 +60,26 @@
    - migrar o frontend para outro hosting estático gratuito;
    - upgrade pago (**apenas** por decisão humana).
 4. Se necessário ajustar `required checks`, fazer isso fora do Doer, sem alterar código de produção para mascarar a falha.
+
+## Recuperação da Vercel
+
+Durante o ciclo de diagnóstico, o commit status da Vercel apresentou falha por rate limit no plano Hobby:
+
+- context: `Vercel`
+- state: `failure`
+- description: `Deployment rate limited — retry in 24 hours.`
+- commit diagnosticado: `d362dcd`
+
+Posteriormente, no commit `8cdab7f`, o status da Vercel mudou para `success`:
+
+- context: `Vercel`
+- state: `success`
+- description: `Deployment has completed`
+
+Decisão mantida:
+
+- Vercel permanece **non-required**.
+- O núcleo do Nexus-Alpha continua validado por CI required, testes locais, HF Space e auditorias read-only.
+- Deploy público da Vercel **não** é gate para tarefas cognitivas enquanto o Operador não decidir o contrário.
+
+Detalhes: `reports/VERCEL_RECOVERY_NOTE_8cdab7f.md`.

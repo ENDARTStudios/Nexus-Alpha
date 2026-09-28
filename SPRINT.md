@@ -2548,3 +2548,18 @@ futura do Operador.
 `DONE` **não** exige Vercel verde enquanto a Vercel estiver em modo degradado/non-required.
 
 **Referência:** `reports/BLOCKED_VERCEL_HOBBY_QUOTA.md`.
+
+## Reconciliação pós-MODO VERCEL-DEGRADADA (#059E)
+
+- A Vercel **recuperou** no commit `8cdab7f` (`success`), mas permanece **non-required** (`VERCEL_RECOVERED_NON_REQUIRED`).
+- Alerta reconciliado **read-only**: `facts 335 -> 1894` e `duplicate_cross_domain 12 -> 23` eram **campos diferentes**
+  do mesmo payload — `facts` (top-level) = nós **`Conceito`** (1894); `:Fato` = `persisted_facts` (335);
+  `duplicate_cross_domain` de runtime (23) ≠ `facts_with_multi_domain`/graph (12).
+- **Sem salto real de dados**: `last_ingest_at` inalterado (`2026-09-27T22:18:27Z`); `extraction_quality` idêntico ao baseline.
+- `run_scoped_gap` / `graph_scoped_gap` ausentes por **build antigo do Space** (`0b5bc32`, 2026-09-24), anterior ao
+  #052.2 (`503e6a3`); o código em `main` **tem** os campos → `FIELDS_ABSENT_DUE_STALE_SPACE_BUILD` (não é regressão de código).
+- `ai-cron` está `disabled_manually`; **nenhum** run após `d362dcd`; **nenhum** `schedule` (todos `workflow_dispatch`).
+- Sem contaminação: `top_invalid_predicates = []`, `fallback_promoted_to_graph = 0`, `unaccounted_raw = 0`.
+- **Classificação: `RECONCILED_BENIGN_METRIC_DEFINITION`.** Próximo passo: redeploy do Space (após confirmar HEAD) para
+  restaurar telemetria. Nenhum worker executado; nenhuma seed alterada; nenhum treino; invarianties preservadas.
+- Referência: `reports/RECONCILIATION_059E_METRICS_JUMP.md`.
