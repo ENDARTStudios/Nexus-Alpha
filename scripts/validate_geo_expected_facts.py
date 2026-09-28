@@ -158,6 +158,64 @@ def validate_geo_expected_facts(
     }
 
 
+def _batch_status(result: dict, *, future: bool = False) -> str:
+    if future and result.get("expected_facts_verified", 0) == 0 and not result.get("partial_facts"):
+        return "FUTURE_BATCH_NOT_SEEDED"
+    if result.get("classification") == "PARTIAL_GEO_VALIDATION_INSUFFICIENT_EVIDENCE":
+        return "PENDING_WORKER"
+    return "OK" if result.get("ok") else "FAIL"
+
+
+def validate_multi_batch(
+    expected_current: dict,
+    expected_next: dict | None,
+    post: dict | None,
+    geo_report: dict | None = None,
+    baseline: dict | None = None,
+) -> dict:
+    """Valida lote atual e (opcionalmente) next batch, sem misturar falhas."""
+    current = validate_geo_expected_facts(expected_current, post, geo_report, baseline)
+    current_status = _batch_status(current)
+    batches = {
+        "current_048_10H": {
+            "expected_facts_total": current["expected_facts_total"],
+            "expected_facts_verified": current["expected_facts_verified"],
+            "status": current_status,
+            "missing_facts": current["missing_facts"],
+            "junk_objects_detected": current["junk_objects_detected"],
+        }
+    }
+    total = current["expected_facts_total"]
+    verified = current["expected_facts_verified"]
+    next_ok = True
+    if expected_next:
+        nxt = validate_geo_expected_facts(expected_next, post, geo_report, baseline)
+        next_status = _batch_status(nxt, future=True)
+        batches["next_048_10K"] = {
+            "expected_facts_total": nxt["expected_facts_total"],
+            "expected_facts_verified": nxt["expected_facts_verified"],
+            "status": next_status,
+            "missing_facts": nxt["missing_facts"],
+            "junk_objects_detected": nxt["junk_objects_detected"],
+        }
+        total += nxt["expected_facts_total"]
+        verified += nxt["expected_facts_verified"]
+        next_ok = next_status in ("OK", "FUTURE_BATCH_NOT_SEEDED")
+
+    aggregate_ok = (current_status == "OK") and next_ok
+    return {
+        "audit_id": "geo_expected_validation_multi_batch",
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "batches": batches,
+        "aggregate": {
+            "total_expected_facts": total,
+            "total_verified_facts": verified,
+            "ok": aggregate_ok,
+            "blocking_reason": None if aggregate_ok else "PENDING_WORKER",
+        },
+    }
+
+
 def _read_json(path: Path):
     try:
         return json.loads(path.read_text(encoding="utf-8"))
@@ -171,6 +229,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--post", required=True)
     parser.add_argument("--geo-report", dest="geo_report", required=False)
     parser.add_argument("--expected", required=True)
+    parser.add_argument("--expected-next", dest="expected_next", required=False)
     parser.add_argument("--output", required=True)
     args = parser.parse_args(argv)
 
@@ -187,6 +246,9 @@ def main(argv: list[str] | None = None) -> int:
             "blocking_reason": "BLOCKED_MISSING_REPORTS",
             "classification": "BLOCKED_MISSING_REPORTS",
         }
+    elif args.expected_next:
+        expected_next = _read_json(Path(args.expected_next))
+        result = validate_multi_batch(expected, expected_next, post, geo_report, baseline)
     else:
         result = validate_geo_expected_facts(expected, post, geo_report, baseline)
         result["inputs"] = {
@@ -198,7 +260,10 @@ def main(argv: list[str] | None = None) -> int:
 
     Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(result, ensure_ascii=False, indent=2))
-    return 0 if result.get("ok") else 1
+    ok = result.get("ok")
+    if args.expected_next:
+        ok = result.get("aggregate", {}).get("ok")
+    return 0 if ok else 1
 
 
 if __name__ == "__main__":

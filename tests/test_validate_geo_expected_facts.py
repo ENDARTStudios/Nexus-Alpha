@@ -9,9 +9,13 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from scripts.validate_geo_expected_facts import main as validator_main  # noqa: E402
-from scripts.validate_geo_expected_facts import validate_geo_expected_facts  # noqa: E402
+from scripts.validate_geo_expected_facts import (  # noqa: E402
+    validate_geo_expected_facts,
+    validate_multi_batch,
+)
 
 REGISTRY = ROOT / "reports" / "geo_expected_facts_048_10H.json"
+NEXT_REGISTRY = ROOT / "reports" / "geo_expected_facts_next_batch_048_10k.json"
 DOMAINS = ["pt.wikipedia.org", "en.wikipedia.org", "nominatim.openstreetmap.org"]
 
 
@@ -95,3 +99,30 @@ def test_cli_missing_reports(tmp_path):
     data = json.loads(output.read_text(encoding="utf-8"))
     assert data["blocking_reason"] == "BLOCKED_MISSING_REPORTS"
     assert code == 1
+
+
+def _next_expected() -> dict:
+    return json.loads(NEXT_REGISTRY.read_text(encoding="utf-8"))
+
+
+def test_multi_batch_current_ok_next_not_seeded():
+    result = validate_multi_batch(_expected(), _next_expected(), _post(), _geo_report(ALL4))
+    assert result["batches"]["current_048_10H"]["status"] == "OK"
+    assert result["batches"]["next_048_10K"]["status"] == "FUTURE_BATCH_NOT_SEEDED"
+    assert result["aggregate"]["ok"] is True
+
+
+def test_multi_batch_current_pending_worker():
+    result = validate_multi_batch(_expected(), _next_expected(), _post(), {})
+    assert result["batches"]["current_048_10H"]["status"] == "PENDING_WORKER"
+    assert result["aggregate"]["ok"] is False
+
+
+def test_multi_batch_next_junk_detected():
+    next_expected = _next_expected()
+    next_facts = [_fact(f["subject"], obj=f["object"]) for f in next_expected["expected_facts"]]
+    facts = ALL4 + next_facts + [_fact("X", obj="BAIRRO DE X")]
+    result = validate_multi_batch(_expected(), next_expected, _post(), _geo_report(facts))
+    assert result["batches"]["next_048_10K"]["status"] == "FAIL"
+    assert result["aggregate"]["ok"] is False
+
