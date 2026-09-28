@@ -2793,3 +2793,51 @@ ARENA FONTE NOVA --LOCALIZADO_EM--> SALVADOR
 > **Não fez force-push.** **Não alterou quórum.**
 > Próximo: **#048.10H real** (worker GEO lote atual), com snapshot/baseline/worker/post/audits e
 > `validate_geo_expected_facts`.
+
+## #048.10H real — GEO worker incremental
+
+**Status:** **BLOCKED** (GEO persistiu, mas não verificou por 3 domínios)
+**Space preflight:** **OK** (`ok=true`)
+**Snapshot:** read-only AuraDB (`nodes=4538`, `rels=3785`; não commitado)
+**Worker runs:** `36498263682` (422 confidence) · `36499101812` (após fix, GEO 200) — ambos `success`
+**Fix aplicado:** `ca351aa` `fix(worker): add confidence to GEO entities for Space ingest contract`
+**Cron:** `disabled_manually` antes e depois
+
+### Métricas
+
+| Métrica | Antes | Depois | Delta |
+|---|---:|---:|---:|
+| verified_facts_domain_independent | 11 | 11 | 0 |
+| records_total | 11 | 11 | 0 |
+| fact_count | 335 | 403 | +68 |
+| concept_count | 1894 | 2008 | +114 |
+| unique_predicates | 2 | 2 | 0 |
+| non_VENCEU_ratio | 0.09 | 0.09 | 0 |
+| publisher_family_count | 2 | 2 | 0 |
+| geo_triples_canonical | 0 | 3 | +3 |
+| unaccounted_raw | 0 | 0 | 0 |
+| top_invalid_predicates | [] | [] | 0 |
+| fallback_promoted_to_graph | 0 | 0 | 0 |
+
+### Classificação
+
+**`BLOCKED_048_10H_GEO_EXTRACTION`** — os 3 fatos GEO canônicos persistiram (Nominatim, 1 domínio),
+mas a narrativa wiki PT/EN **não** gerou a mesma chave canônica → sem corroboracão de 3 domínios.
+`validate_geo_expected_facts`: `expected_facts_verified=0/4`, `junk=0`, `regression=false`.
+
+### Dívida observacional
+
+`graph_scoped_gap negativo` (`-403`) registrado como **#052.3.1**, não bloqueante.
+
+### Treino
+
+`training_gate_evaluation`: `records_total=11`, `unique_predicates=2`, `diversity_gate=false`,
+`training_recommended=false`, `training_allowed=false`. **Treino não executado.**
+
+### Próximo passo
+
+**#048.10H.2** (debug do caminho GEO: canonicalização/predicado/cap) e **#052.3.1** (contabilidade).
+Não escalar next batch (#048.10L) antes de entender o bloqueio.
+
+> Este ciclo executou **2 workers** (autorizado, diagnóstico entre tentativas), **não treinou**,
+> **não alterou seeds nem runtime cognitivo**, **não fez force-push**.

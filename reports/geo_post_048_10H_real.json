@@ -1,0 +1,40 @@
+{
+  "audit_id": "geo_post_048_10H_real",
+  "generated_at": "2026-09-28T23:44:00+00:00",
+  "offline": true,
+  "note": "Evidencia sanitizada do caminho GEO no worker #048.10H real (2 dispatches).",
+  "worker_runs": [
+    {"run_id": 36498263682, "conclusion": "success", "note": "GEO payloads 422 (confidence ausente)"},
+    {"run_id": 36499101812, "conclusion": "success", "note": "apos fix ca351aa; GEO payloads 200"}
+  ],
+  "geo_telemetry": {
+    "osm_urls_seen": 4,
+    "osm_urls_fetched": 4,
+    "osm_json_parsed": 4,
+    "geo_triples_raw": 3,
+    "geo_triples_canonical": 3,
+    "rejection_reasons": {"no_clean_city_evidence": 1}
+  },
+  "geo_ingest_after_fix": {
+    "entities_processed_per_source": 1,
+    "http_status": 200,
+    "note": "1 fonte retornou 502 transitorio (Neo Quimica Arena)"
+  },
+  "corroboration": {
+    "verified_facts_domain_independent_before": 11,
+    "verified_facts_domain_independent_after": 11,
+    "facts_with_multi_domain_after": 12,
+    "max_domain_confirmations": 3,
+    "conclusion": "fatos GEO persistiram com 1 dominio (Nominatim); a narrativa wiki PT/EN NAO produziu triplas canonicas correspondentes -> sem corroboracao >= 3 dominios"
+  },
+  "health": {
+    "unaccounted_raw": 0,
+    "fallback_promoted_to_graph": 0,
+    "top_invalid_predicates": [],
+    "duplicate_cross_domain": 23,
+    "run_scoped_gap": 0,
+    "graph_scoped_gap": -403
+  },
+  "attribution": "(c) OpenStreetMap contributors",
+  "license": "ODbL"
+}

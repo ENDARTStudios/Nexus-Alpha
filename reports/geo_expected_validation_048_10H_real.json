@@ -1,0 +1,28 @@
+{
+  "audit_id": "geo_expected_validation_048_10H",
+  "generated_at": "2026-09-28T23:44:00.747253+00:00",
+  "expected_facts_total": 4,
+  "expected_facts_verified": 0,
+  "missing_facts": [
+    "ALLIANZ PARQUE --LOCALIZADO_EM--> SÃO PAULO",
+    "MORUMBI --LOCALIZADO_EM--> SÃO PAULO",
+    "PACAEMBU --LOCALIZADO_EM--> SÃO PAULO",
+    "NEO QUÍMICA ARENA --LOCALIZADO_EM--> SÃO PAULO"
+  ],
+  "partial_facts": [],
+  "junk_objects_detected": 0,
+  "forbidden_predicates_detected": 0,
+  "regression_existing_verified": false,
+  "top_invalid_predicates": [],
+  "fallback_promoted_to_graph": 0,
+  "unaccounted_raw": 0,
+  "ok": false,
+  "blocking_reason": null,
+  "classification": "PARTIAL_GEO_VALIDATION_INSUFFICIENT_EVIDENCE",
+  "inputs": {
+    "baseline": "reports/baseline_pre_048_10H_real.json",
+    "post": "reports/post_reingest_048_10H_real.json",
+    "geo_report": null,
+    "expected": "reports/geo_expected_facts_048_10H.json"
+  }
+}
