@@ -289,3 +289,51 @@ def fetch_nominatim_json(url: str, timeout: int = TIMEOUT) -> list:
     except Exception:
         return []
     return data if isinstance(data, list) else ([data] if isinstance(data, dict) else [])
+
+
+def is_geo_nominatim_url(url: str) -> bool:
+    """True apenas para ``https://nominatim.openstreetmap.org/search?...format=json``."""
+    try:
+        parsed = urllib.parse.urlparse(url or "")
+    except Exception:
+        return False
+    if parsed.scheme != "https" or parsed.netloc.lower() != NOMINATIM_HOST:
+        return False
+    if not parsed.path.startswith("/search"):
+        return False
+    query = urllib.parse.parse_qs(parsed.query)
+    return "json" in (query.get("format", [""])[0] or "").lower()
+
+
+def fetch_and_extract_geo(
+    url: str,
+    allowlist: GeoAllowlist | None = None,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Caminho isolado do worker: fetch JSON + extrai triplas GEO (sem tocar HTML).
+
+    Retorna ``(triples, telemetry)``. Nunca levanta por erro de rede/parse.
+    """
+    allowlist = allowlist or default_geo_allowlist()
+    telemetry: dict[str, Any] = {
+        "osm_url": url,
+        "osm_json_parsed": 0,
+        "geo_triples_raw": 0,
+        "rejection_reasons": {},
+    }
+    if not is_geo_nominatim_url(url):
+        telemetry["rejection_reasons"]["not_geo_nominatim_url"] = 1
+        return [], telemetry
+    try:
+        data = fetch_nominatim_json(url)
+    except ValueError:
+        telemetry["rejection_reasons"]["invalid_url"] = 1
+        return [], telemetry
+    if not data:
+        telemetry["rejection_reasons"]["empty_or_invalid_json"] = 1
+        return [], telemetry
+    telemetry["osm_json_parsed"] = len(data)
+    triples = extract_geo_localizado_from_osm_json(data, url, allowlist)
+    telemetry["geo_triples_raw"] = len(triples)
+    if not triples:
+        telemetry["rejection_reasons"]["no_clean_city_evidence"] = 1
+    return triples, telemetry

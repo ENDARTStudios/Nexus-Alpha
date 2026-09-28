@@ -22,6 +22,11 @@ import httpx
 from src.cognition.reasoning_engine import ReasoningEngine
 from src.cognition.extractor import EntityExtractor
 from src.cognition.rag_engine import RAGEngine
+from src.cognition.geo_extractor import (
+    default_geo_allowlist,
+    fetch_and_extract_geo,
+    is_geo_nominatim_url,
+)
 from src.miner.seed_loader import cluster_to_seeds, load_seed_clusters, manifest_health, validate_seed_clusters
 from src.miner.source_productivity import payload_telemetry
 from src.miner.web_miner import WebMiner
@@ -76,11 +81,15 @@ def _to_urls(queries: list[str]) -> list[str]:
     return urls
 
 
-# #048.6 batch 3: teto de mineração do RAG. O top_k trunca a cauda de
-# target_urls SILENCIOSAMENTE (foi assim que as RSSSF caíram no run
-# 36333813255); manter >= total de seeds+clusters curados.
-# #048.10G: +4 clusters GEO (12 URLs) — ajustado 60 -> 64.
-WORKER_TOP_K = 64
+# #048.6 batch 3 / #048.10G.1: teto de mineração do RAG. O top_k trunca a cauda de
+# target_urls SILENCIOSAMENTE (foi assim que as RSSSF caíram no run 36333813255).
+# Guard seed-aware: cobre SEED_QUERIES + URLs curadas do manifest + margem de 10.
+_SEED_MANIFEST = Path(__file__).resolve().parent.parent / "config" / "seed_clusters.yaml"
+try:
+    _ACTIVE_SEED_URLS = len(cluster_to_seeds(load_seed_clusters(_SEED_MANIFEST)))
+except Exception:  # manifest ausente/inválido não pode quebrar o import
+    _ACTIVE_SEED_URLS = 0
+WORKER_TOP_K = max(64, len(SEED_QUERIES) + _ACTIVE_SEED_URLS + 10)
 
 
 def _merge_urls(base_urls: list[str], cluster_urls: list[str]) -> list[str]:
@@ -110,6 +119,62 @@ def _load_cluster_urls() -> list[str]:
         return []
 
 
+def _split_geo_urls(urls: list[str]) -> tuple[list[str], list[str]]:
+    """Separa URLs Nominatim (geo path) das URLs HTML (pipeline atual)."""
+    geo = [u for u in urls if is_geo_nominatim_url(u)]
+    html = [u for u in urls if not is_geo_nominatim_url(u)]
+    return geo, html
+
+
+def _build_geo_payloads(
+    geo_urls: list[str],
+    allowlist=None,
+    fetcher=fetch_and_extract_geo,
+) -> tuple[list[dict], dict]:
+    """Caminho GEO isolado: fetch JSON -> triplas -> payloads no MESMO refine/ingest.
+
+    Nao passa pelo WebMiner (HTML) e nao cria bypass de validacao: as triplas
+    seguem para o ingest canonico como qualquer outra fonte.
+    """
+    allowlist = allowlist or default_geo_allowlist()
+    telemetry = {
+        "osm_urls_seen": len(geo_urls),
+        "osm_urls_fetched": 0,
+        "osm_json_parsed": 0,
+        "geo_triples_raw": 0,
+        "geo_triples_canonical": 0,
+        "rejection_reasons": {},
+    }
+    payloads: list[dict] = []
+    for url in geo_urls:
+        triples, tel = fetcher(url, allowlist)
+        telemetry["osm_urls_fetched"] += 1
+        telemetry["osm_json_parsed"] += int(tel.get("osm_json_parsed", 0))
+        telemetry["geo_triples_raw"] += int(tel.get("geo_triples_raw", 0))
+        for reason, count in (tel.get("rejection_reasons") or {}).items():
+            telemetry["rejection_reasons"][reason] = telemetry["rejection_reasons"].get(reason, 0) + count
+        if triples:
+            telemetry["geo_triples_canonical"] += len(triples)
+            payloads.append(
+                {
+                    "source_url": url,
+                    "timestamp": int(time.time()),
+                    "domain_score": 0.85,
+                    "metadata": {
+                        "source_type": "geo_osm",
+                        "publisher": "OpenStreetMap",
+                        "publisher_family": "OpenStreetMap",
+                        "license": "ODbL",
+                        "attribution": "(c) OpenStreetMap contributors",
+                    },
+                    "title": "GEO/OSM",
+                    "content": "",
+                    "extracted_entities": triples,
+                }
+            )
+    return payloads, telemetry
+
+
 async def run_cycle() -> None:
     token = os.environ.get("NEXUS_API_TOKEN", "")
     api_base = os.environ.get("HF_SPACE_URL", "").rstrip("/")
@@ -132,11 +197,19 @@ async def run_cycle() -> None:
     if cluster_urls:
         target_urls = _merge_urls(target_urls, cluster_urls)
         logger.info("Clusters curados: +%d URLs -> %d no total.", len(cluster_urls), len(target_urls))
-    logger.info("Minerando %d URLs (com seeds Wikipédia).", len(target_urls))
-    sources = await rag.fetch_and_verify(target_urls)
+
+    geo_urls, html_urls = _split_geo_urls(target_urls)
+    if geo_urls:
+        logger.info("GEO: %d URL(s) Nominatim roteadas para o geo path isolado.", len(geo_urls))
+    logger.info("Minerando %d URL(s) HTML (com seeds Wikipédia).", len(html_urls))
+    sources = await rag.fetch_and_verify(html_urls)
 
     payloads = [src.get("payload", {}) for src in sources]
     payloads = [p for p in payloads if p.get("extracted_entities")]
+    geo_payloads, geo_telemetry = _build_geo_payloads(geo_urls)
+    if geo_urls:
+        logger.info("telemetria GEO: %s", json.dumps(geo_telemetry, ensure_ascii=False))
+    payloads.extend(geo_payloads)
     if not payloads:
         logger.warning("Nenhuma tripla extraída neste ciclo.")
         return
