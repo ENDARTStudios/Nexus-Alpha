@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import json
 import re
+import time
 import unicodedata
 import urllib.error
 import urllib.parse
@@ -154,6 +155,7 @@ def extract_geo_localizado_from_osm_json(
     payload: dict | list,
     source_url: str,
     allowlist: GeoAllowlist,
+    expected_city: str | None = None,
 ) -> list[dict[str, Any]]:
     """Extrai ``ESTADIO --LOCALIZADO_EM--> CIDADE`` de um payload JSON do Nominatim."""
     entries = payload if isinstance(payload, list) else [payload]
@@ -184,6 +186,10 @@ def extract_geo_localizado_from_osm_json(
                 if found:
                     city, city_key = found, "display_name"
                     break
+        if not city and expected_city:
+            # Fallback source-scoped: so aceita a cidade JA ESPERADA pelo cluster (nunca infere generico).
+            if re.search(rf"\b{re.escape(_fold(expected_city))}\b", _fold(str(entry.get("display_name") or ""))):
+                city, city_key = expected_city, "display_name_expected_context"
         if not city:
             continue
         by_stadium.setdefault(stadium, set()).add(city)
@@ -263,8 +269,8 @@ def extract_geo_localizado_from_wiki_html(
     return []
 
 
-def fetch_nominatim_json(url: str, timeout: int = TIMEOUT) -> list:
-    """Fetch JSON seguro do Nominatim (host/format allowlisted). Não usar em burst."""
+def fetch_nominatim_json(url: str, timeout: int = TIMEOUT, retries: int = 2) -> list:
+    """Fetch JSON seguro do Nominatim (host/format allowlisted). Retry conservador de 5xx."""
     parsed = urllib.parse.urlparse(url)
     if parsed.scheme != "https" or parsed.netloc.lower() != NOMINATIM_HOST:
         raise ValueError(f"host Nominatim não permitido: {parsed.netloc!r}")
@@ -272,17 +278,24 @@ def fetch_nominatim_json(url: str, timeout: int = TIMEOUT) -> list:
     if "json" not in (query.get("format", [""])[0] or "").lower():
         raise ValueError("Nominatim exige format=json")
 
-    request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    try:
-        with urllib.request.urlopen(request, timeout=timeout) as response:  # noqa: S310 (host allowlisted)
-            content_type = (response.headers.get("Content-Type") or "").lower()
-            if "application/json" not in content_type:
-                return []
-            raw = response.read(MAX_JSON_BYTES + 1)
-    except urllib.error.HTTPError:
-        return []
-    except Exception:
-        return []
+    attempt = 0
+    while True:
+        attempt += 1
+        request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+        try:
+            with urllib.request.urlopen(request, timeout=timeout) as response:  # noqa: S310 (host allowlisted)
+                content_type = (response.headers.get("Content-Type") or "").lower()
+                if "application/json" not in content_type:
+                    return []
+                raw = response.read(MAX_JSON_BYTES + 1)
+            break
+        except urllib.error.HTTPError as exc:
+            if exc.code in (500, 502, 503, 504) and attempt <= retries:
+                time.sleep(5)
+                continue
+            return []
+        except Exception:
+            return []
     if len(raw) > MAX_JSON_BYTES:
         return []
     try:
@@ -309,6 +322,7 @@ def is_geo_nominatim_url(url: str) -> bool:
 def fetch_and_extract_geo(
     url: str,
     allowlist: GeoAllowlist | None = None,
+    expected_city: str | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Caminho isolado do worker: fetch JSON + extrai triplas GEO (sem tocar HTML).
 
@@ -333,7 +347,7 @@ def fetch_and_extract_geo(
         telemetry["rejection_reasons"]["empty_or_invalid_json"] = 1
         return [], telemetry
     telemetry["osm_json_parsed"] = len(data)
-    triples = extract_geo_localizado_from_osm_json(data, url, allowlist)
+    triples = extract_geo_localizado_from_osm_json(data, url, allowlist, expected_city=expected_city)
     telemetry["geo_triples_raw"] = len(triples)
     if not triples:
         telemetry["rejection_reasons"]["no_clean_city_evidence"] = 1

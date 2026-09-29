@@ -30,28 +30,31 @@ def _fake_triple():
 # --- roteamento -------------------------------------------------------------
 
 
-def test_split_routes_nominatim_to_geo_and_wiki_to_html():
-    geo, html = worker._split_geo_urls([NOMINATIM, WIKI])
-    assert geo == [NOMINATIM]
-    assert html == [WIKI]
+def test_split_routes_nominatim_and_geo_wiki_and_html():
+    nominatim, geo_wiki, html = worker._split_geo_urls([NOMINATIM, WIKI, "https://pt.wikipedia.org/wiki/Santos_FC"])
+    assert nominatim == [NOMINATIM]
+    assert geo_wiki == [WIKI]
+    assert html == ["https://pt.wikipedia.org/wiki/Santos_FC"]
 
 
 def test_split_nominatim_without_format_json_is_html():
-    geo, html = worker._split_geo_urls(["https://nominatim.openstreetmap.org/search?q=x"])
-    assert geo == []
+    nominatim, geo_wiki, html = worker._split_geo_urls(["https://nominatim.openstreetmap.org/search?q=x"])
+    assert nominatim == []
+    assert geo_wiki == []
     assert html
 
 
 def test_split_non_allowlisted_json_is_html():
-    geo, _ = worker._split_geo_urls(["https://evil.example.com/search?format=json"])
-    assert geo == []
+    nominatim, _, html = worker._split_geo_urls(["https://evil.example.com/search?format=json"])
+    assert nominatim == []
+    assert html
 
 
 # --- build payloads ---------------------------------------------------------
 
 
 def test_build_geo_payloads_with_fake_fetcher():
-    def fake(url, allow):
+    def fake(url, allow, expected_city=None):
         return ([_fake_triple()], {"osm_json_parsed": 1, "geo_triples_raw": 1, "rejection_reasons": {}})
 
     payloads, telemetry = worker._build_geo_payloads([NOMINATIM], fetcher=fake)
@@ -71,6 +74,22 @@ def test_build_geo_payloads_default_rejects_non_geo_without_network():
     payloads, telemetry = worker._build_geo_payloads(["https://evil.example.com/search?format=json"])
     assert payloads == []
     assert telemetry["rejection_reasons"].get("not_geo_nominatim_url") == 1
+
+
+def test_build_geo_wiki_payloads_uses_dedicated_parser():
+    html = "<p>O Allianz Parque é um estádio de futebol localizado em São Paulo.</p>"
+    payloads, telemetry = worker._build_geo_wiki_payloads([WIKI], fetcher=lambda url: html)
+    assert len(payloads) == 1
+    payload = payloads[0]
+    assert payload["extracted_entities"][0]["predicate"] == "LOCALIZADO_EM"
+    assert payload["extracted_entities"][0]["object"] == "SÃO PAULO"
+    assert payload["extracted_entities"][0]["confidence"] > 0
+    assert telemetry["generic_wiki_noise_suppressed"] is True
+
+
+def test_build_geo_wiki_payloads_empty_html():
+    payloads, _ = worker._build_geo_wiki_payloads([WIKI], fetcher=lambda url: "")
+    assert payloads == []
 
 
 def test_fetch_and_extract_geo_rejects_html_url_without_network():

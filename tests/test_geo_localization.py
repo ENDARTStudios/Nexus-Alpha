@@ -174,3 +174,22 @@ def test_osm_extractor_does_not_write_graph():
     source = (ROOT / "src" / "cognition" / "geo_extractor.py").read_text(encoding="utf-8")
     for forbidden in ("from src.database", "get_graph_connector(", "get_vector_connector(", "import neo4j", "QdrantClient", '"/api/ingest"'):
         assert forbidden not in source
+
+
+def test_osm_source_scoped_city_fallback():
+    # Sem address.city; expected_city do cluster confirma a cidade esperada (source-scoped).
+    entry = {"name": "Allianz Parque", "display_name": "Allianz Parque, Setor X, Campinas, Brazil", "address": {}}
+    triples = extract_geo_localizado_from_osm_json(
+        [entry], "https://nominatim.openstreetmap.org/search?format=json", default_geo_allowlist(), expected_city="CAMPINAS"
+    )
+    assert len(triples) == 1
+    assert triples[0]["object"] == "CAMPINAS"
+    assert triples[0]["metadata"]["city_tag_key"] == "display_name_expected_context"
+
+
+def test_osm_no_fallback_without_expected_city():
+    entry = {"name": "Allianz Parque", "display_name": "Allianz Parque, Setor X, Campinas, Brazil", "address": {}}
+    triples = extract_geo_localizado_from_osm_json(
+        [entry], "https://nominatim.openstreetmap.org/search?format=json", default_geo_allowlist()
+    )
+    assert triples == []

@@ -27,6 +27,7 @@ from src.cognition.geo_extractor import (
     fetch_and_extract_geo,
     is_geo_nominatim_url,
 )
+from src.cognition.geo_wiki_parser import extract_geo_localizado_from_wiki, is_geo_wiki_url
 from src.ops.space_telemetry import check_space_telemetry
 from src.miner.seed_loader import cluster_to_seeds, load_seed_clusters, manifest_health, validate_seed_clusters
 from src.miner.source_productivity import payload_telemetry
@@ -120,16 +121,18 @@ def _load_cluster_urls() -> list[str]:
         return []
 
 
-def _split_geo_urls(urls: list[str]) -> tuple[list[str], list[str]]:
-    """Separa URLs Nominatim (geo path) das URLs HTML (pipeline atual)."""
-    geo = [u for u in urls if is_geo_nominatim_url(u)]
-    html = [u for u in urls if not is_geo_nominatim_url(u)]
-    return geo, html
+def _split_geo_urls(urls: list[str]) -> tuple[list[str], list[str], list[str]]:
+    """Separa URLs: Nominatim (JSON), wiki GEO (parser dedicado) e HTML (pipeline atual)."""
+    nominatim = [u for u in urls if is_geo_nominatim_url(u)]
+    geo_wiki = [u for u in urls if not is_geo_nominatim_url(u) and is_geo_wiki_url(u)]
+    html = [u for u in urls if not is_geo_nominatim_url(u) and not is_geo_wiki_url(u)]
+    return nominatim, geo_wiki, html
 
 
 def _build_geo_payloads(
     geo_urls: list[str],
     allowlist=None,
+    expected_city: str | None = None,
     fetcher=fetch_and_extract_geo,
 ) -> tuple[list[dict], dict]:
     """Caminho GEO isolado: fetch JSON -> triplas -> payloads no MESMO refine/ingest.
@@ -148,7 +151,7 @@ def _build_geo_payloads(
     }
     payloads: list[dict] = []
     for url in geo_urls:
-        triples, tel = fetcher(url, allowlist)
+        triples, tel = fetcher(url, allowlist, expected_city)
         telemetry["osm_urls_fetched"] += 1
         telemetry["osm_json_parsed"] += int(tel.get("osm_json_parsed", 0))
         telemetry["geo_triples_raw"] += int(tel.get("geo_triples_raw", 0))
@@ -175,6 +178,61 @@ def _build_geo_payloads(
                     "extracted_entities": entities,
                 }
             )
+    return payloads, telemetry
+
+
+def _load_expected_geo_city() -> str | None:
+    """Cidade esperada do lote atual (registry). Unica -> usa como fallback OSM source-scoped."""
+    path = Path(__file__).resolve().parent.parent / "reports" / "geo_expected_facts_048_10H.json"
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    cities = {str(f.get("object")) for f in (data.get("expected_facts") or []) if f.get("object")}
+    return next(iter(cities)) if len(cities) == 1 else None
+
+
+def _build_geo_wiki_payloads(
+    geo_wiki_urls: list[str],
+    parser=extract_geo_localizado_from_wiki,
+    fetcher=None,
+) -> tuple[list[dict], dict]:
+    """URLs wiki GEO: parser dedicado (subject pinado), SEM extracao narrativa generica."""
+    import urllib.error
+    import urllib.request
+
+    def _default_fetch(url: str) -> str:
+        try:
+            request = urllib.request.Request(url, headers={"User-Agent": "Nexus-Alpha/1.0 (geo wiki parser)"})
+            with urllib.request.urlopen(request, timeout=20) as response:  # noqa: S310 (allowlist)
+                return response.read().decode("utf-8", errors="replace")
+        except Exception:
+            return ""
+
+    fetch = fetcher or _default_fetch
+    telemetry = {"geo_wiki_urls_seen": len(geo_wiki_urls), "geo_wiki_urls_fetched": 0,
+                 "geo_wiki_triples_canonical": 0, "generic_wiki_noise_suppressed": True}
+    payloads: list[dict] = []
+    for url in geo_wiki_urls:
+        html = fetch(url)
+        telemetry["geo_wiki_urls_fetched"] += 1
+        triples = parser(url, "", html) if html else []
+        if not triples:
+            continue
+        telemetry["geo_wiki_triples_canonical"] += len(triples)
+        entities = [{**t, "confidence": float(t.get("confidence", 0.9))} for t in triples]
+        payloads.append(
+            {
+                "source_url": url,
+                "timestamp": int(time.time()),
+                "domain_score": 0.9,
+                "metadata": {"source_type": "wiki_narrative", "publisher": "Wikimedia",
+                             "publisher_family": "Wikimedia", "geo_wiki_dedicated_parser": True},
+                "title": "GEO/Wiki",
+                "content": "",
+                "extracted_entities": entities,
+            }
+        )
     return payloads, telemetry
 
 
@@ -224,18 +282,24 @@ async def run_cycle(allow_unverified_local: bool = False) -> None:
         target_urls = _merge_urls(target_urls, cluster_urls)
         logger.info("Clusters curados: +%d URLs -> %d no total.", len(cluster_urls), len(target_urls))
 
-    geo_urls, html_urls = _split_geo_urls(target_urls)
+    geo_urls, geo_wiki_urls, html_urls = _split_geo_urls(target_urls)
     if geo_urls:
-        logger.info("GEO: %d URL(s) Nominatim roteadas para o geo path isolado.", len(geo_urls))
+        logger.info("GEO/OSM: %d URL(s) Nominatim roteadas para o geo path isolado.", len(geo_urls))
+    if geo_wiki_urls:
+        logger.info("GEO/Wiki: %d URL(s) roteadas para o parser dedicado (sem narrativa generica).", len(geo_wiki_urls))
     logger.info("Minerando %d URL(s) HTML (com seeds Wikipédia).", len(html_urls))
     sources = await rag.fetch_and_verify(html_urls)
 
     payloads = [src.get("payload", {}) for src in sources]
     payloads = [p for p in payloads if p.get("extracted_entities")]
-    geo_payloads, geo_telemetry = _build_geo_payloads(geo_urls)
+    geo_payloads, geo_telemetry = _build_geo_payloads(geo_urls, expected_city=_load_expected_geo_city())
     if geo_urls:
-        logger.info("telemetria GEO: %s", json.dumps(geo_telemetry, ensure_ascii=False))
+        logger.info("telemetria GEO/OSM: %s", json.dumps(geo_telemetry, ensure_ascii=False))
+    geo_wiki_payloads, geo_wiki_telemetry = _build_geo_wiki_payloads(geo_wiki_urls)
+    if geo_wiki_urls:
+        logger.info("telemetria GEO/Wiki: %s", json.dumps(geo_wiki_telemetry, ensure_ascii=False))
     payloads.extend(geo_payloads)
+    payloads.extend(geo_wiki_payloads)
     if not payloads:
         logger.warning("Nenhuma tripla extraída neste ciclo.")
         return
