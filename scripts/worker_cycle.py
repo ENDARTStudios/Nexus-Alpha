@@ -236,6 +236,26 @@ def _build_geo_wiki_payloads(
     return payloads, telemetry
 
 
+async def _post_ingest_with_retry(client, api_url: str, payload: dict, headers: dict, max_retries: int = 2):
+    """POST no endpoint de ingest com retry limitado para 5xx.
+
+    Idempotente: o grafo persiste por MERGE na chave canonica (`app.py` -> graph_connector),
+    entao reenviar o mesmo payload nao cria duplicata. Retry apenas para 502/503/504.
+    """
+    response = None
+    for attempt in range(max_retries + 1):
+        response = await client.post(api_url, json=payload, headers=headers, timeout=30.0)
+        if response.status_code not in (502, 503, 504):
+            return response
+        if attempt < max_retries:
+            logger.warning(
+                "ingest 5xx (%s) em %s — retry %d/%d",
+                response.status_code, payload.get("source_url"), attempt + 1, max_retries,
+            )
+            await asyncio.sleep(5 * (attempt + 1))
+    return response
+
+
 class TelemetryBlocked(RuntimeError):
     """Gate duro: o worker recusa a abrir a porta quando a telemetria está stale."""
 
@@ -360,7 +380,7 @@ async def run_cycle(allow_unverified_local: bool = False) -> None:
                     ensure_ascii=False,
                 ),
             )
-            response = await client.post(api_url, json=payload, headers=headers, timeout=30.0)
+            response = await _post_ingest_with_retry(client, api_url, payload, headers)
             logger.info(
                 "Resposta [%s]: %s — %s",
                 payload.get("source_url"), response.status_code, response.text,

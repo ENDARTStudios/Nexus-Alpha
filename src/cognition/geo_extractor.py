@@ -45,6 +45,7 @@ STADIUM_ALIASES: dict[str, str] = {
     "allianz parque": "ALLIANZ PARQUE",
     "arena allianz": "ALLIANZ PARQUE",
     "allianz arena": "ALLIANZ PARQUE",
+    "nubank parque": "ALLIANZ PARQUE",
     "morumbi": "MORUMBI",
     "estadio do morumbi": "MORUMBI",
     "estadio cicero pompeu de toledo": "MORUMBI",
@@ -58,8 +59,7 @@ STADIUM_ALIASES: dict[str, str] = {
 # Cidade canônica (com acento) indexada pela forma dobrada (sem acento, maiúscula).
 CANONICAL_CITIES: dict[str, str] = {
     "SAO PAULO": "SÃO PAULO",
-    "RIO DE JANEIRO": "RIO DE JANEIRO",
-    "SANTOS": "SANTOS",
+    "RIO DE JANEIRO": "RIO DE JANEIRO",    "SANTOS": "SANTOS",
     "PORTO ALEGRE": "PORTO ALEGRE",
     "BELO HORIZONTE": "BELO HORIZONTE",
 }
@@ -113,6 +113,10 @@ def default_geo_allowlist() -> GeoAllowlist:
     return GeoAllowlist(stadiums=dict(STADIUM_ALIASES), cities=dict(CANONICAL_CITIES))
 
 
+# Excecao estrita homonimo estado/cidade (source-scoped). Hoje: apenas SAO PAULO.
+HOMONYM_STATE_CITY_ALLOWLIST: dict[str, dict[str, set[str]]] = {
+    "SAO PAULO": {"country": {"BRAZIL", "BRASIL"}, "state": {"SAO PAULO"}},
+}
 def build_geo_allowlist_from_atlas(atlas_path: Path | str) -> GeoAllowlist:
     """Allowlist a partir das colisões full do atlas #059E (fallback: default)."""
     path = Path(atlas_path)
@@ -148,7 +152,13 @@ def build_geo_allowlist_from_atlas(atlas_path: Path | str) -> GeoAllowlist:
 
 
 def _triple(subject: str, obj: str, metadata: dict[str, Any]) -> dict[str, Any]:
-    return {"subject": subject, "predicate": PREDICATE, "object": obj, "metadata": metadata}
+    return {
+        "subject": subject,
+        "predicate": PREDICATE,
+        "object": obj,
+        "confidence": float(metadata.get("confidence", 0.9)),
+        "metadata": metadata,
+    }
 
 
 def extract_geo_localizado_from_osm_json(
@@ -183,13 +193,25 @@ def extract_geo_localizado_from_osm_json(
         if not city:
             for segment in reversed(str(entry.get("display_name") or "").split(",")):
                 found = allowlist.city_from(segment)
-                if found:
+                if found and _fold(found) not in HOMONYM_STATE_CITY_ALLOWLIST:
                     city, city_key = found, "display_name"
                     break
-        if not city and expected_city:
+        if not city and expected_city and _fold(expected_city) not in HOMONYM_STATE_CITY_ALLOWLIST:
             # Fallback source-scoped: so aceita a cidade JA ESPERADA pelo cluster (nunca infere generico).
             if re.search(rf"\b{re.escape(_fold(expected_city))}\b", _fold(str(entry.get("display_name") or ""))):
                 city, city_key = expected_city, "display_name_expected_context"
+        homonym = False
+        if not city and expected_city:
+            spec = HOMONYM_STATE_CITY_ALLOWLIST.get(_fold(expected_city))
+            addr = entry.get("address") or {}
+            if (
+                spec
+                and _fold(str(addr.get("country") or "")) in spec["country"]
+                and _fold(str(addr.get("state") or "")) in spec["state"]
+                and re.search(rf"\b{re.escape(_fold(expected_city))}\b", _fold(str(entry.get("display_name") or "")))
+            ):
+                city, city_key = expected_city, "homonym_state_city_exception"
+                homonym = True
         if not city:
             continue
         by_stadium.setdefault(stadium, set()).add(city)
@@ -204,7 +226,13 @@ def extract_geo_localizado_from_osm_json(
             "osm_type": entry.get("osm_type"),
             "osm_id": entry.get("osm_id"),
             "city_tag_key": city_key,
-            "confidence_basis": "explicit_city_tag" if city_key != "display_name" else "display_address_city",
+            "city_source": city_key,
+            "confidence": 0.85 if homonym else 0.9,
+            "confidence_basis": (
+                "homonym_state_city_exception"
+                if homonym
+                else ("explicit_city_tag" if city_key != "display_name" else "display_address_city")
+            ),
             "source_url": source_url,
         }
 
