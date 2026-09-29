@@ -1,0 +1,54 @@
+{
+  "positives": [
+    {
+      "id": "allianz_parque",
+      "subject": "ALLIANZ PARQUE",
+      "city": "SÃO PAULO",
+      "pt_url": "https://pt.wikipedia.org/wiki/Allianz_Parque",
+      "en_url": "https://en.wikipedia.org/wiki/Allianz_Parque",
+      "pt_sentence": "O Allianz Parque é um estádio de futebol localizado em São Paulo.",
+      "en_sentence": "Allianz Parque is a football stadium located in São Paulo.",
+      "infobox_html": "<tr><th>Localização</th><td>São Paulo</td></tr>"
+    },
+    {
+      "id": "morumbi",
+      "subject": "MORUMBI",
+      "city": "SÃO PAULO",
+      "pt_url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_do_Morumbi",
+      "en_url": "https://en.wikipedia.org/wiki/Morumbi_Stadium",
+      "pt_sentence": "O Estádio do Morumbi está localizado em São Paulo.",
+      "en_sentence": "Morumbi Stadium is located in São Paulo.",
+      "infobox_html": "<tr><th>Location</th><td>São Paulo</td></tr>"
+    },
+    {
+      "id": "pacaembu",
+      "subject": "PACAEMBU",
+      "city": "SÃO PAULO",
+      "pt_url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_do_Pacaembu",
+      "en_url": "https://en.wikipedia.org/wiki/Pacaembu_Stadium",
+      "pt_sentence": "O Estádio do Pacaembu está situado em São Paulo.",
+      "en_sentence": "Pacaembu Stadium is situated in São Paulo.",
+      "infobox_html": "<tr><th>Cidade</th><td>São Paulo</td></tr>"
+    },
+    {
+      "id": "neo_quimica_arena",
+      "subject": "NEO QUÍMICA ARENA",
+      "city": "SÃO PAULO",
+      "pt_url": "https://pt.wikipedia.org/wiki/Neo_Qu%C3%ADmica_Arena",
+      "en_url": "https://en.wikipedia.org/wiki/Neo_Qu%C3%ADmica_Arena",
+      "pt_sentence": "A Neo Química Arena é um estádio de futebol localizado em São Paulo.",
+      "en_sentence": "Neo Química Arena is a football stadium located in São Paulo.",
+      "infobox_html": "<tr><th>Localização</th><td>São Paulo</td></tr>"
+    }
+  ],
+  "negatives": [
+    {"id": "neighborhood", "url": "https://en.wikipedia.org/wiki/Morumbi_Stadium", "text": "Morumbi is located in the neighborhood of Perdizes."},
+    {"id": "country_only", "url": "https://en.wikipedia.org/wiki/Pacaembu_Stadium", "text": "Pacaembu is located in Brazil."},
+    {"id": "state_as_city", "url": "https://en.wikipedia.org/wiki/Morumbi_Stadium", "text": "Morumbi is located in São Paulo state."},
+    {"id": "address", "url": "https://pt.wikipedia.org/wiki/Allianz_Parque", "text": "O Allianz Parque fica na Rua Palestra Itália, 200, São Paulo."},
+    {"id": "club_owner", "url": "https://en.wikipedia.org/wiki/Morumbi_Stadium", "text": "Morumbi is the home of São Paulo Futebol Clube, located in São Paulo."},
+    {"id": "pronoun", "url": "https://en.wikipedia.org/wiki/Pacaembu_Stadium", "text": "It is located there."},
+    {"id": "multiple_cities", "url": "https://en.wikipedia.org/wiki/Morumbi_Stadium", "text": "Morumbi is located between São Paulo and Rio de Janeiro."},
+    {"id": "non_allowlisted_city", "url": "https://en.wikipedia.org/wiki/Allianz_Parque", "text": "Allianz Parque is located in Campinas."}
+  ]
+}
