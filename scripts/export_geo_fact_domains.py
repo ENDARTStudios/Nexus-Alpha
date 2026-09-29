@@ -19,7 +19,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
+from src.ops.publisher_family import FAMILY_UNKNOWN, classify_publisher_family  # noqa: E402
+
 EXPECTED = ROOT / "reports" / "geo_expected_facts_048_10H.json"
+DEFAULT_AUDIT_ID = "geo_fact_level_domains_048_10h_4"
 
 QUERY = (
     "MATCH (f:Fato) WHERE toUpper(coalesce(f.predicado,'')) = 'LOCALIZADO_EM' "
@@ -34,7 +37,7 @@ def _fold(value: str) -> str:
     return " ".join("".join(c for c in decomposed if unicodedata.category(c) != "Mn").upper().split())
 
 
-def build_fact_domains(rows: list[dict], expected: dict) -> dict:
+def build_fact_domains(rows: list[dict], expected: dict, audit_id: str = DEFAULT_AUDIT_ID) -> dict:
     """Puro: casa fatos esperados com dominios observados e classifica a evidencia."""
     facts = []
     for ef in expected.get("expected_facts") or []:
@@ -49,10 +52,11 @@ def build_fact_domains(rows: list[dict], expected: dict) -> dict:
         domains = sorted({d for d in (match or {}).get("domains", []) if d}) if match else []
         dc = len(domains)
         verified = bool(match and (match.get("verified") or dc >= 3))
+        families = sorted({classify_publisher_family(d) for d in domains} - {FAMILY_UNKNOWN})
         facts.append({
             "fact": ef["fact"], "subject": ef["subject"], "predicate": ef["predicate"], "object": ef["object"],
             "domains": domains, "domain_count": dc, "verified": verified,
-            "publishers": [], "publisher_families": [],
+            "publishers": [], "publisher_families": families,
             "sources": [{"domain": d} for d in domains],
             "blocking_reason": None if verified else "no_domains_or_not_corroborated",
         })
@@ -60,7 +64,7 @@ def build_fact_domains(rows: list[dict], expected: dict) -> dict:
     with_three = sum(1 for f in facts if f["domain_count"] >= 3)
     strong = expected_total > 0 and with_three == expected_total
     return {
-        "audit_id": "geo_fact_level_domains_048_10h_4",
+        "audit_id": audit_id,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "evidence_strength": "strong" if strong else ("inferred" if rows else "insufficient"),
         "facts": facts,
@@ -99,17 +103,19 @@ def fetch_rows() -> list[dict]:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Export fact-level GEO domains (read-only).")
     parser.add_argument("--output", required=True)
+    parser.add_argument("--expected", default=str(EXPECTED), help="registry de fatos esperados (default: lote atual)")
+    parser.add_argument("--audit-id", dest="audit_id", default=DEFAULT_AUDIT_ID)
     args = parser.parse_args(argv)
-    expected = json.loads(EXPECTED.read_text(encoding="utf-8"))
+    expected = json.loads(Path(args.expected).read_text(encoding="utf-8"))
     try:
         rows = fetch_rows()
     except Exception as exc:
-        report = {"audit_id": "geo_fact_level_domains_048_10h_4",
+        report = {"audit_id": args.audit_id,
                   "generated_at": datetime.now(timezone.utc).isoformat(),
                   "evidence_strength": "insufficient", "facts": [], "error_type": type(exc).__name__,
                   "summary": {"expected_facts_total": 0, "facts_with_three_domains": 0}}
     else:
-        report = build_fact_domains(rows, expected)
+        report = build_fact_domains(rows, expected, audit_id=args.audit_id)
     Path(args.output).write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps(report["summary"], ensure_ascii=False))
     print("evidence_strength", report["evidence_strength"])

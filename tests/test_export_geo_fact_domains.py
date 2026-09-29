@@ -41,3 +41,13 @@ def test_build_fact_domains_partial():
 def test_build_fact_domains_insufficient_without_rows():
     report = build_fact_domains([], EXPECTED)
     assert report["evidence_strength"] == "insufficient"
+
+
+def test_build_fact_domains_publisher_families_and_audit_id():
+    rows = [
+        {"subject": "ALLIANZ PARQUE", "predicate": "LOCALIZADO_EM", "object": "SÃO PAULO", "verified": True, "domains": DOMAINS},
+    ]
+    report = build_fact_domains(rows, EXPECTED, audit_id="geo_fact_level_domains_048_10L_2")
+    assert report["audit_id"] == "geo_fact_level_domains_048_10L_2"
+    fact = report["facts"][0]
+    assert fact["publisher_families"] == ["OpenStreetMap", "Wikimedia"]
