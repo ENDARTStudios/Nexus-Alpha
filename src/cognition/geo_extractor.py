@@ -219,6 +219,7 @@ _WIKI_CITY_PATTERNS = [
     r"situado em ([a-z'`\- ]{3,40})",
     r"fica em ([a-z'`\- ]{3,40})",
     r"located in the city of ([a-z'`\- ]{3,40})",
+    r"located in ([a-z'`\- ]{3,40})",
     r"is located in ([a-z'`\- ]{3,40})",
     r"is situated in ([a-z'`\- ]{3,40})",
 ]

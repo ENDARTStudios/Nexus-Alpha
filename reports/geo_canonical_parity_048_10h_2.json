@@ -1,0 +1,243 @@
+{
+  "audit_id": "geo_canonical_parity_048_10h_2",
+  "generated_at": "2026-09-29T00:09:29.770639+00:00",
+  "expected_facts": [
+    {
+      "fact": "ALLIANZ PARQUE --LOCALIZADO_EM--> SÃO PAULO",
+      "canonical_key_expected": "ALLIANZ PARQUE|LOCALIZADO_EM|SAO PAULO",
+      "osm": {
+        "persisted": true,
+        "canonical": {
+          "subject": "ALLIANZ PARQUE",
+          "predicate": "LOCALIZADO_EM",
+          "object": "SAO PAULO",
+          "confidence": 0.9,
+          "raw_subject": "ALLIANZ PARQUE",
+          "raw_predicate": "LOCALIZADO_EM",
+          "raw_object": "SÃO PAULO",
+          "extraction_confidence": 0.9
+        },
+        "canonical_key": "ALLIANZ PARQUE|LOCALIZADO_EM|SAO PAULO",
+        "reason": "ok",
+        "domain": "nominatim.openstreetmap.org",
+        "publisher_family": "OpenStreetMap"
+      },
+      "wiki_pt": {
+        "url": "https://pt.wikipedia.org/wiki/Allianz_Parque",
+        "processed": true,
+        "text_len": 120961,
+        "location_hint": true,
+        "total_triples": 25,
+        "localizado_triples": [],
+        "canonical_keys": []
+      },
+      "wiki_en": {
+        "url": "https://en.wikipedia.org/wiki/Allianz_Parque",
+        "processed": true,
+        "text_len": 63888,
+        "location_hint": true,
+        "total_triples": 25,
+        "localizado_triples": [],
+        "canonical_keys": []
+      },
+      "collision_status": "no_collision",
+      "root_causes": [
+        "R3_PREDICATE_MAPPING_FAILURE_OR_NO_LOCALIZADO"
+      ]
+    },
+    {
+      "fact": "MORUMBI --LOCALIZADO_EM--> SÃO PAULO",
+      "canonical_key_expected": "MORUMBI|LOCALIZADO_EM|SAO PAULO",
+      "osm": {
+        "persisted": true,
+        "canonical": {
+          "subject": "MORUMBI",
+          "predicate": "LOCALIZADO_EM",
+          "object": "SAO PAULO",
+          "confidence": 0.9,
+          "raw_subject": "MORUMBI",
+          "raw_predicate": "LOCALIZADO_EM",
+          "raw_object": "SÃO PAULO",
+          "extraction_confidence": 0.9
+        },
+        "canonical_key": "MORUMBI|LOCALIZADO_EM|SAO PAULO",
+        "reason": "ok",
+        "domain": "nominatim.openstreetmap.org",
+        "publisher_family": "OpenStreetMap"
+      },
+      "wiki_pt": {
+        "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_do_Morumbi",
+        "processed": true,
+        "text_len": 88486,
+        "location_hint": true,
+        "total_triples": 25,
+        "localizado_triples": [
+          {
+            "raw": {
+              "subject": "sao paulo fc",
+              "predicate": "LOCALIZADO_EM",
+              "object": "Estádio do Morumbi",
+              "confidence": 0.8
+            },
+            "canonical": {
+              "subject": "SÃO PAULO FUTEBOL CLUBE",
+              "predicate": "LOCALIZADO_EM",
+              "object": "ESTADIO DO MORUMBI",
+              "confidence": 0.8,
+              "raw_subject": "sao paulo fc",
+              "raw_predicate": "LOCALIZADO_EM",
+              "raw_object": "Estádio do Morumbi",
+              "extraction_confidence": 0.8
+            },
+            "key": "SÃO PAULO FUTEBOL CLUBE|LOCALIZADO_EM|ESTADIO DO MORUMBI"
+          }
+        ],
+        "canonical_keys": [
+          "SÃO PAULO FUTEBOL CLUBE|LOCALIZADO_EM|ESTADIO DO MORUMBI"
+        ]
+      },
+      "wiki_en": {
+        "url": "https://en.wikipedia.org/wiki/Morumbi_Stadium",
+        "processed": true,
+        "text_len": 31538,
+        "location_hint": true,
+        "total_triples": 24,
+        "localizado_triples": [],
+        "canonical_keys": []
+      },
+      "collision_status": "no_collision",
+      "root_causes": [
+        "R1_R2_CANONICAL_KEY_MISMATCH"
+      ]
+    },
+    {
+      "fact": "PACAEMBU --LOCALIZADO_EM--> SÃO PAULO",
+      "canonical_key_expected": "PACAEMBU|LOCALIZADO_EM|SAO PAULO",
+      "osm": {
+        "persisted": true,
+        "canonical": {
+          "subject": "PACAEMBU",
+          "predicate": "LOCALIZADO_EM",
+          "object": "SAO PAULO",
+          "confidence": 0.9,
+          "raw_subject": "PACAEMBU",
+          "raw_predicate": "LOCALIZADO_EM",
+          "raw_object": "SÃO PAULO",
+          "extraction_confidence": 0.9
+        },
+        "canonical_key": "PACAEMBU|LOCALIZADO_EM|SAO PAULO",
+        "reason": "ok",
+        "domain": "nominatim.openstreetmap.org",
+        "publisher_family": "OpenStreetMap"
+      },
+      "wiki_pt": {
+        "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_do_Pacaembu",
+        "processed": true,
+        "text_len": 70510,
+        "location_hint": true,
+        "total_triples": 25,
+        "localizado_triples": [],
+        "canonical_keys": []
+      },
+      "wiki_en": {
+        "url": "https://en.wikipedia.org/wiki/Pacaembu_Stadium",
+        "processed": true,
+        "text_len": 19422,
+        "location_hint": true,
+        "total_triples": 19,
+        "localizado_triples": [
+          {
+            "raw": {
+              "subject": "Palmeiras and São Paulo",
+              "predicate": "LOCALIZADO_EM",
+              "object": "santos",
+              "confidence": 0.8
+            },
+            "canonical": {
+              "subject": "PALMEIRAS AND SAO PAULO",
+              "predicate": "LOCALIZADO_EM",
+              "object": "SANTOS FUTEBOL CLUBE",
+              "confidence": 0.8,
+              "raw_subject": "Palmeiras and São Paulo",
+              "raw_predicate": "LOCALIZADO_EM",
+              "raw_object": "santos",
+              "extraction_confidence": 0.8
+            },
+            "key": "PALMEIRAS AND SAO PAULO|LOCALIZADO_EM|SANTOS FUTEBOL CLUBE"
+          }
+        ],
+        "canonical_keys": [
+          "PALMEIRAS AND SAO PAULO|LOCALIZADO_EM|SANTOS FUTEBOL CLUBE"
+        ]
+      },
+      "collision_status": "no_collision",
+      "root_causes": [
+        "R1_R2_CANONICAL_KEY_MISMATCH"
+      ]
+    },
+    {
+      "fact": "NEO QUÍMICA ARENA --LOCALIZADO_EM--> SÃO PAULO",
+      "canonical_key_expected": "NEO QUIMICA ARENA|LOCALIZADO_EM|SAO PAULO",
+      "osm": {
+        "persisted": true,
+        "canonical": {
+          "subject": "NEO QUIMICA ARENA",
+          "predicate": "LOCALIZADO_EM",
+          "object": "SAO PAULO",
+          "confidence": 0.9,
+          "raw_subject": "NEO QUÍMICA ARENA",
+          "raw_predicate": "LOCALIZADO_EM",
+          "raw_object": "SÃO PAULO",
+          "extraction_confidence": 0.9
+        },
+        "canonical_key": "NEO QUIMICA ARENA|LOCALIZADO_EM|SAO PAULO",
+        "reason": "ok",
+        "domain": "nominatim.openstreetmap.org",
+        "publisher_family": "OpenStreetMap"
+      },
+      "wiki_pt": {
+        "url": "https://pt.wikipedia.org/wiki/Neo_Qu%C3%ADmica_Arena",
+        "processed": true,
+        "text_len": 126927,
+        "location_hint": true,
+        "total_triples": 25,
+        "localizado_triples": [],
+        "canonical_keys": []
+      },
+      "wiki_en": {
+        "url": "https://en.wikipedia.org/wiki/Neo_Qu%C3%ADmica_Arena",
+        "processed": true,
+        "text_len": 101330,
+        "location_hint": true,
+        "total_triples": 23,
+        "localizado_triples": [],
+        "canonical_keys": []
+      },
+      "collision_status": "no_collision",
+      "root_causes": [
+        "R3_PREDICATE_MAPPING_FAILURE_OR_NO_LOCALIZADO"
+      ]
+    }
+  ],
+  "summary": {
+    "expected_total": 4,
+    "osm_persisted_total": 4,
+    "wiki_pt_canonical_total": 1,
+    "wiki_en_canonical_total": 1,
+    "full_collision_total": 0,
+    "partial_collision_total": 0,
+    "canonical_key_mismatches": 0,
+    "predicate_mapping_failures": 0,
+    "subject_canonicalization_failures": 0,
+    "object_canonicalization_failures": 0,
+    "target_aware_misses": 0,
+    "extraction_cap_misses": 0,
+    "source_routing_misses": 0,
+    "junk_objects": 0,
+    "forbidden_objects": 0,
+    "root_causes": [
+      "R3_PREDICATE_MAPPING_FAILURE_OR_NO_LOCALIZADO",
+      "R1_R2_CANONICAL_KEY_MISMATCH"
+    ]
+  }
+}

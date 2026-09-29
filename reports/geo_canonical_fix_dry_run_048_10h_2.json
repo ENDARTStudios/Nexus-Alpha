@@ -1,0 +1,68 @@
+{
+  "audit_id": "geo_canonical_fix_dry_run_048_10h_2",
+  "generated_at": "2026-09-29T00:13:45.061200+00:00",
+  "expected_facts_total": 4,
+  "osm_canonical_triples": 4,
+  "wiki_pt_canonical_triples": 0,
+  "wiki_en_canonical_triples": 0,
+  "matching_canonical_keys": 0,
+  "full_collision_facts": 0,
+  "partial_collision_facts": 0,
+  "predicted_new_verified": 0,
+  "canonical_key_mismatches": 4,
+  "subject_canonicalization_failures": 0,
+  "object_canonicalization_failures": 0,
+  "predicate_mapping_failures": 0,
+  "target_aware_misses": 0,
+  "extraction_cap_misses": 0,
+  "source_routing_misses": 0,
+  "osm_result_selection_misses": 0,
+  "junk_objects": 0,
+  "forbidden_objects": 0,
+  "neighborhood_objects_rejected": true,
+  "address_objects_rejected": true,
+  "country_objects_rejected": true,
+  "state_objects_rejected": true,
+  "coordinate_objects_rejected": true,
+  "clause_objects_rejected": true,
+  "generic_objects_rejected": true,
+  "botafogo_verified_preserved": true,
+  "santos_verified_preserved": true,
+  "pele_defendeu_preserved": true,
+  "pt_narrative_regression": false,
+  "en_narrative_regression": false,
+  "top_invalid_predicates": [],
+  "ser_share_delta": 0.0,
+  "details": [
+    {
+      "fact": "ALLIANZ PARQUE --LOCALIZADO_EM--> SÃO PAULO",
+      "osm_key": "ALLIANZ PARQUE|LOCALIZADO_EM|SAO PAULO",
+      "pt_keys": [],
+      "en_keys": [],
+      "full_collision": false
+    },
+    {
+      "fact": "MORUMBI --LOCALIZADO_EM--> SÃO PAULO",
+      "osm_key": "MORUMBI|LOCALIZADO_EM|SAO PAULO",
+      "pt_keys": [],
+      "en_keys": [],
+      "full_collision": false
+    },
+    {
+      "fact": "PACAEMBU --LOCALIZADO_EM--> SÃO PAULO",
+      "osm_key": "PACAEMBU|LOCALIZADO_EM|SAO PAULO",
+      "pt_keys": [],
+      "en_keys": [],
+      "full_collision": false
+    },
+    {
+      "fact": "NEO QUÍMICA ARENA --LOCALIZADO_EM--> SÃO PAULO",
+      "osm_key": "NEO QUIMICA ARENA|LOCALIZADO_EM|SAO PAULO",
+      "pt_keys": [],
+      "en_keys": [],
+      "full_collision": false
+    }
+  ],
+  "gate_passed": false,
+  "classification": "BLOCKED_048_10H_2_GEO_PARITY"
+}
