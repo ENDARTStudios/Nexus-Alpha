@@ -34,6 +34,14 @@ class _FakeGraph:
     async def count_verified(self):
         return 11
 
+    async def verified_fact_domain_counts(self):
+        return {
+            "pt.wikipedia.org": 10,
+            "en.wikipedia.org": 10,
+            "rsssf.org": 5,
+            "nominatim.openstreetmap.org": 4,
+        }
+
     async def close(self):
         return None
 
@@ -105,6 +113,19 @@ def test_metrics_glossary_present():
     assert body["metric_glossary"]["fact_count"]
     assert body["metric_glossary"]["run_scoped_gap"]
     assert body["metric_glossary"]["graph_scoped_gap"]
+
+
+def test_metrics_publisher_family_telemetry():
+    body = _client().get("/api/metrics").json()
+    assert body["publisher_family_count"] == 3
+    assert body["effective_publisher_count"] == 3
+    assert set(body["publisher_family_distribution"]) == {"Wikimedia", "RSSSF", "OpenStreetMap"}
+    assert "RSSSF_AND_RSSSF_BRASIL_SAME_FAMILY_SUSPECTED" in body["publisher_independence_warnings"]
+    assert "OPENSTREETMAP_IS_GEOGRAPHIC_OPEN_DATA_NOT_NEWS_EDITORIAL" in body["publisher_independence_warnings"]
+    # contrato legado preservado
+    assert body["concept_count"] == 1894
+    assert body["fact_count"] == 335
+    assert body["verification"]["quorum"] == 3
 
 
 def test_metrics_no_secret_leak():

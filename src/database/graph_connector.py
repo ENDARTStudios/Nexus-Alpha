@@ -466,6 +466,37 @@ class GraphConnector:
                     await asyncio.sleep(0.5)
         return empty
 
+    async def verified_fact_domain_counts(self, retries: int = 2) -> dict[str, int]:
+        """#053.2.1 — Confirmacoes por dominio entre fatos VERIFICADOS (read-only).
+
+        Usado apenas para telemetria de familias de publishers. Nao altera verificacao,
+        quorum nem escrita no grafo.
+        """
+        query = (
+            "MATCH (f:Fato) WHERE f.verificado = true "
+            "OPTIONAL MATCH (w:FonteWeb)-[:CONFIRMA]->(f) "
+            "WITH coalesce(w.domain, w.url) AS domain, count(f) AS c "
+            "WHERE domain IS NOT NULL "
+            "RETURN domain, c"
+        )
+        for attempt in range(1, max(1, retries) + 1):
+            try:
+                if self.driver is None:
+                    await self.connect()
+                async with self.driver.session() as session:
+                    result = await session.run(query)
+                    counts: dict[str, int] = {}
+                    async for record in result:
+                        counts[str(record["domain"])] = int(record["c"] or 0)
+                    return counts
+            except Exception as exc:
+                logger.warning(
+                    "Falha nas contagens de dominio (tentativa %d/%d): %s", attempt, retries, exc
+                )
+                if attempt < retries:
+                    await asyncio.sleep(0.5)
+        return {}
+
     async def persist_episodes(self, episodes: list[dict[str, Any]]) -> int:
         """Episódios duráveis com MERGE idempotente (agregado por fact_hash+day)."""
         if not episodes:

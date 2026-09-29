@@ -361,6 +361,15 @@ async def metrics() -> dict:
     """Métricas do pipeline + saúde cognitiva (grafo, vetores, quarentena, memória)."""
     graph = get_graph_connector()
     snapshot = await graph.graph_snapshot()
+    try:
+        domain_counts = await graph.verified_fact_domain_counts()
+    except Exception as exc:
+        logger.warning("Falha nas contagens de dominio (telemetria): %s", exc)
+        domain_counts = {}
+    # #053.2.1 — telemetria read-only de familias de publishers (nao altera verificacao).
+    from src.ops.publisher_family import build_publisher_family_snapshot
+
+    publisher = build_publisher_family_snapshot(domain_counts)
     vectors = get_vector_connector().count()
     try:
         quarantined = len(get_quarantine().list_all())
@@ -382,6 +391,10 @@ async def metrics() -> dict:
         "concept_count": snapshot.get("concepts", 0),
         "fact_count": snapshot.get("facts", 0),
         "verified_facts": snapshot["verified"],
+        "publisher_family_count": publisher.publisher_family_count,
+        "publisher_family_distribution": publisher.publisher_family_distribution,
+        "effective_publisher_count": publisher.effective_publisher_count,
+        "publisher_independence_warnings": publisher.publisher_independence_warnings,
         "vectors": vectors,
         "quarantine": quarantined,
         "episodes": snapshot["episodes"],
@@ -439,6 +452,10 @@ async def metrics() -> dict:
             "duplicate_cross_domain": "runtime ingest counter of cross-domain duplicates",
             "run_scoped_gap": "run-scoped accounting gap (distinct_canonical_keys - new_facts_created)",
             "graph_scoped_gap": "graph-total accounting gap (distinct_fact_hashes - persisted_facts)",
+            "publisher_family_count": "families of publishers represented among verified facts",
+            "publisher_family_distribution": "domain confirmations per publisher family",
+            "effective_publisher_count": "families after collapsing Wikipedia languages and RSSSF/RSSSF Brasil; Unknown excluded",
+            "publisher_independence_warnings": "editorial independence caveats",
         },
     }
 
