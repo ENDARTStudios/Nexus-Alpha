@@ -75,12 +75,27 @@ _PUBLISHER_FAMILY = {
 
 
 def _publisher_family(domain: str) -> str:
+    try:
+        from scripts.publisher_family_telemetry import classify_publisher_family
+        fam = classify_publisher_family(domain)
+        if fam != "Unknown":
+            return fam
+    except Exception:
+        pass
     d = (domain or "").lower()
     if "wikipedia.org" in d or "wikimedia.org" in d or "wikidata.org" in d:
         return "Wikimedia"
     if d in _PUBLISHER_FAMILY:
         return _PUBLISHER_FAMILY[d]
     return d or "unknown"
+
+
+def _family_warnings(families) -> list[str]:
+    try:
+        from scripts.publisher_family_telemetry import FAMILY_WARNINGS
+    except Exception:
+        FAMILY_WARNINGS = {}
+    return [FAMILY_WARNINGS[f] for f in sorted(families) if f in FAMILY_WARNINGS]
 
 
 async def _load_facts(limit: int) -> list[dict]:
@@ -373,6 +388,8 @@ def main() -> None:
         "dataset_summary_path": args.out_summary,
         "unique_publisher_families": len(publisher_families),
         "publisher_family_distribution": dict(publisher_families),
+        "effective_publisher_count": len(publisher_families),
+        "publisher_independence_warnings": _family_warnings(publisher_families),
         "training_recommended": False,
         "training_allowed": False,
         "blocking_reasons": blocking,
