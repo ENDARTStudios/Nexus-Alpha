@@ -3137,3 +3137,26 @@ ARENA FONTE NOVA --LOCALIZADO_EM--> SALVADOR
 > **não baixou quórum**, **não alterou validators cognitivos centrais**, **não fez force-push**.
 > **Não** houve restore/backfill. Próximo: **#048.10L.3** (fallback OSM source-scoped por fato + endurecer
 > infobox HTML cru + alinhar chave `BEIRA RIO`/`BEIRA-RIO`), apenas com dry-run e autorização.
+
+## #048.10L.3 — Fechamento seguro do next batch GEO + higiene observacional
+
+**Status:** **DONE** · **Classificação:** **`SUCCESS_048_10L_3_NEXT_BATCH_DRY_RUN_5_OF_5_READY_FOR_WORKER`**
+**Space preflight:** OK (200, online) · **Vercel:** non-required · **GitHub status HEAD:** success
+**Worker executado:** NÃO · **Neo4j/Qdrant write:** NÃO · **Backfill:** NÃO · **Treino:** NÃO
+**Dry-run 5/5:** true (`reports/geo_next_batch_closure_dry_run_048_10l_3.json`) · **Pronto para #048.10L.4:** true
+
+### Causas e correções
+- **Causa Beira-Rio:** `expected_city` fixo em SÃO PAULO (`worker_cycle`) → fallback OSM bloqueado (B1+B2) + mismatch `BEIRA RIO`/`BEIRA-RIO` (B4).
+- **Causa Mineirão:** infobox de HTML cru capturou "Rio de Janeiro" (B3) + mesmo wiring (B1/B2).
+- **expected city wiring corrigido:** SIM (`resolve_expected_geo_city` por URL; wiki por subject pinado, Nominatim por `q`).
+- **OSM fallback source-scoped corrigido:** SIM (só a cidade esperada; rejeita conflito/estado/road/`address.city` divergente).
+- **Infobox hardening:** SIM (`expected_city` no parser wiki; labels/tokens proibidos; cross-city rejeitado).
+- **BEIRA-RIO normalization:** SIM (alias `beira rio`→`BEIRA-RIO` + teste hífen×espaço).
+- **Audit stale corrigido:** SIM (`audit_geo_worker_dry_run` → contrato 3-vias; `gate_passed=true`).
+- **canonical_to_fact_gap:** `SCOPE_MISMATCH` documentado como **não bloqueante** (`reports/canonical_to_fact_gap_diagnosis_048_10l_3.md`); sem escrita/backfill.
+- **Validação offline (`..._048_10l_3_offline.json`):** `not_applicable_live` — reflete o grafo **pré-fix** (3/5, mesmos parciais do #048.10L.2). A prontidão é provada pelo **closure dry-run 5/5** (offline, fixtures+registry).
+
+> Este ciclo **não executou worker**, **não escreveu em Neo4j/Qdrant**, **não fez backfill**, **não alterou
+> quórum**, **não alterou validators cognitivos centrais** (span/predicate/canonicalizer/refiner/table/entity_aliases),
+> **não escalou next-next batch**, **não treinou**, **não fez force-push**. O lote atual GEO **permanece intacto**.
+> Próximo: **#048.10L.4** (worker GEO do next batch, retry condicionado) via `reports/RUNBOOK_048_10L_4_GEO_NEXT_BATCH_WORKER_RETRY.md`.

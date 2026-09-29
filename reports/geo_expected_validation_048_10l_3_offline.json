@@ -1,0 +1,19 @@
+{
+  "audit_id": "geo_expected_validation_048_10h_4",
+  "generated_at": "2026-09-29T20:31:55.718994+00:00",
+  "expected_facts_total": 5,
+  "expected_facts_verified_strong": 0,
+  "expected_facts_verified_inferred": 3,
+  "expected_facts_verified": 3,
+  "evidence_strength": "inferred",
+  "missing_facts": [],
+  "partial_facts": [
+    "BEIRA-RIO --LOCALIZADO_EM--> PORTO ALEGRE",
+    "MINEIRÃO --LOCALIZADO_EM--> BELO HORIZONTE"
+  ],
+  "junk_objects_detected": 0,
+  "forbidden_predicates_detected": 0,
+  "regression_existing_verified": false,
+  "ok": false,
+  "blocking_reason": "PARTIAL_GEO_VALIDATION_INSUFFICIENT_EVIDENCE"
+}

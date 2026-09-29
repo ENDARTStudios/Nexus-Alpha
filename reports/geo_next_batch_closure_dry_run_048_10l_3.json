@@ -1,0 +1,108 @@
+{
+  "audit_id": "geo_next_batch_closure_dry_run_048_10l_3",
+  "generated_at": "2026-09-29T20:27:04.431306+00:00",
+  "offline": true,
+  "network_calls": 0,
+  "worker_used": false,
+  "neo4j_write": false,
+  "qdrant_write": false,
+  "next_batch": {
+    "expected_facts_total": 5,
+    "osm_canonical_triples": 5,
+    "wiki_pt_canonical_triples": 5,
+    "wiki_en_canonical_triples": 5,
+    "infobox_canonical_triples": 5,
+    "osm_display_name_expected_context_used": 2,
+    "matching_canonical_keys": 5,
+    "full_collision_facts": 5,
+    "partial_collision_facts": 0,
+    "negatives_total": 10,
+    "negatives_rejected": 10,
+    "junk_objects": 0,
+    "forbidden_objects": 0,
+    "facts": [
+      {
+        "fact": "ESTÁDIO OLÍMPICO NILTON SANTOS --LOCALIZADO_EM--> RIO DE JANEIRO",
+        "keys": {
+          "osm": "ESTADIO OLIMPICO NILTON SANTOS|LOCALIZADO_EM|RIO DE JANEIRO",
+          "pt": "ESTADIO OLIMPICO NILTON SANTOS|LOCALIZADO_EM|RIO DE JANEIRO",
+          "en": "ESTADIO OLIMPICO NILTON SANTOS|LOCALIZADO_EM|RIO DE JANEIRO",
+          "infobox": "ESTADIO OLIMPICO NILTON SANTOS|LOCALIZADO_EM|RIO DE JANEIRO"
+        },
+        "collision_status": "full_collision"
+      },
+      {
+        "fact": "MARACANÃ --LOCALIZADO_EM--> RIO DE JANEIRO",
+        "keys": {
+          "osm": "MARACANA|LOCALIZADO_EM|RIO DE JANEIRO",
+          "pt": "MARACANA|LOCALIZADO_EM|RIO DE JANEIRO",
+          "en": "MARACANA|LOCALIZADO_EM|RIO DE JANEIRO",
+          "infobox": "MARACANA|LOCALIZADO_EM|RIO DE JANEIRO"
+        },
+        "collision_status": "full_collision"
+      },
+      {
+        "fact": "BEIRA-RIO --LOCALIZADO_EM--> PORTO ALEGRE",
+        "keys": {
+          "osm": "BEIRA RIO|LOCALIZADO_EM|PORTO ALEGRE",
+          "pt": "BEIRA RIO|LOCALIZADO_EM|PORTO ALEGRE",
+          "en": "BEIRA RIO|LOCALIZADO_EM|PORTO ALEGRE",
+          "infobox": "BEIRA RIO|LOCALIZADO_EM|PORTO ALEGRE"
+        },
+        "collision_status": "full_collision"
+      },
+      {
+        "fact": "MINEIRÃO --LOCALIZADO_EM--> BELO HORIZONTE",
+        "keys": {
+          "osm": "MINEIRAO|LOCALIZADO_EM|BELO HORIZONTE",
+          "pt": "MINEIRAO|LOCALIZADO_EM|BELO HORIZONTE",
+          "en": "MINEIRAO|LOCALIZADO_EM|BELO HORIZONTE",
+          "infobox": "MINEIRAO|LOCALIZADO_EM|BELO HORIZONTE"
+        },
+        "collision_status": "full_collision"
+      },
+      {
+        "fact": "ARENA FONTE NOVA --LOCALIZADO_EM--> SALVADOR",
+        "keys": {
+          "osm": "ARENA FONTE NOVA|LOCALIZADO_EM|SALVADOR",
+          "pt": "ARENA FONTE NOVA|LOCALIZADO_EM|SALVADOR",
+          "en": "ARENA FONTE NOVA|LOCALIZADO_EM|SALVADOR",
+          "infobox": "ARENA FONTE NOVA|LOCALIZADO_EM|SALVADOR"
+        },
+        "collision_status": "full_collision"
+      }
+    ]
+  },
+  "current_batch_regression": false,
+  "current_batch_full": 4,
+  "existing_verified_regression": false,
+  "venceu_defendeu_regression": false,
+  "botafogo_verified_preserved": true,
+  "santos_verified_preserved": true,
+  "pele_defendeu_preserved": true,
+  "pt_narrative_regression": false,
+  "en_narrative_regression": false,
+  "generic_wiki_noise_suppressed_for_geo_urls": true,
+  "predicted_new_verified": 2,
+  "predicted_batch_verified_total": 5,
+  "predicted_records_total": 20,
+  "predicted_unique_predicates": 3,
+  "predicted_non_venceu_ratio": 0.5,
+  "predicted_top_predicate_share": 0.5,
+  "predicted_publisher_family_count": 3,
+  "predicted_graph_scoped_gap": 0,
+  "predicted_fact_accounting_status": "ok",
+  "predicted_canonical_to_fact_gap": "scope_mismatch_non_blocking",
+  "canonical_to_fact_gap_status": "explicado_nao_bloqueante",
+  "audit_geo_worker_dry_run_stale": false,
+  "worker_audit_gate_passed": true,
+  "cross_city_infobox_rejected": true,
+  "beira_rio_hyphen_normalized": true,
+  "top_invalid_predicates": [],
+  "ser_share_delta": 0.0,
+  "homonym_state_city_accepted_only_for_allowed_cities": true,
+  "ambiguous_stadium_matches_rejected": true,
+  "quorum": 3,
+  "gate_passed": true,
+  "classification": "SUCCESS_048_10L_3_NEXT_BATCH_DRY_RUN_5_OF_5_READY_FOR_WORKER"
+}
