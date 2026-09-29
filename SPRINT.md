@@ -2993,3 +2993,21 @@ Secundárias: `OBSERVABILITY_DEBT_GRAPH_SCOPED_GAP_NEGATIVE` (#052.3.1) ·
 > Este ciclo executou **1 worker** (autorizado), **não treinou**, **não escalou #048.10L**,
 > **não alterou seeds do next batch**, **não fez force-push**.
 > Próximo: **#048.10L** (runtime/seeds do next batch) — planejável, **não executado** aqui.
+
+## #053.2 — Publisher-family telemetry for OpenStreetMap
+
+**Status:** **PARTIAL** (`PARTIAL_053_2_LOCAL_READY_LIVE_PENDING`)
+**Local `publisher_family_count`:** **3** · **Effective:** **3**
+**Live `publisher_family_count`:** **ausente** (sem alteração de runtime/deploy)
+**OpenStreetMap reconhecido:** **SIM** (local) · **Wikimedia colapsada:** **SIM** · **RSSSF warning:** **SIM**
+**Deploy do Space:** **NÃO** (não houve mudança em `app.py`/`graph_connector.py`)
+**Worker executado:** NÃO · **#048.10L:** congelado · **Treino:** bloqueado
+
+- Helper read-only: `scripts/publisher_family_telemetry.py` (`classify_publisher_family`, `summarize_families`).
+- `evaluate_training_gate.py`: famílias agora `{Wikimedia:30, OpenStreetMap:4, RSSSF:11}` +
+  `effective_publisher_count=3` + `publisher_independence_warnings`.
+- Dívida **#053.2.1**: expor `publisher_family_*` no `/api/metrics` vivo (runtime + redeploy seguro).
+- Dívida **#052.3.1**: `graph_scoped_gap=-404` (separada).
+
+> Este ciclo não executou worker; não escreveu em Neo4j/Qdrant via ingest; não alterou seeds/quórum;
+> não treinou; não escalou #048.10L.
