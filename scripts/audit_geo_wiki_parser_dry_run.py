@@ -83,7 +83,7 @@ def main() -> int:
         "osm_canonical_triples": sum(1 for f in facts if f["osm"]["matched"]),
         "wiki_pt_canonical_triples": sum(1 for f in facts if f["wiki_pt"]["matched"]),
         "wiki_en_canonical_triples": sum(1 for f in facts if f["wiki_en"]["matched"]),
-        "matching_canonical_keys": full * 3,
+        "matching_canonical_keys": full,
         "full_collision_facts": full,
         "partial_collision_facts": 0,
         "predicted_new_verified": full,

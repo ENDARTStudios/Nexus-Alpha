@@ -1,6 +1,6 @@
 {
   "audit_id": "geo_canonical_parity_048_10h_2_1",
-  "generated_at": "2026-09-29T00:49:09.615762+00:00",
+  "generated_at": "2026-09-29T00:52:35.843582+00:00",
   "expected_facts": [
     {
       "fact": "ALLIANZ PARQUE --LOCALIZADO_EM--> SÃO PAULO",
@@ -86,7 +86,7 @@
   "summary": {
     "expected_facts_total": 4,
     "full_collision_facts": 4,
-    "matching_canonical_keys": 12,
+    "matching_canonical_keys": 4,
     "canonical_key_mismatches": 0,
     "junk_objects": 0,
     "forbidden_objects": 0,
