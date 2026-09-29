@@ -105,3 +105,33 @@ def test_worker_top_k_is_seed_aware():
     seeds = len(cluster_to_seeds(load_seed_clusters(ROOT / "config" / "seed_clusters.yaml")))
     assert worker.WORKER_TOP_K >= len(worker.SEED_QUERIES) + seeds + 10
     assert worker.WORKER_TOP_K >= 64
+
+
+# --- #048.10L.3: expected_city resolvido POR URL ---
+
+BEIRA = "https://nominatim.openstreetmap.org/search?format=json&q=Est%C3%A1dio%20Beira-Rio"
+WIKI_BEIRA = "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Beira-Rio"
+
+
+def test_build_geo_payloads_resolves_expected_city_per_url():
+    seen = {}
+
+    def fake(url, allow, expected_city=None):
+        seen[url] = expected_city
+        return ([_fake_triple()], {"osm_json_parsed": 1, "geo_triples_raw": 1, "rejection_reasons": {}})
+
+    worker._build_geo_payloads([NOMINATIM, BEIRA], fetcher=fake)
+    assert seen[NOMINATIM] == "SÃO PAULO"
+    assert seen[BEIRA] == "PORTO ALEGRE"
+
+
+def test_build_geo_wiki_payloads_passes_expected_city():
+    captured = {}
+
+    def parser(url, text, html, expected_city=None):
+        captured[url] = expected_city
+        return [{"subject": "BEIRA-RIO", "predicate": "LOCALIZADO_EM", "object": "PORTO ALEGRE",
+                 "confidence": 0.9, "metadata": {}}]
+
+    worker._build_geo_wiki_payloads([WIKI_BEIRA], parser=parser, fetcher=lambda u: "<html/>")
+    assert captured[WIKI_BEIRA] == "PORTO ALEGRE"

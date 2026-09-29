@@ -51,3 +51,55 @@ def test_homonym_rejected_without_country():
 
 def test_homonym_rejected_without_expected_city():
     assert extract_geo_localizado_from_osm_json([_entry()], URL, default_geo_allowlist()) == []
+
+
+# --- #048.10L.3: fallback source-scoped por fato (Porto Alegre / Belo Horizonte) ---
+
+def _venue(name: str, display: str, **over) -> dict:
+    base = {"name": name, "display_name": display, "class": "leisure", "type": "stadium", "address": {}}
+    base.update(over)
+    return base
+
+
+def test_source_scoped_fallback_porto_alegre():
+    e = _venue("Estádio Beira-Rio", "Estádio Beira-Rio, Porto Alegre, Brazil")
+    r = extract_geo_localizado_from_osm_json([e], URL, default_geo_allowlist(), expected_city="PORTO ALEGRE")
+    assert len(r) == 1 and r[0]["object"] == "PORTO ALEGRE"
+    assert r[0]["metadata"]["city_source"] == "display_name_expected_context"
+
+
+def test_source_scoped_fallback_belo_horizonte():
+    e = _venue("Estádio Mineirão", "Estádio Mineirão, Belo Horizonte, Brazil")
+    r = extract_geo_localizado_from_osm_json([e], URL, default_geo_allowlist(), expected_city="BELO HORIZONTE")
+    assert len(r) == 1 and r[0]["object"] == "BELO HORIZONTE"
+
+
+def test_source_scoped_rejects_state_only():
+    assert extract_geo_localizado_from_osm_json(
+        [_venue("Estádio Beira-Rio", "Estádio Beira-Rio, Rio Grande do Sul, Brazil")],
+        URL, default_geo_allowlist(), expected_city="PORTO ALEGRE") == []
+    assert extract_geo_localizado_from_osm_json(
+        [_venue("Estádio Mineirão", "Estádio Mineirão, Minas Gerais, Brazil")],
+        URL, default_geo_allowlist(), expected_city="BELO HORIZONTE") == []
+
+
+def test_source_scoped_rejects_cross_city():
+    assert extract_geo_localizado_from_osm_json(
+        [_venue("Estádio Mineirão", "Estádio Mineirão, Rio de Janeiro, Brazil")],
+        URL, default_geo_allowlist(), expected_city="BELO HORIZONTE") == []
+
+
+def test_source_scoped_rejects_conflicting_second_city():
+    assert extract_geo_localizado_from_osm_json(
+        [_venue("Estádio Beira-Rio", "Estádio Beira-Rio, Porto Alegre, Rio de Janeiro, Brazil")],
+        URL, default_geo_allowlist(), expected_city="PORTO ALEGRE") == []
+
+
+def test_non_venue_type_rejected():
+    e = _venue("Estádio Beira-Rio", "Estádio Beira-Rio, Porto Alegre, Brazil", **{"class": "highway", "type": "residential"})
+    assert extract_geo_localizado_from_osm_json([e], URL, default_geo_allowlist(), expected_city="PORTO ALEGRE") == []
+
+
+def test_structured_city_conflicting_with_expected_rejected():
+    e = _venue("Estádio Mineirão", "Estádio Mineirão, Belo Horizonte, Brazil", address={"city": "Rio de Janeiro"})
+    assert extract_geo_localizado_from_osm_json([e], URL, default_geo_allowlist(), expected_city="BELO HORIZONTE") == []

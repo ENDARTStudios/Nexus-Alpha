@@ -92,6 +92,27 @@ FORBIDDEN_CITY_HINTS = {
     "RIO DE JANEIRO STATE",
 }
 
+# Cidade esperada source-scoped por estadi canonico (#048.10H lote atual + #048.10L next batch).
+# Fonte: reports/geo_expected_facts_048_10H.json + reports/geo_expected_facts_048_10L.json.
+GEO_EXPECTED_CITY_BY_STADIUM: dict[str, str] = {
+    "ALLIANZ PARQUE": "SÃO PAULO",
+    "MORUMBI": "SÃO PAULO",
+    "PACAEMBU": "SÃO PAULO",
+    "NEO QUÍMICA ARENA": "SÃO PAULO",
+    "ESTÁDIO OLÍMPICO NILTON SANTOS": "RIO DE JANEIRO",
+    "MARACANÃ": "RIO DE JANEIRO",
+    "BEIRA-RIO": "PORTO ALEGRE",
+    "MINEIRÃO": "BELO HORIZONTE",
+    "ARENA FONTE NOVA": "SALVADOR",
+}
+
+# Nominatim: tipo/class que NUNCA sao venue de estadio (viario/bairro/cidade/endereco).
+_NON_VENUE_OSM_CLASSES = {"HIGHWAY", "ROUTE", "BOUNDARY", "PLACE"}
+_NON_VENUE_OSM_TYPES = {
+    "ROAD", "HIGHWAY", "RESIDENTIAL", "FOOTWAY", "PEDESTRIAN", "NEIGHBOURHOOD", "NEIGHBORHOOD",
+    "SUBURB", "CITY", "TOWN", "VILLAGE", "ADMINISTRATIVE", "HOUSE", "HOUSE_NUMBER", "COUNTRY", "STATE",
+}
+
 
 def _fold(value: str) -> str:
     decomposed = unicodedata.normalize("NFD", value or "")
@@ -126,6 +147,37 @@ class GeoAllowlist:
 
 def default_geo_allowlist() -> GeoAllowlist:
     return GeoAllowlist(stadiums=dict(STADIUM_ALIASES), cities=dict(CANONICAL_CITIES))
+
+
+def _is_non_venue_osm_entry(entry: dict) -> bool:
+    """True quando o resultado Nominatim nao e um venue de estadio (viario/bairro/cidade)."""
+    cls = _fold(str(entry.get("class") or entry.get("category") or ""))
+    typ = _fold(str(entry.get("type") or ""))
+    return cls in _NON_VENUE_OSM_CLASSES or typ in _NON_VENUE_OSM_TYPES
+
+
+def resolve_expected_geo_city(url: str, allowlist: GeoAllowlist | None = None) -> str | None:
+    """Cidade esperada source-scoped por fato/URL (registry GEO). Nao usa heuristica textual ampla.
+
+    * URL wiki GEO -> sujeito pinado pela URL -> cidade do registry.
+    * URL Nominatim -> ``q`` resolvido contra a allowlist de estadios -> cidade do registry.
+    * Qualquer outra -> ``None`` (``expected_city_unresolved``).
+    """
+    allowlist = allowlist or default_geo_allowlist()
+    from src.cognition.geo_wiki_parser import _pin_subject_by_url
+
+    subject = _pin_subject_by_url(url)
+    if subject:
+        return GEO_EXPECTED_CITY_BY_STADIUM.get(subject)
+    if is_geo_nominatim_url(url):
+        try:
+            query = urllib.parse.parse_qs(urllib.parse.urlparse(url).query).get("q", [""])[0]
+        except Exception:
+            query = ""
+        stadium = allowlist.resolve_stadium(query) if query else None
+        if stadium:
+            return GEO_EXPECTED_CITY_BY_STADIUM.get(stadium)
+    return None
 
 
 # Excecao estrita homonimo estado/cidade (source-scoped). SAO PAULO (#048.10H) e RIO DE JANEIRO (#048.10L).
@@ -196,26 +248,42 @@ def extract_geo_localizado_from_osm_json(
             str(v) for v in (entry.get("name"), namedetails.get("name"), entry.get("display_name")) if v
         )
         stadium = allowlist.resolve_stadium(blob)
-        if not stadium:
+        if not stadium or _is_non_venue_osm_entry(entry):
             continue
         address = entry.get("address") or {}
         city = None
         city_key = None
+        expected_folded = _fold(expected_city) if expected_city else None
+        structured_conflict = False
         for key in ("city", "town", "municipality"):
             found = allowlist.city_from(address.get(key))
             if found:
+                if expected_folded and _fold(found) != expected_folded:
+                    structured_conflict = True  # cidade estruturada conflita com a esperada -> ambiguo
+                    break
                 city, city_key = found, f"address.{key}"
                 break
-        if not city:
+        if structured_conflict:
+            continue
+        if not city and expected_city is None:
+            # Sem expected_city (legado): aceita cidade do display_name desde que nao homonima.
             for segment in reversed(str(entry.get("display_name") or "").split(",")):
                 found = allowlist.city_from(segment)
                 if found and _fold(found) not in HOMONYM_STATE_CITY_ALLOWLIST:
                     city, city_key = found, "display_name"
                     break
-        if not city and expected_city and _fold(expected_city) not in HOMONYM_STATE_CITY_ALLOWLIST:
-            # Fallback source-scoped: so aceita a cidade JA ESPERADA pelo cluster (nunca infere generico).
-            if re.search(rf"\b{re.escape(_fold(expected_city))}\b", _fold(str(entry.get("display_name") or ""))):
-                city, city_key = expected_city, "display_name_expected_context"
+        if not city and expected_city and expected_folded not in HOMONYM_STATE_CITY_ALLOWLIST:
+            # Fallback source-scoped: so aceita a cidade JA ESPERADA pelo cluster (nunca infere generico)
+            # e rejeita se outra cidade allowlisted conflitar no display_name (ambiguidade).
+            display = _fold(str(entry.get("display_name") or ""))
+            if re.search(rf"\b{re.escape(expected_folded)}\b", display):
+                conflicting = {
+                    canonical for canonical in CANONICAL_CITIES.values()
+                    if _fold(canonical) != expected_folded
+                    and re.search(rf"\b{re.escape(_fold(canonical))}\b", display)
+                }
+                if not conflicting:
+                    city, city_key = expected_city, "display_name_expected_context"
         homonym = False
         if not city and expected_city:
             spec = HOMONYM_STATE_CITY_ALLOWLIST.get(_fold(expected_city))

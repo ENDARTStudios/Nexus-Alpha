@@ -26,6 +26,7 @@ from src.cognition.geo_extractor import (
     default_geo_allowlist,
     fetch_and_extract_geo,
     is_geo_nominatim_url,
+    resolve_expected_geo_city,
 )
 from src.cognition.geo_wiki_parser import extract_geo_localizado_from_wiki, is_geo_wiki_url
 from src.ops.space_telemetry import check_space_telemetry
@@ -151,7 +152,11 @@ def _build_geo_payloads(
     }
     payloads: list[dict] = []
     for url in geo_urls:
-        triples, tel = fetcher(url, allowlist, expected_city)
+        # #048.10L.3: cidade esperada resolvida POR URL/FATO (registry source-scoped).
+        # Nunca herda a cidade de outra URL; fallback legado so quando irresolvivel.
+        per_url_expected = resolve_expected_geo_city(url, allowlist=allowlist)
+        effective_expected = per_url_expected if per_url_expected is not None else expected_city
+        triples, tel = fetcher(url, allowlist, effective_expected)
         telemetry["osm_urls_fetched"] += 1
         telemetry["osm_json_parsed"] += int(tel.get("osm_json_parsed", 0))
         telemetry["geo_triples_raw"] += int(tel.get("geo_triples_raw", 0))
@@ -216,7 +221,8 @@ def _build_geo_wiki_payloads(
     for url in geo_wiki_urls:
         html = fetch(url)
         telemetry["geo_wiki_urls_fetched"] += 1
-        triples = parser(url, "", html) if html else []
+        # #048.10L.3: expected_city source-scoped -> rejeita contaminacao cross-city de infobox.
+        triples = parser(url, "", html, expected_city=resolve_expected_geo_city(url)) if html else []
         if not triples:
             continue
         telemetry["geo_wiki_triples_canonical"] += len(triples)

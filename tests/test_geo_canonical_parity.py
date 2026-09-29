@@ -64,3 +64,10 @@ def test_geo_parity_diagnosis_doc_exists():
 
         data = json.loads(p.read_text(encoding="utf-8"))
         assert data["summary"]["expected_total"] == 4
+
+
+def test_beira_rio_hyphen_and_space_same_canonical_key():
+    # #048.10L.3: `BEIRA-RIO` (parser) e `BEIRA RIO` (canonicalizacao do grafo) casam a MESMA chave.
+    hyphen = _key("BEIRA-RIO", "LOCALIZADO_EM", "PORTO ALEGRE")
+    space = _key("BEIRA RIO", "LOCALIZADO_EM", "PORTO ALEGRE")
+    assert hyphen == space == "BEIRA RIO|LOCALIZADO_EM|PORTO ALEGRE"

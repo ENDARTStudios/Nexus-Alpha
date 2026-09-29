@@ -44,9 +44,11 @@ _URL_SUBJECT_TOKENS = (
 )
 
 FORBIDDEN_TOKENS = (
-    "bairro", "neighborhood", "district", "suburb", "borough", "estado", "state of",
+    "bairro", "neighborhood", "district", "suburb", "borough", "estado", "state",
     "country", "brasil", "brazil", "rua", "avenida", "avenue", "street", "postcode",
-    "coordenada", "coordinate", "owner", "tenant", "clube", "futebol clube",
+    "coordenada", "coordinate", "owner", "tenant", "operator", "clube", "club",
+    "futebol clube", "capacity", "surface", "architect", "opened", "home team",
+    "address", "endereco",
     "palmeiras", "corinthians", "santos futebol",
 )
 
@@ -111,15 +113,18 @@ def _is_forbidden_location_object(value: str) -> bool:
     return any(tok in folded for tok in FORBIDDEN_TOKENS)
 
 
-def _extract_city_from_sentence(sentence: str) -> str | None:
-    """Cidade allowlisted se a frase tiver cue de localizacao e nao for bairro/pais/estado/clube/endereco."""
+def _extract_city_from_sentence(sentence: str, expected_city: str | None = None) -> str | None:
+    """Cidade allowlisted se a frase tiver cue de localizacao e nao for bairro/pais/estado/clube/endereco.
+
+    Se ``expected_city`` for fornecido (source-scoped), a frase so e aceita quando a cidade
+    encontrada e EXATAMENTE a esperada -- rejeita cross-city (ex.: "Rio de Janeiro" no Mineirao).
+    """
     folded = _fold(sentence).lower()
     if not any(re.search(p, folded) for p in CUE_PATTERNS):
         return None
     found = {canon for alias, canon in _CITY_ALIASES.items() if re.search(rf"\b{re.escape(alias)}\b", folded)}
-    if len(found) != 1:
-        return None  # nenhuma ou multiplas cidades -> ambiguo
-    city = next(iter(found))
+    if not found:
+        return None
 
     # Rejeicoes por token em qualquer lugar da frase (inclui estado/state como cidade).
     for tok in ("bairro", "neighborhood", "district", "suburb", "borough", "owner", "tenant", "clube", "club", "home of", "futebol clube", "estado", "state"):
@@ -128,19 +133,35 @@ def _extract_city_from_sentence(sentence: str) -> str | None:
     for tok in ("rua", "avenida", "avenue", "street", "postcode", "coordenada", "coordinate"):
         if re.search(rf"\b{re.escape(tok)}\b", folded):
             return None
-    return city
+
+    if expected_city:
+        expected_key = _fold(expected_city)
+        return expected_key if expected_key in found else None
+    if len(found) != 1:
+        return None  # nenhuma ou multiplas cidades -> ambiguo
+    return next(iter(found))
 
 
-def _extract_city_from_infobox(html: str) -> str | None:
-    """Cidade de campos de infobox de localizacao (PT/EN). Nao usa endereco/owner/capacidade."""
+def _extract_city_from_infobox(html: str, expected_city: str | None = None) -> str | None:
+    """Cidade de campos de infobox de localizacao (PT/EN). Nao usa endereco/owner/capacidade.
+
+    Se ``expected_city`` for fornecido, retorna SOMENTE a cidade esperada (ignora/ rejeita
+    qualquer outra cidade na mesma pagina -- evita contaminacao cross-city de infobox).
+    """
     if not html:
         return None
+    expected_key = _fold(expected_city) if expected_city else None
     for label in ("localização", "localizacao", "cidade", "location", "city", "municipality"):
         for m in re.finditer(rf"(?is){label}.{{0,80}}", html):
             window = m.group(0)
             if _is_forbidden_location_object(window):
                 continue
             folded = _fold(window).lower()
+            found = {canon for alias, canon in _CITY_ALIASES.items() if re.search(rf"\b{re.escape(alias)}\b", folded)}
+            if expected_key:
+                if expected_key in found:
+                    return expected_key
+                continue
             for alias, canon in _CITY_ALIASES.items():
                 if re.search(rf"\b{re.escape(alias)}\b", folded):
                     return canon
@@ -175,19 +196,24 @@ def extract_geo_localizado_from_wiki(
     source_url: str,
     cleaned_text: str,
     html: str | None = None,
+    expected_city: str | None = None,
 ) -> list[dict]:
-    """Triples GEO allowlisted de uma pagina wiki de estadio (subject pinado pela URL)."""
+    """Triples GEO allowlisted de uma pagina wiki de estadio (subject pinado pela URL).
+
+    ``expected_city`` (source-scoped) restringe a extracao a cidade esperada do cluster/fato,
+    rejeitando contaminacao cross-city (ex.: Mineirao capturando "Rio de Janeiro").
+    """
     subject = _pin_subject_by_url(source_url)
     if not subject:
         return []
 
-    city = _extract_city_from_infobox(html) if html else None
+    city = _extract_city_from_infobox(html, expected_city) if html else None
     evidence_type = "infobox"
     excerpt = ""
     if not city:
         text = cleaned_text or (html_to_text(html) if html else "")
         for sentence in re.split(r"(?<=[.!?])\s+", text):
-            city = _extract_city_from_sentence(sentence)
+            city = _extract_city_from_sentence(sentence, expected_city)
             if city:
                 evidence_type = "lead_sentence"
                 excerpt = sentence.strip()

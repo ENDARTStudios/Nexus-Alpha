@@ -52,3 +52,48 @@ def test_non_geo_url_returns_empty():
 def test_no_network_no_crash_on_empty():
     assert extract_geo_localizado_from_wiki("https://en.wikipedia.org/wiki/Allianz_Parque", "") == []
     assert extract_geo_localizado_from_wiki("", "Allianz Parque is located in São Paulo.") == []
+
+
+# --- #048.10L.3: expected_city source-scoped + rejeicao de infobox cross-city ---
+
+MINEIRAO_PT = "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Governador_Magalh%C3%A3es_Pinto"
+BEIRA_PT = "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Beira-Rio"
+
+
+def test_mineirao_cross_city_sentence_rejected():
+    triples = extract_geo_localizado_from_wiki(
+        MINEIRAO_PT, "O Mineirão está localizado no Rio de Janeiro.", expected_city="BELO HORIZONTE")
+    assert triples == []
+
+
+def test_mineirao_cross_city_infobox_rejected():
+    triples = extract_geo_localizado_from_wiki(
+        MINEIRAO_PT, "", "<tr><th>Localização</th><td>Rio de Janeiro</td></tr>", expected_city="BELO HORIZONTE")
+    assert triples == []
+
+
+def test_mineirao_expected_city_accepted():
+    triples = extract_geo_localizado_from_wiki(
+        MINEIRAO_PT, "O Mineirão está localizado em Belo Horizonte.", expected_city="BELO HORIZONTE")
+    assert len(triples) == 1 and triples[0]["object"] == "BELO HORIZONTE"
+    assert triples[0]["subject"] == "MINEIRÃO"
+
+
+def test_beira_rio_infobox_porto_alegre():
+    triples = extract_geo_localizado_from_wiki(
+        BEIRA_PT, "", "<tr><th>Cidade</th><td>Porto Alegre</td></tr>", expected_city="PORTO ALEGRE")
+    assert len(triples) == 1 and triples[0]["object"] == "PORTO ALEGRE"
+    assert triples[0]["subject"] == "BEIRA-RIO"
+
+
+def test_ambiguous_infobox_expected_only():
+    html = "<tr><th>Localização</th><td>Belo Horizonte</td></tr><tr><th>Outro</th><td>Rio de Janeiro</td></tr>"
+    triples = extract_geo_localizado_from_wiki(MINEIRAO_PT, "", html, expected_city="BELO HORIZONTE")
+    assert len(triples) == 1 and triples[0]["object"] == "BELO HORIZONTE"
+
+
+def test_forbidden_infobox_labels_rejected():
+    # Janela de localizacao contendo token proibido (address/owner/estado) -> rejeitada.
+    for bad in ("Address: Belo Horizonte", "Owner: Mineirão", "Estado de Minas Gerais"):
+        html = f"<tr><th>Location</th><td>{bad}</td></tr>"
+        assert extract_geo_localizado_from_wiki(MINEIRAO_PT, "", html, expected_city="BELO HORIZONTE") == [], bad
