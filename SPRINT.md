@@ -3011,3 +3011,22 @@ Secundárias: `OBSERVABILITY_DEBT_GRAPH_SCOPED_GAP_NEGATIVE` (#052.3.1) ·
 
 > Este ciclo não executou worker; não escreveu em Neo4j/Qdrant via ingest; não alterou seeds/quórum;
 > não treinou; não escalou #048.10L.
+
+## #053.2.1 — Publisher-family telemetry viva
+
+**Status:** **DONE** (`SUCCESS_053_2_1_LIVE_PUBLISHER_FAMILY_READY`)
+**Local `publisher_family_count`:** 3 · **Live `publisher_family_count`:** **3**
+**OpenStreetMap reconhecido vivo:** **SIM** · **Wikimedia colapsada vivo:** **SIM** · **RSSSF warning vivo:** **SIM**
+**Deploy do Space:** **OK** (`sha 3aa1ad22 -> 8ff50d4d`, build `RUNNING`)
+**Worker executado:** NÃO · **#048.10L:** congelado · **Treino:** bloqueado
+
+- Helper compartilhado `src/ops/publisher_family.py`; `scripts/publisher_family_telemetry.py` delega a ele.
+- `/api/metrics` vivo agora expõe `publisher_family_count=3`, `effective_publisher_count=3`,
+  `publisher_family_distribution={OpenStreetMap:4, RSSSF:11, Wikimedia:31}` e `publisher_independence_warnings`
+  — preservando todos os campos legados (`verified=15`, `fact_count=404`, `concept_count=2009`, `quorum=3`).
+- `graph_connector.verified_fact_domain_counts()` (read-only) alimenta a telemetria; `metric_glossary` ganhou notas.
+- Deploy via `scripts/deploy_hf_space_safe.py` (main: `58dab28`), venv isolado, 81 arquivos, sem segredos.
+- Dívida **#052.3.1** (`graph_scoped_gap=-404`) permanece separada.
+
+> Este ciclo não executou worker; não escreveu em Neo4j/Qdrant via ingest; não alterou seeds/quórum;
+> não treinou; não escalou #048.10L.
