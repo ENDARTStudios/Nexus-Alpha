@@ -2885,3 +2885,56 @@ Não escalar next batch (#048.10L) antes de entender o bloqueio.
 > **Não alterou** canonicalizer/predicate_mapper/span_validator/entity_aliases. **Não treinou.**
 > #048.10L permanece congelado; #052.3.1 permanece separado.
 > Próximo: **#048.10H.3** — retry do worker GEO (snapshot/baseline/worker/post/validate).
+
+## #048.10H.3 — GEO worker retry com validação fact-level
+
+**Status:** **PARTIAL**
+**Space preflight:** OK · **Snapshot:** read-only (nodes=5107, rels=4057)
+**Worker run:** `36506930895` (success) · **cron:** `disabled_manually` antes/depois · **dispatches:** 1
+**Worker executado:** SIM (1)
+
+### Fatos GEO
+- **Verificados (inferidos):** PACAEMBU → SÃO PAULO · NEO QUÍMICA ARENA → SÃO PAULO (pt+en+osm)
+- **Parciais:** ALLIANZ (OSM `no_clean_city_evidence`) · MORUMBI (OSM POST `502`) → pt+en
+- Parser wiki dedicado: **8/8** triplas, `generic_wiki_noise_suppressed=true`
+
+### Métricas
+
+| Métrica | Antes | Depois | Delta |
+|---|---:|---:|---:|
+| verified_facts_domain_independent | 11 | **13** | +2 |
+| records_total | 11 | **13** | +2 |
+| fact_count | 403 | 404 | +1 |
+| concept_count | 2008 | 2009 | +1 |
+| unique_predicates | 2 | **3** | +1 |
+| non_VENCEU_ratio | 0.09 | >0.09 | + |
+| top_predicate_share | ~0.91 | <0.91 | - |
+| publisher_family_count | 2 | 2 | 0 |
+| facts_with_multi_domain | 12 | 16 | +4 |
+| duplicate_cross_domain | 23 | 29 | +6 |
+| graph_scoped_gap | -403 | -404 | (dívida #052.3.1) |
+| unaccounted_raw | 0 | 0 | 0 |
+| top_invalid_predicates | [] | [] | 0 |
+| fallback_promoted_to_graph | 0 | 0 | 0 |
+
+### Classificação
+
+**`PARTIAL_048_10H_3_GEO_PROGRESS`** — o terceiro predicado (`LOCALIZADO_EM`) **nasceu** no grafo
+verificado (`unique_predicates = 3`), com 2/4 fatos GEO verificados e **zero junk/regressão**.
+
+### Análise de falha real
+
+`reports/geo_real_page_failure_analysis_048_10H_3.md` — ALLIANZ (R10/R11 OSM sem cidade estruturada) ·
+MORUMBI (R9 502 transitório no POST). Próximo: **#048.10H.4**.
+
+### Dívida observacional
+
+`graph_scoped_gap negativo` (`-404`) — **#052.3.1**, não bloqueante.
+
+### Treino
+
+`training_gate_evaluation`: `records_total=13`, `unique_predicates=3`, `diversity_gate=false`,
+`training_recommended=false`, `training_allowed=false`. **Treino não executado.**
+
+> Este ciclo executou **1 worker** (autorizado), **não escalou #048.10L**, **não alterou seeds**,
+> **não treinou**, **não fez force-push**. Próximo: **#048.10H.4** (corrigir ALLIANZ/MORUMBI).

@@ -1,0 +1,23 @@
+{
+  "audit_id": "geo_post_048_10H_3",
+  "generated_at": "2026-09-29T01:19:30+00:00",
+  "worker_run": 36506930895,
+  "publisher_families": ["Wikimedia", "OpenStreetMap"],
+  "geo_wiki": {"geo_wiki_urls_seen": 8, "geo_wiki_urls_fetched": 8, "geo_wiki_triples_canonical": 8, "generic_wiki_noise_suppressed": true, "extraction_method": "geo_wiki_dedicated_parser"},
+  "geo_osm": {"osm_urls_seen": 4, "osm_urls_fetched": 4, "osm_json_parsed": 4, "geo_triples_raw": 3, "geo_triples_canonical": 3, "rejection_reasons": {"no_clean_city_evidence": 1}},
+  "verified_facts_domain_independent": {"before": 11, "after": 13},
+  "facts_with_multi_domain": {"before": 12, "after": 16},
+  "duplicate_cross_domain": {"before": 23, "after": 29},
+  "verified_geo_facts_inferred": [
+    "PACAEMBU --LOCALIZADO_EM--> SÃO PAULO (pt+en+osm)",
+    "NEO QUÍMICA ARENA --LOCALIZADO_EM--> SÃO PAULO (pt+en+osm)"
+  ],
+  "partial_geo_facts_inferred": [
+    "ALLIANZ PARQUE --LOCALIZADO_EM--> SÃO PAULO (pt+en; OSM rejeitado: no_clean_city_evidence)",
+    "MORUMBI --LOCALIZADO_EM--> SÃO PAULO (pt+en; OSM POST 502 transitório)"
+  ],
+  "health": {"unaccounted_raw": 0, "fallback_promoted_to_graph": 0, "top_invalid_predicates": [], "run_scoped_gap": 0, "graph_scoped_gap": -404},
+  "verified_facts_domain_independent_note": "inferido por total (+2) + OSM 200/rejeicao por URL; metricas nao expoem dominios por fato",
+  "attribution": "(c) OpenStreetMap contributors",
+  "license": "ODbL"
+}
