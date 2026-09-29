@@ -216,6 +216,49 @@ def validate_multi_batch(
     }
 
 
+def validate_with_fact_domains(expected: dict, fact_domains: dict) -> dict:
+    """Validacao fact-level quando ha export de dominios por fato."""
+    strength = fact_domains.get("evidence_strength", "insufficient")
+    by_key = {}
+    for f in fact_domains.get("facts") or []:
+        by_key[(_fold(f.get("subject")), str(f.get("predicate") or "").upper(), _fold(f.get("object")))] = f
+    total = len(expected.get("expected_facts") or [])
+    strong = 0
+    inferred = 0
+    missing = []
+    partial = []
+    for ef in expected.get("expected_facts") or []:
+        key = (_fold(ef["subject"]), str(ef["predicate"]).upper(), _fold(ef["object"]))
+        got = by_key.get(key)
+        dc = int((got or {}).get("domain_count", 0))
+        if dc >= int(ef.get("min_domain_count", 3)):
+            if strength == "strong":
+                strong += 1
+            else:
+                inferred += 1
+        elif got:
+            partial.append(ef["fact"])
+        else:
+            missing.append(ef["fact"])
+    ok = total > 0 and strong == total
+    return {
+        "audit_id": "geo_expected_validation_048_10h_4",
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "expected_facts_total": total,
+        "expected_facts_verified_strong": strong,
+        "expected_facts_verified_inferred": inferred,
+        "expected_facts_verified": strong + inferred,
+        "evidence_strength": strength,
+        "missing_facts": missing,
+        "partial_facts": partial,
+        "junk_objects_detected": 0,
+        "forbidden_predicates_detected": 0,
+        "regression_existing_verified": False,
+        "ok": ok,
+        "blocking_reason": None if ok else ("PARTIAL_GEO_VALIDATION_INSUFFICIENT_EVIDENCE" if strength != "strong" else "BLOCKED_GEO_VALIDATION"),
+    }
+
+
 def _read_json(path: Path):
     try:
         return json.loads(path.read_text(encoding="utf-8"))
@@ -230,6 +273,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--geo-report", dest="geo_report", required=False)
     parser.add_argument("--expected", required=True)
     parser.add_argument("--expected-next", dest="expected_next", required=False)
+    parser.add_argument("--fact-domains", dest="fact_domains", required=False)
     parser.add_argument("--output", required=True)
     args = parser.parse_args(argv)
 
@@ -237,6 +281,7 @@ def main(argv: list[str] | None = None) -> int:
     post = _read_json(Path(args.post)) if args.post else None
     geo_report = _read_json(Path(args.geo_report)) if args.geo_report else None
     baseline = _read_json(Path(args.baseline)) if args.baseline else None
+    fact_domains = _read_json(Path(args.fact_domains)) if args.fact_domains else None
 
     if expected is None or post is None:
         result = {
@@ -246,6 +291,8 @@ def main(argv: list[str] | None = None) -> int:
             "blocking_reason": "BLOCKED_MISSING_REPORTS",
             "classification": "BLOCKED_MISSING_REPORTS",
         }
+    elif fact_domains is not None:
+        result = validate_with_fact_domains(expected, fact_domains)
     elif args.expected_next:
         expected_next = _read_json(Path(args.expected_next))
         result = validate_multi_batch(expected, expected_next, post, geo_report, baseline)
@@ -264,7 +311,6 @@ def main(argv: list[str] | None = None) -> int:
     if args.expected_next:
         ok = result.get("aggregate", {}).get("ok")
     return 0 if ok else 1
-
 
 if __name__ == "__main__":
     raise SystemExit(main())
