@@ -1,0 +1,66 @@
+{
+  "positives": [
+    {
+      "id": "nilton_santos",
+      "subject": "ESTÁDIO OLÍMPICO NILTON SANTOS",
+      "city": "RIO DE JANEIRO",
+      "pt_url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Ol%C3%ADmpico_Nilton_Santos",
+      "en_url": "https://en.wikipedia.org/wiki/Nilton_Santos_Stadium",
+      "pt_sentence": "O Estádio Olímpico Nilton Santos é um estádio localizado no Rio de Janeiro.",
+      "en_sentence": "Nilton Santos Stadium is a football stadium located in Rio de Janeiro.",
+      "infobox_html": "<tr><th>Localização</th><td>Rio de Janeiro</td></tr>"
+    },
+    {
+      "id": "maracana",
+      "subject": "MARACANÃ",
+      "city": "RIO DE JANEIRO",
+      "pt_url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_do_Maracan%C3%A3",
+      "en_url": "https://en.wikipedia.org/wiki/Maracan%C3%A3_Stadium",
+      "pt_sentence": "O Estádio do Maracanã está localizado no Rio de Janeiro.",
+      "en_sentence": "Maracanã Stadium is a football stadium located in Rio de Janeiro.",
+      "infobox_html": "<tr><th>Location</th><td>Rio de Janeiro</td></tr>"
+    },
+    {
+      "id": "beira_rio",
+      "subject": "BEIRA-RIO",
+      "city": "PORTO ALEGRE",
+      "pt_url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Beira-Rio",
+      "en_url": "https://en.wikipedia.org/wiki/Est%C3%A1dio_Beira-Rio",
+      "pt_sentence": "O Estádio Beira-Rio está localizado em Porto Alegre.",
+      "en_sentence": "Beira-Rio Stadium is located in Porto Alegre.",
+      "infobox_html": "<tr><th>Cidade</th><td>Porto Alegre</td></tr>"
+    },
+    {
+      "id": "mineirao",
+      "subject": "MINEIRÃO",
+      "city": "BELO HORIZONTE",
+      "pt_url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Governador_Magalh%C3%A3es_Pinto",
+      "en_url": "https://en.wikipedia.org/wiki/Mineir%C3%A3o",
+      "pt_sentence": "O Mineirão está situado em Belo Horizonte.",
+      "en_sentence": "Mineirão is located in Belo Horizonte.",
+      "infobox_html": "<tr><th>Localização</th><td>Belo Horizonte</td></tr>"
+    },
+    {
+      "id": "arena_fonte_nova",
+      "subject": "ARENA FONTE NOVA",
+      "city": "SALVADOR",
+      "pt_url": "https://pt.wikipedia.org/wiki/Arena_Fonte_Nova",
+      "en_url": "https://en.wikipedia.org/wiki/Itaipava_Arena_Fonte_Nova",
+      "pt_sentence": "A Arena Fonte Nova está localizada em Salvador.",
+      "en_sentence": "Arena Fonte Nova is a football stadium located in Salvador.",
+      "infobox_html": "<tr><th>Localização</th><td>Salvador</td></tr>"
+    }
+  ],
+  "negatives": [
+    {"id": "engenho_neighborhood", "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Ol%C3%ADmpico_Nilton_Santos", "text": "O estádio está no bairro Engenho de Dentro."},
+    {"id": "rio_state", "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_do_Maracan%C3%A3", "text": "O Maracanã está localizado no estado do Rio de Janeiro."},
+    {"id": "rio_state_en", "url": "https://en.wikipedia.org/wiki/Maracan%C3%A3_Stadium", "text": "Maracanã is located in Rio de Janeiro state."},
+    {"id": "bahia_as_city", "url": "https://pt.wikipedia.org/wiki/Arena_Fonte_Nova", "text": "A Arena Fonte Nova fica na Bahia."},
+    {"id": "minas_gerais", "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Governador_Magalh%C3%A3es_Pinto", "text": "O Mineirão fica em Minas Gerais."},
+    {"id": "country_only", "url": "https://en.wikipedia.org/wiki/Mineir%C3%A3o", "text": "Mineirão is located in Brazil."},
+    {"id": "non_allowlisted_city", "url": "https://en.wikipedia.org/wiki/Mineir%C3%A3o", "text": "Mineirão is located in Campinas."},
+    {"id": "address", "url": "https://pt.wikipedia.org/wiki/Est%C3%A1dio_Beira-Rio", "text": "O Beira-Rio fica na Avenida Padre Cacique, 891, Porto Alegre."},
+    {"id": "club_owner", "url": "https://en.wikipedia.org/wiki/Est%C3%A1dio_Beira-Rio", "text": "Beira-Rio is the home of Internacional, located in Porto Alegre."},
+    {"id": "pronoun", "url": "https://en.wikipedia.org/wiki/Maracan%C3%A3_Stadium", "text": "It is located there."}
+  ]
+}

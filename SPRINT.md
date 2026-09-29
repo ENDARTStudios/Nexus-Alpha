@@ -3050,3 +3050,44 @@ Secundárias: `OBSERVABILITY_DEBT_GRAPH_SCOPED_GAP_NEGATIVE` (#052.3.1) ·
 
 > Este ciclo não executou worker; não escreveu em Neo4j/Qdrant via ingest; **não fez backfill**;
 > não alterou seeds/quórum; não treinou; não escalou #048.10L.
+
+## #048.10L — Next batch GEO controlled implementation (dry-run, sem worker)
+
+**Status:** **DONE (dry-run)** · **Classificação:** **`SUCCESS_048_10L_NEXT_BATCH_READY_FOR_WORKER`**
+**Worker executado:** NÃO · **Deploy do Space:** NÃO · **Neo4j/Qdrant write:** NÃO · **Treino:** bloqueado
+**Dry-run 5/5:** true (`reports/geo_next_batch_implementation_dry_run_048_10L.json`):
+`osm=5`, `wiki_pt=5`, `wiki_en=5`, `wiki_infobox=5`, `full_collision=5`, `canonical_key_mismatches=0`,
+`junk=0`, `forbidden=0`, `negatives 10/10 rejeitadas`, **regressão lote atual 4/4**.
+**Pronto para #048.10L.2:** true (`reports/RUNBOOK_048_10L_2_GEO_NEXT_BATCH_WORKER.md`)
+
+Lote implementado (pt + en + Nominatim/ODbL; registry `reports/geo_expected_facts_048_10L.json`):
+
+```text
+ESTÁDIO OLÍMPICO NILTON SANTOS --LOCALIZADO_EM--> RIO DE JANEIRO
+MARACANÃ --LOCALIZADO_EM--> RIO DE JANEIRO
+BEIRA-RIO --LOCALIZADO_EM--> PORTO ALEGRE
+MINEIRÃO --LOCALIZADO_EM--> BELO HORIZONTE
+ARENA FONTE NOVA --LOCALIZADO_EM--> SALVADOR
+```
+
+### Mudanças (controladas)
+- `feat(cognition)`: `geo_wiki_parser` generalizado — `ALLOWED_CITIES` + aliases para as 5 cidades,
+  subject pin por URL das 5 páginas, cues `localizado no/na` e rejeição de `estado/state`/`club`/`home of`
+  em qualquer posição.
+- `feat(cognition)`: `geo_extractor` — aliases dos 5 estádios, cidade `SALVADOR`, exceção homônima
+  `RIO DE JANEIRO` **strict source-scoped** (`{country: BR, state: RIO DE JANEIRO}`), sem generalizar a regra.
+- `feat(config)`: 5 clusters `*_localization` em `config/seed_clusters.yaml` (3 domínios, 2 publishers,
+  1 não-Wikipedia, `productivity: productive`).
+- `feat(tests)`: `tests/test_geo_next_batch_implementation.py` + fixtures
+  `tests/fixtures/geo_next_batch_parity_cases.json` (5 positivos, 10 negativos).
+- `feat(reports)`: dry-run `scripts/audit_geo_next_batch_implementation_dry_run.py` +
+  `reports/geo_expected_facts_048_10L.json`.
+
+### Invariantes preservadas
+- Worker **não** executado; **sem** ingest em Neo4j/Qdrant; **sem** backfill; **sem** deploy.
+- **Não alterou** `span_validator`/`predicate_mapper`/`canonicalizer`/`triple_refiner`/`table_extractor`/
+  `entity_aliases.yaml`/workflows/requirements; quórum **3**; lote atual (`reports/geo_expected_facts_048_10H.json`) intacto.
+- Suíte completa: **638 passed, 39 skipped**; `ruff check` limpo nos arquivos alterados.
+
+> Próximo: **#048.10L.2** — worker GEO do next batch (snapshot/baseline/worker/post/validate,
+> 1 dispatch, cron `disabled_manually`). Não treinar; quórum 3.

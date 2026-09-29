@@ -1,0 +1,199 @@
+{
+  "audit_id": "geo_next_batch_implementation_dry_run_048_10L",
+  "generated_at": "2026-09-29T17:58:20.090883+00:00",
+  "offline": true,
+  "network_calls": 0,
+  "worker_used": false,
+  "neo4j_write": false,
+  "qdrant_write": false,
+  "next_batch": {
+    "expected_facts_total": 5,
+    "osm_canonical_triples": 5,
+    "wiki_pt_canonical_triples": 5,
+    "wiki_en_canonical_triples": 5,
+    "wiki_infobox_canonical_triples": 5,
+    "full_collision_facts": 5,
+    "canonical_key_mismatches": 0,
+    "negatives_total": 10,
+    "negatives_rejected": 10,
+    "forbidden_objects": 0,
+    "junk_objects": 0,
+    "facts": [
+      {
+        "fact": "ESTÁDIO OLÍMPICO NILTON SANTOS --LOCALIZADO_EM--> RIO DE JANEIRO",
+        "expected_key": "ESTADIO OLIMPICO NILTON SANTOS|LOCALIZADO_EM|RIO DE JANEIRO",
+        "keys": {
+          "osm": "ESTADIO OLIMPICO NILTON SANTOS|LOCALIZADO_EM|RIO DE JANEIRO",
+          "pt": "ESTADIO OLIMPICO NILTON SANTOS|LOCALIZADO_EM|RIO DE JANEIRO",
+          "en": "ESTADIO OLIMPICO NILTON SANTOS|LOCALIZADO_EM|RIO DE JANEIRO",
+          "infobox": "ESTADIO OLIMPICO NILTON SANTOS|LOCALIZADO_EM|RIO DE JANEIRO"
+        },
+        "collision_status": "full_collision"
+      },
+      {
+        "fact": "MARACANÃ --LOCALIZADO_EM--> RIO DE JANEIRO",
+        "expected_key": "MARACANA|LOCALIZADO_EM|RIO DE JANEIRO",
+        "keys": {
+          "osm": "MARACANA|LOCALIZADO_EM|RIO DE JANEIRO",
+          "pt": "MARACANA|LOCALIZADO_EM|RIO DE JANEIRO",
+          "en": "MARACANA|LOCALIZADO_EM|RIO DE JANEIRO",
+          "infobox": "MARACANA|LOCALIZADO_EM|RIO DE JANEIRO"
+        },
+        "collision_status": "full_collision"
+      },
+      {
+        "fact": "BEIRA-RIO --LOCALIZADO_EM--> PORTO ALEGRE",
+        "expected_key": "BEIRA RIO|LOCALIZADO_EM|PORTO ALEGRE",
+        "keys": {
+          "osm": "BEIRA RIO|LOCALIZADO_EM|PORTO ALEGRE",
+          "pt": "BEIRA RIO|LOCALIZADO_EM|PORTO ALEGRE",
+          "en": "BEIRA RIO|LOCALIZADO_EM|PORTO ALEGRE",
+          "infobox": "BEIRA RIO|LOCALIZADO_EM|PORTO ALEGRE"
+        },
+        "collision_status": "full_collision"
+      },
+      {
+        "fact": "MINEIRÃO --LOCALIZADO_EM--> BELO HORIZONTE",
+        "expected_key": "MINEIRAO|LOCALIZADO_EM|BELO HORIZONTE",
+        "keys": {
+          "osm": "MINEIRAO|LOCALIZADO_EM|BELO HORIZONTE",
+          "pt": "MINEIRAO|LOCALIZADO_EM|BELO HORIZONTE",
+          "en": "MINEIRAO|LOCALIZADO_EM|BELO HORIZONTE",
+          "infobox": "MINEIRAO|LOCALIZADO_EM|BELO HORIZONTE"
+        },
+        "collision_status": "full_collision"
+      },
+      {
+        "fact": "ARENA FONTE NOVA --LOCALIZADO_EM--> SALVADOR",
+        "expected_key": "ARENA FONTE NOVA|LOCALIZADO_EM|SALVADOR",
+        "keys": {
+          "osm": "ARENA FONTE NOVA|LOCALIZADO_EM|SALVADOR",
+          "pt": "ARENA FONTE NOVA|LOCALIZADO_EM|SALVADOR",
+          "en": "ARENA FONTE NOVA|LOCALIZADO_EM|SALVADOR",
+          "infobox": "ARENA FONTE NOVA|LOCALIZADO_EM|SALVADOR"
+        },
+        "collision_status": "full_collision"
+      }
+    ],
+    "negatives": [
+      {
+        "id": "engenho_neighborhood",
+        "rejected": true
+      },
+      {
+        "id": "rio_state",
+        "rejected": true
+      },
+      {
+        "id": "rio_state_en",
+        "rejected": true
+      },
+      {
+        "id": "bahia_as_city",
+        "rejected": true
+      },
+      {
+        "id": "minas_gerais",
+        "rejected": true
+      },
+      {
+        "id": "country_only",
+        "rejected": true
+      },
+      {
+        "id": "non_allowlisted_city",
+        "rejected": true
+      },
+      {
+        "id": "address",
+        "rejected": true
+      },
+      {
+        "id": "club_owner",
+        "rejected": true
+      },
+      {
+        "id": "pronoun",
+        "rejected": true
+      }
+    ]
+  },
+  "current_batch_regression": {
+    "expected_facts_total": 4,
+    "osm_canonical_triples": 4,
+    "wiki_pt_canonical_triples": 4,
+    "wiki_en_canonical_triples": 4,
+    "wiki_infobox_canonical_triples": 4,
+    "full_collision_facts": 4,
+    "canonical_key_mismatches": 0,
+    "negatives_total": 8,
+    "negatives_rejected": 8,
+    "forbidden_objects": 0,
+    "junk_objects": 0,
+    "facts": [
+      {
+        "fact": "ALLIANZ PARQUE --LOCALIZADO_EM--> SÃO PAULO",
+        "expected_key": "ALLIANZ PARQUE|LOCALIZADO_EM|SAO PAULO",
+        "keys": {
+          "osm": "ALLIANZ PARQUE|LOCALIZADO_EM|SAO PAULO",
+          "pt": "ALLIANZ PARQUE|LOCALIZADO_EM|SAO PAULO",
+          "en": "ALLIANZ PARQUE|LOCALIZADO_EM|SAO PAULO",
+          "infobox": "ALLIANZ PARQUE|LOCALIZADO_EM|SAO PAULO"
+        },
+        "collision_status": "full_collision"
+      },
+      {
+        "fact": "MORUMBI --LOCALIZADO_EM--> SÃO PAULO",
+        "expected_key": "MORUMBI|LOCALIZADO_EM|SAO PAULO",
+        "keys": {
+          "osm": "MORUMBI|LOCALIZADO_EM|SAO PAULO",
+          "pt": "MORUMBI|LOCALIZADO_EM|SAO PAULO",
+          "en": "MORUMBI|LOCALIZADO_EM|SAO PAULO",
+          "infobox": "MORUMBI|LOCALIZADO_EM|SAO PAULO"
+        },
+        "collision_status": "full_collision"
+      },
+      {
+        "fact": "PACAEMBU --LOCALIZADO_EM--> SÃO PAULO",
+        "expected_key": "PACAEMBU|LOCALIZADO_EM|SAO PAULO",
+        "keys": {
+          "osm": "PACAEMBU|LOCALIZADO_EM|SAO PAULO",
+          "pt": "PACAEMBU|LOCALIZADO_EM|SAO PAULO",
+          "en": "PACAEMBU|LOCALIZADO_EM|SAO PAULO",
+          "infobox": "PACAEMBU|LOCALIZADO_EM|SAO PAULO"
+        },
+        "collision_status": "full_collision"
+      },
+      {
+        "fact": "NEO QUÍMICA ARENA --LOCALIZADO_EM--> SÃO PAULO",
+        "expected_key": "NEO QUIMICA ARENA|LOCALIZADO_EM|SAO PAULO",
+        "keys": {
+          "osm": "NEO QUIMICA ARENA|LOCALIZADO_EM|SAO PAULO",
+          "pt": "NEO QUIMICA ARENA|LOCALIZADO_EM|SAO PAULO",
+          "en": "NEO QUIMICA ARENA|LOCALIZADO_EM|SAO PAULO",
+          "infobox": "NEO QUIMICA ARENA|LOCALIZADO_EM|SAO PAULO"
+        },
+        "collision_status": "full_collision"
+      }
+    ]
+  },
+  "predicted_new_verified": 5,
+  "predicted_graph_scoped_gap": 0,
+  "predicted_current_batch_verified": 20,
+  "quorum": 3,
+  "allowed_cities": [
+    "SÃO PAULO",
+    "RIO DE JANEIRO",
+    "PORTO ALEGRE",
+    "BELO HORIZONTE",
+    "SALVADOR"
+  ],
+  "homonym_state_city_allowlist": [
+    "SAO PAULO",
+    "RIO DE JANEIRO"
+  ],
+  "top_invalid_predicates": [],
+  "training_allowed": false,
+  "gate_passed": true,
+  "classification": "SUCCESS_048_10L_NEXT_BATCH_READY_FOR_WORKER"
+}

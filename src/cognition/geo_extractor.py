@@ -54,14 +54,29 @@ STADIUM_ALIASES: dict[str, str] = {
     "estadio municipal paulo machado de carvalho": "PACAEMBU",
     "neo quimica arena": "NEO QUÍMICA ARENA",
     "arena corinthians": "NEO QUÍMICA ARENA",
+    # #048.10L — next batch
+    "estadio olimpico nilton santos": "ESTÁDIO OLÍMPICO NILTON SANTOS",
+    "nilton santos": "ESTÁDIO OLÍMPICO NILTON SANTOS",
+    "nilton santos stadium": "ESTÁDIO OLÍMPICO NILTON SANTOS",
+    "maracana": "MARACANÃ",
+    "estadio do maracana": "MARACANÃ",
+    "beira-rio": "BEIRA-RIO",
+    "beira rio": "BEIRA-RIO",
+    "jose pinheiro borda": "BEIRA-RIO",
+    "mineirao": "MINEIRÃO",
+    "governador magalhaes pinto": "MINEIRÃO",
+    "arena fonte nova": "ARENA FONTE NOVA",
+    "fonte nova": "ARENA FONTE NOVA",
 }
 
 # Cidade canônica (com acento) indexada pela forma dobrada (sem acento, maiúscula).
 CANONICAL_CITIES: dict[str, str] = {
     "SAO PAULO": "SÃO PAULO",
-    "RIO DE JANEIRO": "RIO DE JANEIRO",    "SANTOS": "SANTOS",
+    "RIO DE JANEIRO": "RIO DE JANEIRO",
+    "SANTOS": "SANTOS",
     "PORTO ALEGRE": "PORTO ALEGRE",
     "BELO HORIZONTE": "BELO HORIZONTE",
+    "SALVADOR": "SALVADOR",
 }
 
 # Nunca podem virar objeto-cidade.
@@ -113,9 +128,10 @@ def default_geo_allowlist() -> GeoAllowlist:
     return GeoAllowlist(stadiums=dict(STADIUM_ALIASES), cities=dict(CANONICAL_CITIES))
 
 
-# Excecao estrita homonimo estado/cidade (source-scoped). Hoje: apenas SAO PAULO.
+# Excecao estrita homonimo estado/cidade (source-scoped). SAO PAULO (#048.10H) e RIO DE JANEIRO (#048.10L).
 HOMONYM_STATE_CITY_ALLOWLIST: dict[str, dict[str, set[str]]] = {
     "SAO PAULO": {"country": {"BRAZIL", "BRASIL"}, "state": {"SAO PAULO"}},
+    "RIO DE JANEIRO": {"country": {"BRAZIL", "BRASIL"}, "state": {"RIO DE JANEIRO"}},
 }
 def build_geo_allowlist_from_atlas(atlas_path: Path | str) -> GeoAllowlist:
     """Allowlist a partir das colisões full do atlas #059E (fallback: default)."""

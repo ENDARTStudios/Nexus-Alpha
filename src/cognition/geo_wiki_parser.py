@@ -15,18 +15,32 @@ from urllib.parse import unquote, urlparse
 
 PREDICATE = "LOCALIZADO_EM"
 
-# Lote atual #048.10H: todos em SAO PAULO.
-ALLOWED_CITIES = {"SAO PAULO": "SÃO PAULO"}
+# Lotes #048.10H (SÃO PAULO) + #048.10L (next batch).
+ALLOWED_CITIES = {
+    "SAO PAULO": "SÃO PAULO",
+    "RIO DE JANEIRO": "RIO DE JANEIRO",
+    "PORTO ALEGRE": "PORTO ALEGRE",
+    "BELO HORIZONTE": "BELO HORIZONTE",
+    "SALVADOR": "SALVADOR",
+}
 
 # URL (match por token no path) -> sujeito canonico esperado.
 _URL_SUBJECT_TOKENS = (
-    ("allianz_parque", "ALLIANZ PARQUE"),
     ("allianz_parque", "ALLIANZ PARQUE"),
     ("estadio_do_morumbi", "MORUMBI"),
     ("morumbi_stadium", "MORUMBI"),
     ("estadio_do_pacaembu", "PACAEMBU"),
     ("pacaembu_stadium", "PACAEMBU"),
     ("neo_quimica_arena", "NEO QUÍMICA ARENA"),
+    # #048.10L — next batch
+    ("nilton_santos", "ESTÁDIO OLÍMPICO NILTON SANTOS"),
+    ("maracana", "MARACANÃ"),
+    ("beira-rio", "BEIRA-RIO"),
+    ("beira_rio", "BEIRA-RIO"),
+    ("mineirao", "MINEIRÃO"),
+    ("governador_magalhaes", "MINEIRÃO"),
+    ("magalhaes_pinto", "MINEIRÃO"),
+    ("fonte_nova", "ARENA FONTE NOVA"),
 )
 
 FORBIDDEN_TOKENS = (
@@ -36,19 +50,23 @@ FORBIDDEN_TOKENS = (
     "palmeiras", "corinthians", "santos futebol",
 )
 
+# Alias -> chave dobrada (upper, sem acento) usada em ALLOWED_CITIES.
 _CITY_ALIASES = {
     "sao paulo": "SAO PAULO",
-    "são paulo": "SAO PAULO",
+    "rio de janeiro": "RIO DE JANEIRO",
+    "porto alegre": "PORTO ALEGRE",
+    "belo horizonte": "BELO HORIZONTE",
+    "salvador": "SALVADOR",
 }
 
 CUE_PATTERNS = [
-    r"localizado\s+(?:em|na cidade de|no municipio de)",
-    r"localizada\s+(?:em|na cidade de|no municipio de)",
-    r"situado\s+(?:em|na cidade de)",
-    r"situada\s+(?:em|na cidade de)",
+    r"localizado\s+(?:em|no|na|na cidade de|no municipio de)",
+    r"localizada\s+(?:em|no|na|na cidade de|no municipio de)",
+    r"situado\s+(?:em|no|na|na cidade de)",
+    r"situada\s+(?:em|no|na|na cidade de)",
     r"localiza-se\s+em",
-    r"fica\s+em",
-    r"é um estádio[^.]{0,40}localizado em",
+    r"fica\s+(?:em|no|na)",
+    r"é um estádio[^.]{0,40}localizado\s+(?:em|no|na)",
     r"located in",
     r"situated in",
     r"stadium in",
@@ -103,19 +121,12 @@ def _extract_city_from_sentence(sentence: str) -> str | None:
         return None  # nenhuma ou multiplas cidades -> ambiguo
     city = next(iter(found))
 
-    # Rejeicoes por token em qualquer lugar da frase.
-    for tok in ("bairro", "neighborhood", "district", "suburb", "borough", "owner", "tenant", "clube", "futebol clube"):
+    # Rejeicoes por token em qualquer lugar da frase (inclui estado/state como cidade).
+    for tok in ("bairro", "neighborhood", "district", "suburb", "borough", "owner", "tenant", "clube", "club", "home of", "futebol clube", "estado", "state"):
         if re.search(rf"\b{re.escape(tok)}\b", folded):
             return None
     for tok in ("rua", "avenida", "avenue", "street", "postcode", "coordenada", "coordinate"):
         if re.search(rf"\b{re.escape(tok)}\b", folded):
-            return None
-
-    # Cidade usada como ESTADO (ex.: "São Paulo state" / "São Paulo, estado de São Paulo") -> rejeitar.
-    idx = folded.find(_fold(city).lower())
-    if idx >= 0:
-        tail = folded[idx + len(_fold(city)): idx + len(_fold(city)) + 14]
-        if re.search(r"\b(state|estado)\b", tail):
             return None
     return city
 
@@ -137,7 +148,7 @@ def _extract_city_from_infobox(html: str) -> str | None:
 
 
 def _build_geo_triple(subject: str, city_folded: str, evidence_type: str, excerpt: str, source_url: str) -> dict:
-    city = ALLOWED_CITIES.get(city_folded, "SÃO PAULO")
+    city = ALLOWED_CITIES.get(city_folded, city_folded)
     return {
         "subject": subject,
         "predicate": PREDICATE,

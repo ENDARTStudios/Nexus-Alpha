@@ -319,3 +319,88 @@ clusters:
         domain: nominatim.openstreetmap.org
         publisher: OpenStreetMap
         productivity: productive  # #059E: addr:city=São Paulo (ODbL)
+
+  - id: nilton_santos_localization
+    topic: "Estádio Olímpico Nilton Santos — localização (Rio de Janeiro)"
+    expected_predicate: LOCALIZADO_EM
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Ol%C3%ADmpico_Nilton_Santos
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #048.10K/#048.10L full collision
+      - url: https://en.wikipedia.org/wiki/Nilton_Santos_Stadium
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #048.10K/#048.10L full collision
+      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Est%C3%A1dio%20Ol%C3%ADmpico%20Nilton%20Santos
+        domain: nominatim.openstreetmap.org
+        publisher: OpenStreetMap
+        productivity: productive  # #048.10L: addr:city=Rio de Janeiro (ODbL)
+
+  - id: maracana_localization
+    topic: "Estádio do Maracanã — localização (Rio de Janeiro)"
+    expected_predicate: LOCALIZADO_EM
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_do_Maracan%C3%A3
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #048.10K/#048.10L full collision
+      - url: https://en.wikipedia.org/wiki/Maracan%C3%A3_Stadium
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #048.10K/#048.10L full collision
+      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Est%C3%A1dio%20do%20Maracan%C3%A3
+        domain: nominatim.openstreetmap.org
+        publisher: OpenStreetMap
+        productivity: productive  # #048.10L: addr:city=Rio de Janeiro (ODbL)
+
+  - id: beira_rio_localization
+    topic: "Estádio Beira-Rio — localização (Porto Alegre)"
+    expected_predicate: LOCALIZADO_EM
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Beira-Rio
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #048.10K/#048.10L full collision
+      - url: https://en.wikipedia.org/wiki/Est%C3%A1dio_Beira-Rio
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #048.10K/#048.10L full collision
+      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Est%C3%A1dio%20Beira-Rio
+        domain: nominatim.openstreetmap.org
+        publisher: OpenStreetMap
+        productivity: productive  # #048.10L: addr:city=Porto Alegre (ODbL)
+
+  - id: mineirao_localization
+    topic: "Estádio Mineirão — localização (Belo Horizonte)"
+    expected_predicate: LOCALIZADO_EM
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Governador_Magalh%C3%A3es_Pinto
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #048.10K/#048.10L full collision
+      - url: https://en.wikipedia.org/wiki/Mineir%C3%A3o
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #048.10K/#048.10L full collision
+      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Est%C3%A1dio%20Mineir%C3%A3o
+        domain: nominatim.openstreetmap.org
+        publisher: OpenStreetMap
+        productivity: productive  # #048.10L: addr:city=Belo Horizonte (ODbL)
+
+  - id: arena_fonte_nova_localization
+    topic: "Arena Fonte Nova — localização (Salvador)"
+    expected_predicate: LOCALIZADO_EM
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Arena_Fonte_Nova
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #048.10K/#048.10L full collision
+      - url: https://en.wikipedia.org/wiki/Itaipava_Arena_Fonte_Nova
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: productive  # #048.10K/#048.10L full collision
+      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Arena%20Fonte%20Nova
+        domain: nominatim.openstreetmap.org
+        publisher: OpenStreetMap
+        productivity: productive  # #048.10L: addr:city=Salvador (ODbL)
