@@ -42,6 +42,15 @@ class _FakeGraph:
             "nominatim.openstreetmap.org": 4,
         }
 
+    async def get_fact_accounting_counts(self):
+        return {
+            "persisted_facts": 335,
+            "distinct_non_null_fact_hashes": 335,
+            "missing_fact_hash_count": 0,
+            "distinct_fact_node_keys": 335,
+            "duplicate_fact_hash_group_count": 0,
+        }
+
     async def close(self):
         return None
 
@@ -89,8 +98,10 @@ def test_metrics_scoped_gaps_exposed():
     assert "run_distinct_canonical_keys" in accounting
     assert "run_persisted_facts_created" in accounting
     assert "graph_distinct_fact_hashes" in accounting
-    # graph_scoped_gap = distinct_fact_hashes (314) - persisted_facts (335)
-    assert accounting["graph_scoped_gap"] == 314 - 335
+    # #052.3.1 — nova base contábil + status
+    assert accounting["distinct_fact_node_keys"] == 335
+    assert accounting["fact_accounting_status"] == "ok"
+    assert accounting["graph_scoped_gap"] == 0
     assert accounting["persisted_facts"] == 335
 
 

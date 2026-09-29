@@ -370,6 +370,31 @@ async def metrics() -> dict:
     from src.ops.publisher_family import build_publisher_family_snapshot
 
     publisher = build_publisher_family_snapshot(domain_counts)
+    try:
+        fact_counts = await graph.get_fact_accounting_counts()
+    except Exception as exc:
+        logger.warning("Falha na contabilidade de fatos: %s", exc)
+        fact_counts = None
+    # #052.3.1 — contabilidade read-only de :Fato (nao altera verificacao/quorum).
+    from src.ops.fact_accounting import FactAccountingCounts, compute_fact_accounting
+
+    fact_acc = compute_fact_accounting(FactAccountingCounts(**fact_counts) if fact_counts else None)
+    ingestion_accounting = _ingest_accounting.snapshot(
+        raw_triples=_extraction_stats["raw_triples"],
+        rejected_noise=_extraction_stats["rejected_noise"],
+        persisted_facts=snapshot.get("facts", 0),
+        graph_distinct_fact_hashes=(fact_acc.distinct_fact_node_keys or 0),
+    )
+    ingestion_accounting.update(
+        {
+            "distinct_non_null_fact_hashes": fact_acc.distinct_non_null_fact_hashes,
+            "missing_fact_hash_count": fact_acc.missing_fact_hash_count,
+            "distinct_fact_node_keys": fact_acc.distinct_fact_node_keys,
+            "duplicate_fact_hash_group_count": fact_acc.duplicate_fact_hash_group_count,
+            "fact_accounting_status": fact_acc.fact_accounting_status,
+            "graph_scoped_gap": fact_acc.graph_scoped_gap,
+        }
+    )
     vectors = get_vector_connector().count()
     try:
         quarantined = len(get_quarantine().list_all())
@@ -437,12 +462,7 @@ async def metrics() -> dict:
             "max_domain_confirmations": snapshot.get("max_confirmacoes", 0),
             "verified_facts_domain_independent": snapshot["verified"],
         },
-        "ingestion_accounting": _ingest_accounting.snapshot(
-            raw_triples=_extraction_stats["raw_triples"],
-            rejected_noise=_extraction_stats["rejected_noise"],
-            persisted_facts=snapshot.get("facts", 0),
-            graph_distinct_fact_hashes=snapshot.get("distinct_fact_hashes", 0),
-        ),
+        "ingestion_accounting": ingestion_accounting,
         "metric_glossary": {
             "facts": "legacy/compat: node count of :Conceito",
             "concept_count": "node count of :Conceito",
@@ -451,11 +471,16 @@ async def metrics() -> dict:
             "facts_with_multi_domain": "facts corroborated by >= 2 distinct domains",
             "duplicate_cross_domain": "runtime ingest counter of cross-domain duplicates",
             "run_scoped_gap": "run-scoped accounting gap (distinct_canonical_keys - new_facts_created)",
-            "graph_scoped_gap": "graph-total accounting gap (distinct_fact_hashes - persisted_facts)",
+            "graph_scoped_gap": "distinct_fact_node_keys - persisted_facts; 0 = consistent",
             "publisher_family_count": "families of publishers represented among verified facts",
             "publisher_family_distribution": "domain confirmations per publisher family",
             "effective_publisher_count": "families after collapsing Wikipedia languages and RSSSF/RSSSF Brasil; Unknown excluded",
             "publisher_independence_warnings": "editorial independence caveats",
+            "distinct_non_null_fact_hashes": "distinct non-null/supporting fact keys over :Fato",
+            "missing_fact_hash_count": "count of :Fato nodes without a supporting key",
+            "distinct_fact_node_keys": "distinct accounting keys per :Fato node (hash when present, else internal id); base for graph_scoped_gap",
+            "duplicate_fact_hash_group_count": "number of non-null fact keys shared by more than one node",
+            "fact_accounting_status": "ok | missing_fact_hashes | duplicate_fact_hashes | query_error",
         },
     }
 

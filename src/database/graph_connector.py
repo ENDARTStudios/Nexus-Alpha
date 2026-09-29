@@ -497,6 +497,45 @@ class GraphConnector:
                     await asyncio.sleep(0.5)
         return {}
 
+    async def get_fact_accounting_counts(self, retries: int = 2) -> dict:
+        """#052.3.1 — Contagens read-only de :Fato para contabilidade (sem escrita).
+
+        Usa `chave` como hash contabil (o grafo MERGEa `:Fato {chave: ...}`); quando
+        ausente, usa id interno apenas para contabilizar (nunca para escrever)."""
+        base_query = (
+            "MATCH (f:Fato) "
+            "RETURN count(f) AS persisted_facts, "
+            "count(DISTINCT CASE WHEN f.chave IS NOT NULL AND f.chave <> '' THEN f.chave END) AS distinct_non_null_fact_hashes, "
+            "sum(CASE WHEN f.chave IS NULL OR f.chave = '' THEN 1 ELSE 0 END) AS missing_fact_hash_count, "
+            "count(DISTINCT coalesce(nullIf(f.chave, ''), toString(id(f)))) AS distinct_fact_node_keys"
+        )
+        dup_query = (
+            "MATCH (f:Fato) WHERE f.chave IS NOT NULL AND f.chave <> '' "
+            "WITH f.chave AS hash, count(*) AS cnt WHERE cnt > 1 "
+            "RETURN count(*) AS duplicate_fact_hash_group_count"
+        )
+        for attempt in range(1, max(1, retries) + 1):
+            try:
+                if self.driver is None:
+                    await self.connect()
+                async with self.driver.session() as session:
+                    record = await (await session.run(base_query)).single()
+                    if record is None:
+                        return {}
+                    dup_record = await (await session.run(dup_query)).single()
+                    return {
+                        "persisted_facts": int(record["persisted_facts"] or 0),
+                        "distinct_non_null_fact_hashes": int(record["distinct_non_null_fact_hashes"] or 0),
+                        "missing_fact_hash_count": int(record["missing_fact_hash_count"] or 0),
+                        "distinct_fact_node_keys": int(record["distinct_fact_node_keys"] or 0),
+                        "duplicate_fact_hash_group_count": int(dup_record["duplicate_fact_hash_group_count"] or 0) if dup_record else 0,
+                    }
+            except Exception as exc:
+                logger.warning("Falha na contabilidade de fatos (tentativa %d/%d): %s", attempt, retries, exc)
+                if attempt < retries:
+                    await asyncio.sleep(0.5)
+        return {}
+
     async def persist_episodes(self, episodes: list[dict[str, Any]]) -> int:
         """Episódios duráveis com MERGE idempotente (agregado por fact_hash+day)."""
         if not episodes:
