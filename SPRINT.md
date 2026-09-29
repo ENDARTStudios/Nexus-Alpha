@@ -2841,3 +2841,27 @@ Não escalar next batch (#048.10L) antes de entender o bloqueio.
 
 > Este ciclo executou **2 workers** (autorizado, diagnóstico entre tentativas), **não treinou**,
 > **não alterou seeds nem runtime cognitivo**, **não fez force-push**.
+
+## #048.10H.2 — GEO canonicalization parity debug
+
+**Status:** **DIAGNOSED / BLOCKED por escopo**
+**Worker executado:** NÃO
+**Causa-raiz GEO:** a narrativa wiki **não** produz `ESTÁDIO --LOCALIZADO_EM--> CIDADE`
+  - R1/R2: o extrator narrativo gera `LOCALIZADO_EM` com sujeito/objeto **invertidos ou ausentes**
+    (ex.: `SÃO PAULO FUTEBOL CLUBE --> ESTADIO DO MORUMBI`; `PALMEIRAS… --> SANTOS FUTEBOL CLUBE`);
+  - R3: a página PT do Allianz Parque **não contém** verbo de localização útil;
+  - ambiguidade: `extract_geo_localizado_from_wiki_html` resolve o estádio pelo **texto inteiro**
+    e fica ambíguo quando a página cita estádios irmãos → `[]`;
+  - ruído: infobox/JSON/template no HTML limpo.
+**Patch mínimo aplicado:** SIM (menor): `geo_extractor` passou a aceitar o padrão `located in`;
+  **não** resolve a ambiguidade de página inteira (não atinge 4/4).
+**Dry-run pós-patch:** `reports/geo_canonical_fix_dry_run_048_10h_2.json` → `full_collision_facts=0`, `junk=0`
+**Pronto para #048.10H.3:** **false**
+
+- Diagnóstico: `scripts/audit_geo_canonical_parity.py` → `reports/geo_canonical_parity_048_10h_2.json`.
+- Bloqueio: `reports/BLOCKED_048_10H_2_GEO_PARITY.md`.
+- Dívida observacional: `reports/observability_graph_scoped_gap_052_3_1_diagnosis.md` (#052.3.1).
+
+> Este ciclo **não executou worker**. **Não escreveu** em Neo4j/Qdrant. **Não alterou seeds.**
+> **Não treinou.** O next batch **#048.10L permanece congelado** até o lote atual verificar.
+> Próximo: **#048.10H.2.1** — parser wiki GEO dedicado (subject pinado por URL + mesma frase + lead/infobox + rejeição de bairro/owner), com dry-run exigido 4/4 e zero junk.
