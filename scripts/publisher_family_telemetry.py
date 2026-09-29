@@ -1,54 +1,40 @@
-"""#053.2 — Telemetria de familias de publishers (read-only, sem cognicao).
+"""#053.2 — Telemetria de familias de publishers (delega ao helper de runtime).
 
-Classifica dominios em familias editoriais/geograficas e emite warnings de
-independencia. NAO altera verificacao, quorum, ingest ou canonicalizacao.
+Read-only, sem cognicao. Reexporta o helper `src.ops.publisher_family` para convergir
+local e runtime. Mantem retrocompatibilidade das funcoes publicas.
 """
 from __future__ import annotations
 
-import collections
+import sys
+from pathlib import Path
 
-WIKIMEDIA_DOMAINS = {
-    "pt.wikipedia.org", "en.wikipedia.org", "es.wikipedia.org", "fr.wikipedia.org",
-    "de.wikipedia.org", "it.wikipedia.org", "wikipedia.org", "wikimedia.org",
-}
-RSSSF_DOMAINS = {"rsssf.org", "www.rsssf.org", "rsssfbrasil.com", "www.rsssfbrasil.com"}
-OPENSTREETMAP_DOMAINS = {
-    "openstreetmap.org", "www.openstreetmap.org", "nominatim.openstreetmap.org",
-    "overpass-api.de", "overpass.kumi.systems",
-}
-ALMANAQUE_DOMAINS = {"almanaquedosclubes.com", "www.almanaquedosclubes.com"}
+_ROOT = Path(__file__).resolve().parent.parent
+if str(_ROOT) not in sys.path:
+    sys.path.insert(0, str(_ROOT))
 
-FAMILY_WARNINGS = {
-    "RSSSF": "RSSSF_AND_RSSSF_BRASIL_SAME_FAMILY_SUSPECTED",
-    "Wikimedia": "WIKIMEDIA_MULTIPLE_LANGUAGES_NOT_INDEPENDENT",
-    "OpenStreetMap": "OPENSTREETMAP_IS_GEOGRAPHIC_OPEN_DATA_NOT_NEWS_EDITORIAL",
-}
+from src.ops.publisher_family import (  # noqa: E402
+    FAMILY_WARNINGS,
+    classify_publisher_family,
+    build_publisher_family_snapshot,
+)
 
-
-def classify_publisher_family(domain: str, publisher: str | None = None) -> str:
-    d = (domain or "").strip().lower()
-    if d in WIKIMEDIA_DOMAINS or d.endswith(".wikipedia.org"):
-        return "Wikimedia"
-    if d in RSSSF_DOMAINS:
-        return "RSSSF"
-    if d in OPENSTREETMAP_DOMAINS:
-        return "OpenStreetMap"
-    if d in ALMANAQUE_DOMAINS:
-        return "Almanaque"
-    return "Unknown"
+__all__ = [
+    "FAMILY_WARNINGS",
+    "classify_publisher_family",
+    "build_publisher_family_snapshot",
+    "summarize_families",
+]
 
 
 def summarize_families(domains: list[str]) -> dict:
-    """Contagem/distribuicao de familias e warnings. Unknown nao conta como familia independente."""
-    counts: collections.Counter = collections.Counter()
-    for dom in domains:
-        fam = classify_publisher_family(dom)
-        if fam != "Unknown":
-            counts[fam] += 1
-    families = sorted(counts)
+    """Compat: agrega uma lista de dominios (1 cada) e devolve o snapshot como dict."""
+    counts: dict[str, int] = {}
+    for d in domains:
+        counts[d] = counts.get(d, 0) + 1
+    snap = build_publisher_family_snapshot(counts)
     return {
-        "publisher_family_count": len(families),
-        "effective_publisher_count": len(families),
-        "publisher_family_distribution": dict(counts),
-        "publisher_independence_warnings": [FAMILY_WARNINGS[f] for f in families if f in FAMILY_WARNINGS],
+        "publisher_family_count": snap.publisher_family_count,
+        "effective_publisher_count": snap.effective_publisher_count,
+        "publisher_family_distribution": snap.publisher_family_distribution,
+        "publisher_independence_warnings": snap.publisher_independence_warnings,
     }
