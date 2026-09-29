@@ -1,0 +1,123 @@
+{
+  "audit_id": "geo_fact_level_domains_048_10h_4",
+  "generated_at": "2026-09-29T01:57:54.337209+00:00",
+  "evidence_strength": "strong",
+  "facts": [
+    {
+      "fact": "ALLIANZ PARQUE --LOCALIZADO_EM--> SÃO PAULO",
+      "subject": "ALLIANZ PARQUE",
+      "predicate": "LOCALIZADO_EM",
+      "object": "SÃO PAULO",
+      "domains": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "domain_count": 3,
+      "verified": true,
+      "publishers": [],
+      "publisher_families": [],
+      "sources": [
+        {
+          "domain": "en.wikipedia.org"
+        },
+        {
+          "domain": "nominatim.openstreetmap.org"
+        },
+        {
+          "domain": "pt.wikipedia.org"
+        }
+      ],
+      "blocking_reason": null
+    },
+    {
+      "fact": "MORUMBI --LOCALIZADO_EM--> SÃO PAULO",
+      "subject": "MORUMBI",
+      "predicate": "LOCALIZADO_EM",
+      "object": "SÃO PAULO",
+      "domains": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "domain_count": 3,
+      "verified": true,
+      "publishers": [],
+      "publisher_families": [],
+      "sources": [
+        {
+          "domain": "en.wikipedia.org"
+        },
+        {
+          "domain": "nominatim.openstreetmap.org"
+        },
+        {
+          "domain": "pt.wikipedia.org"
+        }
+      ],
+      "blocking_reason": null
+    },
+    {
+      "fact": "PACAEMBU --LOCALIZADO_EM--> SÃO PAULO",
+      "subject": "PACAEMBU",
+      "predicate": "LOCALIZADO_EM",
+      "object": "SÃO PAULO",
+      "domains": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "domain_count": 3,
+      "verified": true,
+      "publishers": [],
+      "publisher_families": [],
+      "sources": [
+        {
+          "domain": "en.wikipedia.org"
+        },
+        {
+          "domain": "nominatim.openstreetmap.org"
+        },
+        {
+          "domain": "pt.wikipedia.org"
+        }
+      ],
+      "blocking_reason": null
+    },
+    {
+      "fact": "NEO QUÍMICA ARENA --LOCALIZADO_EM--> SÃO PAULO",
+      "subject": "NEO QUÍMICA ARENA",
+      "predicate": "LOCALIZADO_EM",
+      "object": "SÃO PAULO",
+      "domains": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "domain_count": 3,
+      "verified": true,
+      "publishers": [],
+      "publisher_families": [],
+      "sources": [
+        {
+          "domain": "en.wikipedia.org"
+        },
+        {
+          "domain": "nominatim.openstreetmap.org"
+        },
+        {
+          "domain": "pt.wikipedia.org"
+        }
+      ],
+      "blocking_reason": null
+    }
+  ],
+  "summary": {
+    "expected_facts_total": 4,
+    "facts_with_three_domains": 4,
+    "facts_verified_strong": 4,
+    "facts_verified_inferred": 0,
+    "junk_objects": 0,
+    "forbidden_objects": 0
+  }
+}

@@ -2938,3 +2938,58 @@ MORUMBI (R9 502 transitório no POST). Próximo: **#048.10H.4**.
 
 > Este ciclo executou **1 worker** (autorizado), **não escalou #048.10L**, **não alterou seeds**,
 > **não treinou**, **não fez force-push**. Próximo: **#048.10H.4** (corrigir ALLIANZ/MORUMBI).
+
+## #048.10H.4 — GEO batch closure + fact-level evidence
+
+**Status:** **DONE** · **GEO batch:** **4/4** · **Fact-level evidence:** **strong**
+**Space preflight:** OK · **Snapshot:** read-only (nodes=5393, rels=4075, Fato=404)
+**Worker run:** `36509850003` (success) · **cron:** `disabled_manually` antes/depois · **dispatches:** 1
+**Dry-run 4/4:** true (`reports/geo_batch_closure_dry_run_048_10h_4.json`)
+
+### Fatos GEO verificados (strong — Neo4j read-only)
+
+```text
+ALLIANZ PARQUE --LOCALIZADO_EM--> SÃO PAULO     (pt + en + nominatim)
+MORUMBI --LOCALIZADO_EM--> SÃO PAULO            (pt + en + nominatim)
+PACAEMBU --LOCALIZADO_EM--> SÃO PAULO           (pt + en + nominatim)
+NEO QUÍMICA ARENA --LOCALIZADO_EM--> SÃO PAULO  (pt + en + nominatim)
+```
+
+### Métricas
+
+| Métrica | Antes | Depois | Delta |
+|---|---:|---:|---:|
+| verified_facts_domain_independent | 13 | **15** | +2 |
+| records_total | 13 | **15** | +2 |
+| unique_predicates | 3 | 3 | 0 |
+| fact_count | 404 | 404 | 0 |
+| concept_count | 2009 | 2009 | 0 |
+| facts_with_multi_domain | 16 | 16 | 0 |
+| duplicate_cross_domain | 29 | 31 | +2 |
+| unaccounted_raw | 0 | 0 | 0 |
+| top_invalid_predicates | [] | [] | 0 |
+| fallback_promoted_to_graph | 0 | 0 | 0 |
+| graph_scoped_gap | -403 | -404 | (dívida #052.3.1) |
+
+### Correções aplicadas
+
+- `fix(cognition)`: alias `nubank parque -> ALLIANZ PARQUE` + exceção homônimo estado/cidade
+  **strict source-scoped (só SÃO PAULO)** com `confidence<=0.85`.
+- `fix(operational)`: retry limitado (2x, 5xx) no POST de ingest, **idempotente por MERGE** (teste).
+- `feat(observability)`: `scripts/export_geo_fact_domains.py` (Neo4j **read-only**) +
+  `validate_geo_expected_facts --fact-domains` → evidência **fact-level strong**.
+
+### Classificação
+
+**`SUCCESS_048_10H_4_GEO_BATCH_4_OF_4`** — lote GEO fechado com evidência forte.
+Secundárias: `OBSERVABILITY_DEBT_GRAPH_SCOPED_GAP_NEGATIVE` (#052.3.1) ·
+`TELEMETRY_DEBT_PUBLISHER_FAMILY_OSM_LIVE` (#053.2).
+
+### Treino
+
+`training_gate_evaluation`: `records_total=15`, `unique_predicates=3`, `diversity_gate=false`
+(monoculture_object), `training_recommended=false`, `training_allowed=false`. **Treino não executado.**
+
+> Este ciclo executou **1 worker** (autorizado), **não treinou**, **não escalou #048.10L**,
+> **não alterou seeds do next batch**, **não fez force-push**.
+> Próximo: **#048.10L** (runtime/seeds do next batch) — planejável, **não executado** aqui.

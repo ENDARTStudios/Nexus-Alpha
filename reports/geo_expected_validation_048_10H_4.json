@@ -1,0 +1,16 @@
+{
+  "audit_id": "geo_expected_validation_048_10h_4",
+  "generated_at": "2026-09-29T01:58:09.304214+00:00",
+  "expected_facts_total": 4,
+  "expected_facts_verified_strong": 4,
+  "expected_facts_verified_inferred": 0,
+  "expected_facts_verified": 4,
+  "evidence_strength": "strong",
+  "missing_facts": [],
+  "partial_facts": [],
+  "junk_objects_detected": 0,
+  "forbidden_predicates_detected": 0,
+  "regression_existing_verified": false,
+  "ok": true,
+  "blocking_reason": null
+}

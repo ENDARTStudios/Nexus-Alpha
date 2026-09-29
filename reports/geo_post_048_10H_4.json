@@ -1,0 +1,18 @@
+{
+  "audit_id": "geo_post_048_10H_4",
+  "generated_at": "2026-09-29T01:58:09+00:00",
+  "worker_run": 36509850003,
+  "dry_run_gate": "READY_048_10H_4_BATCH_CLOSURE",
+  "geo_facts_verified_strong": 4,
+  "facts": [
+    {"fact": "ALLIANZ PARQUE --LOCALIZADO_EM--> SÃO PAULO", "domains": ["pt.wikipedia.org", "en.wikipedia.org", "nominatim.openstreetmap.org"], "city_source": "homonym_state_city_exception | address.city"},
+    {"fact": "MORUMBI --LOCALIZADO_EM--> SÃO PAULO", "domains": ["pt.wikipedia.org", "en.wikipedia.org", "nominatim.openstreetmap.org"]},
+    {"fact": "PACAEMBU --LOCALIZADO_EM--> SÃO PAULO", "domains": ["pt.wikipedia.org", "en.wikipedia.org", "nominatim.openstreetmap.org"]},
+    {"fact": "NEO QUÍMICA ARENA --LOCALIZADO_EM--> SÃO PAULO", "domains": ["pt.wikipedia.org", "en.wikipedia.org", "nominatim.openstreetmap.org"]}
+  ],
+  "metrics": {"verified_before": 13, "verified_after": 15, "records_total": 15, "unique_predicates": 3, "multi_domain": 16, "duplicate_cross_domain": 31},
+  "health": {"unaccounted_raw": 0, "fallback_promoted_to_graph": 0, "top_invalid_predicates": [], "run_scoped_gap": 0, "graph_scoped_gap": -404},
+  "publisher_families_contributing": ["Wikimedia", "OpenStreetMap"],
+  "attribution": "(c) OpenStreetMap contributors",
+  "license": "ODbL"
+}
