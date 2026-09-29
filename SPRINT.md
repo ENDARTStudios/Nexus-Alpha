@@ -3091,3 +3091,49 @@ ARENA FONTE NOVA --LOCALIZADO_EM--> SALVADOR
 
 > Próximo: **#048.10L.2** — worker GEO do next batch (snapshot/baseline/worker/post/validate,
 > 1 dispatch, cron `disabled_manually`). Não treinar; quórum 3.
+
+## #048.10L.2 — Worker GEO do next batch
+
+**Status:** **PARTIAL** · **Classificação:** **`PARTIAL_048_10L_2_GEO_PROGRESS`**
+**Space preflight:** OK (200, online, telemetria viva) · **Vercel:** non-required (429 rate-limit) · **GitHub status HEAD:** success
+**Snapshot:** OK (`scripts/aura_snapshot.py`, read-only; nodes=5425, rels=4080, Fato=404)
+**Worker run:** `36617910895` (success, 4m45s) · **cron:** `disabled_manually` antes/depois · **dispatches:** 1
+**Fact-level evidence:** **inferred** (3/5 com ≥3 domínios) · **Junk:** 0 · **Regressão lote atual:** false
+**Campo `LOCALIZADO_EM` fortes:** NILTON SANTOS→RJ · MARACANÃ→RJ · ARENA FONTE NOVA→SALVADOR
+**Parciais:** BEIRA-RIO→PORTO ALEGRE (2/3) · MINEIRÃO→BELO HORIZONTE (1/3) → `reports/geo_next_batch_real_failure_analysis_048_10L_2.md`
+**Treino:** bloqueado · **Next-next batch:** congelado
+
+| Métrica | Antes | Depois | Delta |
+|---|---:|---:|---:|
+| verified_facts_domain_independent | 15 | **18** | +3 |
+| records_total | 15 | **18** | +3 |
+| fact_count | 404 | **413** | +9 |
+| concept_count | 2009 | **2023** | +14 |
+| unique_predicates | 3 | 3 | 0 |
+| non_VENCEU_ratio | ~0.33 | **0.4444** | + |
+| top_predicate_share | ~0.67 | **0.5556** | - |
+| publisher_family_count | 3 | 3 | 0 |
+| graph_scoped_gap | 0 | 0 | 0 |
+| fact_accounting_status | ok | ok | 0 |
+| unaccounted_raw | 0 | 0 | 0 |
+| top_invalid_predicates | [] | [] | 0 |
+| fallback_promoted_to_graph | 0 | 0 | 0 |
+
+### Causas reais (2 fatos parciais)
+
+- **Wiring OSM:** `scripts/worker_cycle.py::_load_expected_geo_city()` usa cidade única do registry 048_10H
+  (SÃO PAULO) como fallback de todo o run → `no_clean_city_evidence` para POA/BH.
+- **Infobox HTML cru:** worker chama `parser(url, "", html)`; na página PT do Mineirão a janela do infobox
+  capturou "Rio de Janeiro" (objeto falso, unverified).
+- **Canonical mismatch:** grafo canoniza `BEIRA RIO` (hífen→espaço) vs registry `BEIRA-RIO`.
+
+### Correções aplicadas (mínimas, testadas)
+
+- `feat(reports)`: `scripts/export_geo_fact_domains.py` agora aceita `--expected` e `--audit-id` e popula
+  `publisher_families` (usado para o registry do next batch). Teste estendido em `tests/test_export_geo_fact_domains.py`.
+- **Não houve hotfix de parser/extractor nem retry de worker** (worker não falhou; desfecho mapeia para #048.10L.3).
+
+> Este ciclo executou **1 worker** (autorizado), **não treinou**, **não escalou next-next batch**,
+> **não baixou quórum**, **não alterou validators cognitivos centrais**, **não fez force-push**.
+> **Não** houve restore/backfill. Próximo: **#048.10L.3** (fallback OSM source-scoped por fato + endurecer
+> infobox HTML cru + alinhar chave `BEIRA RIO`/`BEIRA-RIO`), apenas com dry-run e autorização.

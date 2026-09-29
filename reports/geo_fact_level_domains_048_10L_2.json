@@ -1,0 +1,139 @@
+{
+  "audit_id": "geo_fact_level_domains_048_10L_2",
+  "generated_at": "2026-09-29T19:21:30.888662+00:00",
+  "evidence_strength": "inferred",
+  "facts": [
+    {
+      "fact": "ESTÁDIO OLÍMPICO NILTON SANTOS --LOCALIZADO_EM--> RIO DE JANEIRO",
+      "subject": "ESTÁDIO OLÍMPICO NILTON SANTOS",
+      "predicate": "LOCALIZADO_EM",
+      "object": "RIO DE JANEIRO",
+      "domains": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "domain_count": 3,
+      "verified": true,
+      "publishers": [],
+      "publisher_families": [
+        "OpenStreetMap",
+        "Wikimedia"
+      ],
+      "sources": [
+        {
+          "domain": "en.wikipedia.org"
+        },
+        {
+          "domain": "nominatim.openstreetmap.org"
+        },
+        {
+          "domain": "pt.wikipedia.org"
+        }
+      ],
+      "blocking_reason": null
+    },
+    {
+      "fact": "MARACANÃ --LOCALIZADO_EM--> RIO DE JANEIRO",
+      "subject": "MARACANÃ",
+      "predicate": "LOCALIZADO_EM",
+      "object": "RIO DE JANEIRO",
+      "domains": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "domain_count": 3,
+      "verified": true,
+      "publishers": [],
+      "publisher_families": [
+        "OpenStreetMap",
+        "Wikimedia"
+      ],
+      "sources": [
+        {
+          "domain": "en.wikipedia.org"
+        },
+        {
+          "domain": "nominatim.openstreetmap.org"
+        },
+        {
+          "domain": "pt.wikipedia.org"
+        }
+      ],
+      "blocking_reason": null
+    },
+    {
+      "fact": "BEIRA-RIO --LOCALIZADO_EM--> PORTO ALEGRE",
+      "subject": "BEIRA-RIO",
+      "predicate": "LOCALIZADO_EM",
+      "object": "PORTO ALEGRE",
+      "domains": [],
+      "domain_count": 0,
+      "verified": false,
+      "publishers": [],
+      "publisher_families": [],
+      "sources": [],
+      "blocking_reason": "no_domains_or_not_corroborated"
+    },
+    {
+      "fact": "MINEIRÃO --LOCALIZADO_EM--> BELO HORIZONTE",
+      "subject": "MINEIRÃO",
+      "predicate": "LOCALIZADO_EM",
+      "object": "BELO HORIZONTE",
+      "domains": [
+        "en.wikipedia.org"
+      ],
+      "domain_count": 1,
+      "verified": false,
+      "publishers": [],
+      "publisher_families": [
+        "Wikimedia"
+      ],
+      "sources": [
+        {
+          "domain": "en.wikipedia.org"
+        }
+      ],
+      "blocking_reason": "no_domains_or_not_corroborated"
+    },
+    {
+      "fact": "ARENA FONTE NOVA --LOCALIZADO_EM--> SALVADOR",
+      "subject": "ARENA FONTE NOVA",
+      "predicate": "LOCALIZADO_EM",
+      "object": "SALVADOR",
+      "domains": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ],
+      "domain_count": 3,
+      "verified": true,
+      "publishers": [],
+      "publisher_families": [
+        "OpenStreetMap",
+        "Wikimedia"
+      ],
+      "sources": [
+        {
+          "domain": "en.wikipedia.org"
+        },
+        {
+          "domain": "nominatim.openstreetmap.org"
+        },
+        {
+          "domain": "pt.wikipedia.org"
+        }
+      ],
+      "blocking_reason": null
+    }
+  ],
+  "summary": {
+    "expected_facts_total": 5,
+    "facts_with_three_domains": 3,
+    "facts_verified_strong": 3,
+    "facts_verified_inferred": 0,
+    "junk_objects": 0,
+    "forbidden_objects": 0
+  }
+}

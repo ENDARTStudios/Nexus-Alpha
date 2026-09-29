@@ -1,0 +1,185 @@
+{
+  "audit_id": "table_extraction_dry_run_058_12",
+  "generated_at": "2026-09-29T19:44:36.421218+00:00",
+  "read_only": true,
+  "predicate": "VENCEU",
+  "urls": [
+    "https://www.rsssf.org/sacups/copalib.html",
+    "https://www.rsssf.org/tablesb/brazchamp.html"
+  ],
+  "pages": [
+    {
+      "url": "https://www.rsssf.org/sacups/copalib.html",
+      "status": 200,
+      "tabular_emitted": 19,
+      "tabular_canonical": 19
+    },
+    {
+      "url": "https://www.rsssf.org/tablesb/brazchamp.html",
+      "status": 200,
+      "tabular_emitted": 29,
+      "tabular_canonical": 48
+    }
+  ],
+  "totals": {
+    "urls_tested": 2,
+    "tables_parsed": 7,
+    "rows_processed": 476,
+    "tabular_raw": 48,
+    "distinct_spo_year_keys": 47,
+    "distinct_spo_keys": 11,
+    "distinct_spo_collapsed_downstream_by_design": 36,
+    "canonical_triples_generated": 48,
+    "refine_failures": 0,
+    "target_fact_hits": 15,
+    "target_hits_by_fact": {
+      "botafogo_venceu_libertadores": 1,
+      "botafogo_venceu_brasileirao": 3,
+      "santos_venceu_libertadores": 3,
+      "santos_venceu_brasileirao": 8
+    },
+    "narrative_canonical_baseline": 3,
+    "ser_share_before": 1.0,
+    "ser_share_after": 0.0588,
+    "ser_share_delta": -0.9412,
+    "predicates_seen": [
+      "venceu"
+    ]
+  },
+  "target_samples": {
+    "botafogo_venceu_libertadores": [
+      {
+        "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+        "predicate": "VENCEU",
+        "object": "COPA LIBERTADORES",
+        "url": "https://www.rsssf.org/sacups/copalib.html",
+        "year": 2024
+      }
+    ],
+    "botafogo_venceu_brasileirao": [
+      {
+        "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+        "predicate": "VENCEU",
+        "object": "CAMPEONATO BRASILEIRO SERIE A",
+        "url": "https://www.rsssf.org/tablesb/brazchamp.html",
+        "year": 1968
+      },
+      {
+        "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+        "predicate": "VENCEU",
+        "object": "CAMPEONATO BRASILEIRO SERIE A",
+        "url": "https://www.rsssf.org/tablesb/brazchamp.html",
+        "year": 1995
+      },
+      {
+        "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+        "predicate": "VENCEU",
+        "object": "CAMPEONATO BRASILEIRO SERIE A",
+        "url": "https://www.rsssf.org/tablesb/brazchamp.html",
+        "year": 2024
+      }
+    ],
+    "santos_venceu_libertadores": [
+      {
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "COPA LIBERTADORES",
+        "url": "https://www.rsssf.org/sacups/copalib.html",
+        "year": 1962
+      },
+      {
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "COPA LIBERTADORES",
+        "url": "https://www.rsssf.org/sacups/copalib.html",
+        "year": 1963
+      },
+      {
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "COPA LIBERTADORES",
+        "url": "https://www.rsssf.org/sacups/copalib.html",
+        "year": 2011
+      }
+    ],
+    "santos_venceu_brasileirao": [
+      {
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "CAMPEONATO BRASILEIRO SERIE A",
+        "url": "https://www.rsssf.org/tablesb/brazchamp.html",
+        "year": 1961
+      },
+      {
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "CAMPEONATO BRASILEIRO SERIE A",
+        "url": "https://www.rsssf.org/tablesb/brazchamp.html",
+        "year": 1962
+      },
+      {
+        "subject": "SANTOS FUTEBOL CLUBE",
+        "predicate": "VENCEU",
+        "object": "CAMPEONATO BRASILEIRO SERIE A",
+        "url": "https://www.rsssf.org/tablesb/brazchamp.html",
+        "year": 1963
+      }
+    ]
+  },
+  "rejection_reasons": {
+    "club_not_allowlisted": 79,
+    "club_mention_generic": 12,
+    "pre_unmatched_line": 125,
+    "pre_score_line_skipped": 140,
+    "pre_runner_up_skipped": 72
+  },
+  "refine_failures_sample": [],
+  "gates": {
+    "canonical_triples_generated": {
+      "value": 48,
+      "rule": "> 0",
+      "pass": true
+    },
+    "target_fact_hits": {
+      "value": 15,
+      "rule": "> 0",
+      "pass": true
+    },
+    "ser_share_delta": {
+      "value": -0.9412,
+      "rule": "<= 0",
+      "pass": true
+    },
+    "top_invalid_predicates": {
+      "value": [],
+      "rule": "== []",
+      "pass": true
+    },
+    "canonical_to_fact_gap": {
+      "value": -1,
+      "rule": "== 0",
+      "pass": false
+    },
+    "unaccounted_raw": {
+      "value": 0,
+      "rule": "== 0",
+      "pass": true
+    },
+    "no_ser_emitted": {
+      "value": false,
+      "rule": "== False",
+      "pass": true
+    },
+    "pt_regression": {
+      "value": false,
+      "rule": "== False",
+      "pass": true
+    },
+    "en_regression": {
+      "value": false,
+      "rule": "== False",
+      "pass": true
+    }
+  },
+  "verdict": "NO-GO"
+}

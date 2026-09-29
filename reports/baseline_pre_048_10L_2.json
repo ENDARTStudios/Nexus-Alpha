@@ -1,0 +1,114 @@
+{
+  "status": "online",
+  "timestamp": 1790709174,
+  "facts": 2009,
+  "concept_count": 2009,
+  "fact_count": 404,
+  "verified_facts": 15,
+  "publisher_family_count": 3,
+  "publisher_family_distribution": {
+    "OpenStreetMap": 4,
+    "RSSSF": 11,
+    "Wikimedia": 31
+  },
+  "effective_publisher_count": 3,
+  "publisher_independence_warnings": [
+    "OPENSTREETMAP_IS_GEOGRAPHIC_OPEN_DATA_NOT_NEWS_EDITORIAL",
+    "RSSSF_AND_RSSSF_BRASIL_SAME_FAMILY_SUSPECTED",
+    "WIKIMEDIA_MULTIPLE_LANGUAGES_NOT_INDEPENDENT"
+  ],
+  "vectors": 1336,
+  "quarantine": 0,
+  "episodes": 2951,
+  "cognitive_health": {
+    "episodic_persistence_rate": 1.0,
+    "hebbian_consistency_check": true,
+    "retention_pressure": "low"
+  },
+  "extraction_quality": {
+    "raw_triples": 0,
+    "canonical_triples": 0,
+    "rejected_noise": 0,
+    "duplicate_canonical_triples": 0,
+    "rejection_reasons": {
+      "numeric_predicate": 0,
+      "url_or_code_predicate": 0,
+      "stopword_predicate": 0,
+      "nonverbal_predicate": 0,
+      "invalid_predicate": 0,
+      "unmapped_predicate": 0,
+      "missing_entity": 0,
+      "self_loop": 0
+    },
+    "top_unmapped_predicates": [],
+    "top_invalid_predicates": [],
+    "quarantine": {
+      "total": 0
+    },
+    "cross_source_matches": 16,
+    "potential_verified_before_quorum": 16,
+    "verified_facts": 15,
+    "fallback_events": 0,
+    "masked_extraction_failures": 0
+  },
+  "fallback_health": {
+    "demo_memory_events": 0,
+    "masked_extraction_failures": 0,
+    "fallback_promoted_to_graph": 0,
+    "sources_with_zero_entities": 0,
+    "allow_demo_fallback": false
+  },
+  "verification": {
+    "quorum": 3,
+    "facts_with_multi_domain": 16,
+    "max_domain_confirmations": 3,
+    "verified_facts_domain_independent": 15
+  },
+  "ingestion_accounting": {
+    "raw_triples": 0,
+    "canonical_triples": 0,
+    "distinct_canonical_keys": 0,
+    "duplicate_canonical_occurrences": 0,
+    "persisted_facts": 404,
+    "canonical_to_fact_gap": -404,
+    "run_scoped_gap": 0,
+    "graph_scoped_gap": 0,
+    "graph_distinct_fact_hashes": 404,
+    "run_distinct_canonical_keys": 0,
+    "run_persisted_facts_created": 0,
+    "unaccounted_raw": 0,
+    "duplicate_same_source_url": 0,
+    "duplicate_same_domain": 0,
+    "duplicate_cross_domain": 0,
+    "rejected_after_canonical": 0,
+    "merged_into_existing_fact": 0,
+    "new_facts_created": 0,
+    "process_started_at": "2026-09-29T03:27:33.983051+00:00",
+    "last_ingest_at": null,
+    "accounting_mode": "bounded_exact",
+    "distinct_non_null_fact_hashes": 404,
+    "missing_fact_hash_count": 0,
+    "distinct_fact_node_keys": 404,
+    "duplicate_fact_hash_group_count": 0,
+    "fact_accounting_status": "ok"
+  },
+  "metric_glossary": {
+    "facts": "legacy/compat: node count of :Conceito",
+    "concept_count": "node count of :Conceito",
+    "fact_count": "persisted node count of :Fato",
+    "verified_facts_domain_independent": "facts with >= quorum distinct domains",
+    "facts_with_multi_domain": "facts corroborated by >= 2 distinct domains",
+    "duplicate_cross_domain": "runtime ingest counter of cross-domain duplicates",
+    "run_scoped_gap": "run-scoped accounting gap (distinct_canonical_keys - new_facts_created)",
+    "graph_scoped_gap": "distinct_fact_node_keys - persisted_facts; 0 = consistent",
+    "publisher_family_count": "families of publishers represented among verified facts",
+    "publisher_family_distribution": "domain confirmations per publisher family",
+    "effective_publisher_count": "families after collapsing Wikipedia languages and RSSSF/RSSSF Brasil; Unknown excluded",
+    "publisher_independence_warnings": "editorial independence caveats",
+    "distinct_non_null_fact_hashes": "distinct non-null/supporting fact keys over :Fato",
+    "missing_fact_hash_count": "count of :Fato nodes without a supporting key",
+    "distinct_fact_node_keys": "distinct accounting keys per :Fato node (hash when present, else internal id); base for graph_scoped_gap",
+    "duplicate_fact_hash_group_count": "number of non-null fact keys shared by more than one node",
+    "fact_accounting_status": "ok | missing_fact_hashes | duplicate_fact_hashes | query_error"
+  }
+}

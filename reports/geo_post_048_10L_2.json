@@ -1,0 +1,208 @@
+{
+  "audit_id": "geo_post_048_10L_2",
+  "generated_at": "2026-09-29T19:30:00+00:00",
+  "geo_wiki": {
+    "urls_seen": 18,
+    "urls_fetched": 18,
+    "triples_canonical": 18,
+    "generic_wiki_noise_suppressed": true
+  },
+  "geo_osm": {
+    "urls_seen": 9,
+    "urls_fetched": 9,
+    "json_parsed": 9,
+    "triples_raw": 7,
+    "triples_canonical": 7,
+    "rejection_reasons": {
+      "no_clean_city_evidence": 2
+    }
+  },
+  "fact_count": 413,
+  "concept_count": 2023,
+  "verified_facts_domain_independent": 18,
+  "localizado_em_facts": [
+    {
+      "subject": "ALLIANZ PARQUE",
+      "object": "SAO PAULO",
+      "verified": true,
+      "domains": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "ARENA FONTE NOVA",
+      "object": "SALVADOR",
+      "verified": true,
+      "domains": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "BEIRA RIO",
+      "object": "PORTO ALEGRE",
+      "verified": false,
+      "domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+      "object": "NEIGHBORHOOD OF BOTAFOGO",
+      "verified": false,
+      "domains": [
+        "en.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "CAIO MARTINS",
+      "object": "BOTAFOGO DE FUTEBOL E REGATAS",
+      "verified": false,
+      "domains": [
+        "pt.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "ESTADIO CICERO POMPEU DE TOLEDO",
+      "object": "SAO PAULO",
+      "verified": false,
+      "domains": [
+        "pt.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "ESTADIO OLIMPICO NILTON SANTOS",
+      "object": "RIO DE JANEIRO",
+      "verified": true,
+      "domains": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "GINASIO ATHIE JORGE COURY",
+      "object": "ESTÁDIO URBANO CALDEIRA",
+      "verified": false,
+      "domains": [
+        "pt.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "MAIS CONHECIDO COMO VILA BELMIRO",
+      "object": "SANTOS FUTEBOL CLUBE",
+      "verified": false,
+      "domains": [
+        "pt.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "MARACANA",
+      "object": "RIO DE JANEIRO",
+      "verified": true,
+      "domains": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "MINEIRAO",
+      "object": "RIO DE JANEIRO",
+      "verified": false,
+      "domains": [
+        "pt.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "MINEIRAO",
+      "object": "BELO HORIZONTE",
+      "verified": false,
+      "domains": [
+        "en.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "MORUMBI",
+      "object": "SAO PAULO",
+      "verified": true,
+      "domains": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "MOURISCO MAR",
+      "object": "BOTAFOGO DE FUTEBOL E REGATAS",
+      "verified": false,
+      "domains": [
+        "pt.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "NEO QUIMICA ARENA",
+      "object": "SAO PAULO",
+      "verified": true,
+      "domains": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "PACAEMBU",
+      "object": "SAO PAULO",
+      "verified": true,
+      "domains": [
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "PACAEMBU AND MORUMBI",
+      "object": "SAO PAULO",
+      "verified": false,
+      "domains": [
+        "en.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "PALMEIRAS AND SAO PAULO",
+      "object": "SANTOS FUTEBOL CLUBE",
+      "verified": false,
+      "domains": [
+        "en.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "SANTOS FUTEBOL CLUBE",
+      "object": "MONTE SERRAT",
+      "verified": false,
+      "domains": [
+        "pt.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "SAO PAULO COMPROU",
+      "object": "RUA CONSELHEIRO CRISPINIANO",
+      "verified": false,
+      "domains": [
+        "pt.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "SÃO PAULO FUTEBOL CLUBE",
+      "object": "ESTADIO DO MORUMBI",
+      "verified": false,
+      "domains": [
+        "pt.wikipedia.org"
+      ]
+    }
+  ]
+}
