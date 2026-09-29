@@ -3030,3 +3030,23 @@ Secundárias: `OBSERVABILITY_DEBT_GRAPH_SCOPED_GAP_NEGATIVE` (#052.3.1) ·
 
 > Este ciclo não executou worker; não escreveu em Neo4j/Qdrant via ingest; não alterou seeds/quórum;
 > não treinou; não escalou #048.10L.
+
+## #052.3.1 — Fact accounting / graph_scoped_gap correction
+
+**Status:** **DONE** (`SUCCESS_052_3_1_GRAPH_ACCOUNTING_READY`)
+**Causa raiz:** `graph_snapshot()` omitia `distinct_fact_hashes` no retorno → `.get(...,0)=0` → gap falso `-404`.
+**Helper criado:** SIM (`src/ops/fact_accounting.py`) · **Graph connector read-only:** SIM
+(`get_fact_accounting_counts`) · **App metrics:** SIM (campos aditivos + nova fórmula)
+**Deploy do Space:** **OK** (`sha 8ff50d4d -> 79413cf2`, build `RUNNING`)
+**Live `graph_scoped_gap`:** **0** · **`distinct_fact_node_keys`:** 404 · **`missing_fact_hash_count`:** 0 ·
+**`duplicate_fact_hash_group_count`:** 0 · **`fact_accounting_status`:** **ok**
+**Worker executado:** NÃO · **Backfill:** NÃO · **#048.10L:** congelado · **Treino:** bloqueado
+
+- Nova fórmula: `graph_scoped_gap = distinct_fact_node_keys - persisted_facts` (usa `f.chave`, fallback `id(f)` só p/ contagem).
+- Campos vivos adicionais: `distinct_non_null_fact_hashes`, `missing_fact_hash_count`, `distinct_fact_node_keys`,
+  `duplicate_fact_hash_group_count`, `fact_accounting_status` — **sem** alterar verificação/quórum/fact_count/concept_count.
+- Métricas cognitivas estáveis: `verified=15`, `quorum=3`, `fact_count=404`, `concept_count=2009`,
+  `publisher_family_count=3`, `run_scoped_gap=0`, `unaccounted_raw=0`, `top_invalid_predicates=[]`, `fallback=0`.
+
+> Este ciclo não executou worker; não escreveu em Neo4j/Qdrant via ingest; **não fez backfill**;
+> não alterou seeds/quórum; não treinou; não escalou #048.10L.
