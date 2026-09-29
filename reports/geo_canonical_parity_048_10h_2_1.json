@@ -1,0 +1,96 @@
+{
+  "audit_id": "geo_canonical_parity_048_10h_2_1",
+  "generated_at": "2026-09-29T00:49:09.615762+00:00",
+  "expected_facts": [
+    {
+      "fact": "ALLIANZ PARQUE --LOCALIZADO_EM--> SÃO PAULO",
+      "expected_key": "ALLIANZ PARQUE|LOCALIZADO_EM|SAO PAULO",
+      "osm": {
+        "key": "ALLIANZ PARQUE|LOCALIZADO_EM|SAO PAULO",
+        "matched": true,
+        "city_source": "display_name"
+      },
+      "wiki_pt": {
+        "key": "ALLIANZ PARQUE|LOCALIZADO_EM|SAO PAULO",
+        "matched": true,
+        "evidence_type": "lead_sentence"
+      },
+      "wiki_en": {
+        "key": "ALLIANZ PARQUE|LOCALIZADO_EM|SAO PAULO",
+        "matched": true,
+        "evidence_type": "lead_sentence"
+      },
+      "collision_status": "full_collision"
+    },
+    {
+      "fact": "MORUMBI --LOCALIZADO_EM--> SÃO PAULO",
+      "expected_key": "MORUMBI|LOCALIZADO_EM|SAO PAULO",
+      "osm": {
+        "key": "MORUMBI|LOCALIZADO_EM|SAO PAULO",
+        "matched": true,
+        "city_source": "address.city"
+      },
+      "wiki_pt": {
+        "key": "MORUMBI|LOCALIZADO_EM|SAO PAULO",
+        "matched": true,
+        "evidence_type": "lead_sentence"
+      },
+      "wiki_en": {
+        "key": "MORUMBI|LOCALIZADO_EM|SAO PAULO",
+        "matched": true,
+        "evidence_type": "lead_sentence"
+      },
+      "collision_status": "full_collision"
+    },
+    {
+      "fact": "PACAEMBU --LOCALIZADO_EM--> SÃO PAULO",
+      "expected_key": "PACAEMBU|LOCALIZADO_EM|SAO PAULO",
+      "osm": {
+        "key": "PACAEMBU|LOCALIZADO_EM|SAO PAULO",
+        "matched": true,
+        "city_source": "address.city"
+      },
+      "wiki_pt": {
+        "key": "PACAEMBU|LOCALIZADO_EM|SAO PAULO",
+        "matched": true,
+        "evidence_type": "lead_sentence"
+      },
+      "wiki_en": {
+        "key": "PACAEMBU|LOCALIZADO_EM|SAO PAULO",
+        "matched": true,
+        "evidence_type": "lead_sentence"
+      },
+      "collision_status": "full_collision"
+    },
+    {
+      "fact": "NEO QUÍMICA ARENA --LOCALIZADO_EM--> SÃO PAULO",
+      "expected_key": "NEO QUIMICA ARENA|LOCALIZADO_EM|SAO PAULO",
+      "osm": {
+        "key": "NEO QUIMICA ARENA|LOCALIZADO_EM|SAO PAULO",
+        "matched": true,
+        "city_source": "address.city"
+      },
+      "wiki_pt": {
+        "key": "NEO QUIMICA ARENA|LOCALIZADO_EM|SAO PAULO",
+        "matched": true,
+        "evidence_type": "lead_sentence"
+      },
+      "wiki_en": {
+        "key": "NEO QUIMICA ARENA|LOCALIZADO_EM|SAO PAULO",
+        "matched": true,
+        "evidence_type": "lead_sentence"
+      },
+      "collision_status": "full_collision"
+    }
+  ],
+  "summary": {
+    "expected_facts_total": 4,
+    "full_collision_facts": 4,
+    "matching_canonical_keys": 12,
+    "canonical_key_mismatches": 0,
+    "junk_objects": 0,
+    "forbidden_objects": 0,
+    "negatives_rejected": 8,
+    "gate_passed": true
+  }
+}

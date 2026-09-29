@@ -2865,3 +2865,23 @@ Não escalar next batch (#048.10L) antes de entender o bloqueio.
 > Este ciclo **não executou worker**. **Não escreveu** em Neo4j/Qdrant. **Não alterou seeds.**
 > **Não treinou.** O next batch **#048.10L permanece congelado** até o lote atual verificar.
 > Próximo: **#048.10H.2.1** — parser wiki GEO dedicado (subject pinado por URL + mesma frase + lead/infobox + rejeição de bairro/owner), com dry-run exigido 4/4 e zero junk.
+
+## #048.10H.2.1 — Dedicated GEO wiki parser + OSM fallback
+
+**Status:** **DONE**
+**Worker executado:** NÃO
+**Parser wiki GEO implementado:** **SIM** (`src/cognition/geo_wiki_parser.py`, subject pinado por URL, cidade só na mesma frase/infobox, allowlist estrita)
+**OSM fallback implementado:** **SIM** (`display_name_expected_context` source-scoped + retry 5xx em `fetch_nominatim_json`)
+**Wiring:** URLs wiki GEO roteadas ao parser dedicado; narrativa genérica **suprimida** para essas URLs
+**Dry-run 4/4:** **true** (`reports/geo_wiki_parser_dry_run_048_10h_2_1.json`):
+`osm=4`, `wiki_pt=4`, `wiki_en=4`, `full_collision=4`, `canonical_key_mismatches=0`, `junk=0`, `negatives 8/8 rejeitadas`
+**Pronto para #048.10H.3:** **true** (`reports/RUNBOOK_048_10H_3_GEO_RETRY.md`)
+
+- Reconciliação OSM Neo Química: `reports/osm_neo_quimica_failure_reconciliation_048_10h_2_1.md`
+  (`no_clean_city_evidence` = Allianz/parse; `502` = Neo Química/rede).
+- Matriz de paridade: `reports/geo_canonical_parity_048_10h_2_1.json`.
+
+> Este ciclo **não executou worker**. **Não escreveu** em Neo4j/Qdrant. **Não alterou seeds.**
+> **Não alterou** canonicalizer/predicate_mapper/span_validator/entity_aliases. **Não treinou.**
+> #048.10L permanece congelado; #052.3.1 permanece separado.
+> Próximo: **#048.10H.3** — retry do worker GEO (snapshot/baseline/worker/post/validate).
