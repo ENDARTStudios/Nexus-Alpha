@@ -124,6 +124,8 @@ def test_metrics_glossary_present():
     assert body["metric_glossary"]["fact_count"]
     assert body["metric_glossary"]["run_scoped_gap"]
     assert body["metric_glossary"]["graph_scoped_gap"]
+    # #048.10L.3 — canonical_to_fact_gap documentado como scope mismatch nao bloqueante.
+    assert "scope mismatch" in body["metric_glossary"]["canonical_to_fact_gap"].lower()
 
 
 def test_metrics_publisher_family_telemetry():

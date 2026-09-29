@@ -471,6 +471,7 @@ async def metrics() -> dict:
             "facts_with_multi_domain": "facts corroborated by >= 2 distinct domains",
             "duplicate_cross_domain": "runtime ingest counter of cross-domain duplicates",
             "run_scoped_gap": "run-scoped accounting gap (distinct_canonical_keys - new_facts_created)",
+            "canonical_to_fact_gap": "run-scoped distinct_canonical_keys - whole-graph persisted_facts; SCOPE MISMATCH by construction -> negative is expected/non-blocking (use graph_scoped_gap for consistency)",
             "graph_scoped_gap": "distinct_fact_node_keys - persisted_facts; 0 = consistent",
             "publisher_family_count": "families of publishers represented among verified facts",
             "publisher_family_distribution": "domain confirmations per publisher family",
