@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 import unicodedata
 from datetime import datetime, timezone
@@ -33,6 +34,11 @@ FACT_LIST_KEYS = ("facts", "geo_facts", "facts_list", "expected_facts")
 def _fold(value: str) -> str:
     decomposed = unicodedata.normalize("NFD", value or "")
     return " ".join("".join(c for c in decomposed if unicodedata.category(c) != "Mn").upper().split())
+
+
+def _match_key(value: str) -> str:
+    """Chave de casamento tolerante a hifen/espaco/pontuacao (ex.: BEIRA-RIO == BEIRA RIO)."""
+    return re.sub(r"[^A-Z0-9]", "", _fold(value))
 
 
 def _domains_of(item: dict) -> list[str]:
@@ -74,14 +80,14 @@ def validate_geo_expected_facts(
     partial: list[str] = []
     verified = 0
     for ef in expected_facts:
-        subject, predicate, obj = _fold(ef["subject"]), str(ef["predicate"]).upper(), _fold(ef["object"])
+        subject, predicate, obj = _match_key(ef["subject"]), str(ef["predicate"]).upper(), _match_key(ef["object"])
         match = next(
             (
                 f
                 for f in facts
-                if _fold(f.get("subject")) == subject
+                if _match_key(f.get("subject")) == subject
                 and str(f.get("predicate") or "").upper() == predicate
-                and _fold(f.get("object")) == obj
+                and _match_key(f.get("object")) == obj
             ),
             None,
         )
@@ -221,14 +227,14 @@ def validate_with_fact_domains(expected: dict, fact_domains: dict) -> dict:
     strength = fact_domains.get("evidence_strength", "insufficient")
     by_key = {}
     for f in fact_domains.get("facts") or []:
-        by_key[(_fold(f.get("subject")), str(f.get("predicate") or "").upper(), _fold(f.get("object")))] = f
+        by_key[(_match_key(f.get("subject")), str(f.get("predicate") or "").upper(), _match_key(f.get("object")))] = f
     total = len(expected.get("expected_facts") or [])
     strong = 0
     inferred = 0
     missing = []
     partial = []
     for ef in expected.get("expected_facts") or []:
-        key = (_fold(ef["subject"]), str(ef["predicate"]).upper(), _fold(ef["object"]))
+        key = (_match_key(ef["subject"]), str(ef["predicate"]).upper(), _match_key(ef["object"]))
         got = by_key.get(key)
         dc = int((got or {}).get("domain_count", 0))
         if dc >= int(ef.get("min_domain_count", 3)):

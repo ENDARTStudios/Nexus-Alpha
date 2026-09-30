@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 import unicodedata
 from datetime import datetime, timezone
@@ -37,16 +38,21 @@ def _fold(value: str) -> str:
     return " ".join("".join(c for c in decomposed if unicodedata.category(c) != "Mn").upper().split())
 
 
+def _match_key(value: str) -> str:
+    """Chave de casamento tolerant a hifen/espaco/pontuacao (ex.: BEIRA-RIO == BEIRA RIO)."""
+    return re.sub(r"[^A-Z0-9]", "", _fold(value))
+
+
 def build_fact_domains(rows: list[dict], expected: dict, audit_id: str = DEFAULT_AUDIT_ID) -> dict:
     """Puro: casa fatos esperados com dominios observados e classifica a evidencia."""
     facts = []
     for ef in expected.get("expected_facts") or []:
-        subject, predicate, obj = _fold(ef["subject"]), str(ef["predicate"]).upper(), _fold(ef["object"])
+        subject, predicate, obj = _match_key(ef["subject"]), str(ef["predicate"]).upper(), _match_key(ef["object"])
         match = next(
             (r for r in rows
-             if _fold(r.get("subject")) == subject
+             if _match_key(r.get("subject")) == subject
              and str(r.get("predicate") or "").upper() == predicate
-             and _fold(r.get("object")) == obj),
+             and _match_key(r.get("object")) == obj),
             None,
         )
         domains = sorted({d for d in (match or {}).get("domains", []) if d}) if match else []

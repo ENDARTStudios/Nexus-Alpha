@@ -12,6 +12,7 @@ from scripts.validate_geo_expected_facts import main as validator_main  # noqa: 
 from scripts.validate_geo_expected_facts import (  # noqa: E402
     validate_geo_expected_facts,
     validate_multi_batch,
+    validate_with_fact_domains,
 )
 
 REGISTRY = ROOT / "reports" / "geo_expected_facts_048_10H.json"
@@ -125,4 +126,18 @@ def test_multi_batch_next_junk_detected():
     result = validate_multi_batch(_expected(), next_expected, _post(), _geo_report(facts))
     assert result["batches"]["next_048_10K"]["status"] == "FAIL"
     assert result["aggregate"]["ok"] is False
+
+
+def test_fact_domains_matches_hyphen_and_space():
+    # #048.10L.4: BEIRA-RIO (registry) deve casar 'BEIRA RIO' (grafo canonicalizado).
+    expected = {"expected_facts": [{
+        "fact": "BEIRA-RIO --LOCALIZADO_EM--> PORTO ALEGRE",
+        "subject": "BEIRA-RIO", "predicate": "LOCALIZADO_EM", "object": "PORTO ALEGRE", "min_domain_count": 3,
+    }]}
+    fact_domains = {"evidence_strength": "strong", "facts": [
+        {"subject": "BEIRA RIO", "predicate": "LOCALIZADO_EM", "object": "PORTO ALEGRE", "domain_count": 3},
+    ]}
+    result = validate_with_fact_domains(expected, fact_domains)
+    assert result["expected_facts_verified_strong"] == 1
+    assert result["ok"] is True
 

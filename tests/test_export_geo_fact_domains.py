@@ -51,3 +51,15 @@ def test_build_fact_domains_publisher_families_and_audit_id():
     assert report["audit_id"] == "geo_fact_level_domains_048_10L_2"
     fact = report["facts"][0]
     assert fact["publisher_families"] == ["OpenStreetMap", "Wikimedia"]
+
+
+def test_build_fact_domains_matches_hyphen_and_space():
+    # #048.10L.4: registry BEIRA-RIO deve casar a linha 'BEIRA RIO' do grafo.
+    expected = {"expected_facts": [{
+        "fact": "BEIRA-RIO --LOCALIZADO_EM--> PORTO ALEGRE",
+        "subject": "BEIRA-RIO", "predicate": "LOCALIZADO_EM", "object": "PORTO ALEGRE",
+    }]}
+    rows = [{"subject": "BEIRA RIO", "predicate": "LOCALIZADO_EM", "object": "PORTO ALEGRE", "verified": True, "domains": DOMAINS}]
+    report = build_fact_domains(rows, expected, audit_id="x")
+    assert report["facts"][0]["domain_count"] == 3
+    assert report["evidence_strength"] == "strong"
