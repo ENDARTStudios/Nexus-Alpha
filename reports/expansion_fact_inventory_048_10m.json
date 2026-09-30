@@ -1,0 +1,262 @@
+{
+  "audit_id": "expansion_fact_inventory_048_10m",
+  "generated_at": "2026-09-30T02:59:12.080003+00:00",
+  "mode": "read_only",
+  "baseline": {
+    "verified_facts_domain_independent": 20,
+    "fact_count": 412,
+    "concept_count": 2023,
+    "quorum": 3,
+    "graph_scoped_gap": 0,
+    "fact_accounting_status": "ok",
+    "canonical_to_fact_gap_same_scope": 0,
+    "publisher_family_count": 3
+  },
+  "facts_by_predicate": {
+    "DEFENDEU": 1,
+    "VENCEU": 10,
+    "LOCALIZADO_EM": 9
+  },
+  "facts_by_publisher_family": {
+    "Wikimedia": 40,
+    "RSSSF": 11,
+    "OpenStreetMap": 9
+  },
+  "facts_by_domain": {
+    "pt.wikipedia.org": 20,
+    "en.wikipedia.org": 20,
+    "rsssfbrasil.com": 1,
+    "rsssf.org": 10,
+    "nominatim.openstreetmap.org": 9
+  },
+  "verified_facts": [
+    {
+      "subject": "EDSON ARANTES DO NASCIMENTO",
+      "predicate": "DEFENDEU",
+      "object": "SANTOS FUTEBOL CLUBE",
+      "domain_count": 3,
+      "domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssfbrasil.com"
+      ]
+    },
+    {
+      "subject": "SANTOS FUTEBOL CLUBE",
+      "predicate": "VENCEU",
+      "object": "COPA LIBERTADORES",
+      "domain_count": 3,
+      "domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ]
+    },
+    {
+      "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+      "predicate": "VENCEU",
+      "object": "COPA LIBERTADORES",
+      "domain_count": 3,
+      "domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ]
+    },
+    {
+      "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+      "predicate": "VENCEU",
+      "object": "CAMPEONATO BRASILEIRO SERIE A",
+      "domain_count": 3,
+      "domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ]
+    },
+    {
+      "subject": "CLUBE DE REGATAS DO FLAMENGO",
+      "predicate": "VENCEU",
+      "object": "COPA LIBERTADORES",
+      "domain_count": 3,
+      "domains": [
+        "rsssf.org",
+        "pt.wikipedia.org",
+        "en.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "GREMIO FOOT BALL PORTO ALEGRENSE",
+      "predicate": "VENCEU",
+      "object": "COPA LIBERTADORES",
+      "domain_count": 3,
+      "domains": [
+        "rsssf.org",
+        "pt.wikipedia.org",
+        "en.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "SÃO PAULO FUTEBOL CLUBE",
+      "predicate": "VENCEU",
+      "object": "COPA LIBERTADORES",
+      "domain_count": 3,
+      "domains": [
+        "rsssf.org",
+        "pt.wikipedia.org",
+        "en.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "SOCIEDADE ESPORTIVA PALMEIRAS",
+      "predicate": "VENCEU",
+      "object": "COPA LIBERTADORES",
+      "domain_count": 3,
+      "domains": [
+        "rsssf.org",
+        "pt.wikipedia.org",
+        "en.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "SPORT CLUBE INTERNACIONAL",
+      "predicate": "VENCEU",
+      "object": "COPA LIBERTADORES",
+      "domain_count": 3,
+      "domains": [
+        "rsssf.org",
+        "pt.wikipedia.org",
+        "en.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "SOCIEDADE ESPORTIVA PALMEIRAS",
+      "predicate": "VENCEU",
+      "object": "CAMPEONATO BRASILEIRO SERIE A",
+      "domain_count": 3,
+      "domains": [
+        "rsssf.org",
+        "pt.wikipedia.org",
+        "en.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "SÃO PAULO FUTEBOL CLUBE",
+      "predicate": "VENCEU",
+      "object": "CAMPEONATO BRASILEIRO SERIE A",
+      "domain_count": 3,
+      "domains": [
+        "rsssf.org",
+        "pt.wikipedia.org",
+        "en.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "NEO QUIMICA ARENA",
+      "predicate": "LOCALIZADO_EM",
+      "object": "SAO PAULO",
+      "domain_count": 3,
+      "domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org"
+      ]
+    },
+    {
+      "subject": "MORUMBI",
+      "predicate": "LOCALIZADO_EM",
+      "object": "SAO PAULO",
+      "domain_count": 3,
+      "domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org"
+      ]
+    },
+    {
+      "subject": "PACAEMBU",
+      "predicate": "LOCALIZADO_EM",
+      "object": "SAO PAULO",
+      "domain_count": 3,
+      "domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org"
+      ]
+    },
+    {
+      "subject": "ALLIANZ PARQUE",
+      "predicate": "LOCALIZADO_EM",
+      "object": "SAO PAULO",
+      "domain_count": 3,
+      "domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org"
+      ]
+    },
+    {
+      "subject": "ESTADIO OLIMPICO NILTON SANTOS",
+      "predicate": "LOCALIZADO_EM",
+      "object": "RIO DE JANEIRO",
+      "domain_count": 3,
+      "domains": [
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org",
+        "en.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "MARACANA",
+      "predicate": "LOCALIZADO_EM",
+      "object": "RIO DE JANEIRO",
+      "domain_count": 3,
+      "domains": [
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org",
+        "en.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "ARENA FONTE NOVA",
+      "predicate": "LOCALIZADO_EM",
+      "object": "SALVADOR",
+      "domain_count": 3,
+      "domains": [
+        "nominatim.openstreetmap.org",
+        "pt.wikipedia.org",
+        "en.wikipedia.org"
+      ]
+    },
+    {
+      "subject": "BEIRA RIO",
+      "predicate": "LOCALIZADO_EM",
+      "object": "PORTO ALEGRE",
+      "domain_count": 3,
+      "domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org"
+      ]
+    },
+    {
+      "subject": "MINEIRAO",
+      "predicate": "LOCALIZADO_EM",
+      "object": "BELO HORIZONTE",
+      "domain_count": 3,
+      "domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "nominatim.openstreetmap.org"
+      ]
+    }
+  ],
+  "summary": {
+    "records_total": 20,
+    "unique_predicates": 3,
+    "non_VENCEU_ratio": 0.5,
+    "top_predicate_share": 0.5,
+    "publisher_family_count": 3,
+    "effective_publisher_count": 3
+  }
+}
