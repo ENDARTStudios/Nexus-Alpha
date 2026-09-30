@@ -126,6 +126,24 @@ def test_metrics_glossary_present():
     assert body["metric_glossary"]["graph_scoped_gap"]
     # #048.10L.3 — canonical_to_fact_gap documentado como scope mismatch nao bloqueante.
     assert "scope mismatch" in body["metric_glossary"]["canonical_to_fact_gap"].lower()
+    assert body["metric_glossary"]["canonical_to_fact_gap_status"]
+    assert body["metric_glossary"]["canonical_to_fact_gap_interpretation"]
+
+
+def test_metrics_canonical_to_fact_gap_scope_fields():
+    # #048.10L.5 — escopo explicito; negativo NAO altera verified/quorum.
+    body = _client().get("/api/metrics").json()
+    acc = body["ingestion_accounting"]
+    assert acc["canonical_to_fact_gap"] == -335  # legado preservado (0 - 335)
+    assert acc["canonical_to_fact_gap_status"] == "scope_mismatch_non_blocking"
+    assert acc["canonical_to_fact_gap_interpretation"] == "canonical_occurrences_scope_minus_persisted_fact_nodes_scope"
+    assert acc["canonical_to_fact_gap_same_scope"] == acc["run_scoped_gap"]
+    assert acc["canonical_occurrences_count"] == acc["distinct_canonical_keys"]
+    assert acc["persisted_fact_nodes_count"] == 335
+    assert body["verification"]["quorum"] == 3
+    assert body["verification"]["verified_facts_domain_independent"] == 11
+    assert acc["graph_scoped_gap"] == 0
+    assert acc["fact_accounting_status"] == "ok"
 
 
 def test_metrics_publisher_family_telemetry():

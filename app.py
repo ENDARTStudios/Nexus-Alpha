@@ -395,6 +395,28 @@ async def metrics() -> dict:
             "graph_scoped_gap": fact_acc.graph_scoped_gap,
         }
     )
+    # #048.10L.5 — canonical_to_fact_gap: explicitar o escopo (nunca tratar negativo como
+    # contaminação por si só). O gap legado compara chaves canônicas RUN-SCOPED com :Fato
+    # WHOLE-GRAPH; a métrica honesta same-scope é `run_scoped_gap`.
+    _gap = ingestion_accounting["canonical_to_fact_gap"]
+    _acc_status = fact_acc.fact_accounting_status
+    if _acc_status != "ok":
+        _gap_status = "query_error"
+    elif (fact_acc.duplicate_fact_hash_group_count or 0) > 0 or (fact_acc.missing_fact_hash_count or 0) > 0:
+        _gap_status = "duplicate_fact_hashes"
+    elif _gap != 0:
+        _gap_status = "scope_mismatch_non_blocking"
+    else:
+        _gap_status = "ok"
+    ingestion_accounting.update(
+        {
+            "canonical_to_fact_gap_status": _gap_status,
+            "canonical_to_fact_gap_interpretation": "canonical_occurrences_scope_minus_persisted_fact_nodes_scope",
+            "canonical_to_fact_gap_same_scope": ingestion_accounting["run_scoped_gap"],
+            "canonical_occurrences_count": ingestion_accounting["distinct_canonical_keys"],
+            "persisted_fact_nodes_count": snapshot.get("facts", 0),
+        }
+    )
     vectors = get_vector_connector().count()
     try:
         quarantined = len(get_quarantine().list_all())
@@ -472,6 +494,11 @@ async def metrics() -> dict:
             "duplicate_cross_domain": "runtime ingest counter of cross-domain duplicates",
             "run_scoped_gap": "run-scoped accounting gap (distinct_canonical_keys - new_facts_created)",
             "canonical_to_fact_gap": "run-scoped distinct_canonical_keys - whole-graph persisted_facts; SCOPE MISMATCH by construction -> negative is expected/non-blocking (use graph_scoped_gap for consistency)",
+            "canonical_to_fact_gap_status": "ok | scope_mismatch_non_blocking | duplicate_fact_hashes | query_error",
+            "canonical_to_fact_gap_interpretation": "canonical_occurrences_scope_minus_persisted_fact_nodes_scope",
+            "canonical_to_fact_gap_same_scope": "same-scope gap (run canonical vs run persisted) = run_scoped_gap",
+            "canonical_occurrences_count": "run-scoped distinct canonical keys",
+            "persisted_fact_nodes_count": "whole-graph :Fato node count",
             "graph_scoped_gap": "distinct_fact_node_keys - persisted_facts; 0 = consistent",
             "publisher_family_count": "families of publishers represented among verified facts",
             "publisher_family_distribution": "domain confirmations per publisher family",
