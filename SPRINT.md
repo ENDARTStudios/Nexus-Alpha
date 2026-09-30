@@ -3160,3 +3160,47 @@ ARENA FONTE NOVA --LOCALIZADO_EM--> SALVADOR
 > quórum**, **não alterou validators cognitivos centrais** (span/predicate/canonicalizer/refiner/table/entity_aliases),
 > **não escalou next-next batch**, **não treinou**, **não fez force-push**. O lote atual GEO **permanece intacto**.
 > Próximo: **#048.10L.4** (worker GEO do next batch, retry condicionado) via `reports/RUNBOOK_048_10L_4_GEO_NEXT_BATCH_WORKER_RETRY.md`.
+
+## #048.10L.4 — Worker GEO do next batch retry
+
+**Status:** **DONE** · **Classificação:** **`SUCCESS_048_10L_4_GEO_NEXT_BATCH_5_OF_5`**
+**Space preflight:** OK · **Redeploy necessário:** SIM (app.py mudou em L.3) · **Redeploy executado:** SIM (sha `d59e8957`, RUNNING)
+**Snapshot:** OK (nodes=5470, rels=4137, Fato=413) · **Worker run:** `36653154613` (dispatch #1) + `36654148767` (retry #2) · **cron:** `disabled_manually` antes/depois
+**Fact-level evidence:** **strong** · **Next batch GEO:** **5/5** · **Junk:** 0 · **Forbidden:** 0 · **Regressão lote atual:** false
+**Treino:** bloqueado · **Next-next batch:** congelado
+
+| Métrica | Antes | Depois | Delta |
+|---|---:|---:|---:|
+| verified_facts_domain_independent | 18 | **20** | +2 |
+| records_total | 18 | **20** | +2 |
+| fact_count | 413 | 413 | 0 (fatos já existiam; +domínios) |
+| concept_count | 2023 | 2023 | 0 |
+| unique_predicates | 3 | 3 | 0 |
+| non_VENCEU_ratio | ~0.44 | **0.50** | + |
+| top_predicate_share | ~0.56 | **0.50** | - |
+| publisher_family_count | 3 | 3 | 0 |
+| graph_scoped_gap | 0 | 0 | 0 |
+| fact_accounting_status | ok | ok | 0 |
+| canonical_to_fact_gap | scope_mismatch_non_blocking | -93 | (não bloqueante) |
+| unaccounted_raw | 0 | 0 | 0 |
+| top_invalid_predicates | [] | [] | 0 |
+| fallback_promoted_to_graph | 0 | 0 | 0 |
+
+Fatos do next batch verificados (pt+en+nominatim, strong):
+`NILTON SANTOS→RIO DE JANEIRO` · `MARACANÃ→RIO DE JANEIRO` · `BEIRA-RIO→PORTO ALEGRE` · `MINEIRÃO→BELO HORIZONTE` · `ARENA FONTE NOVA→SALVADOR`.
+
+### Hotfix mínimo aplicado (evidência do probe read-only)
+- `fix(cognition)` `5435220`: infobox PT do Mineirão usa label **"Município"** (não casado) → adicionado
+  `município/municipio/localidade`; **duas queries Nominatim desambiguadas por cidade**
+  (`Estádio Beira-Rio, Porto Alegre` e `Mineirão, Belo Horizonte`) — sem elas, o Nominatim retornava
+  features erradas em MG (probe `.autonomous/048_10l_4/real_page_probe/`).
+- `fix(operational)` `24c8ff6`: casamento de chave tolerante a hífen/espaço (`BEIRA RIO` == `BEIRA-RIO`) no export/validate.
+- Retry único autorizado (dispatch #2) após CI verde.
+
+> Este ciclo executou **2 workers** (1 + 1 retry com diagnóstico), **não treinou**, **não escalou next-next batch**,
+> **não baixou quórum**, **não alterou validators cognitivos centrais** (canonicalizer/predicate_mapper/span_validator/
+> triple_refiner/table_extractor/entity_aliases intactos), **não fez force-push**, **sem backfill/restore**.
+> Treino segue **fechado** (`records_total=20 < 50`, `environment_gate=false`), apesar de `diversity_ok=true`.
+> Residual: `MINEIRAO --LOCALIZADO_EM--> RIO DE JANEIRO` (legado de L.2, **unverified**, dc=1, não promovido) —
+> ver `reports/geo_next_batch_residual_048_10L_4.md`; limpeza em #048.10L.5.
+> Próximo: **#048.10M** (planejamento read-only de expansão não-VENCEU / DEFENDEU-DISPUTOU). Não treinar.

@@ -1,0 +1,183 @@
+{
+  "status": "online",
+  "timestamp": 1790729865,
+  "facts": 2023,
+  "concept_count": 2023,
+  "fact_count": 413,
+  "verified_facts": 18,
+  "publisher_family_count": 3,
+  "publisher_family_distribution": {
+    "OpenStreetMap": 7,
+    "RSSSF": 11,
+    "Wikimedia": 37
+  },
+  "effective_publisher_count": 3,
+  "publisher_independence_warnings": [
+    "OPENSTREETMAP_IS_GEOGRAPHIC_OPEN_DATA_NOT_NEWS_EDITORIAL",
+    "RSSSF_AND_RSSSF_BRASIL_SAME_FAMILY_SUSPECTED",
+    "WIKIMEDIA_MULTIPLE_LANGUAGES_NOT_INDEPENDENT"
+  ],
+  "vectors": 1404,
+  "quarantine": 0,
+  "episodes": 2960,
+  "cognitive_health": {
+    "episodic_persistence_rate": 1.0,
+    "hebbian_consistency_check": true,
+    "retention_pressure": "low"
+  },
+  "extraction_quality": {
+    "raw_triples": 979,
+    "canonical_triples": 366,
+    "rejected_noise": 509,
+    "duplicate_canonical_triples": 104,
+    "rejection_reasons": {
+      "numeric_predicate": 0,
+      "url_or_code_predicate": 0,
+      "stopword_predicate": 0,
+      "nonverbal_predicate": 0,
+      "invalid_predicate": 0,
+      "unmapped_predicate": 96,
+      "missing_entity": 96,
+      "self_loop": 0,
+      "object_prepositional_phrase": 76,
+      "object_date_like": 38,
+      "ambiguous_predicate": 23,
+      "subject_generic_phrase": 53,
+      "object_predicate_complement": 57,
+      "subject_starts_with_stopword": 17,
+      "modal_predicate": 30,
+      "subject_quantifier_phrase": 9,
+      "object_adverbial_phrase": 4,
+      "object_pronoun": 2,
+      "object_clause_fragment": 4,
+      "object_generic_phrase": 3,
+      "object_punctuated": 1
+    },
+    "top_unmapped_predicates": [
+      {
+        "predicate": "MARCAR",
+        "count": 12
+      },
+      {
+        "predicate": "DAR",
+        "count": 10
+      },
+      {
+        "predicate": "VIR",
+        "count": 9
+      },
+      {
+        "predicate": "CONTRATAR",
+        "count": 8
+      },
+      {
+        "predicate": "DESCREVER",
+        "count": 6
+      },
+      {
+        "predicate": "REPRESENTAR",
+        "count": 5
+      },
+      {
+        "predicate": "RESULTS",
+        "count": 5
+      },
+      {
+        "predicate": "IR",
+        "count": 4
+      },
+      {
+        "predicate": "VER",
+        "count": 3
+      },
+      {
+        "predicate": "CONSTRUIR",
+        "count": 3
+      }
+    ],
+    "top_invalid_predicates": [],
+    "quarantine": {
+      "total": 509,
+      "object_prepositional_phrase": 76,
+      "unmapped_predicate": 96,
+      "object_date_like": 38,
+      "ambiguous_predicate": 23,
+      "subject_generic_phrase": 53,
+      "object_predicate_complement": 57,
+      "subject_starts_with_stopword": 17,
+      "modal_predicate": 30,
+      "subject_quantifier_phrase": 9,
+      "missing_entity": 96,
+      "object_adverbial_phrase": 4,
+      "object_pronoun": 2,
+      "object_clause_fragment": 4,
+      "object_generic_phrase": 3,
+      "object_punctuated": 1
+    },
+    "cross_source_matches": 20,
+    "potential_verified_before_quorum": 20,
+    "verified_facts": 18,
+    "fallback_events": 2,
+    "masked_extraction_failures": 2
+  },
+  "fallback_health": {
+    "demo_memory_events": 2,
+    "masked_extraction_failures": 2,
+    "fallback_promoted_to_graph": 0,
+    "sources_with_zero_entities": 2,
+    "allow_demo_fallback": false
+  },
+  "verification": {
+    "quorum": 3,
+    "facts_with_multi_domain": 20,
+    "max_domain_confirmations": 3,
+    "verified_facts_domain_independent": 18
+  },
+  "ingestion_accounting": {
+    "raw_triples": 979,
+    "canonical_triples": 470,
+    "distinct_canonical_keys": 320,
+    "duplicate_canonical_occurrences": 150,
+    "persisted_facts": 413,
+    "canonical_to_fact_gap": -93,
+    "run_scoped_gap": 0,
+    "graph_scoped_gap": 0,
+    "graph_distinct_fact_hashes": 413,
+    "run_distinct_canonical_keys": 320,
+    "run_persisted_facts_created": 320,
+    "unaccounted_raw": 0,
+    "duplicate_same_source_url": 104,
+    "duplicate_same_domain": 8,
+    "duplicate_cross_domain": 38,
+    "rejected_after_canonical": 0,
+    "merged_into_existing_fact": 46,
+    "new_facts_created": 320,
+    "process_started_at": "2026-09-29T03:27:33.983051+00:00",
+    "last_ingest_at": "2026-09-29T19:19:58.511101+00:00",
+    "accounting_mode": "bounded_exact",
+    "distinct_non_null_fact_hashes": 413,
+    "missing_fact_hash_count": 0,
+    "distinct_fact_node_keys": 413,
+    "duplicate_fact_hash_group_count": 0,
+    "fact_accounting_status": "ok"
+  },
+  "metric_glossary": {
+    "facts": "legacy/compat: node count of :Conceito",
+    "concept_count": "node count of :Conceito",
+    "fact_count": "persisted node count of :Fato",
+    "verified_facts_domain_independent": "facts with >= quorum distinct domains",
+    "facts_with_multi_domain": "facts corroborated by >= 2 distinct domains",
+    "duplicate_cross_domain": "runtime ingest counter of cross-domain duplicates",
+    "run_scoped_gap": "run-scoped accounting gap (distinct_canonical_keys - new_facts_created)",
+    "graph_scoped_gap": "distinct_fact_node_keys - persisted_facts; 0 = consistent",
+    "publisher_family_count": "families of publishers represented among verified facts",
+    "publisher_family_distribution": "domain confirmations per publisher family",
+    "effective_publisher_count": "families after collapsing Wikipedia languages and RSSSF/RSSSF Brasil; Unknown excluded",
+    "publisher_independence_warnings": "editorial independence caveats",
+    "distinct_non_null_fact_hashes": "distinct non-null/supporting fact keys over :Fato",
+    "missing_fact_hash_count": "count of :Fato nodes without a supporting key",
+    "distinct_fact_node_keys": "distinct accounting keys per :Fato node (hash when present, else internal id); base for graph_scoped_gap",
+    "duplicate_fact_hash_group_count": "number of non-null fact keys shared by more than one node",
+    "fact_accounting_status": "ok | missing_fact_hashes | duplicate_fact_hashes | query_error"
+  }
+}

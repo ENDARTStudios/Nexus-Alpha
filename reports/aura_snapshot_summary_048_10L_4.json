@@ -1,0 +1,13 @@
+{
+  "report": "aura_snapshot_summary_048_10L_4",
+  "generated_at": "2026-09-29T20:55:00+00:00",
+  "snapshot_aura_ok": true,
+  "snapshot_id_or_path": ".autonomous/048_10l_4/aura_snapshot_pre_048_10L_4.json (nao versionado)",
+  "snapshot_tool": "scripts/aura_snapshot.py (Neo4j read-only, export restauravel)",
+  "nodes_count": 5470,
+  "relationships_count": 4137,
+  "label_counts": { "Conceito": 2023, "Episodio": 2960, "Fato": 413, "FonteWeb": 74 },
+  "persisted_facts": 413,
+  "rollback_plan": "Restaurar do export JSON (nodes por eid, rels por src/dst) somente com autorizacao do Operador; nenhum restore automatico.",
+  "truthfulness_note": "Read-only, distinto de db-backup.yml."
+}

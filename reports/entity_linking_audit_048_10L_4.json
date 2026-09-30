@@ -1,0 +1,547 @@
+{
+  "audit_id": "entity_linking_audit_2026-09-29",
+  "generated_at": "2026-09-29T19:25:58.929609+00:00",
+  "build_space_commit": "ad02071",
+  "worker_run_id": "unknown",
+  "quorum": 3,
+  "facts_total": 413,
+  "domains_total": 16,
+  "domain_coverage": {
+    "facts_total": 413,
+    "domains_total": 16,
+    "facts_by_domain": {
+      "pt.wikipedia.org": 160,
+      "en.wikipedia.org": 158,
+      "paperswithcode.com": 14,
+      "plato.stanford.edu": 11,
+      "ollama.com": 9,
+      "ibm.com": 8,
+      "scikit-learn.org": 8,
+      "rsssfbrasil.com": 7,
+      "geeksforgeeks.org": 4,
+      "tensorflow.org": 4,
+      "spectrum.ieee.org": 3,
+      "nist.gov": 2,
+      "rsssf.org": 2,
+      "santosfc.com.br": 2,
+      "huggingface.co": 1
+    },
+    "facts_with_one_domain": 393,
+    "facts_with_two_or_more_domains": 20
+  },
+  "candidate_pairs": {
+    "high": 0,
+    "medium": 43,
+    "low": 40
+  },
+  "potential_verified_if_high_aliasing": 0,
+  "potential_verified_if_medium_aliasing": 2,
+  "mismatch_types": {
+    "subject_variant": 26,
+    "object_variant": 11,
+    "predicate_variant": 0,
+    "true_unique": 376
+  },
+  "examples": [
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "all located in|SER|sao paulo",
+        "subject": "ALL LOCATED IN",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "estadio do pacaembu|SER|sao paulo",
+        "subject": "ESTADIO DO PACAEMBU",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "all located in|SER|sao paulo",
+        "subject": "ALL LOCATED IN",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "julio casares|SER|sao paulo",
+        "subject": "JULIO CASARES",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "along with|SER|sao paulo",
+        "subject": "ALONG WITH",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "estadio do pacaembu|SER|sao paulo",
+        "subject": "ESTADIO DO PACAEMBU",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "along with|SER|sao paulo",
+        "subject": "ALONG WITH",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "julio casares|SER|sao paulo",
+        "subject": "JULIO CASARES",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "americano moved to|SER|sao paulo",
+        "subject": "AMERICANO MOVED TO",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "estadio do pacaembu|SER|sao paulo",
+        "subject": "ESTADIO DO PACAEMBU",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "americano moved to|SER|sao paulo",
+        "subject": "AMERICANO MOVED TO",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "julio casares|SER|sao paulo",
+        "subject": "JULIO CASARES",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "arena hosted the build tour|SER|sao paulo",
+        "subject": "ARENA HOSTED THE BUILD TOUR",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "estadio do pacaembu|SER|sao paulo",
+        "subject": "ESTADIO DO PACAEMBU",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "arena hosted the build tour|SER|sao paulo",
+        "subject": "ARENA HOSTED THE BUILD TOUR",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "julio casares|SER|sao paulo",
+        "subject": "JULIO CASARES",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "associacao atletica das palmeiras of|SER|sao paulo",
+        "subject": "ASSOCIACAO ATLETICA DAS PALMEIRAS OF",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "estadio do pacaembu|SER|sao paulo",
+        "subject": "ESTADIO DO PACAEMBU",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "associacao atletica das palmeiras of|SER|sao paulo",
+        "subject": "ASSOCIACAO ATLETICA DAS PALMEIRAS OF",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "julio casares|SER|sao paulo",
+        "subject": "JULIO CASARES",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "black socks|SER|born",
+        "subject": "BLACK SOCKS",
+        "predicate": "SER",
+        "object": "BORN",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "long before turing|SER|born",
+        "subject": "LONG BEFORE TURING",
+        "predicate": "SER",
+        "object": "BORN",
+        "domains": [
+          "plato.stanford.edu"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "champion|SER|born",
+        "subject": "CHAMPION",
+        "predicate": "SER",
+        "object": "BORN",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "long before turing|SER|born",
+        "subject": "LONG BEFORE TURING",
+        "predicate": "SER",
+        "object": "BORN",
+        "domains": [
+          "plato.stanford.edu"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "city rivals|SER|sao paulo",
+        "subject": "CITY RIVALS",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "estadio do pacaembu|SER|sao paulo",
+        "subject": "ESTADIO DO PACAEMBU",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "city rivals|SER|sao paulo",
+        "subject": "CITY RIVALS",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "julio casares|SER|sao paulo",
+        "subject": "JULIO CASARES",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "craque consolidado por praticamente toda|DEFENDEU|botafogo de futebol e regatas",
+        "subject": "CRAQUE CONSOLIDADO POR PRATICAMENTE TODA",
+        "predicate": "DEFENDEU",
+        "object": "BOTAFOGO DE FUTEBOL E REGATAS",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "jairzinho|DEFENDEU|botafogo de futebol e regatas",
+        "subject": "JAIRZINHO",
+        "predicate": "DEFENDEU",
+        "object": "BOTAFOGO DE FUTEBOL E REGATAS",
+        "domains": [
+          "rsssfbrasil.com"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "estadio cicero pompeu de toledo|LOCALIZADO_EM|sao paulo",
+        "subject": "ESTADIO CICERO POMPEU DE TOLEDO",
+        "predicate": "LOCALIZADO_EM",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "pacaembu and morumbi|LOCALIZADO_EM|sao paulo",
+        "subject": "PACAEMBU AND MORUMBI",
+        "predicate": "LOCALIZADO_EM",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "estadio do pacaembu|SER|sao paulo",
+        "subject": "ESTADIO DO PACAEMBU",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "five against|SER|sao paulo",
+        "subject": "FIVE AGAINST",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "estadio do pacaembu|SER|sao paulo",
+        "subject": "ESTADIO DO PACAEMBU",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "groundplot in the morumbi neighborhood to|SER|sao paulo",
+        "subject": "GROUNDPLOT IN THE MORUMBI NEIGHBORHOOD TO",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "estadio do pacaembu|SER|sao paulo",
+        "subject": "ESTADIO DO PACAEMBU",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "industrial port city located near|SER|sao paulo",
+        "subject": "INDUSTRIAL PORT CITY LOCATED NEAR",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    },
+    {
+      "confidence": "medium",
+      "type": "subject_variant",
+      "score": 1.0,
+      "left": {
+        "fact_hash": "estadio do pacaembu|SER|sao paulo",
+        "subject": "ESTADIO DO PACAEMBU",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "pt.wikipedia.org"
+        ]
+      },
+      "right": {
+        "fact_hash": "is an association football stadium in|SER|sao paulo",
+        "subject": "IS AN ASSOCIATION FOOTBALL STADIUM IN",
+        "predicate": "SER",
+        "object": "SAO PAULO",
+        "domains": [
+          "en.wikipedia.org"
+        ]
+      },
+      "promote_automatically": false
+    }
+  ],
+  "promote_automatically": false,
+  "parameters": {
+    "quorum": 3,
+    "high": 0.85,
+    "medium": 0.6,
+    "max_examples": 20,
+    "domains_require_disjoint": true,
+    "mismatch_types_scope": "fact_level_best_candidate_high_or_medium",
+    "qdrant_used": false
+  },
+  "truthfulness_note": {
+    "read_only": true,
+    "promote_automatically": false,
+    "qdrant_ignored": true,
+    "does_not_change_quorum_or_confirmacoes": true,
+    "medium_is_upper_bound": true,
+    "medium_does_not_imply_safe_aliasing": true,
+    "only_high_is_recommended_for_curated_alias_review": true,
+    "note": "Read-only; NAO promove fato, NAO altera confirmacoes/quorum, NAO usa Qdrant. medium e limite superior teorico; apenas high alimenta revisao de alias curado."
+  }
+}
