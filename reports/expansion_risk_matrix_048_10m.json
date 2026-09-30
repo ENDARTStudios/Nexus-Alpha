@@ -1,0 +1,41 @@
+{
+  "audit_id": "expansion_risk_matrix_048_10m",
+  "generated_at": "2026-09-30T02:30:00+00:00",
+  "mode": "read_only",
+  "families": {
+    "DEFENDEU": {
+      "supported_now": true,
+      "candidate_count": 12,
+      "low_risk_count": 7,
+      "medium_risk_count": 5,
+      "high_risk_count": 0,
+      "blocked_by_ontology": 0,
+      "blocked_by_source_policy": 0,
+      "recommended_first_batch_size": 10,
+      "projected_verified_if_all_pass": 10,
+      "main_risks": ["D1_PLAYER_NAME_AMBIGUITY", "D2_CLUB_NAME_AMBIGUITY", "D3_LOAN_VS_DEFENDED", "D5_TABLE_VS_NARRATIVE", "D8_RSSSF_SAME_FAMILY_WARNING", "D9_MISSING_EN_DOMAIN"],
+      "note": "Todos candidate_unverified; elegibilidade futura requer dry-run próprio 3-domínios."
+    },
+    "DISPUTOU": {
+      "supported_now": false,
+      "blocking_reason": "REQUIRES_EXTRACTION_FRAME_CHANGE (extractor off-limits)",
+      "candidate_count": 0,
+      "recommendation": "do_not_execute"
+    },
+    "POSSUIR": {
+      "supported_now": false,
+      "blocking_reason": "HIGH_SEMANTIC_RISK_GENERIC_POSSESSION",
+      "candidate_count": 0,
+      "recommendation": "do_not_execute"
+    }
+  },
+  "training_path": {
+    "current_records": 20,
+    "target_records": 50,
+    "required_additional_verified_facts": 30,
+    "possible_via_defendeu_only": false,
+    "likely_requires_multiple_batches": true,
+    "environment_gate_still_required": true,
+    "conservative_projection": "10 (M.1) + ~10 (M.2) via DEFENDEU ≈ 40; 50 exige lotes adicionais/famílias futuras"
+  }
+}

@@ -1,0 +1,418 @@
+{
+  "audit_id": "expansion_defendeu_atlas_048_10m",
+  "generated_at": "2026-09-30T02:59:12.080003+00:00",
+  "mode": "read_only",
+  "predicate": "DEFENDEU",
+  "supported_now": true,
+  "candidates": [
+    {
+      "candidate_id": "defendeu_manuelfranciscodossantos_001",
+      "fact_template": "SUBJECT --DEFENDEU--> OBJECT",
+      "subject": "MANUEL FRANCISCO DOS SANTOS",
+      "subject_aliases": [
+        "Garrincha"
+      ],
+      "predicate": "DEFENDEU",
+      "object": "BOTAFOGO DE FUTEBOL E REGATAS",
+      "object_aliases": [
+        "Botafogo"
+      ],
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "preferred_publisher_families": [
+        "Wikimedia",
+        "RSSSF"
+      ],
+      "evidence_status": "candidate_unverified",
+      "already_verified": false,
+      "risk_level": "low",
+      "risks": [
+        "D1_PLAYER_NAME_AMBIGUITY",
+        "D2_CLUB_NAME_AMBIGUITY"
+      ],
+      "source_policy": "allowed",
+      "requires_ontology_change": false,
+      "requires_readonly_probe": true,
+      "eligible_for_future_worker": false,
+      "notes": "entidade existente no grafo (DEFENDEU unverified)"
+    },
+    {
+      "candidate_id": "defendeu_jairzinho_002",
+      "fact_template": "SUBJECT --DEFENDEU--> OBJECT",
+      "subject": "JAIRZINHO",
+      "subject_aliases": [
+        "Jair Ventura Filho"
+      ],
+      "predicate": "DEFENDEU",
+      "object": "BOTAFOGO DE FUTEBOL E REGATAS",
+      "object_aliases": [
+        "Botafogo"
+      ],
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "preferred_publisher_families": [
+        "Wikimedia",
+        "RSSSF"
+      ],
+      "evidence_status": "candidate_unverified",
+      "already_verified": false,
+      "risk_level": "low",
+      "risks": [
+        "D2_CLUB_NAME_AMBIGUITY"
+      ],
+      "source_policy": "allowed",
+      "requires_ontology_change": false,
+      "requires_readonly_probe": true,
+      "eligible_for_future_worker": false,
+      "notes": "entidade existente no grafo (DEFENDEU unverified)"
+    },
+    {
+      "candidate_id": "defendeu_zito_003",
+      "fact_template": "SUBJECT --DEFENDEU--> OBJECT",
+      "subject": "ZITO",
+      "subject_aliases": [
+        "José Ely de Miranda"
+      ],
+      "predicate": "DEFENDEU",
+      "object": "SANTOS FUTEBOL CLUBE",
+      "object_aliases": [
+        "Santos"
+      ],
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "preferred_publisher_families": [
+        "Wikimedia",
+        "RSSSF"
+      ],
+      "evidence_status": "candidate_unverified",
+      "already_verified": false,
+      "risk_level": "low",
+      "risks": [
+        "D1_PLAYER_NAME_AMBIGUITY",
+        "D2_CLUB_NAME_AMBIGUITY"
+      ],
+      "source_policy": "allowed",
+      "requires_ontology_change": false,
+      "requires_readonly_probe": true,
+      "eligible_for_future_worker": false,
+      "notes": "entidade existente no grafo (DEFENDEU unverified)"
+    },
+    {
+      "candidate_id": "defendeu_arthurantunescoimbra_004",
+      "fact_template": "SUBJECT --DEFENDEU--> OBJECT",
+      "subject": "ARTHUR ANTUNES COIMBRA",
+      "subject_aliases": [
+        "Zico"
+      ],
+      "predicate": "DEFENDEU",
+      "object": "CLUBE DE REGATAS DO FLAMENGO",
+      "object_aliases": [
+        "Flamengo"
+      ],
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "preferred_publisher_families": [
+        "Wikimedia",
+        "RSSSF"
+      ],
+      "evidence_status": "candidate_unverified",
+      "already_verified": false,
+      "risk_level": "low",
+      "risks": [
+        "D2_CLUB_NAME_AMBIGUITY"
+      ],
+      "source_policy": "allowed",
+      "requires_ontology_change": false,
+      "requires_readonly_probe": true,
+      "eligible_for_future_worker": false,
+      "notes": "exploratory_candidate (entidade histórica inequívoca)"
+    },
+    {
+      "candidate_id": "defendeu_socratesbrasileirosampai_005",
+      "fact_template": "SUBJECT --DEFENDEU--> OBJECT",
+      "subject": "SÓCRATES BRASILEIRO SAMPAIO DE SOUZA VIEIRA DE OLIVEIRA",
+      "subject_aliases": [
+        "Sócrates"
+      ],
+      "predicate": "DEFENDEU",
+      "object": "SPORT CLUB CORINTHIANS PAULISTA",
+      "object_aliases": [
+        "Corinthians"
+      ],
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "preferred_publisher_families": [
+        "Wikimedia",
+        "RSSSF"
+      ],
+      "evidence_status": "candidate_unverified",
+      "already_verified": false,
+      "risk_level": "low",
+      "risks": [
+        "D3_LOAN_VS_DEFENDED"
+      ],
+      "source_policy": "allowed",
+      "requires_ontology_change": false,
+      "requires_readonly_probe": true,
+      "eligible_for_future_worker": false,
+      "notes": "exploratory_candidate (entidade histórica inequívoca)"
+    },
+    {
+      "candidate_id": "defendeu_romariodesouzafaria_006",
+      "fact_template": "SUBJECT --DEFENDEU--> OBJECT",
+      "subject": "ROMÁRIO DE SOUZA FARIA",
+      "subject_aliases": [
+        "Romário"
+      ],
+      "predicate": "DEFENDEU",
+      "object": "CLUBE DE REGATAS VASCO DA GAMA",
+      "object_aliases": [
+        "Vasco"
+      ],
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "preferred_publisher_families": [
+        "Wikimedia",
+        "RSSSF"
+      ],
+      "evidence_status": "candidate_unverified",
+      "already_verified": false,
+      "risk_level": "low",
+      "risks": [
+        "D2_CLUB_NAME_AMBIGUITY",
+        "D3_LOAN_VS_DEFENDED"
+      ],
+      "source_policy": "allowed",
+      "requires_ontology_change": false,
+      "requires_readonly_probe": true,
+      "eligible_for_future_worker": false,
+      "notes": "exploratory_candidate (entidade histórica inequívoca)"
+    },
+    {
+      "candidate_id": "defendeu_carlosalbertotorres_007",
+      "fact_template": "SUBJECT --DEFENDEU--> OBJECT",
+      "subject": "CARLOS ALBERTO TORRES",
+      "subject_aliases": [
+        "Carlos Alberto"
+      ],
+      "predicate": "DEFENDEU",
+      "object": "SANTOS FUTEBOL CLUBE",
+      "object_aliases": [
+        "Santos"
+      ],
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "preferred_publisher_families": [
+        "Wikimedia",
+        "RSSSF"
+      ],
+      "evidence_status": "candidate_unverified",
+      "already_verified": false,
+      "risk_level": "low",
+      "risks": [
+        "D1_PLAYER_NAME_AMBIGUITY",
+        "D2_CLUB_NAME_AMBIGUITY"
+      ],
+      "source_policy": "allowed",
+      "requires_ontology_change": false,
+      "requires_readonly_probe": true,
+      "eligible_for_future_worker": false,
+      "notes": "exploratory_candidate (entidade histórica inequívoca)"
+    },
+    {
+      "candidate_id": "defendeu_niltonreisdossantos_008",
+      "fact_template": "SUBJECT --DEFENDEU--> OBJECT",
+      "subject": "NILTON REIS DOS SANTOS",
+      "subject_aliases": [
+        "Nílton Santos"
+      ],
+      "predicate": "DEFENDEU",
+      "object": "BOTAFOGO DE FUTEBOL E REGATAS",
+      "object_aliases": [
+        "Botafogo"
+      ],
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "preferred_publisher_families": [
+        "Wikimedia",
+        "RSSSF"
+      ],
+      "evidence_status": "candidate_unverified",
+      "already_verified": false,
+      "risk_level": "medium",
+      "risks": [
+        "D1_PLAYER_NAME_AMBIGUITY",
+        "D2_CLUB_NAME_AMBIGUITY"
+      ],
+      "source_policy": "allowed",
+      "requires_ontology_change": false,
+      "requires_readonly_probe": true,
+      "eligible_for_future_worker": false,
+      "notes": "exploratory_candidate (nome conflita com estádio Nilton Santos)"
+    },
+    {
+      "candidate_id": "defendeu_ronaldoluisnazariodelima_009",
+      "fact_template": "SUBJECT --DEFENDEU--> OBJECT",
+      "subject": "RONALDO LUÍS NAZÁRIO DE LIMA",
+      "subject_aliases": [
+        "Ronaldo"
+      ],
+      "predicate": "DEFENDEU",
+      "object": "CRUZEIRO ESPORTE CLUBE",
+      "object_aliases": [
+        "Cruzeiro"
+      ],
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "preferred_publisher_families": [
+        "Wikimedia",
+        "RSSSF"
+      ],
+      "evidence_status": "candidate_unverified",
+      "already_verified": false,
+      "risk_level": "medium",
+      "risks": [
+        "D1_PLAYER_NAME_AMBIGUITY",
+        "D3_LOAN_VS_DEFENDED"
+      ],
+      "source_policy": "allowed",
+      "requires_ontology_change": false,
+      "requires_readonly_probe": true,
+      "eligible_for_future_worker": false,
+      "notes": "exploratory_candidate (nome comum; múltiplos clubes na carreira)"
+    },
+    {
+      "candidate_id": "defendeu_denilsondeoliveiraaraujo_010",
+      "fact_template": "SUBJECT --DEFENDEU--> OBJECT",
+      "subject": "DENÍLSON DE OLIVEIRA ARAÚJO",
+      "subject_aliases": [
+        "Denílson"
+      ],
+      "predicate": "DEFENDEU",
+      "object": "SÃO PAULO FUTEBOL CLUBE",
+      "object_aliases": [
+        "São Paulo"
+      ],
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "preferred_publisher_families": [
+        "Wikimedia",
+        "RSSSF"
+      ],
+      "evidence_status": "candidate_unverified",
+      "already_verified": false,
+      "risk_level": "medium",
+      "risks": [
+        "D1_PLAYER_NAME_AMBIGUITY",
+        "D3_LOAN_VS_DEFENDED"
+      ],
+      "source_policy": "allowed",
+      "requires_ontology_change": false,
+      "requires_readonly_probe": true,
+      "eligible_for_future_worker": false,
+      "notes": "exploratory_candidate (múltiplos clubes na carreira)"
+    },
+    {
+      "candidate_id": "defendeu_gustavonery_011",
+      "fact_template": "SUBJECT --DEFENDEU--> OBJECT",
+      "subject": "GUSTAVO NERY",
+      "subject_aliases": [
+        "Guga"
+      ],
+      "predicate": "DEFENDEU",
+      "object": "SANTOS FUTEBOL CLUBE",
+      "object_aliases": [
+        "Santos"
+      ],
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "preferred_publisher_families": [
+        "Wikimedia",
+        "RSSSF"
+      ],
+      "evidence_status": "candidate_unverified",
+      "already_verified": false,
+      "risk_level": "medium",
+      "risks": [
+        "D2_CLUB_NAME_AMBIGUITY"
+      ],
+      "source_policy": "allowed",
+      "requires_ontology_change": false,
+      "requires_readonly_probe": true,
+      "eligible_for_future_worker": false,
+      "notes": "exploratory_candidate"
+    },
+    {
+      "candidate_id": "defendeu_rogerioceni_012",
+      "fact_template": "SUBJECT --DEFENDEU--> OBJECT",
+      "subject": "ROGÉRIO CENI",
+      "subject_aliases": [],
+      "predicate": "DEFENDEU",
+      "object": "SÃO PAULO FUTEBOL CLUBE",
+      "object_aliases": [
+        "São Paulo"
+      ],
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "preferred_publisher_families": [
+        "Wikimedia",
+        "RSSSF"
+      ],
+      "evidence_status": "candidate_unverified",
+      "already_verified": false,
+      "risk_level": "medium",
+      "risks": [
+        "D3_LOAN_VS_DEFENDED"
+      ],
+      "source_policy": "allowed",
+      "requires_ontology_change": false,
+      "requires_readonly_probe": true,
+      "eligible_for_future_worker": false,
+      "notes": "exploratory_candidate"
+    }
+  ],
+  "summary": {
+    "total_candidates": 12,
+    "low_risk": 7,
+    "medium_risk": 5,
+    "high_risk": 0,
+    "eligible_for_future_worker": 0,
+    "recommended_first_batch_size": 10
+  }
+}
