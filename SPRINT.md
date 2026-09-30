@@ -3232,3 +3232,32 @@ Fatos do next batch verificados (pt+en+nominatim, strong):
 > cognitivos centrais**, **não escalou next-next batch**, **não fez force-push**, **não tocou Qdrant**, **sem backfill**.
 > A única escrita em Neo4j foi a remoção escopada de **1** `:Fato` unverified, sob snapshot+dry-run.
 > Próximo: **#048.10M** (planejamento read-only) via `reports/RUNBOOK_048_10M_EXPANSION_PLANNING.md`. Treino fechado.
+
+## #048.10M — Planejamento read-only de expansão não-VENCEU
+
+**Status:** **DONE** · **Classificação:** **`SUCCESS_048_10M_READ_ONLY_EXPANSION_PLAN_READY`**
+**Worker executado:** NÃO · **Seeds ativadas:** NÃO · **Treino:** NÃO · **Escrita Neo4j/Qdrant:** NÃO · **/api/ingest:** NÃO · **Deploy:** NÃO
+**CI:** ...
+
+### Inventário read-only (20 fatos verificados)
+- `facts_by_predicate`: `VENCEU=10`, `LOCALIZADO_EM=9`, `DEFENDEU=1`.
+- `facts_by_publisher_family`: `Wikimedia=40`, `RSSSF=11`, `OpenStreetMap=9`.
+- `non_VENCEU_ratio=0.50`, `top_predicate_share=0.50`, `publisher_family_count=3`.
+- `reports/expansion_fact_inventory_048_10m.json`
+
+### DEFENDEU candidates
+- **Atlas:** `reports/expansion_defendeu_atlas_048_10m.json` — **12 candidatos** (7 low / 5 medium), todos `candidate_unverified`, `eligible_for_future_worker=false` (exigem dry-run próprio).
+- **Suportado agora:** SIM (`predicate_mapper` + target-aware extractor #048.10B + club-context #059C).
+- **DISPUTOU supported:** **NÃO** (mapeado, mas **sem frame de extração**).
+- **POSSUIR supported:** **NÃO** (alto risco semântico de posse genérica).
+- `BLOCKED_048_10M_REQUIRES_GLOBAL_ONTOLOGY_CHANGE` registrado para DISPUTOU/POSSUIR (sem alterar ontologia).
+
+### Política de fontes / risco / plano
+- `reports/expansion_source_policy_048_10m.md` (+ `scripts/audit_expansion_source_policy_048_10m.py` testável).
+- `reports/expansion_risk_matrix_048_10m.json` · `reports/expansion_batch_plan_048_10m.md`.
+- **Próximo batch recomendado:** **#048.10M.1** (DEFENDEU piloto, 6–10 low-risk) via
+  `reports/RUNBOOK_048_10M_1_DEFENDEU_BATCH.md`; `reports/RUNBOOK_048_10M_2_FUTURE_BATCH.md`.
+
+> Este ciclo **não executou worker**, **não chamou /api/ingest**, **não escreveu em Neo4j/Qdrant**,
+> **não ativou seeds**, **não treinou**, **não alterou quórum/validators centrais**, **não fez force-push**.
+> Apenas planejou expansão futura com evidência read-only. Treino segue **fechado** (`records_total=20<50`, `environment_gate=false`).
