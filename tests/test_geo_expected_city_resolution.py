@@ -28,6 +28,9 @@ NOMINATIM_CASES = [
     ("https://nominatim.openstreetmap.org/search?format=json&q=Est%C3%A1dio%20Beira-Rio", "PORTO ALEGRE"),
     ("https://nominatim.openstreetmap.org/search?format=json&q=Est%C3%A1dio%20Mineir%C3%A3o", "BELO HORIZONTE"),
     ("https://nominatim.openstreetmap.org/search?format=json&q=Arena%20Fonte%20Nova", "SALVADOR"),
+    # #048.10L.4: queries desambiguadas por cidade (seed_clusters)
+    ("https://nominatim.openstreetmap.org/search?format=json&q=Est%C3%A1dio%20Beira-Rio%2C%20Porto%20Alegre", "PORTO ALEGRE"),
+    ("https://nominatim.openstreetmap.org/search?format=json&q=Mineir%C3%A3o%2C%20Belo%20Horizonte", "BELO HORIZONTE"),
 ]
 
 

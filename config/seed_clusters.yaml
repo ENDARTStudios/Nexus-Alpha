@@ -366,10 +366,10 @@ clusters:
         domain: en.wikipedia.org
         publisher: Wikimedia
         productivity: productive  # #048.10K/#048.10L full collision
-      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Est%C3%A1dio%20Beira-Rio
+      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Est%C3%A1dio%20Beira-Rio%2C%20Porto%20Alegre
         domain: nominatim.openstreetmap.org
         publisher: OpenStreetMap
-        productivity: productive  # #048.10L: addr:city=Porto Alegre (ODbL)
+        productivity: productive  # #048.10L.4: query desambiguada (q sem cidade retornava feature errada em MG) (ODbL)
 
   - id: mineirao_localization
     topic: "Estádio Mineirão — localização (Belo Horizonte)"
@@ -383,10 +383,10 @@ clusters:
         domain: en.wikipedia.org
         publisher: Wikimedia
         productivity: productive  # #048.10K/#048.10L full collision
-      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Est%C3%A1dio%20Mineir%C3%A3o
+      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Mineir%C3%A3o%2C%20Belo%20Horizonte
         domain: nominatim.openstreetmap.org
         publisher: OpenStreetMap
-        productivity: productive  # #048.10L: addr:city=Belo Horizonte (ODbL)
+        productivity: productive  # #048.10L.4: query desambiguada (q sem cidade retornava outro estadium em MG) (ODbL)
 
   - id: arena_fonte_nova_localization
     topic: "Arena Fonte Nova — localização (Salvador)"

@@ -79,6 +79,13 @@ def test_mineirao_expected_city_accepted():
     assert triples[0]["subject"] == "MINEIRÃO"
 
 
+def test_infobox_municipio_label_accepted():
+    # #048.10L.4: infobox PT do Mineirão usa "Município de Belo Horizonte".
+    html = "<tr><th>Município</th><td>Belo Horizonte</td></tr>"
+    triples = extract_geo_localizado_from_wiki(MINEIRAO_PT, "", html, expected_city="BELO HORIZONTE")
+    assert len(triples) == 1 and triples[0]["object"] == "BELO HORIZONTE"
+
+
 def test_beira_rio_infobox_porto_alegre():
     triples = extract_geo_localizado_from_wiki(
         BEIRA_PT, "", "<tr><th>Cidade</th><td>Porto Alegre</td></tr>", expected_city="PORTO ALEGRE")

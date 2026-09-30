@@ -151,7 +151,8 @@ def _extract_city_from_infobox(html: str, expected_city: str | None = None) -> s
     if not html:
         return None
     expected_key = _fold(expected_city) if expected_city else None
-    for label in ("localização", "localizacao", "cidade", "location", "city", "municipality"):
+    for label in ("localização", "localizacao", "localidade", "cidade", "município", "municipio",
+                  "location", "city", "municipality"):
         for m in re.finditer(rf"(?is){label}.{{0,80}}", html):
             window = m.group(0)
             if _is_forbidden_location_object(window):
