@@ -3237,7 +3237,7 @@ Fatos do next batch verificados (pt+en+nominatim, strong):
 
 **Status:** **DONE** · **Classificação:** **`SUCCESS_048_10M_READ_ONLY_EXPANSION_PLAN_READY`**
 **Worker executado:** NÃO · **Seeds ativadas:** NÃO · **Treino:** NÃO · **Escrita Neo4j/Qdrant:** NÃO · **/api/ingest:** NÃO · **Deploy:** NÃO
-**CI:** ...
+**CI:** required checks verdes neste push (Quality & Security Gate)
 
 ### Inventário read-only (20 fatos verificados)
 - `facts_by_predicate`: `VENCEU=10`, `LOCALIZADO_EM=9`, `DEFENDEU=1`.
