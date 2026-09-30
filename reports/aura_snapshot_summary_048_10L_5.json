@@ -1,0 +1,14 @@
+{
+  "report": "aura_snapshot_summary_048_10L_5",
+  "generated_at": "2026-09-30T02:06:00+00:00",
+  "snapshot_aura_ok": true,
+  "snapshot_id_or_path": ".autonomous/048_10l_5/aura_snapshot_pre_hygiene.json (nao versionado)",
+  "snapshot_tool": "scripts/aura_snapshot.py (Neo4j read-only, export restauravel)",
+  "nodes_count": 5790,
+  "relationships_count": 4145,
+  "label_counts": { "Conceito": 2023, "Episodio": 3278, "Fato": 413, "FonteWeb": 76 },
+  "persisted_facts": 413,
+  "verified_facts": 20,
+  "rollback_plan": "Recriar o :Fato via MERGE {chave:'mineirao|LOCALIZADO_EM|rio de janeiro'} com props do snapshot + religar CONFIRMA/MINERADO_DE; apenas manual, com autorizacao explicita.",
+  "truthfulness_note": "Read-only, imediatamente antes da higiene condicional."
+}

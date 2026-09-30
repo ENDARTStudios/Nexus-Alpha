@@ -1,0 +1,313 @@
+{
+  "audit_id": "geo_residual_hygiene_048_10l_5",
+  "generated_at": "2026-09-30T02:06:18.539981+00:00",
+  "mode": "read_only",
+  "quorum": 3,
+  "residuals": [
+    {
+      "fact": "BOTAFOGO DE FUTEBOL E REGATAS --LOCALIZADO_EM--> NEIGHBORHOOD OF BOTAFOGO",
+      "subject": "BOTAFOGO DE FUTEBOL E REGATAS",
+      "predicate": "LOCALIZADO_EM",
+      "object": "NEIGHBORHOOD OF BOTAFOGO",
+      "verified": false,
+      "domain_count": 1,
+      "domains": [
+        "en.wikipedia.org"
+      ],
+      "confirmacoes": 1,
+      "node_id_or_key": "botafogo de futebol e regatas|LOCALIZADO_EM|neighborhood of botafogo",
+      "expected_city": null,
+      "in_expected_registry": false,
+      "wrong_city_for_subject": false,
+      "forbidden_object": true,
+      "relationships_to_verified_facts": 0,
+      "safe_to_remove_candidate": true,
+      "reasons": [
+        "unverified",
+        "below_quorum",
+        "not_in_expected_registry",
+        "forbidden_object",
+        "no_verified_relationships"
+      ],
+      "blocking_reason": null
+    },
+    {
+      "fact": "CAIO MARTINS --LOCALIZADO_EM--> BOTAFOGO DE FUTEBOL E REGATAS",
+      "subject": "CAIO MARTINS",
+      "predicate": "LOCALIZADO_EM",
+      "object": "BOTAFOGO DE FUTEBOL E REGATAS",
+      "verified": false,
+      "domain_count": 1,
+      "domains": [
+        "pt.wikipedia.org"
+      ],
+      "confirmacoes": 1,
+      "node_id_or_key": "caio martins|LOCALIZADO_EM|botafogo de futebol e regatas",
+      "expected_city": null,
+      "in_expected_registry": false,
+      "wrong_city_for_subject": false,
+      "forbidden_object": false,
+      "relationships_to_verified_facts": 0,
+      "safe_to_remove_candidate": false,
+      "reasons": [
+        "unverified",
+        "below_quorum",
+        "not_in_expected_registry",
+        "no_verified_relationships"
+      ],
+      "blocking_reason": "not_a_known_wrong_city_residual_or_not_isolated"
+    },
+    {
+      "fact": "ESTADIO CICERO POMPEU DE TOLEDO --LOCALIZADO_EM--> SAO PAULO",
+      "subject": "ESTADIO CICERO POMPEU DE TOLEDO",
+      "predicate": "LOCALIZADO_EM",
+      "object": "SAO PAULO",
+      "verified": false,
+      "domain_count": 1,
+      "domains": [
+        "pt.wikipedia.org"
+      ],
+      "confirmacoes": 1,
+      "node_id_or_key": "estadio cicero pompeu de toledo|LOCALIZADO_EM|sao paulo",
+      "expected_city": null,
+      "in_expected_registry": false,
+      "wrong_city_for_subject": false,
+      "forbidden_object": false,
+      "relationships_to_verified_facts": 0,
+      "safe_to_remove_candidate": false,
+      "reasons": [
+        "unverified",
+        "below_quorum",
+        "not_in_expected_registry",
+        "no_verified_relationships"
+      ],
+      "blocking_reason": "not_a_known_wrong_city_residual_or_not_isolated"
+    },
+    {
+      "fact": "GINASIO ATHIE JORGE COURY --LOCALIZADO_EM--> ESTÁDIO URBANO CALDEIRA",
+      "subject": "GINASIO ATHIE JORGE COURY",
+      "predicate": "LOCALIZADO_EM",
+      "object": "ESTÁDIO URBANO CALDEIRA",
+      "verified": false,
+      "domain_count": 1,
+      "domains": [
+        "pt.wikipedia.org"
+      ],
+      "confirmacoes": 1,
+      "node_id_or_key": "ginasio athie jorge coury|LOCALIZADO_EM|estádio urbano caldeira",
+      "expected_city": null,
+      "in_expected_registry": false,
+      "wrong_city_for_subject": false,
+      "forbidden_object": false,
+      "relationships_to_verified_facts": 0,
+      "safe_to_remove_candidate": false,
+      "reasons": [
+        "unverified",
+        "below_quorum",
+        "not_in_expected_registry",
+        "no_verified_relationships"
+      ],
+      "blocking_reason": "not_a_known_wrong_city_residual_or_not_isolated"
+    },
+    {
+      "fact": "MAIS CONHECIDO COMO VILA BELMIRO --LOCALIZADO_EM--> SANTOS FUTEBOL CLUBE",
+      "subject": "MAIS CONHECIDO COMO VILA BELMIRO",
+      "predicate": "LOCALIZADO_EM",
+      "object": "SANTOS FUTEBOL CLUBE",
+      "verified": false,
+      "domain_count": 1,
+      "domains": [
+        "pt.wikipedia.org"
+      ],
+      "confirmacoes": 1,
+      "node_id_or_key": "mais conhecido como vila belmiro|LOCALIZADO_EM|santos futebol clube",
+      "expected_city": null,
+      "in_expected_registry": false,
+      "wrong_city_for_subject": false,
+      "forbidden_object": true,
+      "relationships_to_verified_facts": 0,
+      "safe_to_remove_candidate": true,
+      "reasons": [
+        "unverified",
+        "below_quorum",
+        "not_in_expected_registry",
+        "forbidden_object",
+        "no_verified_relationships"
+      ],
+      "blocking_reason": null
+    },
+    {
+      "fact": "MOURISCO MAR --LOCALIZADO_EM--> BOTAFOGO DE FUTEBOL E REGATAS",
+      "subject": "MOURISCO MAR",
+      "predicate": "LOCALIZADO_EM",
+      "object": "BOTAFOGO DE FUTEBOL E REGATAS",
+      "verified": false,
+      "domain_count": 1,
+      "domains": [
+        "pt.wikipedia.org"
+      ],
+      "confirmacoes": 1,
+      "node_id_or_key": "mourisco mar|LOCALIZADO_EM|botafogo de futebol e regatas",
+      "expected_city": null,
+      "in_expected_registry": false,
+      "wrong_city_for_subject": false,
+      "forbidden_object": false,
+      "relationships_to_verified_facts": 0,
+      "safe_to_remove_candidate": false,
+      "reasons": [
+        "unverified",
+        "below_quorum",
+        "not_in_expected_registry",
+        "no_verified_relationships"
+      ],
+      "blocking_reason": "not_a_known_wrong_city_residual_or_not_isolated"
+    },
+    {
+      "fact": "PACAEMBU AND MORUMBI --LOCALIZADO_EM--> SAO PAULO",
+      "subject": "PACAEMBU AND MORUMBI",
+      "predicate": "LOCALIZADO_EM",
+      "object": "SAO PAULO",
+      "verified": false,
+      "domain_count": 1,
+      "domains": [
+        "en.wikipedia.org"
+      ],
+      "confirmacoes": 1,
+      "node_id_or_key": "pacaembu and morumbi|LOCALIZADO_EM|sao paulo",
+      "expected_city": null,
+      "in_expected_registry": false,
+      "wrong_city_for_subject": false,
+      "forbidden_object": false,
+      "relationships_to_verified_facts": 0,
+      "safe_to_remove_candidate": false,
+      "reasons": [
+        "unverified",
+        "below_quorum",
+        "not_in_expected_registry",
+        "no_verified_relationships"
+      ],
+      "blocking_reason": "not_a_known_wrong_city_residual_or_not_isolated"
+    },
+    {
+      "fact": "PALMEIRAS AND SAO PAULO --LOCALIZADO_EM--> SANTOS FUTEBOL CLUBE",
+      "subject": "PALMEIRAS AND SAO PAULO",
+      "predicate": "LOCALIZADO_EM",
+      "object": "SANTOS FUTEBOL CLUBE",
+      "verified": false,
+      "domain_count": 1,
+      "domains": [
+        "en.wikipedia.org"
+      ],
+      "confirmacoes": 1,
+      "node_id_or_key": "palmeiras and sao paulo|LOCALIZADO_EM|santos futebol clube",
+      "expected_city": null,
+      "in_expected_registry": false,
+      "wrong_city_for_subject": false,
+      "forbidden_object": true,
+      "relationships_to_verified_facts": 0,
+      "safe_to_remove_candidate": true,
+      "reasons": [
+        "unverified",
+        "below_quorum",
+        "not_in_expected_registry",
+        "forbidden_object",
+        "no_verified_relationships"
+      ],
+      "blocking_reason": null
+    },
+    {
+      "fact": "SANTOS FUTEBOL CLUBE --LOCALIZADO_EM--> MONTE SERRAT",
+      "subject": "SANTOS FUTEBOL CLUBE",
+      "predicate": "LOCALIZADO_EM",
+      "object": "MONTE SERRAT",
+      "verified": false,
+      "domain_count": 1,
+      "domains": [
+        "pt.wikipedia.org"
+      ],
+      "confirmacoes": 1,
+      "node_id_or_key": "santos futebol clube|LOCALIZADO_EM|monte serrat",
+      "expected_city": null,
+      "in_expected_registry": false,
+      "wrong_city_for_subject": false,
+      "forbidden_object": false,
+      "relationships_to_verified_facts": 0,
+      "safe_to_remove_candidate": false,
+      "reasons": [
+        "unverified",
+        "below_quorum",
+        "not_in_expected_registry",
+        "no_verified_relationships"
+      ],
+      "blocking_reason": "not_a_known_wrong_city_residual_or_not_isolated"
+    },
+    {
+      "fact": "SAO PAULO COMPROU --LOCALIZADO_EM--> RUA CONSELHEIRO CRISPINIANO",
+      "subject": "SAO PAULO COMPROU",
+      "predicate": "LOCALIZADO_EM",
+      "object": "RUA CONSELHEIRO CRISPINIANO",
+      "verified": false,
+      "domain_count": 1,
+      "domains": [
+        "pt.wikipedia.org"
+      ],
+      "confirmacoes": 1,
+      "node_id_or_key": "sao paulo comprou|LOCALIZADO_EM|rua conselheiro crispiniano",
+      "expected_city": null,
+      "in_expected_registry": false,
+      "wrong_city_for_subject": false,
+      "forbidden_object": true,
+      "relationships_to_verified_facts": 0,
+      "safe_to_remove_candidate": true,
+      "reasons": [
+        "unverified",
+        "below_quorum",
+        "not_in_expected_registry",
+        "forbidden_object",
+        "no_verified_relationships"
+      ],
+      "blocking_reason": null
+    },
+    {
+      "fact": "SÃO PAULO FUTEBOL CLUBE --LOCALIZADO_EM--> ESTADIO DO MORUMBI",
+      "subject": "SÃO PAULO FUTEBOL CLUBE",
+      "predicate": "LOCALIZADO_EM",
+      "object": "ESTADIO DO MORUMBI",
+      "verified": false,
+      "domain_count": 1,
+      "domains": [
+        "pt.wikipedia.org"
+      ],
+      "confirmacoes": 1,
+      "node_id_or_key": "são paulo futebol clube|LOCALIZADO_EM|estadio do morumbi",
+      "expected_city": null,
+      "in_expected_registry": false,
+      "wrong_city_for_subject": false,
+      "forbidden_object": false,
+      "relationships_to_verified_facts": 0,
+      "safe_to_remove_candidate": false,
+      "reasons": [
+        "unverified",
+        "below_quorum",
+        "not_in_expected_registry",
+        "no_verified_relationships"
+      ],
+      "blocking_reason": "not_a_known_wrong_city_residual_or_not_isolated"
+    }
+  ],
+  "verified_geo_audit": {
+    "verified_geo_facts_total": 9,
+    "lote_atual_4_preserved": true,
+    "next_batch_5_preserved": true,
+    "junk_verified_objects": 0,
+    "forbidden_verified_objects": 0
+  },
+  "summary": {
+    "unverified_geo_residuals": 11,
+    "wrong_city_unverified": 0,
+    "forbidden_unverified": 4,
+    "safe_to_remove_total": 4,
+    "requires_write_remediation": true,
+    "blocking_reason": null
+  }
+}

@@ -3204,3 +3204,31 @@ Fatos do next batch verificados (pt+en+nominatim, strong):
 > Residual: `MINEIRAO --LOCALIZADO_EM--> RIO DE JANEIRO` (legado de L.2, **unverified**, dc=1, não promovido) —
 > ver `reports/geo_next_batch_residual_048_10L_4.md`; limpeza em #048.10L.5.
 > Próximo: **#048.10M** (planejamento read-only de expansão não-VENCEU / DEFENDEU-DISPUTOU). Não treinar.
+
+## #048.10L.5 — Residual GEO hygiene + canonical accounting scope
+
+**Status:** **DONE** · **Classificação:** **`SUCCESS_048_10L_5_RESIDUAL_HYGIENE_AND_ACCOUNTING_READY`**
+**Worker executado:** NÃO · **/api/ingest:** NÃO · **Treino:** NÃO · **Qdrant:** não tocado
+**Space preflight:** OK · **Deploy do Space:** OK (sha `08bcd7b6`, RUNNING)
+**Resíduo `MINEIRAO->RIO DE JANEIRO`:** **removido** (1 `:Fato` unverified, sob snapshot+dry-run)
+**Verified após higiene:** **20** · **fact_count:** 413 → **412** · **graph_scoped_gap:** 0 · **fact_accounting_status:** ok
+**canonical_to_fact_gap:** -412 (`scope_mismatch_non_blocking`, explicitado na telemetria)
+**Next-next batch:** congelado
+
+### Higiene (estrita)
+- Inventário read-only: `scripts/audit_geo_residual_hygiene.py` → `reports/geo_residual_hygiene_048_10l_5.json`
+  (11 resíduos unverified; alvo `MINEIRAO->RIO` com `safe_to_remove=true`).
+- Prevenção de recriação provada: `tests/test_geo_residual_prevention.py` (infobox/sentença Rio → rejeitado com expected `BELO HORIZONTE`).
+- Snapshot imediato: `.autonomous/048_10l_5/aura_snapshot_pre_hygiene.json` (nodes=5790, rels=4145, Fato=413).
+- Dry-run + execute: `scripts/hygiene_geo_residual_048_10l_5.py` (`deleted=1`, `still_present=false`).
+- Pós-delete: verified **20** preservado, lote atual 4/4 e next batch 5/5 intactos, zero perda.
+
+### Contabilidade (aditiva, read-only)
+- `app.py`: campos novos em `ingestion_accounting` — `canonical_to_fact_gap_status`,
+  `canonical_to_fact_gap_interpretation`, `canonical_to_fact_gap_same_scope`,
+  `canonical_occurrences_count`, `persisted_fact_nodes_count` + `metric_glossary`.
+
+> Este ciclo **não executou worker**, **não chamou /api/ingest**, **não treinou**, **não alterou quórum/validators
+> cognitivos centrais**, **não escalou next-next batch**, **não fez force-push**, **não tocou Qdrant**, **sem backfill**.
+> A única escrita em Neo4j foi a remoção escopada de **1** `:Fato` unverified, sob snapshot+dry-run.
+> Próximo: **#048.10M** (planejamento read-only) via `reports/RUNBOOK_048_10M_EXPANSION_PLANNING.md`. Treino fechado.

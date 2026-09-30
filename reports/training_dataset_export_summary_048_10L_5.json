@@ -1,0 +1,130 @@
+{
+  "audit_id": "training_dataset_export_summary_060",
+  "generated_at": "2026-09-30T02:10:20.890869+00:00",
+  "export_command": "python scripts/train_lora.py export --source graph --limit 100 --out-dir .autonomous/training/dataset --dataset-name verified_candidate",
+  "dataset_paths": [
+    "D:\\PROJETOS\\Nexus-Alpha\\.autonomous\\training\\dataset\\verified_candidate.jsonl"
+  ],
+  "verified_only": true,
+  "records_total": 20,
+  "records_valid_json": 10,
+  "records_invalid_json": 0,
+  "records_empty_output": 0,
+  "records_duplicate_exact": 0,
+  "records_with_provenance": 20,
+  "records_from_demo_memory": 0,
+  "records_from_fallback": 0,
+  "records_with_date_object": 0,
+  "records_with_generic_object": 0,
+  "records_with_clause_object": 0,
+  "unique_fact_hashes": 20,
+  "unique_subjects": 17,
+  "unique_predicates": 3,
+  "unique_objects": 8,
+  "unique_domains": 5,
+  "unique_publishers": 4,
+  "unique_publisher_families": 3,
+  "predicate_distribution": {
+    "LOCALIZADO_EM": 9,
+    "VENCEU": 10,
+    "DEFENDEU": 1
+  },
+  "object_distribution": {
+    "SAO PAULO": 4,
+    "SALVADOR": 1,
+    "PORTO ALEGRE": 1,
+    "CAMPEONATO BRASILEIRO SERIE A": 3,
+    "COPA LIBERTADORES": 7,
+    "SANTOS FUTEBOL CLUBE": 1,
+    "RIO DE JANEIRO": 2,
+    "BELO HORIZONTE": 1
+  },
+  "subject_distribution": {
+    "ALLIANZ PARQUE": 1,
+    "ARENA FONTE NOVA": 1,
+    "BEIRA RIO": 1,
+    "BOTAFOGO DE FUTEBOL E REGATAS": 2,
+    "CLUBE DE REGATAS DO FLAMENGO": 1,
+    "EDSON ARANTES DO NASCIMENTO": 1,
+    "ESTADIO OLIMPICO NILTON SANTOS": 1,
+    "GREMIO FOOT BALL PORTO ALEGRENSE": 1,
+    "MARACANA": 1,
+    "MINEIRAO": 1,
+    "MORUMBI": 1,
+    "NEO QUIMICA ARENA": 1,
+    "PACAEMBU": 1,
+    "SANTOS FUTEBOL CLUBE": 1,
+    "SOCIEDADE ESPORTIVA PALMEIRAS": 2,
+    "SPORT CLUBE INTERNACIONAL": 1,
+    "SÃO PAULO FUTEBOL CLUBE": 2
+  },
+  "domain_distribution": {
+    "pt.wikipedia.org": 20,
+    "en.wikipedia.org": 20,
+    "nominatim.openstreetmap.org": 9,
+    "rsssf.org": 10,
+    "rsssfbrasil.com": 1
+  },
+  "publisher_distribution": {
+    "Wikimedia": 40,
+    "nominatim.openstreetmap.org": 9,
+    "RSSSF": 10,
+    "rsssfbrasil.com": 1
+  },
+  "publisher_family_distribution": {
+    "Wikimedia": 40,
+    "OpenStreetMap": 9,
+    "RSSSF": 11
+  },
+  "source_type_distribution": {
+    "table": 20
+  },
+  "language_distribution": {
+    "mixed_pt_en": 20
+  },
+  "avg_instruction_chars": 115.3,
+  "avg_output_chars": 113.3,
+  "max_output_chars": 124,
+  "secret_scan_clean": true,
+  "schema_valid": true,
+  "jsonl": {
+    "exists": true,
+    "lines": 10,
+    "valid": 10,
+    "invalid": 0,
+    "empty_output": 0,
+    "keys": {
+      "instruction": 10,
+      "input": 10,
+      "output": 10
+    },
+    "secrets": 0
+  },
+  "diversity": {
+    "non_venceu_ratio": 0.5,
+    "top_predicate_share": 0.5,
+    "top_object_share": 0.35,
+    "diversity_ok": true,
+    "cause": "insufficient_verified_facts"
+  },
+  "publisher_independence": {
+    "unique_publishers": 4,
+    "unique_publisher_families": 3,
+    "effective_publisher_count": 3,
+    "publisher_family_distribution": {
+      "Wikimedia": 40,
+      "OpenStreetMap": 9,
+      "RSSSF": 11
+    },
+    "records_with_publisher_count_ge_3": 0,
+    "ratio_records_with_publisher_count_ge_3": 0.0,
+    "publisher_independence_ok": true,
+    "publisher_family_independence_ok": true,
+    "note": "#053.1 telemetria: rsssf.org/rsssfbrasil.com contam como 1 família (RSSSF); métrica de verificação (domínios) inalterada."
+  },
+  "records_gate_passed": false,
+  "blocking_reasons": [
+    "BLOCKED_RECORDS_INSUFFICIENT",
+    "TRAINING_BLOCKED_ENVIRONMENT"
+  ]
+}
