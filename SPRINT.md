@@ -3261,3 +3261,55 @@ Fatos do next batch verificados (pt+en+nominatim, strong):
 > Este ciclo **não executou worker**, **não chamou /api/ingest**, **não escreveu em Neo4j/Qdrant**,
 > **não ativou seeds**, **não treinou**, **não alterou quórum/validators centrais**, **não fez force-push**.
 > Apenas planejou expansão futura com evidência read-only. Treino segue **fechado** (`records_total=20<50`, `environment_gate=false`).
+
+---
+
+## #054.1 — Rate limiter hardening seguro
+
+**Status:** DONE (deployado e validado ao vivo) · **Data:** 2026-09-30
+**Commits:** `82aa3cc` (código+testes) · `4f40775` (docs API) · `5b3e8b4` (docs contagem)
+**CI:** success nos 3 pushes (`Quality & Security Gate`)
+**Space deploy:** OK — `scripts/deploy_hf_space_safe.py` dry-run + upload único (82 arquivos);
+Space `RUNNING` @ `7ebdcec` (antes `08bcd7b6...`)
+**Live publisher/cognitive state:** preservado (ALL_CRITERIA_OK — ver abaixo)
+
+### O que mudou
+- `src/security/rate_limiter.py`: sliding window por **identidade opaca**
+  (`ip:<host>` / `token:<sha256-prefixo>`), `check() → RateLimitDecision`
+  com **Retry-After** (ceil do oldest na janela, mín. 1s), **memória bounded**
+  (`max_keys=10k`: purge de expiradas no teto + despejo LRU por último hit),
+  `fingerprint_secret()` não-reversível.
+- `app.py`: limites diferenciados — chat 5/min por IP; extract **balde duplo**
+  (10/min anônimo por IP, 120/min por token); simulate 10/min por IP;
+  ingest **120/min por token**. Todos os 429 com header `Retry-After`.
+- Calibração pelo worker legítimo (#054.1): o worker posta extract+ingest em
+  rajada sem delay (~60/min estrutural pior-caso, retry não cobre 429) —
+  margem 2x adotada. Evidência: `reports/rate_limiter_worker_compatibility_054_1.md`.
+- Testes: `tests/test_rate_limiter.py` (bound/purge/LRU/fingerprint/caplog),
+  `tests/test_ingest_rate_limit.py` (novo), `tests/test_extract_simulate_rate_limit.py`
+  (novo). Suíte: **721 passed / 20 skipped**.
+- Docs: API/PRD/ARCHITECTURE/SECURITY_REVIEW/COMPLIANCE/PERFORMANCE/
+  ERROR_HANDLING/QA_TESTING + correção de contagens stale de testes.
+
+### Validação viva (pré/pós-deploy)
+```text
+ANTES : verified=20 fact=412 concept=2023 quorum=3 graph_scoped_gap=0 accounting=ok
+DEPOIS: verified=20 fact=412 concept=2023 quorum=3 graph_scoped_gap=0 accounting=ok
+        hebbian_consistency_check=True  top_invalid=[]  fallback_promoted=0
+```
+- Primeira leitura pós-deploy pegou o grafo frio (AuraDB hibernado; corrida de
+  boot) — `hebbian_consistency_check=false`, counters 0. Recuperou sozinho na
+  re-poll em 20s (comportamento durável esperado, DR-1). Nenhuma perda.
+
+### Declarações de invariante
+```text
+Este ciclo não executou worker.
+Este ciclo não chamou /api/ingest ao vivo.
+Este ciclo não escreveu em Neo4j/Qdrant.
+Este ciclo não ativou seeds.  Este ciclo não treinou.
+Este ciclo não alterou quórum, validators centrais, requirements ou workflows.
+Este ciclo não fez force-push nem git add -A.
+Artefatos .autonomous/ e reports/*.json não relacionados ficaram unstaged.
+```
+
+**Próximo passo liberado:** `#048.10M.1 — DEFENDEU pilot dry-run, sem worker`.
