@@ -35,7 +35,10 @@ QA aqui é **funcional + integridade de conhecimento**: o objetivo não é
 ### D. Chat (frontend + API)
 - [ ] Pergunta com fato verificado no grafo → resposta extrativa coerente.
 - [ ] Pergunta sem fato → resposta honesta (sem invenção).
-- [ ] 6 requisições em 1 minuto do mesmo IP → 429 na sexta.
+- [ ] 6 requisições em 1 minuto do mesmo IP → 429 na sexta, com header
+      `Retry-After` presente e ≥ 1 segundo.
+- [ ] `/api/extract` e `/api/simulate` → 429 + `Retry-After` após 11
+      chamadas em 1 minuto.
 - [ ] Rede derrubada → mensagem amigável + retry, sem travar o widget.
 - [ ] "Nexus pensando…" aparece e some; mensagens anunciadas (aria-live).
 

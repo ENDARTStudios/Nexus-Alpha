@@ -11,8 +11,9 @@ Política viva em `config/security_policies.json`; gates automáticos em
 | Ameaça | Vetor | Defesa em profundidade |
 |---|---|---|
 | Vazamento de segredo | código/logs/CI públicos | zero-trust (`os.environ.get`), `log_sanitizer.py` → `[MASKED]`, gate anti-leak (grep) |
-| Ingest malicioso | `POST /api/ingest` | `X-Nexus-Token` + Bearer HF; `interceptor.py` (>1MB, brute-force 10); Space privado |
-| Abuso do chat | `POST /api/chat` | rate limit 5 req/min/IP (429); respostas extrativas (sem execução de LLM arbitrário) |
+| Ingest malicioso | `POST /api/ingest` | `X-Nexus-Token` + Bearer HF; rate limit 120 req/min **por token** (fingerprint sha256, 429 + `Retry-After`; margem 2x sobre a rajada do worker); `interceptor.py` (>1MB, brute-force 10); Space privado |
+| Abuso do chat | `POST /api/chat` | rate limit 5 req/min/IP (429 + `Retry-After`); respostas extrativas (sem execução de LLM arbitrário) |
+| Abuso de endpoints caros | `POST /api/extract`, `POST /api/simulate` | extract: 10 req/min anônimo por IP e 120/min por token (worker autenticado); simulate: 10 req/min/IP — 429 + `Retry-After`; podem acionar LLM/CPU intensiva |
 | Desinformação | conteúdo minerado | `TriangulationFilter` (quórum 3 **domínios**), reputação de domínio, quarentena, sensationalism penalty |
 | Enumeração de rotas | superfície Vercel | `vercel.json` + `robots.txt` bloqueando `/api/`, `/_next/image*`; allowlist do proxy testada no CI |
 | CORS permissivo | origens arbitrárias | `NEXUS_CORS_ORIGINS`/`NEXUS_CORS_ORIGIN_REGEX` (default: vercel.app) |

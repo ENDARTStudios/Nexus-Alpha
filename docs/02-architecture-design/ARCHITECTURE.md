@@ -16,7 +16,7 @@
 | **Miner** | `src/miner/` | Coleta (scraping assíncrono httpx), anti-bloqueio, reputação de domínio, quarentena de rejeitados, seeds curados, reach opcional (Jina/RSS/yt-dlp) | Promover fatos; tocar o grafo diretamente |
 | **Cognition** | `src/cognition/` | Extração de triplas (spaCy + fallback + LLM canônico), refinamento determinístico (canonicalizer, predicate_mapper, span_validator), RAG, GraphRAG, chat, reflexão noturna | Alterar quórum; promover fato por embedding |
 | **Database** | `src/database/` | Conectores assíncronos: `graph_connector.py` (Neo4j, Cypher puro sem APOC) e `vector_connector.py` (Qdrant + fallback in-memory) | Conter lógica de negócio |
-| **Security** | `src/security/` | Triangulação, sanitização de logs, interceptor (>1MB, brute-force), rate limiter (5 req/min no `/api/chat`) | Logging não-sanitizado |
+| **Security** | `src/security/` | Triangulação, sanitização de logs, interceptor (>1MB, brute-force), rate limiter (sliding window por identidade, memória bounded: chat 5/min por IP; extração 10/min anônimo por IP e 120/min por token; simulação 10/min; ingest 120/min por token — 429 + `Retry-After`) | Logging não-sanitizado |
 | **Brain** | `src/brain/` | Memória cognitiva working/episódica/semântica + consolidação Hebbiana (`memory.py`, `regions.py`) | Persistir working memory (é efêmera por design) |
 | **Simulation** | `src/simulation/` | `SwarmSimulator` (dinâmica de opinião determinística por seed) | Alterar o grafo |
 | **Training** | `src/training/` | Export de fatos verificados → Alpaca/JSONL + config LoRA (opt-in, sem torch no runtime) | Entrar no runtime principal ou CI |

@@ -40,6 +40,10 @@ Agregado de observabilidade. Blocos (detalhes em [`ANALYTICS.md`](./ANALYTICS.md
 `source_url`, `timestamp`, `domain_score`, `extracted_entities[]`) →
 `refine_triple` determinístico → grafo/quarentena.
 - `interceptor.py`: payload > 1MB → rejeitado; brute-force > 10 → bloqueado.
+- Rate limit: **120 req/min por token** (429 + `Retry-After`) — margem 2x
+  sobre a rajada estrutural do worker, que posta todos os payloads sem
+  delay e não repete 429 (#054.1). A chave usa fingerprint sha256 do token
+  — o segredo cru nunca vira chave em memória nem aparece em log.
 - Degradação: sem Neo4j responde com `db_status: "demo-memory"`; **nunca**
   `partial_success` com `entities_processed=0` (#058.4) — status vira
   `degraded` (se `NEXUS_ALLOW_DEMO_FALLBACK=true`) ou `failed` (default
@@ -51,6 +55,9 @@ Agregado de observabilidade. Blocos (detalhes em [`ANALYTICS.md`](./ANALYTICS.md
 Extração canônica de triplas a partir de texto (usa
 `LLMCanonicalExtractor` se LLM configurado; sem LLM, extrator local).
 Útil para diagnóstico de extração sem minerar.
+Rate limit em balde duplo (429 + `Retry-After`): **10 req/min por IP**
+anônimo; **120 req/min por token** autenticado (o worker posta extrações
+em rajada por ciclo). Pode acionar LLM.
 
 ## Cérebro
 
@@ -81,13 +88,15 @@ Nós/arestas para visualização (`KnowledgeGraph`/`react-force-graph-2d`).
 Chat conversacional. Recuperação híbrida: `search_context` (Neo4j) +
 `query_similarity` (Qdrant) + GraphRAG (subgrafos 1–2 saltos), histórico
 curto por `session_id`. Geração **extrativa por padrão**; LLM opcional via
-`NEXUS_LLM_BASE_URL`. Rate limit **5 req/min/IP** (429 acima).
+`NEXUS_LLM_BASE_URL`. Rate limit **5 req/min por IP** (429 + header
+`Retry-After` acima).
 
 ### `POST /api/simulate`
 `SwarmSimulator`: seed determinística sobre topologia do grafo ou
 `search_context(tópico)`; agentes com stance/influência; ≤50 rodadas de
 bounded confidence; retorna consenso, polarização, veredito, confiança,
-clusters, trajetória.
+clusters, trajetória. Rate limit **10 req/min/IP** (429 + `Retry-After`) —
+simulação é CPU-bound (≤50 rodadas).
 
 ---
 
@@ -95,7 +104,7 @@ clusters, trajetória.
 
 1. **Erros:** mensagens curtas em pt-BR; sem stack trace/segredo no corpo
    (sanitização por `log_sanitizer.py`). Códigos: 401/403 auth · 413 payload
-   grande · 429 rate limit/brute-force.
+   grande · 429 rate limit (sempre com header `Retry-After`)/brute-force.
 2. **Degradação nunca é 500:** indisponibilidade de banco muda o **corpo**
    (`db_status`, `source`), não derruba o endpoint.
 3. **CORS:** `NEXUS_CORS_ORIGINS` / `NEXUS_CORS_ORIGIN_REGEX`

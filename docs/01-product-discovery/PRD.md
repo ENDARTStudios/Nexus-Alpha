@@ -60,7 +60,9 @@ Hebbiana). Episódios sobrevivem a restarts do Space (evidência: 422 episódios
 `POST /api/chat`: recuperação híbrida (Neo4j `search_context` + Qdrant
 `query_similarity` + GraphRAG subgrafos 1–2 saltos), geração **extrativa por
 padrão** (zero alucinação) com LLM opcional via `NEXUS_LLM_BASE_URL`.
-Rate limit 5 req/min/IP.
+Limites diferenciados por identidade (429 + `Retry-After`): chat 5/min
+por IP; simulação 10/min por IP; extração 10/min anônimo por IP e
+120/min por token (worker); ingest 120/min por token.
 
 ### F5 — Painéis de monitoramento ✅
 Dashboard Streamlit (`dashboard/app.py`) + frontend Next.js (Dashboard,
@@ -82,7 +84,7 @@ LlamaFactory externo (Kaggle). Fora do runtime e do CI.
 | Custo de infraestrutura | R$ 0 (free tiers) | ✅ |
 | Segurança de segredos | zero credenciais no código; sanitizeador de logs | ✅ gate anti-leak |
 | Disponibilidade do core | degradação graciosa sem Neo4j/Qdrant (`demo-memory`) | ✅ |
-| Suíte de testes | verde em todo push (`pytest -q`, ~195 testes) | ✅ gate |
+| Suíte de testes | verde em todo push (`pytest -q`, 700+ testes) | ✅ gate |
 | Latência do chat | resposta < 3s p95 (extrativo, grafo quente) | 🟡 medir |
 | Cross-domain verificado | `facts_with_multi_domain > 0` | ❌ bloqueado por equivalência semântica (ver [`RESEARCH.md`](./RESEARCH.md)) |
 

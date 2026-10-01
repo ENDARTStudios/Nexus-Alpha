@@ -22,8 +22,12 @@ terceiros e conformidade técnica exigida pelos gates de CI.
   hoje não há dado pessoal coletado do usuário para remover.
 
 ### Dados de acesso técnico
-- Rate limiter usa IP transiente apenas para throttling (5 req/min), sem
-  persistência analítica de identidade.
+- Rate limiter usa IP transiente apenas para throttling (limites
+  diferenciados: chat 5/min por IP; extração 10/min anônimo e 120/min
+  autenticado; ingest 120/min por **fingerprint sha256 do token** —
+  não-reversível, sem persistência analítica de identidade). Respostas 429
+  incluem `Retry-After`; nada é armazenado além da janela deslizante em RAM
+  (memória bounded: máx. 10k chaves por limiter com purge/LRU).
 
 ## 2. Ética e legalidade da mineração
 
@@ -55,7 +59,7 @@ terceiros e conformidade técnica exigida pelos gates de CI.
 | Gate | Requisito | Falha = merge bloqueado |
 |---|---|---|
 | Anti-leak | nenhum segredo literal em `src/` | `ai-validation.yml` passo 4 |
-| Testes | `pytest -q` verde (~195) | passo 5 |
+| Testes | `pytest -q` verde (700+) | passo 5 |
 | Governança | `SPRINT.md` presente na raiz | passo 6 |
 | Proxy allowlist | rotas do proxy conforme teste Node | passo 8 |
 

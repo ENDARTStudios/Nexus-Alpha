@@ -22,6 +22,10 @@ desejado.
 | Payload de ingest | **≤ 1 MB** (acima: rejeitado) | `src/security/interceptor.py` |
 | Brute-force | bloqueio após **10 tentativas** | `interceptor.py` |
 | Rate limit chat | **5 req/min por IP** | `src/security/rate_limiter.py` |
+| Rate limit extração | **10/min anônimo por IP; 120/min por token** (worker em rajada) | idem |
+| Rate limit simulação | **10 req/min por IP** (CPU-bound ≤50 rodadas) | idem |
+| Rate limit ingest | **120 req/min por token** (fingerprint sha256; margem 2x sobre a rajada do worker) | idem |
+| Resposta de bloqueio | **429 + header `Retry-After`** (segundos) | `app.py` |
 | Quarentena de rejeições | volátil, **10k entradas** com rotação | `RejectionQuarantine` |
 | Set de chaves contábeis | **10k**; acima → `accounting_mode: approximate_overflow` | `IngestAccounting` (`app.py`) |
 | Simulação de enxame | **≤ 50 rodadas** | `SwarmSimulator` |

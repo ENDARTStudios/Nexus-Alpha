@@ -43,7 +43,12 @@ self_loop · span_validator.* (object_date_like, object_prepositional_phrase, ..
    credencial inválida → 401/403, sem detalhes internos na mensagem.
 2. **Payload:** `interceptor.py` rejeita > 1MB (413) e bloqueia brute-force
    após 10 tentativas (429/403).
-3. **Rate limit:** `/api/chat` 5 req/min por IP → 429 com mensagem amigável.
+3. **Rate limit:** limites diferenciados por identidade (sliding window,
+   memória bounded) → 429 com mensagem amigável **e header `Retry-After`**:
+   `/api/chat` 5 req/min por IP; `/api/extract` 10/min anônimo por IP e
+   120/min por token (worker em rajada); `/api/simulate` 10 req/min por IP;
+   `/api/ingest` 120 req/min por token (a chave usa fingerprint sha256 —
+   o segredo cru nunca vira chave nem log).
 4. **Regra de mensagem:** erro retornado ao cliente é curto e em pt-BR;
    stack trace e credenciais **nunca** saem na resposta (logs passam pelo
    `log_sanitizer.py` → `[MASKED]`).
