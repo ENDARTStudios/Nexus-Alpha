@@ -55,7 +55,7 @@ Elas derivam da governança de `SPRINT.md`, dos gateways de CI
 ## 4. Qualidade de código
 
 1. **Todo push em `main`/`dev` e todo PR para `main`** roda a suíte
-   (`python -m pytest -q`) — deve permanecer verde (atualmente ~195 testes).
+   (`python -m pytest -q`) — deve permanecer verde (atualmente 700+ testes).
 2. Testes novos **não podem depender** de torch/transformers/spacy
    (o CI é lite: `requirements-dev.txt`).
 3. Python assíncrono (httpx/asyncio) — proibido introduzir bibliotecas

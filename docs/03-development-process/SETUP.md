@@ -59,7 +59,7 @@ o sistema continua funcionando.
 ## 5. Verificação
 
 ```bash
-python -m pytest -q        # ~195 testes devem ficar verdes
+python -m pytest -q        # suíte completa deve ficar verde (700+ testes)
 python -m src.main "Inteligência Artificial"   # ciclo completo local (opcional)
 ```
 

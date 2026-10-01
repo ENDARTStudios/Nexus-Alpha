@@ -46,7 +46,7 @@ rejeitada" registra por que não.
 | Escolha | Por quê | Alternativa rejeitada |
 |---|---|---|
 | **GitHub Actions** | cron 6h + gate de PR + backups semanais no mesmo lugar, grátis para repo privado (limites respeitados) | cron externo (outro ponto de falha); GitLab CI (repo já no GitHub) |
-| **pytest (CI lite: `requirements-dev.txt`)** | suíte rápida (~195 testes) sem torch/spacy | CI com runtime completo (lento, caro, frágil) |
+| **pytest (CI lite: `requirements-dev.txt`)** | suíte rápida (700+ testes) sem torch/spacy | CI com runtime completo (lento, caro, frágil) |
 | **Anti-leak por grep no gate** | simples, auditável, zero dependência | secret-scanner pesado (falso positivo bloqueando tudo) |
 
 ## LLM e Treino

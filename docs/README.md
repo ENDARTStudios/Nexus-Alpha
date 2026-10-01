@@ -46,7 +46,7 @@
 - [`TASKS.md`](./03-development-process/TASKS.md) — Backlog ativo e rastreio de tarefas (espelho dos issues #036–#056).
 - [`RULES.md`](./03-development-process/RULES.md) — Regras invioláveis do projeto (governança, segurança, escopo).
 - [`DEVELOPMENT.md`](./03-development-process/DEVELOPMENT.md) — Fluxo de desenvolvimento diário e regras de commit.
-- [`TESTING.md`](./03-development-process/TESTING.md) — Suíte pytest (~195 testes), como rodar e o que cobre.
+- [`TESTING.md`](./03-development-process/TESTING.md) — Suíte pytest (700+ testes), como rodar e o que cobre.
 - [`SETUP.md`](./03-development-process/SETUP.md) — Instalação passo a passo do ambiente.
 - [`TASK_BREAKING_DOWN.md`](./03-development-process/TASK_BREAKING_DOWN.md) — Como decompor funcionalidades em issues.
 

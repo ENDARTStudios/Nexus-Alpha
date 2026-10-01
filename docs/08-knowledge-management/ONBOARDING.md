@@ -26,7 +26,7 @@ git clone git@github.com:ENDARTStudios/Nexus-Alpha.git && cd Nexus-Alpha
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements-dev.txt                  # lite: sem torch/spacy
 cp .env.example .env                                 # preencha NEO4J_* e NEXUS_API_TOKEN
-python -m pytest -q                                  # deve ficar verde (~195 testes)
+python -m pytest -q                                  # deve ficar verde (700+ testes)
 ```
 
 - Sem Neo4j local? Os testes usam fakes — CI roda sem bancos.
@@ -62,7 +62,7 @@ src/frontend/ + src/app/  Next.js (ChatWidget, BrainPanel, proxy Vercel)
 dashboard/                Streamlit (operador)
 scripts/                  worker_cycle, train_lora, auditorias, deploy
 config/                   settings.yaml, security_policies.json, seed_clusters.yaml
-tests/                    ~195 testes (rodam no CI lite)
+tests/                    700+ testes (rodam no CI lite)
 .github/workflows/        ai-validation (gate), ai-cron (6h), db-backup (dom. 00:00)
 SPRINT.md                 governança vigente — leia antes de qualquer PR
 ```

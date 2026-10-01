@@ -1,6 +1,7 @@
 # 🧪 Testing — Estratégia e Execução (Nexus-Alpha)
 
-Suíte: **pytest**, ~195 testes, 100% verdes é requisito de merge.
+Suíte: **pytest**, 709 passed / 20 skipped (medido em 2026-09-30); 100% de
+aprovados é requisito de merge.
 Restrição de arquitetura de testes: rodam no **CI lite**
 (`requirements-dev.txt` — sem torch, transformers, spacy, sem bancos reais).
 
