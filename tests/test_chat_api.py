@@ -54,3 +54,4 @@ def test_chat_rate_limit_returns_429(monkeypatch):
     assert first.status_code == 200
     second = client.post("/api/chat", json={"message": "b", "session_id": "r"})
     assert second.status_code == 429
+    assert int(second.headers["retry-after"]) >= 1

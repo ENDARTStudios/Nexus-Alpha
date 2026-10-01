@@ -25,7 +25,7 @@ from pydantic import BaseModel, Field
 from src.database.graph_connector import GraphConnector, domain_from_url
 from src.database.vector_connector import VectorConnector
 from src.miner.quarantine import QuarantineStore
-from src.security.rate_limiter import InMemoryRateLimiter
+from src.security.rate_limiter import InMemoryRateLimiter, fingerprint_secret
 
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -34,7 +34,15 @@ logger = logging.getLogger("nexus.core")
 
 API_SECRET_TOKEN = os.environ.get("NEXUS_API_TOKEN", "ChaveSecretaPadraoParaDesenvolvimento")
 
+# Limites diferenciados (sliding window, 429 + Retry-After), calibrados pelo
+# worker legítimo (#054.1): ele posta todos os payloads em rajada sem delay
+# (extract + ingest por ciclo) e o retry dele não cobre 429 — por isso ingest
+# autenticado tem margem 2x sobre a rajada estrutural (~60/min), no teto da
+# faixa autorizada. Memória bounded via max_keys (10k chaves/limiter).
 rate_limiter = InMemoryRateLimiter(requests_limit=5, window_seconds=60)
+expensive_limiter = InMemoryRateLimiter(requests_limit=10, window_seconds=60)
+expensive_auth_limiter = InMemoryRateLimiter(requests_limit=120, window_seconds=60)
+ingest_limiter = InMemoryRateLimiter(requests_limit=120, window_seconds=60)
 
 EPISODE_RETENTION_MAX = 10000
 _brain_reads = {"durable": 0, "volatile": 0}
@@ -521,6 +529,13 @@ async def ingest_data(
     if x_nexus_token != API_SECRET_TOKEN:
         raise HTTPException(status_code=401, detail="Token de autorização inválido.")
 
+    decision = ingest_limiter.check(f"token:{fingerprint_secret(x_nexus_token)}")
+    if not decision.allowed:
+        raise HTTPException(
+            status_code=429,
+            detail="Taxa de ingestão excedida. Reduza a frequência de payloads.",
+            headers={"Retry-After": str(decision.retry_after_seconds)},
+        )
     payload_dict = payload.model_dump()
     from src.cognition.triple_refiner import refine_triple_ex
 
@@ -763,8 +778,27 @@ async def brain_consolidate() -> dict:
 
 
 @app.post("/api/extract")
-def extract_endpoint(payload: ExtractRequest) -> dict:
+def extract_endpoint(
+    payload: ExtractRequest,
+    request: Request,
+    x_nexus_token: Optional[str] = Header(None),
+) -> dict:
     """Extração canônica de triplas via LLM (opt-in; vazio se o LLM não estiver configurado)."""
+    # Worker autônomo posta extrações em rajada por ciclo; chamador autenticado
+    # ganha balde próprio por token, anônimo fica no balde público por IP.
+    if x_nexus_token == API_SECRET_TOKEN:
+        decision = expensive_auth_limiter.check(
+            f"token:{fingerprint_secret(x_nexus_token)}"
+        )
+    else:
+        client_ip = request.client.host if request.client else "unknown"
+        decision = expensive_limiter.check(f"ip:{client_ip}")
+    if not decision.allowed:
+        raise HTTPException(
+            status_code=429,
+            detail="Muitas extrações em sequência. Aguarde antes de tentar novamente.",
+            headers={"Retry-After": str(decision.retry_after_seconds)},
+        )
     from src.cognition.llm_extractor import LLMCanonicalExtractor
 
     triplets = LLMCanonicalExtractor().extract_canonical_triplets(payload.text)
@@ -775,10 +809,12 @@ def extract_endpoint(payload: ExtractRequest) -> dict:
 async def chat_endpoint(payload: ChatRequest, request: Request) -> dict:
     """Atendimento conversacional: recupera contexto híbrido e responde ao cliente."""
     client_ip = request.client.host if request.client else "unknown"
-    if not rate_limiter.is_allowed(client_ip):
+    decision = rate_limiter.check(f"ip:{client_ip}")
+    if not decision.allowed:
         raise HTTPException(
             status_code=429,
             detail="Muitas requisições. O Córtex está se consolidando, tente novamente em um minuto.",
+            headers={"Retry-After": str(decision.retry_after_seconds)},
         )
     service = get_chat_service()
     result = await service.answer(payload.message, payload.session_id)
@@ -812,8 +848,16 @@ async def get_graph_topology() -> dict:
 
 
 @app.post("/api/simulate")
-async def simulate(payload: SimulationRequest) -> dict:
+async def simulate(payload: SimulationRequest, request: Request) -> dict:
     """Roda uma simulação de enxame sobre o grafo e devolve o relatório de cenário."""
+    client_ip = request.client.host if request.client else "unknown"
+    decision = expensive_limiter.check(f"ip:{client_ip}")
+    if not decision.allowed:
+        raise HTTPException(
+            status_code=429,
+            detail="Muitas simulações em sequência. Aguarde antes de tentar novamente.",
+            headers={"Retry-After": str(decision.retry_after_seconds)},
+        )
     from src.cognition.chat_service import extract_keywords
     from src.simulation import SwarmSimulator
 
