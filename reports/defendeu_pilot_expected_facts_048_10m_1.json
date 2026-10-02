@@ -1,0 +1,177 @@
+{
+  "audit_id": "defendeu_pilot_expected_facts_048_10m_1",
+  "batch": "defendeu_pilot_048_10m_1",
+  "status": "planned_not_active",
+  "expected_facts": [
+    {
+      "candidate_id": "defendeu_carlosalbertotorres_007",
+      "fact": "CARLOS ALBERTO TORRES --DEFENDEU--> SANTOS FUTEBOL CLUBE",
+      "subject": "CARLOS ALBERTO TORRES",
+      "predicate": "DEFENDEU",
+      "object": "SANTOS FUTEBOL CLUBE",
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "min_domain_count": 3,
+      "must_be_verified": true,
+      "evidence_strength": "LOCAL_EXISTING_EVIDENCE",
+      "source_evidence_refs": [
+        ".autonomous\\048_10m_1\\probes\\defendeu_carlosalbertotorres_007.json"
+      ],
+      "risk": "low",
+      "ontology_change_required": false,
+      "source_policy": "allowed"
+    },
+    {
+      "candidate_id": "defendeu_jairzinho_002",
+      "fact": "JAIRZINHO --DEFENDEU--> BOTAFOGO DE FUTEBOL E REGATAS",
+      "subject": "JAIRZINHO",
+      "predicate": "DEFENDEU",
+      "object": "BOTAFOGO DE FUTEBOL E REGATAS",
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "min_domain_count": 3,
+      "must_be_verified": true,
+      "evidence_strength": "LOCAL_EXISTING_EVIDENCE",
+      "source_evidence_refs": [
+        ".autonomous\\048_10m_1\\probes\\defendeu_jairzinho_002.json"
+      ],
+      "risk": "low",
+      "ontology_change_required": false,
+      "source_policy": "allowed"
+    },
+    {
+      "candidate_id": "defendeu_manuelfranciscodossantos_001",
+      "fact": "MANUEL FRANCISCO DOS SANTOS --DEFENDEU--> BOTAFOGO DE FUTEBOL E REGATAS",
+      "subject": "MANUEL FRANCISCO DOS SANTOS",
+      "predicate": "DEFENDEU",
+      "object": "BOTAFOGO DE FUTEBOL E REGATAS",
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "min_domain_count": 3,
+      "must_be_verified": true,
+      "evidence_strength": "LOCAL_EXISTING_EVIDENCE",
+      "source_evidence_refs": [
+        ".autonomous\\048_10m_1\\probes\\defendeu_manuelfranciscodossantos_001.json"
+      ],
+      "risk": "low",
+      "ontology_change_required": false,
+      "source_policy": "allowed"
+    },
+    {
+      "candidate_id": "defendeu_romariodesouzafaria_006",
+      "fact": "ROMÁRIO DE SOUZA FARIA --DEFENDEU--> CLUBE DE REGATAS VASCO DA GAMA",
+      "subject": "ROMÁRIO DE SOUZA FARIA",
+      "predicate": "DEFENDEU",
+      "object": "CLUBE DE REGATAS VASCO DA GAMA",
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "min_domain_count": 3,
+      "must_be_verified": true,
+      "evidence_strength": "LOCAL_EXISTING_EVIDENCE",
+      "source_evidence_refs": [
+        ".autonomous\\048_10m_1\\probes\\defendeu_romariodesouzafaria_006.json"
+      ],
+      "risk": "low",
+      "ontology_change_required": false,
+      "source_policy": "allowed"
+    },
+    {
+      "candidate_id": "defendeu_socratesbrasileirosampai_005",
+      "fact": "SÓCRATES BRASILEIRO SAMPAIO DE SOUZA VIEIRA DE OLIVEIRA --DEFENDEU--> SPORT CLUB CORINTHIANS PAULISTA",
+      "subject": "SÓCRATES BRASILEIRO SAMPAIO DE SOUZA VIEIRA DE OLIVEIRA",
+      "predicate": "DEFENDEU",
+      "object": "SPORT CLUB CORINTHIANS PAULISTA",
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "min_domain_count": 3,
+      "must_be_verified": true,
+      "evidence_strength": "LOCAL_EXISTING_EVIDENCE",
+      "source_evidence_refs": [
+        ".autonomous\\048_10m_1\\probes\\defendeu_socratesbrasileirosampai_005.json"
+      ],
+      "risk": "low",
+      "ontology_change_required": false,
+      "source_policy": "allowed"
+    },
+    {
+      "candidate_id": "defendeu_zito_003",
+      "fact": "ZITO --DEFENDEU--> SANTOS FUTEBOL CLUBE",
+      "subject": "ZITO",
+      "predicate": "DEFENDEU",
+      "object": "SANTOS FUTEBOL CLUBE",
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "min_domain_count": 3,
+      "must_be_verified": true,
+      "evidence_strength": "LOCAL_EXISTING_EVIDENCE",
+      "source_evidence_refs": [
+        ".autonomous\\048_10m_1\\probes\\defendeu_zito_003.json"
+      ],
+      "risk": "low",
+      "ontology_change_required": false,
+      "source_policy": "allowed"
+    },
+    {
+      "candidate_id": "defendeu_rogerioceni_012",
+      "fact": "ROGÉRIO CENI --DEFENDEU--> SÃO PAULO FUTEBOL CLUBE",
+      "subject": "ROGÉRIO CENI",
+      "predicate": "DEFENDEU",
+      "object": "SÃO PAULO FUTEBOL CLUBE",
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "min_domain_count": 3,
+      "must_be_verified": true,
+      "evidence_strength": "LOCAL_EXISTING_EVIDENCE",
+      "source_evidence_refs": [
+        ".autonomous\\048_10m_1\\probes\\defendeu_rogerioceni_012.json"
+      ],
+      "risk": "medium",
+      "ontology_change_required": false,
+      "source_policy": "allowed"
+    }
+  ],
+  "forbidden_objects": [
+    "CLAUSULA",
+    "SELECAO_AMBIGUA",
+    "CIDADE",
+    "PAIS",
+    "ESTADIO",
+    "EMPRESTIMO_NAO_SUPORTADO",
+    "ENDERECO",
+    "ESTADO",
+    "COMPETICAO",
+    "GENERICO",
+    "COORDENADA",
+    "BASE_JUVENTUDE_NAO_SUPORTADA",
+    "BAIRRO"
+  ],
+  "forbidden_predicates": [
+    "DISPUTOU",
+    "POSSUIR",
+    "SER",
+    "RESULTS",
+    "DESCREVER",
+    "REPRESENTAR"
+  ]
+}

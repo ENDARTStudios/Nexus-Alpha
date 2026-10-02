@@ -1,0 +1,207 @@
+{
+  "audit_id": "defendeu_pilot_risk_matrix_048_10m_1",
+  "mode": "read_only",
+  "note": "RSSSF/RSSSF Brasil contam como domínios distintos para quórum, mas não como duas famílias editoriais independentes; Wikimedia PT/EN contam como domínios distintos, mesma publisher family.",
+  "candidates": [
+    {
+      "candidate_id": "defendeu_carlosalbertotorres_007",
+      "subject": "CARLOS ALBERTO TORRES",
+      "object": "SANTOS FUTEBOL CLUBE",
+      "risk": "low",
+      "evidence_strength": "LOCAL_EXISTING_EVIDENCE",
+      "domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "publisher_families": [
+        "Wikimedia",
+        "RSSSF"
+      ],
+      "risks": [
+        "D1_PLAYER_NAME_AMBIGUITY",
+        "D2_CLUB_NAME_AMBIGUITY",
+        "D8_RSSSF_SAME_FAMILY_WARNING"
+      ],
+      "mitigations": [
+        "subject pinned by canonical entity",
+        "object must be club canonical",
+        "exclude loan/youth phrases",
+        "require non-Wikimedia domain",
+        "dry-run rejects city/stadium/neighborhood objects"
+      ],
+      "eligible_for_worker": true
+    },
+    {
+      "candidate_id": "defendeu_jairzinho_002",
+      "subject": "JAIRZINHO",
+      "object": "BOTAFOGO DE FUTEBOL E REGATAS",
+      "risk": "low",
+      "evidence_strength": "LOCAL_EXISTING_EVIDENCE",
+      "domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "publisher_families": [
+        "Wikimedia",
+        "RSSSF"
+      ],
+      "risks": [
+        "D2_CLUB_NAME_AMBIGUITY",
+        "D8_RSSSF_SAME_FAMILY_WARNING"
+      ],
+      "mitigations": [
+        "subject pinned by canonical entity",
+        "object must be club canonical",
+        "exclude loan/youth phrases",
+        "require non-Wikimedia domain",
+        "dry-run rejects city/stadium/neighborhood objects"
+      ],
+      "eligible_for_worker": true
+    },
+    {
+      "candidate_id": "defendeu_manuelfranciscodossantos_001",
+      "subject": "MANUEL FRANCISCO DOS SANTOS",
+      "object": "BOTAFOGO DE FUTEBOL E REGATAS",
+      "risk": "low",
+      "evidence_strength": "LOCAL_EXISTING_EVIDENCE",
+      "domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "publisher_families": [
+        "Wikimedia",
+        "RSSSF"
+      ],
+      "risks": [
+        "D1_PLAYER_NAME_AMBIGUITY",
+        "D2_CLUB_NAME_AMBIGUITY",
+        "D8_RSSSF_SAME_FAMILY_WARNING"
+      ],
+      "mitigations": [
+        "subject pinned by canonical entity",
+        "object must be club canonical",
+        "exclude loan/youth phrases",
+        "require non-Wikimedia domain",
+        "dry-run rejects city/stadium/neighborhood objects"
+      ],
+      "eligible_for_worker": true
+    },
+    {
+      "candidate_id": "defendeu_romariodesouzafaria_006",
+      "subject": "ROMÁRIO DE SOUZA FARIA",
+      "object": "CLUBE DE REGATAS VASCO DA GAMA",
+      "risk": "low",
+      "evidence_strength": "LOCAL_EXISTING_EVIDENCE",
+      "domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "publisher_families": [
+        "Wikimedia",
+        "RSSSF"
+      ],
+      "risks": [
+        "D2_CLUB_NAME_AMBIGUITY",
+        "D3_LOAN_VS_DEFENDED",
+        "D8_RSSSF_SAME_FAMILY_WARNING"
+      ],
+      "mitigations": [
+        "subject pinned by canonical entity",
+        "object must be club canonical",
+        "exclude loan/youth phrases",
+        "require non-Wikimedia domain",
+        "dry-run rejects city/stadium/neighborhood objects"
+      ],
+      "eligible_for_worker": true
+    },
+    {
+      "candidate_id": "defendeu_socratesbrasileirosampai_005",
+      "subject": "SÓCRATES BRASILEIRO SAMPAIO DE SOUZA VIEIRA DE OLIVEIRA",
+      "object": "SPORT CLUB CORINTHIANS PAULISTA",
+      "risk": "low",
+      "evidence_strength": "LOCAL_EXISTING_EVIDENCE",
+      "domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "publisher_families": [
+        "Wikimedia",
+        "RSSSF"
+      ],
+      "risks": [
+        "D3_LOAN_VS_DEFENDED",
+        "D8_RSSSF_SAME_FAMILY_WARNING"
+      ],
+      "mitigations": [
+        "subject pinned by canonical entity",
+        "object must be club canonical",
+        "exclude loan/youth phrases",
+        "require non-Wikimedia domain",
+        "dry-run rejects city/stadium/neighborhood objects"
+      ],
+      "eligible_for_worker": true
+    },
+    {
+      "candidate_id": "defendeu_zito_003",
+      "subject": "ZITO",
+      "object": "SANTOS FUTEBOL CLUBE",
+      "risk": "low",
+      "evidence_strength": "LOCAL_EXISTING_EVIDENCE",
+      "domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "publisher_families": [
+        "Wikimedia",
+        "RSSSF"
+      ],
+      "risks": [
+        "D1_PLAYER_NAME_AMBIGUITY",
+        "D2_CLUB_NAME_AMBIGUITY",
+        "D8_RSSSF_SAME_FAMILY_WARNING"
+      ],
+      "mitigations": [
+        "subject pinned by canonical entity",
+        "object must be club canonical",
+        "exclude loan/youth phrases",
+        "require non-Wikimedia domain",
+        "dry-run rejects city/stadium/neighborhood objects"
+      ],
+      "eligible_for_worker": true
+    },
+    {
+      "candidate_id": "defendeu_rogerioceni_012",
+      "subject": "ROGÉRIO CENI",
+      "object": "SÃO PAULO FUTEBOL CLUBE",
+      "risk": "medium",
+      "evidence_strength": "LOCAL_EXISTING_EVIDENCE",
+      "domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "publisher_families": [
+        "Wikimedia",
+        "RSSSF"
+      ],
+      "risks": [
+        "D3_LOAN_VS_DEFENDED",
+        "D8_RSSSF_SAME_FAMILY_WARNING"
+      ],
+      "mitigations": [
+        "subject pinned by canonical entity",
+        "object must be club canonical",
+        "exclude loan/youth phrases",
+        "require non-Wikimedia domain",
+        "dry-run rejects city/stadium/neighborhood objects"
+      ],
+      "eligible_for_worker": true
+    }
+  ]
+}

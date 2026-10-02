@@ -1,0 +1,176 @@
+{
+  "selected_candidates_total": 7,
+  "low_risk_selected": 6,
+  "medium_risk_selected": 1,
+  "high_risk_selected": 0,
+  "excluded_candidates_total": 5,
+  "ontology_blockers": 0,
+  "source_policy_blockers": 0,
+  "evidence_real_page_readonly": 0,
+  "evidence_local_existing": 7,
+  "evidence_synthetic_only": 0,
+  "required_domains_present_per_candidate": {
+    "defendeu_carlosalbertotorres_007": {
+      "required": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "probe_confirmed": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org"
+      ],
+      "local_existing_covered": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ]
+    },
+    "defendeu_jairzinho_002": {
+      "required": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "probe_confirmed": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org"
+      ],
+      "local_existing_covered": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ]
+    },
+    "defendeu_manuelfranciscodossantos_001": {
+      "required": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "probe_confirmed": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org"
+      ],
+      "local_existing_covered": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ]
+    },
+    "defendeu_romariodesouzafaria_006": {
+      "required": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "probe_confirmed": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org"
+      ],
+      "local_existing_covered": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ]
+    },
+    "defendeu_socratesbrasileirosampai_005": {
+      "required": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "probe_confirmed": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org"
+      ],
+      "local_existing_covered": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ]
+    },
+    "defendeu_zito_003": {
+      "required": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "probe_confirmed": [
+        "pt.wikipedia.org"
+      ],
+      "local_existing_covered": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ]
+    },
+    "defendeu_rogerioceni_012": {
+      "required": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "probe_confirmed": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org"
+      ],
+      "local_existing_covered": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ]
+    }
+  },
+  "domain_coverage_pt": 7,
+  "domain_coverage_en": 6,
+  "domain_coverage_rsssf": 0,
+  "domain_coverage_non_wikimedia": 0,
+  "predicted_defendeu_triples_by_domain": {
+    "pt.wikipedia.org": 7,
+    "en.wikipedia.org": 7,
+    "rsssf.org": 7
+  },
+  "predicted_full_collision_facts": 7,
+  "predicted_partial_collision_facts": 0,
+  "predicted_new_verified": 7,
+  "predicted_records_total": 27,
+  "predicted_unique_predicates": 3,
+  "predicted_non_venceu_ratio": 0.67,
+  "predicted_top_predicate_share": 0.33,
+  "predicted_publisher_family_count": 3,
+  "predicted_graph_scoped_gap": 0,
+  "predicted_fact_accounting_status": "ok",
+  "junk_objects": 0,
+  "forbidden_objects": 0,
+  "club_as_subject_rejected": true,
+  "city_as_object_rejected": true,
+  "stadium_as_object_rejected": true,
+  "neighborhood_as_object_rejected": true,
+  "country_as_object_rejected": true,
+  "state_as_object_rejected": true,
+  "address_as_object_rejected": true,
+  "coordinate_as_object_rejected": true,
+  "clause_as_object_rejected": true,
+  "generic_as_object_rejected": true,
+  "loan_unsupported_rejected": true,
+  "youth_unsupported_rejected": true,
+  "ambiguous_multiple_clubs_rejected": true,
+  "ambiguous_player_name_rejected": true,
+  "ambiguous_club_name_rejected": true,
+  "current_verified_regression": false,
+  "venceu_regression": false,
+  "localizado_em_regression": false,
+  "defendeu_existing_regression": false,
+  "top_invalid_predicates": [],
+  "ser_share_delta": 0,
+  "source_policy_violations": 0,
+  "requires_predicate_mapper_change": 0,
+  "requires_span_validator_change": 0,
+  "requires_canonicalizer_change": 0,
+  "requires_entity_aliases_change": 0,
+  "requires_seed_clusters_change": 0,
+  "baseline_verified": 20,
+  "ready_for_worker": true,
+  "blocking_reason": null
+}
