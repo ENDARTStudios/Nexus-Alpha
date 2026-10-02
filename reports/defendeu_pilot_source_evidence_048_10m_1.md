@@ -1,7 +1,7 @@
 # DEFENDEU pilot source evidence — #048.10M.1
 
-**Data:** 2026-10-01 · **Modo:** read-only · **Orçamento de probes:** 26/45 requests
-(pt 8 + en 8 + rsssfbrasil 8 + 1 descoberta rsssfbrasil + 1 política/atlas 0)
+**Data:** 2026-10-01 · **Modo:** read-only · **Orçamento de probes:** 25/45 requests
+(pt 8 + en 8 + rsssfbrasil 8 + 1 descoberta rsssfbrasil)
 
 ## Política de fontes
 - **Permitidas:** pt.wikipedia.org, en.wikipedia.org, rsssf.org, rsssfbrasil.com
