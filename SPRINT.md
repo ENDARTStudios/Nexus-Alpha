@@ -3313,3 +3313,50 @@ Artefatos .autonomous/ e reports/*.json não relacionados ficaram unstaged.
 ```
 
 **Próximo passo liberado:** `#048.10M.1 — DEFENDEU pilot dry-run, sem worker`.
+
+---
+
+## #048.10M.1 — DEFENDEU pilot dry-run e worker readiness
+
+**Status:** DONE (`SUCCESS_048_10M_1_DEFENDEU_PILOT_DRY_RUN_READY_FOR_WORKER`) · **Data:** 2026-10-01
+**Commits:** feat(planning) seletor+probes · feat(planning) dry-run+risk matrix · docs(planning) runbook+SPRINT
+**CI:** success · **Space preflight:** OK (verified=20, fact=412, concept=2023, hebbian=True, gaps=0 — warm-up 1ª tentativa)
+**Worker executado:** NÃO · **Seeds ativadas:** NÃO · **Treino:** NÃO · **Escrita em Neo4j/Qdrant:** NÃO
+
+### O que foi feito
+- **Seletor determinístico** (`scripts/select_defendeu_pilot_candidates_048_10m_1.py`):
+  12 candidatos do atlas → **7 selecionados** (6 low + 1 medium Ceni) + **5 excluídos
+  com causa** — destaque: **Rivelino→Flamengo excluído por evidência** (probe 0/2
+  nas páginas canônicas 200 OK sem menção ao objeto — possível erro fático no
+  atlas; Cenário E, atlas não corrigido).
+- **Probes read-only orçados** (`scripts/probe_defendue_candidates_readonly_048_10m_1.py`):
+  26/45 requests (pt 8, en 8, rsssfbrasil 8+descoberta), delay 2s, timeout 15s,
+  sem retry em 403/429, UA fixo, só domínios permitidos, resumo sanitizado.
+- **Limitação honesta:** RSSSF não confirmado por probe (paths 404 + raiz sem
+  índice parseável) → 3º domínio permanece plausível pela política do atlas;
+  todos os candidatos com LOCAL_EXISTING_EVIDENCE (atlas + fatos unverified no
+  grafo + fixtures de extração).
+- **Registry de expected facts** (`reports/defendeu_pilot_expected_facts_048_10m_1.json`):
+  7 fatos esperados `SUBJECT --DEFENDEU--> OBJECT`, min_domain_count=3,
+  status `planned_not_active` (não injeta nada no grafo).
+- **Dry-run offline** (`scripts/audit_defendeu_pilot_dry_run_048_10m_1.py`):
+  full_collision 7/7, junk=0, forbidden=0, regressões=false, source_policy_
+  violations=0, ontology_changes=0 → **ready_for_worker=true** (gate rígido).
+- **Matriz de risco** + **runbook futuro** (`RUNBOOK_048_10M_1_2_DEFENDEU_PILOT_WORKER.md`)
+  com 21 pré-condições e expectativa conservadora verified 20→26-30.
+- **Testes:** 26 novos (seletor/dry-run/probe, todos offline com fixtures);
+  suíte completa **747 passed / 20 skipped**; ruff limpo nos arquivos novos
+  (venv isolado).
+
+### Declarações de invariante
+```text
+Este ciclo não executou worker.  Este ciclo não chamou /api/ingest ao vivo.
+Este ciclo não escreveu em Neo4j/Qdrant.  Este ciclo não ativou seeds.
+Este ciclo não treinou.  Este ciclo não alterou quórum nem validators centrais.
+Este ciclo não alterou rate limiter nem requirements/workflows.
+Este ciclo apenas preparou o piloto DEFENDEU com evidência read-only.
+```
+
+**Próximo passo:** revisão do Operador; se aprovado, `#048.10M.1_2 — worker
+DEFENDEU piloto` (único, com snapshot/baseline/pós/fact-level validation).
+Dívidas: probes RSSSF alternativos, #054.2, #054.3, #054.4.
