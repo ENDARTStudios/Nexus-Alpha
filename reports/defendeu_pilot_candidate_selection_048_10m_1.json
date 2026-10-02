@@ -1,0 +1,215 @@
+{
+  "audit_id": "defendeu_pilot_candidate_selection_048_10m_1",
+  "mode": "read_only",
+  "atlas_total": 12,
+  "selected_count": 7,
+  "selected": [
+    {
+      "candidate_id": "defendeu_carlosalbertotorres_007",
+      "subject": "CARLOS ALBERTO TORRES",
+      "subject_aliases": [
+        "Carlos Alberto"
+      ],
+      "predicate": "DEFENDEU",
+      "object": "SANTOS FUTEBOL CLUBE",
+      "object_aliases": [
+        "Santos"
+      ],
+      "risk": "low",
+      "risks": [
+        "D1_PLAYER_NAME_AMBIGUITY",
+        "D2_CLUB_NAME_AMBIGUITY"
+      ],
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "source_policy": "allowed",
+      "requires_ontology_change": false,
+      "selection_reason": "low risk, 3 domínios permitidos plausíveis, sem homonímia alta",
+      "exclusion_reason": null
+    },
+    {
+      "candidate_id": "defendeu_jairzinho_002",
+      "subject": "JAIRZINHO",
+      "subject_aliases": [
+        "Jair Ventura Filho"
+      ],
+      "predicate": "DEFENDEU",
+      "object": "BOTAFOGO DE FUTEBOL E REGATAS",
+      "object_aliases": [
+        "Botafogo"
+      ],
+      "risk": "low",
+      "risks": [
+        "D2_CLUB_NAME_AMBIGUITY"
+      ],
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "source_policy": "allowed",
+      "requires_ontology_change": false,
+      "selection_reason": "low risk com fato DEFENDEU unverified já no grafo (evidência local)",
+      "exclusion_reason": null
+    },
+    {
+      "candidate_id": "defendeu_manuelfranciscodossantos_001",
+      "subject": "MANUEL FRANCISCO DOS SANTOS",
+      "subject_aliases": [
+        "Garrincha"
+      ],
+      "predicate": "DEFENDEU",
+      "object": "BOTAFOGO DE FUTEBOL E REGATAS",
+      "object_aliases": [
+        "Botafogo"
+      ],
+      "risk": "low",
+      "risks": [
+        "D1_PLAYER_NAME_AMBIGUITY",
+        "D2_CLUB_NAME_AMBIGUITY"
+      ],
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "source_policy": "allowed",
+      "requires_ontology_change": false,
+      "selection_reason": "low risk com fato DEFENDEU unverified já no grafo (evidência local)",
+      "exclusion_reason": null
+    },
+    {
+      "candidate_id": "defendeu_romariodesouzafaria_006",
+      "subject": "ROMÁRIO DE SOUZA FARIA",
+      "subject_aliases": [
+        "Romário"
+      ],
+      "predicate": "DEFENDEU",
+      "object": "CLUBE DE REGATAS VASCO DA GAMA",
+      "object_aliases": [
+        "Vasco"
+      ],
+      "risk": "low",
+      "risks": [
+        "D2_CLUB_NAME_AMBIGUITY",
+        "D3_LOAN_VS_DEFENDED"
+      ],
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "source_policy": "allowed",
+      "requires_ontology_change": false,
+      "selection_reason": "low risk, 3 domínios permitidos plausíveis, sem homonímia alta",
+      "exclusion_reason": null
+    },
+    {
+      "candidate_id": "defendeu_socratesbrasileirosampai_005",
+      "subject": "SÓCRATES BRASILEIRO SAMPAIO DE SOUZA VIEIRA DE OLIVEIRA",
+      "subject_aliases": [
+        "Sócrates"
+      ],
+      "predicate": "DEFENDEU",
+      "object": "SPORT CLUB CORINTHIANS PAULISTA",
+      "object_aliases": [
+        "Corinthians"
+      ],
+      "risk": "low",
+      "risks": [
+        "D3_LOAN_VS_DEFENDED"
+      ],
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "source_policy": "allowed",
+      "requires_ontology_change": false,
+      "selection_reason": "low risk, 3 domínios permitidos plausíveis, sem homonímia alta",
+      "exclusion_reason": null
+    },
+    {
+      "candidate_id": "defendeu_zito_003",
+      "subject": "ZITO",
+      "subject_aliases": [
+        "José Ely de Miranda"
+      ],
+      "predicate": "DEFENDEU",
+      "object": "SANTOS FUTEBOL CLUBE",
+      "object_aliases": [
+        "Santos"
+      ],
+      "risk": "low",
+      "risks": [
+        "D1_PLAYER_NAME_AMBIGUITY",
+        "D2_CLUB_NAME_AMBIGUITY"
+      ],
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "source_policy": "allowed",
+      "requires_ontology_change": false,
+      "selection_reason": "low risk com fato DEFENDEU unverified já no grafo (evidência local)",
+      "exclusion_reason": null
+    },
+    {
+      "candidate_id": "defendeu_rogerioceni_012",
+      "subject": "ROGÉRIO CENI",
+      "subject_aliases": [],
+      "predicate": "DEFENDEU",
+      "object": "SÃO PAULO FUTEBOL CLUBE",
+      "object_aliases": [
+        "São Paulo"
+      ],
+      "risk": "medium",
+      "risks": [
+        "D3_LOAN_VS_DEFENDED"
+      ],
+      "required_domains": [
+        "pt.wikipedia.org",
+        "en.wikipedia.org",
+        "rsssf.org"
+      ],
+      "source_policy": "allowed",
+      "requires_ontology_change": false,
+      "selection_reason": "medium risk mitigado: subject canônico inequívoco, carreira de clube único sem empréstimos na frase-alvo",
+      "exclusion_reason": null
+    }
+  ],
+  "excluded": [
+    {
+      "candidate_id": "defendeu_arthurantunescoimbra_004",
+      "reason": "Cenario E (junk/risco semantico): probe read-only 0/2 nas paginas canonicas (pt/en 200 OK sem mencao ao objeto) — fato RIVELLINO --DEFENDEU--> FLAMENGO nao corroboravel; possivel erro fatico no atlas. Excluido por conservadorismo; atlas nao e corrigido neste task"
+    },
+    {
+      "candidate_id": "defendeu_niltonreisdossantos_008",
+      "reason": "D1_PLAYER_NAME_AMBIGUITY: homonímia jogador×estádio não resolvida por alias existente — excluído por conservadorismo"
+    },
+    {
+      "candidate_id": "defendeu_ronaldoluisnazariodelima_009",
+      "reason": "D1_PLAYER_NAME_AMBIGUITY (nome comum) + D3_LOAN_VS_DEFENDED + múltiplos clubes na carreira — excluído por conservadorismo"
+    },
+    {
+      "candidate_id": "defendeu_denilsondeoliveiraaraujo_010",
+      "reason": "D1_PLAYER_NAME_AMBIGUITY (homonímia comum) + D3_LOAN_VS_DEFENDED + múltiplos clubes na carreira — excluído por conservadorismo"
+    },
+    {
+      "candidate_id": "defendeu_gustavonery_011",
+      "reason": "D2_CLUB_NAME_AMBIGUITY: nome comum sem alias forte de homonímia — excluído por conservadorismo"
+    }
+  ],
+  "summary": {
+    "low_risk_selected": 6,
+    "medium_risk_selected": 1,
+    "high_risk_selected": 0,
+    "ontology_blockers": 0,
+    "source_policy_blockers": 0,
+    "ready_for_dry_run": true
+  }
+}
