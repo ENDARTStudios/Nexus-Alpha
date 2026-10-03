@@ -3396,3 +3396,22 @@ sem escrita em grafo, sem treino, sem deploy. Evidência: `reports/defendeu_r1_g
 respondidas · CV por candidato · recomendação A+C). Estado do grafo re-verificado: Garrincha 2/3,
 Jairzinho 1/3 (persistentes), 5 ausentes, zero mutação desde o incidente. Aguardando decisão do
 Operador (A+C recomendado: critério multi-ciclo + lotes direcionados, lote 1 = Garrincha gate G1).
+
+### #048.10M.1.2.R2 — Garrincha G1 read-only readiness (2026-10-03)
+
+**Status:** PARTIAL
+**Commits:** (ver log)
+**CI:** (verificar pós-push)
+**Worker executado:** NÃO
+**Ingest executado:** NÃO
+**Escrita em Neo4j/Qdrant:** NÃO
+**Seeds alteradas:** NÃO
+**Aliases alteradas:** NÃO
+**Cognição central alterada:** NÃO
+**Treino:** NÃO
+**Deploy:** NÃO
+**Garrincha estado atual:** fato canônico presente (elementId 4:3b5e8459-...:3749), não verificado, spans limpos, homonímia baixa
+**Domínios já confirmados:** pt.wikipedia.org + en.wikipedia.org (2/3, mesma tripla)
+**Domínio não-Wikimedia plausível:** NÃO confirmado neste ciclo — probe budget 6/6 esgotado em caminhos 404; caminhos REAIS do piloto (brazchamp/copalib/jogclub) documentados no PARTIAL para probe futuro
+**Ready for future G1:** false
+**Contaminação cross-project:** 0

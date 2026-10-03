@@ -1,0 +1,77 @@
+{
+ "audit_id": "garrincha_g1_corrected_dry_run_048_10m_1_2_r2",
+ "generated_at": "2026-10-03T13:44:45.732126+00:00",
+ "mode": "read_only_planning",
+ "candidate": "garrincha_botafogo",
+ "subject": "Garrincha",
+ "predicate": "DEFENDEU",
+ "object": "Botafogo",
+ "domains_already_confirmed_in_graph": [
+  "en.wikipedia.org",
+  "pt.wikipedia.org"
+ ],
+ "domains_to_be_mined_in_future_g1": [],
+ "domains_only_in_local_reports": [
+  "www.rsssf.org",
+  "www.rsssfbrasil.com"
+ ],
+ "domains_blocked_or_unavailable": [],
+ "probe_404_paths": [
+  {
+   "domain": "www.rsssfbrasil.com",
+   "url": "https://www.rsssfbrasil.com/clubes/botafogo.htm",
+   "http_status": 404,
+   "mentions_garrincha": false,
+   "mentions_botafogo": false
+  },
+  {
+   "domain": "www.rsssf.org",
+   "url": "https://www.rsssf.org/players/garrincha.html",
+   "http_status": 404,
+   "mentions_garrincha": false,
+   "mentions_botafogo": false
+  },
+  {
+   "domain": "www.rsssf.org",
+   "url": "https://www.rsssf.org/tablesb/botafogo.html",
+   "http_status": 404,
+   "mentions_garrincha": false,
+   "mentions_botafogo": false
+  },
+  {
+   "domain": "rsssfbrasil.com",
+   "url": "https://rsssfbrasil.com/clubes/botafogo.htm",
+   "http_status": 404,
+   "mentions_garrincha": false,
+   "mentions_botafogo": false
+  },
+  {
+   "domain": "www.rsssfbrasil.com",
+   "url": "https://www.rsssfbrasil.com/brazchamp.html",
+   "http_status": 404,
+   "mentions_garrincha": false,
+   "mentions_botafogo": false
+  },
+  {
+   "domain": "www.rsssfbrasil.com",
+   "url": "https://www.rsssfbrasil.com/copalib.html",
+   "http_status": 404,
+   "mentions_garrincha": false,
+   "mentions_botafogo": false
+  }
+ ],
+ "domains_prohibited": [],
+ "predicted_distinct_domains_after_g1": 2,
+ "predicted_new_verified_if_g1_succeeds": 0,
+ "predicted_records_total_if_g1_succeeds": 20,
+ "requires_core_change": false,
+ "requires_alias_change": false,
+ "requires_seed_change": false,
+ "source_policy_violations": 0,
+ "junk_objects": 0,
+ "forbidden_objects": 0,
+ "semantic_risk": "low",
+ "ready_for_future_g1": false,
+ "blocking_reason": "probe budget (6 req) esgotado: 6x404 em caminhos errados — os caminhos REAIS minerados pelo piloto sao www.rsssf.org/tablesb/brazchamp.html e www.rsssf.org/sacups/copalib.html (200 OK, produtivos p/ VENCEU), e www.rsssfbrasil.com/sel/jogclub.htm (jogadores-por-clube) e seed existente nunca probeada para Garrincha. Proximo ciclo read-only: probe nessas URLs",
+ "d5_correction_note": "local_existing_covered NÃO é tratado como mineração do ciclo: domínios confirmados no grafo e domínios a minerar são baldes distintos"
+}
