@@ -3498,3 +3498,33 @@ Project Settings → **Root Directory = `apps/web`** (o site segue no último de
 ### Declarações
 Nenhum comportamento de aplicação alterado — apenas layout físico + referências de
 build/CI. Todos os imports `from src.x` preservados (PYTHONPATH/CWD = apps/api).
+
+---
+
+## #054.2.R1 — Space boot graph readiness: root-cause read-only
+
+**Status:** DONE (`SUCCESS_054_2_R1_BOOT_READINESS_ROOT_CAUSE_AND_PATCH_PLAN_READY`) · **Data:** 2026-10-03
+**Runtime alterado:** NÃO · **Worker/Ingest/Escrita em grafo:** NÃO · **Deploy:** NÃO · **Treino:** NÃO
+**Boot-race reproduzido:** SIM (sampler dedicado — amostra 1 zeros/hebbian=False → amostra 2 baseline, 15s)
+
+### Root cause (confirmada por código + reprodução)
+AuraDB free **pausa por inatividade** → no wake-up, a 1ª `session.run` falha transitória →
+`graph_snapshot` engole (2 retries de 0,5s — curto p/ wake-up de dezenas de segundos) →
+`/api/metrics` serve **zeros + hebbian=False com HTTP 200** → consumidor interpreta como
+drift. **Nenhum estado inconsistente real** — janela transitória sem gate de readiness
+(`/health` estático; payload sem flag de boot).
+
+### Artefatos
+`reports/054_2_r1_boot_sequence_map.md` · `054_2_r1_log_evidence.md` · `054_2_r1_root_cause_hypotheses.md`
+· `054_2_r1_readiness_patch_options.md` · `054_2_r1_test_plan.md` · `054_2_r1_decision_packet.md`
+· `scripts/diagnose_054_2_r1_boot_readiness.py` + 11 testes offline (classify/summarize/budget/D11).
+
+### Opções propostas (NÃO implementadas)
+R1 `/api/ready` · **R2 `graph_ready` aditivo em /api/metrics (recomendada)** · R3 warm-up interno ·
+R4 cliente com backoff (padrão já informal) · R5 cache stale (rejeitada). Recomendação:
+**R2 + R4 formalizado** num único task futuro `#054.2.R2`, com PR, testes T1-T6, CI, sem deploy automático.
+
+### Declarações de invariante
+Este ciclo não alterou runtime. Não deployou. Não executou worker. Não chamou /api/ingest.
+Não escreveu em Neo4j/Qdrant. Não ativou seeds. Não alterou aliases nem cognição central.
+Não treinou. Zero HTTP a terceiros. Zero projeto paralelo como evidência.
