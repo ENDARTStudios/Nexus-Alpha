@@ -20,17 +20,13 @@ def test_config_seed_clusters_untouched_by_design():
     root = subprocess.run(
         ["git", "rev-parse", "--show-toplevel"], capture_output=True, text=True
     ).stdout.strip()
+    rel = CONFIG_PATH.relative_to(Path(root)).as_posix()
     current = CONFIG_PATH.read_bytes()
     head = subprocess.run(
-        ["git", "show", f"HEAD:{CONFIG_PATH.as_posix()}"],
+        ["git", "show", f"HEAD:{rel}"],
         cwd=root, capture_output=True,
     )
-    if head.returncode != 0:  # caminho novo pós-move: tenta o caminho antigo no HEAD
-        head = subprocess.run(
-            ["git", "show", "HEAD:config/seed_clusters.yaml"],
-            cwd=root, capture_output=True,
-        )
-    assert head.returncode == 0, "seed_clusters.yaml ausente no HEAD (novos caminhos)"
+    assert head.returncode == 0, f"seed_clusters.yaml ausente no HEAD ({rel})"
     current_lf = current.replace(b"\r\n", b"\n")
     head_lf = head.stdout.replace(b"\r\n", b"\n")
     assert current_lf == head_lf, "seed_clusters.yaml alterado pelo design!"
