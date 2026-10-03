@@ -3388,3 +3388,11 @@ corroborou de fato neste ciclo, ao contrário do probe T160-era).
 Este ciclo executou worker piloto DEFENDEU uma única vez. Não executou treino.
 Não ativou seeds. Não alterou quórum. Não alterou cognição central. Não usou
 projeto paralelo como evidência. Não restaurou snapshot automaticamente.
+
+### #048.10M.1.2.R1 — Diagnóstico read-only concluído (2026-10-03)
+`SUCCESS_048_10M_1_2_R1_ROOT_CAUSE_AND_CRITERIA_PACKET_READY`. Sem worker, sem seeds,
+sem escrita em grafo, sem treino, sem deploy. Evidência: `reports/defendeu_r1_graph_state_048_10m_1_2.json`
+(read-only, Neo4j vivo) + packet `reports/defendeu_r1_decision_packet_048_10m_1_2.md` (15 perguntas
+respondidas · CV por candidato · recomendação A+C). Estado do grafo re-verificado: Garrincha 2/3,
+Jairzinho 1/3 (persistentes), 5 ausentes, zero mutação desde o incidente. Aguardando decisão do
+Operador (A+C recomendado: critério multi-ciclo + lotes direcionados, lote 1 = Garrincha gate G1).

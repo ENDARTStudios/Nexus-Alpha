@@ -1,0 +1,294 @@
+{
+ "audit_id": "defendeu_r1_graph_state_048_10m_1_2",
+ "mode": "read_only",
+ "generated_at": "2026-10-03T12:25:13.799353+00:00",
+ "candidates": [
+  {
+   "candidate_id": "defendeu_carlosalbertotorres_007",
+   "expected": "CARLOS ALBERTO TORRES --DEFENDEU--> SANTOS FUTEBOL CLUBE",
+   "exact_match": [],
+   "any_predicate_for_subject": [],
+   "club_defendeu_neighbors": [
+    {
+     "sujeito": "EDSON ARANTES DO NASCIMENTO",
+     "predicado": null,
+     "objeto": "SANTOS FUTEBOL CLUBE",
+     "verificado": true,
+     "confirmacoes": 3,
+     "domains": [
+      "pt.wikipedia.org",
+      "en.wikipedia.org",
+      "rsssfbrasil.com"
+     ]
+    }
+   ]
+  },
+  {
+   "candidate_id": "defendeu_jairzinho_002",
+   "expected": "JAIRZINHO --DEFENDEU--> BOTAFOGO DE FUTEBOL E REGATAS",
+   "exact_match": [
+    {
+     "sujeito": "JAIRZINHO",
+     "predicado": null,
+     "objeto": "BOTAFOGO DE FUTEBOL E REGATAS",
+     "verificado": false,
+     "confirmacoes": 1,
+     "domains": [
+      "rsssfbrasil.com"
+     ]
+    }
+   ],
+   "any_predicate_for_subject": [
+    {
+     "sujeito": "JAIRZINHO",
+     "predicado": "DEFENDEU",
+     "objeto": "BOTAFOGO DE FUTEBOL E REGATAS",
+     "verificado": false,
+     "confirmacoes": 1,
+     "domains": [
+      "rsssfbrasil.com"
+     ]
+    }
+   ],
+   "club_defendeu_neighbors": [
+    {
+     "sujeito": "CRAQUE CONSOLIDADO POR PRATICAMENTE TODA",
+     "predicado": null,
+     "objeto": "BOTAFOGO DE FUTEBOL E REGATAS",
+     "verificado": false,
+     "confirmacoes": 1,
+     "domains": [
+      "pt.wikipedia.org"
+     ]
+    },
+    {
+     "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+     "predicado": null,
+     "objeto": "BOTAFOGO DE FUTEBOL E REGATAS",
+     "verificado": false,
+     "confirmacoes": 2,
+     "domains": [
+      "pt.wikipedia.org",
+      "en.wikipedia.org"
+     ]
+    },
+    {
+     "sujeito": "JAIRZINHO",
+     "predicado": null,
+     "objeto": "BOTAFOGO DE FUTEBOL E REGATAS",
+     "verificado": false,
+     "confirmacoes": 1,
+     "domains": [
+      "rsssfbrasil.com"
+     ]
+    }
+   ]
+  },
+  {
+   "candidate_id": "defendeu_manuelfranciscodossantos_001",
+   "expected": "MANUEL FRANCISCO DOS SANTOS --DEFENDEU--> BOTAFOGO DE FUTEBOL E REGATAS",
+   "exact_match": [
+    {
+     "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+     "predicado": null,
+     "objeto": "BOTAFOGO DE FUTEBOL E REGATAS",
+     "verificado": false,
+     "confirmacoes": 2,
+     "domains": [
+      "pt.wikipedia.org",
+      "en.wikipedia.org"
+     ]
+    }
+   ],
+   "any_predicate_for_subject": [
+    {
+     "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+     "predicado": "EXECUTA",
+     "objeto": "JOGADA SEMELHANTE",
+     "verificado": false,
+     "confirmacoes": 1,
+     "domains": [
+      "pt.wikipedia.org"
+     ]
+    },
+    {
+     "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+     "predicado": "DEFENDEU",
+     "objeto": "PRIMEIRA PARTIDA DO TORNEIO",
+     "verificado": false,
+     "confirmacoes": 1,
+     "domains": [
+      "pt.wikipedia.org"
+     ]
+    },
+    {
+     "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+     "predicado": "SER",
+     "objeto": "INCREDIBLE PLAYER",
+     "verificado": false,
+     "confirmacoes": 1,
+     "domains": [
+      "en.wikipedia.org"
+     ]
+    },
+    {
+     "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+     "predicado": "EXECUTA",
+     "objeto": "TREINO",
+     "verificado": false,
+     "confirmacoes": 1,
+     "domains": [
+      "pt.wikipedia.org"
+     ]
+    },
+    {
+     "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+     "predicado": "SER",
+     "objeto": "SANTOS FUTEBOL CLUBE",
+     "verificado": false,
+     "confirmacoes": 1,
+     "domains": [
+      "pt.wikipedia.org"
+     ]
+    },
+    {
+     "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+     "predicado": "DEFENDEU",
+     "objeto": "BOTAFOGO DE FUTEBOL E REGATAS",
+     "verificado": false,
+     "confirmacoes": 2,
+     "domains": [
+      "pt.wikipedia.org",
+      "en.wikipedia.org"
+     ]
+    },
+    {
+     "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+     "predicado": "DEFENDEU",
+     "objeto": "CAMPEONATO SUL AMERICANO DE 1957",
+     "verificado": false,
+     "confirmacoes": 1,
+     "domains": [
+      "pt.wikipedia.org"
+     ]
+    },
+    {
+     "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+     "predicado": "SER",
+     "objeto": "SELECIONADO",
+     "verificado": false,
+     "confirmacoes": 1,
+     "domains": [
+      "pt.wikipedia.org"
+     ]
+    },
+    {
+     "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+     "predicado": "SER",
+     "objeto": "EXPULSO NESSA PARTIDA APOS 83 MINUTOS",
+     "verificado": false,
+     "confirmacoes": 1,
+     "domains": [
+      "pt.wikipedia.org"
+     ]
+    }
+   ],
+   "club_defendeu_neighbors": [
+    {
+     "sujeito": "CRAQUE CONSOLIDADO POR PRATICAMENTE TODA",
+     "predicado": null,
+     "objeto": "BOTAFOGO DE FUTEBOL E REGATAS",
+     "verificado": false,
+     "confirmacoes": 1,
+     "domains": [
+      "pt.wikipedia.org"
+     ]
+    },
+    {
+     "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+     "predicado": null,
+     "objeto": "BOTAFOGO DE FUTEBOL E REGATAS",
+     "verificado": false,
+     "confirmacoes": 2,
+     "domains": [
+      "pt.wikipedia.org",
+      "en.wikipedia.org"
+     ]
+    },
+    {
+     "sujeito": "JAIRZINHO",
+     "predicado": null,
+     "objeto": "BOTAFOGO DE FUTEBOL E REGATAS",
+     "verificado": false,
+     "confirmacoes": 1,
+     "domains": [
+      "rsssfbrasil.com"
+     ]
+    }
+   ]
+  },
+  {
+   "candidate_id": "defendeu_romariodesouzafaria_006",
+   "expected": "ROMÁRIO DE SOUZA FARIA --DEFENDEU--> CLUBE DE REGATAS VASCO DA GAMA",
+   "exact_match": [],
+   "any_predicate_for_subject": [],
+   "club_defendeu_neighbors": []
+  },
+  {
+   "candidate_id": "defendeu_socratesbrasileirosampai_005",
+   "expected": "SÓCRATES BRASILEIRO SAMPAIO DE SOUZA VIEIRA DE OLIVEIRA --DEFENDEU--> SPORT CLUB CORINTHIANS PAULISTA",
+   "exact_match": [],
+   "any_predicate_for_subject": [],
+   "club_defendeu_neighbors": []
+  },
+  {
+   "candidate_id": "defendeu_zito_003",
+   "expected": "ZITO --DEFENDEU--> SANTOS FUTEBOL CLUBE",
+   "exact_match": [],
+   "any_predicate_for_subject": [
+    {
+     "sujeito": "ZITO",
+     "predicado": "DEFENDEU",
+     "objeto": "PELO SANTOS",
+     "verificado": false,
+     "confirmacoes": 1,
+     "domains": [
+      "santosfc.com.br"
+     ]
+    }
+   ],
+   "club_defendeu_neighbors": [
+    {
+     "sujeito": "EDSON ARANTES DO NASCIMENTO",
+     "predicado": null,
+     "objeto": "SANTOS FUTEBOL CLUBE",
+     "verificado": true,
+     "confirmacoes": 3,
+     "domains": [
+      "pt.wikipedia.org",
+      "en.wikipedia.org",
+      "rsssfbrasil.com"
+     ]
+    }
+   ]
+  },
+  {
+   "candidate_id": "defendeu_rogerioceni_012",
+   "expected": "ROGÉRIO CENI --DEFENDEU--> SÃO PAULO FUTEBOL CLUBE",
+   "exact_match": [],
+   "any_predicate_for_subject": [
+    {
+     "sujeito": "ROGERIO CENI",
+     "predicado": "SER",
+     "objeto": "CONTRATADO COMO TECNICO",
+     "verificado": false,
+     "confirmacoes": 1,
+     "domains": [
+      "pt.wikipedia.org"
+     ]
+    }
+   ],
+   "club_defendeu_neighbors": []
+  }
+ ]
+}
