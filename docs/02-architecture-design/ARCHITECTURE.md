@@ -20,7 +20,7 @@
 | **Brain** | `src/brain/` | Memória cognitiva working/episódica/semântica + consolidação Hebbiana (`memory.py`, `regions.py`) | Persistir working memory (é efêmera por design) |
 | **Simulation** | `src/simulation/` | `SwarmSimulator` (dinâmica de opinião determinística por seed) | Alterar o grafo |
 | **Training** | `src/training/` | Export de fatos verificados → Alpaca/JSONL + config LoRA (opt-in, sem torch no runtime) | Entrar no runtime principal ou CI |
-| **Frontend** | `src/frontend/` + `src/app/` | Next.js 14: Dashboard, BrainPanel (read-only), KnowledgeGraph, ChatWidget; proxy Vercel em `src/app/api/nexus/[...path]/route.ts` | Escrever no backend (read-only exceto chat/ingest) |
+| **Frontend** | `apps/web/src/frontend/` + `apps/web/src/app/` | Next.js 14: Dashboard, BrainPanel (read-only), KnowledgeGraph, ChatWidget; proxy Vercel em `apps/web/src/app/api/nexus/[...path]/route.ts` | Escrever no backend (read-only exceto chat/ingest) |
 
 ## 2. Contratos de dados
 

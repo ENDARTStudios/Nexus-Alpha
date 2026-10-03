@@ -287,8 +287,8 @@ O Doer deve assumir disponibilidade condicional destas ferramentas. Se não exis
 
 ### Projeto
 
-- FastAPI app: `app.py`
-- Worker: `scripts/worker_cycle.py`
+- FastAPI app: `apps/api/app.py`
+- Worker: `apps/api/scripts/worker_cycle.py`
 - Miner: `src/miner/`
 - Cognition: `src/cognition/`
 - Database: `src/database/`
@@ -298,7 +298,7 @@ O Doer deve assumir disponibilidade condicional destas ferramentas. Se não exis
 - Docs: `docs/`
 - Config: `config/`
 - Scripts de auditoria: `scripts/audit_*.py`
-- Frontend/dashboard: `dashboard/`, `src/frontend/`, `vercel.json`, `public/`
+- Frontend: `apps/web/` (Next.js: `src/app`, `src/frontend`, `vercel.json`, `public/`, `Dockerfile.web`) · Dashboard Streamlit: `apps/api/dashboard/`
 
 ### Infra externa condicional
 

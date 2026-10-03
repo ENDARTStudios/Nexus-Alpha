@@ -19,7 +19,7 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
-SELECTION_PATH = Path("reports/defendeu_pilot_candidate_selection_048_10m_1.json")
+SELECTION_PATH = (Path(__file__).resolve().parents[1] / "reports" / "defendeu_pilot_candidate_selection_048_10m_1.json")
 PROBES_DIR = Path(".autonomous/048_10m_1/probes")
 
 MAX_REQUESTS_TOTAL = 45

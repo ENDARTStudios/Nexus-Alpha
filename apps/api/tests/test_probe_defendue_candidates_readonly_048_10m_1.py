@@ -6,7 +6,7 @@ from pathlib import Path
 
 _SPEC = importlib.util.spec_from_file_location(
     "probe_defendeu",
-    Path("scripts/probe_defendue_candidates_readonly_048_10m_1.py"),
+    Path(__file__).resolve().parents[1] / "scripts" / "probe_defendue_candidates_readonly_048_10m_1.py",
 )
 PROBE = importlib.util.module_from_spec(_SPEC)
 _SPEC.loader.exec_module(PROBE)

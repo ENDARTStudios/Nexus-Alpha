@@ -6,7 +6,7 @@ from pathlib import Path
 
 _SPEC = importlib.util.spec_from_file_location(
     "audit_defendeu_dry_run",
-    Path("scripts/audit_defendeu_pilot_dry_run_048_10m_1.py"),
+    Path(__file__).resolve().parents[1] / "scripts" / "audit_defendeu_pilot_dry_run_048_10m_1.py",
 )
 DRY = importlib.util.module_from_spec(_SPEC)
 _SPEC.loader.exec_module(DRY)

@@ -24,8 +24,8 @@ from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
-EXPECTED_PATH = Path("reports/defendeu_pilot_expected_facts_048_10m_1.json")
-OUT_PATH = Path("reports/defendeu_pilot_worker_fact_validation_048_10m_1_2.json")
+EXPECTED_PATH = (Path(__file__).resolve().parents[1] / "reports" / "defendeu_pilot_expected_facts_048_10m_1.json")
+OUT_PATH = (Path(__file__).resolve().parents[1] / "reports" / "defendeu_pilot_worker_fact_validation_048_10m_1_2.json")
 WIKIMEDIA = {"pt.wikipedia.org", "en.wikipedia.org"}
 
 

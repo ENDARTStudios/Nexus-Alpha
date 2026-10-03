@@ -14,10 +14,10 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-SELECTION_PATH = Path("reports/defendeu_pilot_candidate_selection_048_10m_1.json")
-EXPECTED_FACTS_PATH = Path("reports/defendeu_pilot_expected_facts_048_10m_1.json")
-DRY_RUN_PATH = Path("reports/defendeu_pilot_dry_run_048_10m_1.json")
-RISK_MATRIX_PATH = Path("reports/defendeu_pilot_risk_matrix_048_10m_1.json")
+SELECTION_PATH = (Path(__file__).resolve().parents[1] / "reports" / "defendeu_pilot_candidate_selection_048_10m_1.json")
+EXPECTED_FACTS_PATH = (Path(__file__).resolve().parents[1] / "reports" / "defendeu_pilot_expected_facts_048_10m_1.json")
+DRY_RUN_PATH = (Path(__file__).resolve().parents[1] / "reports" / "defendeu_pilot_dry_run_048_10m_1.json")
+RISK_MATRIX_PATH = (Path(__file__).resolve().parents[1] / "reports" / "defendeu_pilot_risk_matrix_048_10m_1.json")
 PROBES_DIR = Path(".autonomous/048_10m_1/probes")
 
 BASELINE_VERIFIED = 20

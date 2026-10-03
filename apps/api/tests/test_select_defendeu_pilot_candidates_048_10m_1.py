@@ -7,7 +7,7 @@ from pathlib import Path
 
 _SPEC = importlib.util.spec_from_file_location(
     "select_defendeu_pilot",
-    Path("scripts/select_defendeu_pilot_candidates_048_10m_1.py"),
+    Path(__file__).resolve().parents[1] / "scripts" / "select_defendeu_pilot_candidates_048_10m_1.py",
 )
 SELECT = importlib.util.module_from_spec(_SPEC)
 _SPEC.loader.exec_module(SELECT)

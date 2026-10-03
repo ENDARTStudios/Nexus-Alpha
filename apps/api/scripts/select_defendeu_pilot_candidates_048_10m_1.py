@@ -13,9 +13,9 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-ATLAS_PATH = Path("reports/expansion_defendeu_atlas_048_10m.json")
-SELECTION_PATH = Path("reports/defendeu_pilot_candidate_selection_048_10m_1.json")
-EXPECTED_FACTS_PATH = Path("reports/defendeu_pilot_expected_facts_048_10m_1.json")
+ATLAS_PATH = (Path(__file__).resolve().parents[1] / "reports" / "expansion_defendeu_atlas_048_10m.json")
+SELECTION_PATH = (Path(__file__).resolve().parents[1] / "reports" / "defendeu_pilot_candidate_selection_048_10m_1.json")
+EXPECTED_FACTS_PATH = (Path(__file__).resolve().parents[1] / "reports" / "defendeu_pilot_expected_facts_048_10m_1.json")
 
 ALLOWED_DOMAINS = {
     "pt.wikipedia.org",

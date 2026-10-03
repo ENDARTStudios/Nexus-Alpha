@@ -20,8 +20,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-EXPECTED_PATH = Path("reports/defendeu_pilot_expected_facts_048_10m_1.json")
-OUT_PATH = Path("reports/defendeu_r4_graph_candidates_048_10m_1_2.json")
+EXPECTED_PATH = (Path(__file__).resolve().parents[1] / "reports" / "defendeu_pilot_expected_facts_048_10m_1.json")
+OUT_PATH = (Path(__file__).resolve().parents[1] / "reports" / "defendeu_r4_graph_candidates_048_10m_1_2.json")
 WIKIMEDIA = {"pt.wikipedia.org", "en.wikipedia.org"}
 
 # Probe history consolidado (R2: caminhos supostos 404; R3: 3×200 sem menção)

@@ -5,8 +5,8 @@ import ast
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / "scripts"
+ROOT = Path(__file__).resolve().parents[3]  # repo root (apps/api/tests -> apps/api -> apps -> root)
+SCRIPTS = ROOT / "apps" / "api" / "scripts"
 if str(SCRIPTS) not in sys.path:
     sys.path.insert(0, str(SCRIPTS))
 

@@ -7,7 +7,7 @@ from pathlib import Path
 
 def _matrix() -> dict:
     return json.loads(
-        Path("reports/defendeu_r4_source_matrix_048_10m_1_2.json").read_text(encoding="utf-8")
+        (Path(__file__).resolve().parents[1] / "reports" / "defendeu_r4_source_matrix_048_10m_1_2.json").read_text(encoding="utf-8")
     )
 
 

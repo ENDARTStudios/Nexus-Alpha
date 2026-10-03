@@ -3468,3 +3468,33 @@ de sinal antes de qualquer expansão.
 Este ciclo não fez requisição HTTP externa. Não executou worker. Não chamou /api/ingest.
 Não escreveu em Neo4j/Qdrant. Não ativou seeds. Não alterou aliases nem cognição central.
 Não treinou. Não deployou. Apenas produziu diagnóstico read-only e packet de decisão.
+
+---
+
+## Reestruturação — monorepo `apps/api` + `apps/web` (2026-10-03)
+
+**Status:** DONE · **Commits:** chore(repo) split + docs · **CI:** (verificar no push)
+
+### O que mudou
+- **`apps/api/`**: `app.py`, `src/` (Python), `config/`, `tests/`, `scripts/`, `dashboard/`,
+  `requirements*.txt`, `Dockerfile`, `Dockerfile.hf`, `README_HF.md`, `.env.example`, `reports/`, `data/`.
+- **`apps/web/`**: `package.json`, `package-lock.json`, `next.config.js`, `tsconfig.json`,
+  `tailwind.config.ts`, `postcss.config.js`, `vercel.json`, `public/`, `src/app/` (App Router
+  + proxy `/api/nexus` + policy), `src/frontend/` (componentes), `Dockerfile.web`.
+- `mock_server.py` movido de `src/frontend/` → `apps/api/scripts/` (intruso Python no frontend).
+- `docker-compose.yml`: `nexus-core` (context `apps/api`) + **novo `nexus-web`** (`Dockerfile.web`) + neo4j.
+- Workflows: `ai-validation.yml` (pytest de `apps/api` com PYTHONPATH próprio; anti-leak em
+  `apps/api/src`; `node --test` de `apps/web`) e `ai-cron.yml` (worker de `apps/api`).
+- Raiz limpa: sem `.venv`/`node_modules`/`.next` compartilhados; venv novo = `apps/api/.venv`.
+- `.env` do backend → `apps/api/.env` (local); `.env.local` do proxy → `apps/web/.env.local` (local).
+
+### Validação
+pytest: **798 passed / 20 skipped** a partir de `apps/api` E da raiz (via `conftest.py`);
+`tsc --noEmit` e `node --test` policy: verdes de `apps/web`; `docker compose config`: OK.
+
+### Ação do Operador (Vercel)
+Project Settings → **Root Directory = `apps/web`** (o site segue no último deploy bom até lá).
+
+### Declarações
+Nenhum comportamento de aplicação alterado — apenas layout físico + referências de
+build/CI. Todos os imports `from src.x` preservados (PYTHONPATH/CWD = apps/api).

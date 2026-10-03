@@ -7,7 +7,7 @@ from pathlib import Path
 
 _SPEC = importlib.util.spec_from_file_location(
     "audit_r4",
-    Path("scripts/audit_defendeu_r4_graph_candidates_048_10m_1_2.py"),
+    Path(__file__).resolve().parents[1] / "scripts" / "audit_defendeu_r4_graph_candidates_048_10m_1_2.py",
 )
 R4 = importlib.util.module_from_spec(_SPEC)
 _SPEC.loader.exec_module(R4)
@@ -52,7 +52,7 @@ def test_variants_include_aliases():
 
 def test_committed_report_structure_and_no_drift_signals():
     report = json.loads(
-        Path("reports/defendeu_r4_graph_candidates_048_10m_1_2.json").read_text(encoding="utf-8")
+        (Path(__file__).resolve().parents[1] / "reports" / "defendeu_r4_graph_candidates_048_10m_1_2.json").read_text(encoding="utf-8")
     )
     assert report["mode"] == "read_only_match_return"
     assert report["http_requests"] == 0
@@ -71,7 +71,7 @@ def test_committed_report_structure_and_no_drift_signals():
 
 def test_garrincha_recommended_action_is_freeze():
     report = json.loads(
-        Path("reports/defendeu_r4_graph_candidates_048_10m_1_2.json").read_text(encoding="utf-8")
+        (Path(__file__).resolve().parents[1] / "reports" / "defendeu_r4_graph_candidates_048_10m_1_2.json").read_text(encoding="utf-8")
     )
     g = next(c for c in report["candidates"] if c["candidate_id"] == "defendeu_manuelfranciscodossantos_001")
     assert g["recommended_next_action"].startswith("FREEZE")

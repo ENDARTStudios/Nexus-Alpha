@@ -5,12 +5,39 @@
 
 ---
 
+## 📁 Estrutura (monorepo `apps/`)
+
+```
+nexus-alpha/
+├── apps/
+│   ├── api/                 ← Backend Python (FastAPI + mineração + grafo)
+│   │   ├── app.py           ← core FastAPI (HF Space, porta 7860)
+│   │   ├── src/             ← miner/ cognition/ database/ security/ brain/ ops/ simulation/ training/
+│   │   ├── config/          ← settings.yaml, seed_clusters.yaml, security_policies.json
+│   │   ├── tests/           ← suíte pytest (rodar de apps/api)
+│   │   ├── scripts/         ← worker_cycle.py, deploy/audit/probe/validate
+│   │   ├── dashboard/       ← Streamlit (operador)
+│   │   └── requirements*.txt
+│   └── web/                 ← Frontend Next.js 14 (Vercel)
+│       ├── src/app/         ← App Router + proxy /api/nexus
+│       ├── src/frontend/    ← ChatWidget, BrainPanel, KnowledgeGraph
+│       └── package.json / vercel.json / public/
+├── docker-compose.yml       ← nexus-core (apps/api) + nexus-web (apps/web) + neo4j-db
+├── docs/ · SPRINT.md · .github/workflows/
+└── reports → evidências governadas
+```
+
+> **Comandos do backend rodam a partir de `apps/api/`** (CWD resolve `config/` e `data/`);
+> **comandos do frontend a partir de `apps/web/`**. Vercel: Root Directory = `apps/web`.
+
+---
+
 ## 📡 Propósito
 Nexus-Alpha é uma inteligência artificial autônoma focada em mineração semântica da web, indexação vetorial, grafo de conhecimento e auto-evolução contínua — operando sob infraestrutura gratuita (Hugging Face Spaces + GitHub Actions + Qdrant Cloud + Neo4j AuraDB).
 
 ## 🧱 Arquitetura (Camadas)
 
-| Camada | Função | Arquivos Principais |
+| Camada | Função | Arquivos Principais (em `apps/api/`) |
 |---|---|---|
 | **Miner** | Web scraping assíncrono + anti-bloqueio + proxy rotation | `src/miner/web_miner.py`, `anti_block.py` |
 | **Cognition** | Chain-of-Thought + RAG ativo + NER (spaCy + fallback regex) | `src/cognition/reasoning_engine.py`, `rag_engine.py`, `nlp_extractor.py` |
@@ -33,23 +60,26 @@ Memória inspirada no cérebro (córtex/hipocampo), durável no Neo4j:
 ## 🚀 Execução Local
 
 ```bash
-# 1. Ambiente
+# 1. Ambiente (backend — SEMPRE de apps/api)
+cd apps/api
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
-# 2. Infraestrutura (Docker)
+# 2. Infraestrutura (Docker — a partir da raiz)
 docker-compose up -d neo4j-db
 # (opcional: Qdrant via docker-compose ou Qdrant Cloud com QDRANT_HOST)
 
-# 3. Pipeline completo
+# 3. Pipeline completo (de apps/api)
 python -m src.main "Inteligência Artificial"
 
 # 4. Dashboard técnico (modo escuro + animações Motion)
 streamlit run dashboard/app.py
 
 # 5. Mock server para testes UI
-python src/frontend/mock_server.py
+python scripts/mock_server.py
 ```
+
+Frontend (Next.js — de `apps/web/`): `npm install && npm run dev`.
 
 ## 🔒 Segurança e Governança
 
@@ -62,10 +92,11 @@ python src/frontend/mock_server.py
 ## 📊 Testes
 
 ```bash
+cd apps/api
 python -m pytest tests/ -v
 ```
 
-Os 86 testes cobrem: miner, cognition, RAG, NLP, triangulation, reflection, memory, vector, embeddings, quarantine, anti-block, proxy, reasoning engine, chat (API/serviço/LLM), topologia de grafo, sanitização de logs, interceptor, dashboard components.
+Os ~800 testes cobrem: miner, cognition, RAG, NLP, triangulation, reflection, memory, vector, embeddings, quarantine, anti-block, proxy, reasoning engine, chat (API/serviço/LLM), topologia de grafo, sanitização de logs, interceptor, dashboard components, piloto DEFENDEU.
 
 ## 📋 Governança
 
@@ -123,21 +154,24 @@ Sem LlamaFactory instalado, o comando `train` retorna erro amigável e não queb
 
 ```
 nexus-alpha/
-├── .github/workflows/ai-validation.yml
-├── config/
-│   ├── settings.yaml
-│   └── security_policies.json
-├── src/
-│   ├── miner/
-│   ├── cognition/
-│   ├── database/
-│   ├── security/
-│   └── frontend/
-├── dashboard/
-├── tests/
-├── scripts/
-├── Dockerfile / Dockerfile.hf / docker-compose.yml
-├── app.py / vercel.json / public/robots.txt
-├── SPRINT.md / HANDOVER_PROMPT.md
-└── requirements.txt
+├── apps/
+│   ├── api/                        ← Backend Python (FastAPI + mineração + grafo)
+│   │   ├── app.py                  ← core FastAPI (HF Space :7860)
+│   │   ├── src/                    ← miner/ cognition/ database/ security/ brain/ ops/ simulation/ training/
+│   │   ├── config/                 ← settings.yaml, seed_clusters.yaml, security_policies.json
+│   │   ├── tests/ · scripts/ · dashboard/
+│   │   ├── Dockerfile · Dockerfile.hf · README_HF.md
+│   │   └── requirements{,-dev,-hf,-llamafactory,-tooling}.txt
+│   └── web/                        ← Frontend Next.js 14 (Vercel)
+│       ├── src/app/                ← App Router + proxy /api/nexus (policy.mjs)
+│       ├── src/frontend/           ← ChatWidget, BrainPanel, KnowledgeGraph
+│       ├── Dockerfile.web · vercel.json · public/robots.txt
+│       └── package.json · tsconfig.json · tailwind.config.ts
+├── docker-compose.yml              ← nexus-core (apps/api) + nexus-web + neo4j-db
+├── .github/workflows/              ← ai-validation · ai-cron · db-backup
+├── docs/ · SPRINT.md · reports/ → evidências governadas (apps/api/reports pós-move)
+└── AGENTS.md · ARCHITECTURE.md · README.md
 ```
+
+**Vercel:** Root Directory do projeto = `apps/web`. **HF Space:** deploy via
+`apps/api/scripts/deploy_hf_space_safe.py` (allowlist: `app.py`, `src/**`, `config/**`, `requirements*`).

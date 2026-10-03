@@ -1,0 +1,125 @@
+"""Captura baseline pré-re-ingest pós-#045.1 (read-only)."""
+from __future__ import annotations
+
+import json
+import os
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from dotenv import load_dotenv
+
+load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+load_dotenv(Path(__file__).resolve().parent.parent / ".env.local")
+
+
+async def main() -> None:
+    import asyncio
+
+    import httpx
+    from neo4j import AsyncGraphDatabase
+
+    out_path = Path(sys.argv[1] if len(sys.argv) > 1 else "reports/baseline_pre_reingest_045_1.json")
+
+    # --- Neo4j snapshot counts ---
+    driver = AsyncGraphDatabase.driver(
+        os.environ["NEO4J_URI"],
+        auth=(os.environ.get("NEO4J_USER", "neo4j"), os.environ["NEO4J_PASSWORD"]),
+    )
+    graph: dict = {}
+    try:
+        async with driver.session() as session:
+            labels = [r async for r in await session.run(
+                "MATCH (n) WITH labels(n)[0] AS label, count(*) AS c "
+                "RETURN label, c ORDER BY c DESC"
+            )]
+            graph["label_counts"] = {r["label"]: r["c"] for r in labels}
+
+            rec = await (await session.run(
+                """
+                MATCH (f:Fato)
+                OPTIONAL MATCH (fw:FonteWeb)-[:CONFIRMA]->(f)
+                WITH f, count(DISTINCT fw.domain) AS doms, count(fw) AS confs
+                RETURN count(f) AS facts,
+                       sum(CASE WHEN confs >= 2 THEN 1 ELSE 0 END) AS facts_with_two_or_more_confirmations,
+                       sum(CASE WHEN doms >= 2 THEN 1 ELSE 0 END) AS facts_with_two_or_more_domains,
+                       sum(CASE WHEN doms >= 3 THEN 1 ELSE 0 END) AS facts_with_three_or_more_domains,
+                       coalesce(max(confs), 0) AS max_domain_confirmations,
+                       sum(CASE WHEN confs >= 3 AND doms >= 2 THEN 1 ELSE 0 END) AS verified_facts_domain_independent
+                """
+            )).single()
+            graph.update({k: rec[k] for k in rec.keys()})
+
+            # duplicate_cross_domain proxy: facts confirmed by >1 domain URL
+            rec2 = await (await session.run(
+                """
+                MATCH (f:Fato)
+                OPTIONAL MATCH (fw:FonteWeb)-[:CONFIRMA]->(f)
+                WITH f, collect(DISTINCT fw.domain) AS domains, collect(fw.url) AS urls
+                WHERE size([d IN domains WHERE d IS NOT NULL]) >= 2
+                RETURN count(*) AS duplicate_cross_domain
+                """
+            )).single()
+            graph["duplicate_cross_domain"] = rec2["duplicate_cross_domain"] or 0
+    finally:
+        await driver.close()
+
+    # --- Space metrics ---
+    space_url = (os.environ.get("NEXUS_SPACE_URL") or os.environ.get("HF_SPACE_URL") or "").rstrip("/")
+    space_metrics: dict = {}
+    space_health: dict = {}
+    if space_url:
+        headers = {}
+        hf = os.environ.get("HF_TOKEN", "")
+        if hf:
+            headers["Authorization"] = f"Bearer {hf}"
+        try:
+            async with httpx.AsyncClient() as client:
+                hr = await client.get(f"{space_url}/health", headers=headers, timeout=30.0)
+                space_health = {"status_code": hr.status_code, "body": hr.json() if hr.headers.get("content-type", "").startswith("application/json") else hr.text[:200]}
+                mr = await client.get(f"{space_url}/api/metrics", headers=headers, timeout=30.0)
+                if mr.status_code == 200:
+                    space_metrics = mr.json()
+                else:
+                    space_metrics = {"error": mr.status_code, "text": mr.text[:300]}
+        except Exception as exc:
+            space_health = {"error": str(exc)}
+
+    eq = space_metrics.get("extraction_quality", {}) if isinstance(space_metrics, dict) else {}
+    reasons = eq.get("rejection_reasons", {}) or {}
+    ver = space_metrics.get("verification", {}) if isinstance(space_metrics, dict) else {}
+    acct = space_metrics.get("ingestion_accounting", {}) if isinstance(space_metrics, dict) else {}
+
+    report = {
+        "report": "baseline_pre_reingest_045_1",
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "build_space_commit_target": "05e42cc",
+        "quorum": int(os.environ.get("NEXUS_VERIFY_QUORUM", "3")),
+        "space_health": space_health,
+        "graph": graph,
+        "space_metrics_present": bool(space_metrics and "error" not in (space_metrics or {})),
+        "extraction_quality": {
+            "raw_triples": eq.get("raw_triples"),
+            "canonical_triples": eq.get("canonical_triples"),
+            "rejected_noise": eq.get("rejected_noise"),
+            "rejection_reasons": reasons,
+            "top_unmapped_predicates": eq.get("top_unmapped_predicates"),
+            "top_invalid_predicates": eq.get("top_invalid_predicates"),
+        },
+        "verification": ver,
+        "ingestion_accounting": acct,
+        "vectors_count": (space_metrics or {}).get("vectors"),
+        "truthfulness_note": "Read-only baseline; no Neo4j writes, no Qdrant, no ingest.",
+    }
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(json.dumps(report, ensure_ascii=False, indent=2))
+    print(f"\n[salvo em] {out_path}")
+
+
+if __name__ == "__main__":
+    asyncio = __import__("asyncio")
+    asyncio.run(main())
