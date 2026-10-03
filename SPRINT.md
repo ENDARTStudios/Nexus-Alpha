@@ -3528,3 +3528,11 @@ R4 cliente com backoff (padrão já informal) · R5 cache stale (rejeitada). Rec
 Este ciclo não alterou runtime. Não deployou. Não executou worker. Não chamou /api/ingest.
 Não escreveu em Neo4j/Qdrant. Não ativou seeds. Não alterou aliases nem cognição central.
 Não treinou. Zero HTTP a terceiros. Zero projeto paralelo como evidência.
+
+## [2026-10-03] Backup final Neo4j Aura (pré-cancelamento do serviço)
+
+- **Contexto:** Operador informou que o serviço AuraDB (85cd4c04.databases.neo4j.io) será cancelado.
+- **Export (read-only):** `backups/neo4j_aura_final_20261003/` — 6461 nós (Conceito 2136 / Episodio 3651 / Fato 598 / FonteWeb 76) e 4526 rels (MINERADO_DE 2426 / RELACIONA 1449 / CONFIRMA 651); schema (constraints/índices/versão) em `schema.json`; SHA256 e contagens em `manifest.json`; baseline viva confere (concept=2136, fact=598).
+- **Verificação:** restore provado em Neo4j 5 local (container efêmero) — comparação byte-a-byte 6461/6461 nós + 4526/4526 rels OK; alvo final sem `_eid`/`__TMP_EID`, contagens idênticas.
+- **Ferramenta:** `apps/api/scripts/aura_final_backup.py` (export read-only / restore / verify / cleanup).
+- **Nota:** o workflow semanal `db-backup.yml` gera payload simulado, não dump real — o backup desta seção é o export real de referência.
