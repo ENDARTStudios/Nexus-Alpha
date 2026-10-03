@@ -3415,3 +3415,22 @@ Operador (A+C recomendado: critério multi-ciclo + lotes direcionados, lote 1 = 
 **Domínio não-Wikimedia plausível:** NÃO confirmado neste ciclo — probe budget 6/6 esgotado em caminhos 404; caminhos REAIS do piloto (brazchamp/copalib/jogclub) documentados no PARTIAL para probe futuro
 **Ready for future G1:** false
 **Contaminação cross-project:** 0
+
+### #048.10M.1.2.R3 — Garrincha surgical read-only probe (2026-10-03)
+
+**Status:** PARTIAL
+**Commits:** (ver log)
+**CI:** (verificar pós-push)
+**Worker executado:** NÃO
+**Ingest executado:** NÃO
+**Escrita em Neo4j/Qdrant:** NÃO
+**Seeds alteradas:** NÃO
+**Aliases alteradas:** NÃO
+**Cognição central alterada:** NÃO
+**Treino:** NÃO
+**Deploy:** NÃO
+**Probe HTTP:** 3 requisições (jogclub/brazchamp/copalib — ordem do task)
+**Domínio não-Wikimedia confirmado:** NÃO — os 3 caminhos corretos responderam 200 OK e NENHUM menciona Garrincha/Manuel Francisco (o jogador está ausente das fontes tabulares permitidas alcançáveis)
+**Ready for future G1:** false
+**Runbook G1 criado:** false (bloqueado por ready=false)
+**Contaminação cross-project:** 0

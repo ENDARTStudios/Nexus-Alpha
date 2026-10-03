@@ -1,0 +1,184 @@
+{
+ "audit_id": "garrincha_g1_graph_state_048_10m_1_2_r3",
+ "generated_at": "2026-10-03T14:38:58.884412+00:00",
+ "mode": "read_only",
+ "candidate": "garrincha_botafogo",
+ "subject": "Garrincha",
+ "predicate": "DEFENDEU",
+ "object": "Botafogo",
+ "queries_used": [
+  "exact_fact",
+  "subject_any_predicate",
+  "club_defendeu_neighborhood"
+ ],
+ "canonical_fact_found": true,
+ "fact_id_or_hash": "4:3b5e8459-7aad-4e6e-a826-c26f4dce571d:3749",
+ "verified": false,
+ "confirmed_domains": [
+  "en.wikipedia.org",
+  "pt.wikipedia.org"
+ ],
+ "distinct_domain_count": 2,
+ "same_triple_confirmation": true,
+ "non_wikimedia_domain_present": false,
+ "non_wikimedia_domains": [],
+ "span_broken": false,
+ "junk_object": false,
+ "forbidden_object": false,
+ "invalid_predicate": false,
+ "homonymy_risk": "low",
+ "blocking_reason": null,
+ "rows_exact": [
+  {
+   "element_id": "4:3b5e8459-7aad-4e6e-a826-c26f4dce571d:3749",
+   "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+   "predicado": null,
+   "objeto": "BOTAFOGO DE FUTEBOL E REGATAS",
+   "verificado": false,
+   "confirmacoes": 2,
+   "domains": [
+    "pt.wikipedia.org",
+    "en.wikipedia.org"
+   ]
+  }
+ ],
+ "subject_any_rows": [
+  {
+   "element_id": "4:3b5e8459-7aad-4e6e-a826-c26f4dce571d:1722",
+   "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+   "predicado": "EXECUTA",
+   "objeto": "JOGADA SEMELHANTE",
+   "verificado": false,
+   "confirmacoes": 1,
+   "domains": [
+    "pt.wikipedia.org"
+   ]
+  },
+  {
+   "element_id": "4:3b5e8459-7aad-4e6e-a826-c26f4dce571d:1738",
+   "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+   "predicado": "DEFENDEU",
+   "objeto": "PRIMEIRA PARTIDA DO TORNEIO",
+   "verificado": false,
+   "confirmacoes": 1,
+   "domains": [
+    "pt.wikipedia.org"
+   ]
+  },
+  {
+   "element_id": "4:3b5e8459-7aad-4e6e-a826-c26f4dce571d:1834",
+   "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+   "predicado": "SER",
+   "objeto": "INCREDIBLE PLAYER",
+   "verificado": false,
+   "confirmacoes": 1,
+   "domains": [
+    "en.wikipedia.org"
+   ]
+  },
+  {
+   "element_id": "4:3b5e8459-7aad-4e6e-a826-c26f4dce571d:2007",
+   "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+   "predicado": "EXECUTA",
+   "objeto": "TREINO",
+   "verificado": false,
+   "confirmacoes": 1,
+   "domains": [
+    "pt.wikipedia.org"
+   ]
+  },
+  {
+   "element_id": "4:3b5e8459-7aad-4e6e-a826-c26f4dce571d:3748",
+   "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+   "predicado": "SER",
+   "objeto": "SANTOS FUTEBOL CLUBE",
+   "verificado": false,
+   "confirmacoes": 1,
+   "domains": [
+    "pt.wikipedia.org"
+   ]
+  },
+  {
+   "element_id": "4:3b5e8459-7aad-4e6e-a826-c26f4dce571d:3749",
+   "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+   "predicado": "DEFENDEU",
+   "objeto": "BOTAFOGO DE FUTEBOL E REGATAS",
+   "verificado": false,
+   "confirmacoes": 2,
+   "domains": [
+    "pt.wikipedia.org",
+    "en.wikipedia.org"
+   ]
+  },
+  {
+   "element_id": "4:3b5e8459-7aad-4e6e-a826-c26f4dce571d:3751",
+   "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+   "predicado": "DEFENDEU",
+   "objeto": "CAMPEONATO SUL AMERICANO DE 1957",
+   "verificado": false,
+   "confirmacoes": 1,
+   "domains": [
+    "pt.wikipedia.org"
+   ]
+  },
+  {
+   "element_id": "4:3b5e8459-7aad-4e6e-a826-c26f4dce571d:5889",
+   "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+   "predicado": "SER",
+   "objeto": "SELECIONADO",
+   "verificado": false,
+   "confirmacoes": 1,
+   "domains": [
+    "pt.wikipedia.org"
+   ]
+  },
+  {
+   "element_id": "4:3b5e8459-7aad-4e6e-a826-c26f4dce571d:5893",
+   "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+   "predicado": "SER",
+   "objeto": "EXPULSO NESSA PARTIDA APOS 83 MINUTOS",
+   "verificado": false,
+   "confirmacoes": 1,
+   "domains": [
+    "pt.wikipedia.org"
+   ]
+  }
+ ],
+ "club_rows": [
+  {
+   "element_id": "4:3b5e8459-7aad-4e6e-a826-c26f4dce571d:1708",
+   "sujeito": "CRAQUE CONSOLIDADO POR PRATICAMENTE TODA",
+   "predicado": null,
+   "objeto": "BOTAFOGO DE FUTEBOL E REGATAS",
+   "verificado": false,
+   "confirmacoes": 1,
+   "domains": [
+    "pt.wikipedia.org"
+   ]
+  },
+  {
+   "element_id": "4:3b5e8459-7aad-4e6e-a826-c26f4dce571d:3749",
+   "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+   "predicado": null,
+   "objeto": "BOTAFOGO DE FUTEBOL E REGATAS",
+   "verificado": false,
+   "confirmacoes": 2,
+   "domains": [
+    "pt.wikipedia.org",
+    "en.wikipedia.org"
+   ]
+  },
+  {
+   "element_id": "4:3b5e8459-7aad-4e6e-a826-c26f4dce571d:4530",
+   "sujeito": "JAIRZINHO",
+   "predicado": null,
+   "objeto": "BOTAFOGO DE FUTEBOL E REGATAS",
+   "verificado": false,
+   "confirmacoes": 1,
+   "domains": [
+    "rsssfbrasil.com"
+   ]
+  }
+ ],
+ "derived_from": "reutilização do diagnose R2 (task R3 §4 permite reutilizar)"
+}

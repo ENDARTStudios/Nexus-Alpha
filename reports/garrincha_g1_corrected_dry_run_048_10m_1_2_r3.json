@@ -1,0 +1,49 @@
+{
+ "audit_id": "garrincha_g1_corrected_dry_run_048_10m_1_2_r3",
+ "generated_at": "2026-10-03T14:42:02.490269+00:00",
+ "mode": "read_only_planning",
+ "candidate": "garrincha_botafogo",
+ "subject": "Garrincha",
+ "predicate": "DEFENDEU",
+ "object": "Botafogo",
+ "domains_already_confirmed_in_graph": [
+  "en.wikipedia.org",
+  "pt.wikipedia.org"
+ ],
+ "domains_to_be_mined_in_future_g1": [],
+ "domains_only_in_local_reports": [
+  "www.rsssf.org",
+  "www.rsssfbrasil.com"
+ ],
+ "domains_blocked_or_unavailable": [],
+ "probe_404_paths": [],
+ "domains_prohibited": [],
+ "predicted_distinct_domains_after_g1": 2,
+ "predicted_new_verified_if_g1_succeeds": 0,
+ "predicted_records_total_if_g1_succeeds": 20,
+ "requires_core_change": false,
+ "requires_alias_change": false,
+ "requires_seed_change": false,
+ "source_policy_violations": 0,
+ "junk_objects": 0,
+ "forbidden_objects": 0,
+ "semantic_risk": "low",
+ "ready_for_future_g1": false,
+ "blocking_reason": "nenhum dos 3 caminhos corretos (jogclub/brazchamp/copalib — todos 200 OK) menciona Garrincha/Manuel Francisco dos Santos: o jogador está ausente das fontes tabulares permitidas atualmente alcançáveis; extensão governada de seeds (D8) ou outra fonte permitida seria necessária — decisão do Operador",
+ "d5_correction_note": "local_existing_covered NÃO é tratado como mineração do ciclo: domínios confirmados no grafo e domínios a minerar são baldes distintos",
+ "probe_r3_confirmed_non_wikimedia_domain": null,
+ "probe_r3_urls_status": [
+  {
+   "url": "https://www.rsssfbrasil.com/sel/jogclub.htm",
+   "http_status": 200
+  },
+  {
+   "url": "https://www.rsssf.org/tablesb/brazchamp.html",
+   "http_status": 200
+  },
+  {
+   "url": "https://www.rsssf.org/sacups/copalib.html",
+   "http_status": 200
+  }
+ ]
+}

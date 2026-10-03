@@ -1,0 +1,65 @@
+{
+ "audit_id": "garrincha_g1_surgical_probe_048_10m_1_2_r3",
+ "generated_at": "2026-10-03T14:39:40.206215+00:00",
+ "mode": "read_only_http_probe",
+ "candidate": "garrincha_botafogo",
+ "budget": {
+  "max_requests_total": 3,
+  "requests_used": 3,
+  "max_requests_per_domain": 2,
+  "retries": 0
+ },
+ "results": [
+  {
+   "order": 1,
+   "domain": "www.rsssfbrasil.com",
+   "url": "https://www.rsssfbrasil.com/sel/jogclub.htm",
+   "http_status": 200,
+   "final_url": "https://www.rsssfbrasil.com/sel/jogclub.htm",
+   "blocked_or_rate_limited": false,
+   "mentions_garrincha": false,
+   "mentions_manuel_francisco_dos_santos": false,
+   "mentions_botafogo": true,
+   "mentions_defendeu_context": true,
+   "evidence_excerpt_sanitized": "window.dataLayer=window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-CJ13ZX0B0P'); N�mero de jogadores cedidos por cada clube brasileiro na h",
+   "source_policy": "allowed",
+   "confirmed_for_g1": false
+  },
+  {
+   "order": 2,
+   "domain": "www.rsssf.org",
+   "url": "https://www.rsssf.org/tablesb/brazchamp.html",
+   "http_status": 200,
+   "final_url": "https://www.rsssf.org/tablesb/brazchamp.html",
+   "blocked_or_rate_limited": false,
+   "mentions_garrincha": false,
+   "mentions_manuel_francisco_dos_santos": false,
+   "mentions_botafogo": true,
+   "mentions_defendeu_context": true,
+   "evidence_excerpt_sanitized": "Brazil - List of Champions Brazil - List of Champions With the creation of the Copa Libertadores in 1960, Brazil decided to organise a national tournament to nominate the Brazilian participants to th",
+   "source_policy": "allowed",
+   "confirmed_for_g1": false
+  },
+  {
+   "order": 3,
+   "domain": "www.rsssf.org",
+   "url": "https://www.rsssf.org/sacups/copalib.html",
+   "http_status": 200,
+   "final_url": "https://www.rsssf.org/sacups/copalib.html",
+   "blocked_or_rate_limited": false,
+   "mentions_garrincha": false,
+   "mentions_manuel_francisco_dos_santos": false,
+   "mentions_botafogo": true,
+   "mentions_defendeu_context": true,
+   "evidence_excerpt_sanitized": "Copa Libertadores de Am�rica Copa Libertadores de Am�rica 1948 (Copa de Campeones) | 1960 | 1961 | 1962 | 1963 | 1964 | 1965 | 1966 | 1967 | 1968 | 1969 | 1970 | 1971 | 1972 | 1973 | 1974 | 1975 | 19",
+   "source_policy": "allowed",
+   "confirmed_for_g1": false
+  }
+ ],
+ "confirmed_non_wikimedia_domain": null,
+ "confirmed_urls": [],
+ "source_policy_violations": 0,
+ "bypass_attempted": false,
+ "result": "PARTIAL",
+ "blocking_reason": "nenhum dos 3 caminhos confirmou Garrincha+Botafogo+contexto"
+}
