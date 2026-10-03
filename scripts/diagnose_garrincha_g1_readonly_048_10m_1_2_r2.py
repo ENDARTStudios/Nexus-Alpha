@@ -20,10 +20,6 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from dotenv import load_dotenv
-
-load_dotenv(Path(__file__).resolve().parent.parent / ".env")
-
 EXPECTED_PATH = Path("reports/defendeu_pilot_expected_facts_048_10m_1.json")
 OUT_PATH = Path("reports/garrincha_g1_graph_state_048_10m_1_2_r2.json")
 WIKIMEDIA = {"pt.wikipedia.org", "en.wikipedia.org"}
@@ -177,6 +173,11 @@ def fact_row(record: dict) -> dict:
 
 
 async def main() -> int:
+    try:
+        from dotenv import load_dotenv
+        load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+    except ImportError:
+        pass  # credenciais via ambiente do processo (CI)
     from neo4j import AsyncGraphDatabase
 
     entry = garrincha_entry()
