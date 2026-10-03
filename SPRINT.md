@@ -3360,3 +3360,31 @@ Este ciclo apenas preparou o piloto DEFENDEU com evidência read-only.
 **Próximo passo:** revisão do Operador; se aprovado, `#048.10M.1_2 — worker
 DEFENDEU piloto` (único, com snapshot/baseline/pós/fact-level validation).
 Dívidas: probes RSSSF alternativos, #054.2, #054.3, #054.4.
+
+---
+
+## #048.10M.1.2 — DEFENDEU pilot worker
+
+**Status:** BLOCKED (`BLOCKED_048_10M_1_2_WORKER_FAILED` — fact-level FAIL 0/7) · **Data:** 2026-10-03
+**Commits:** feat(pilot) worker único + validação fact-level + relatórios · **CI:** (verificar no push)
+**Snapshot AuraDB:** SIM (`defendeu_pilot_worker_aurasnapshot_048_10m_1_2.json`, 5789 nós/4144 rels, restore NÃO)
+**Worker executado:** UMA VEZ (`worker_cycle.py`, 72 fontes 200 OK, consolidação 200)
+**Fact-level validation:** 0/7 (Garrincha presente c/ 2 domínios não-verificado; Jairzinho c/ 1 domínio não-Wikimedia não-verificado; 5 ausentes do grafo)
+**Junk objects:** 0 · **Forbidden objects:** 0 · **Source policy violations:** 0 · **Regressões:** nenhuma (verified=20 preservado; fact 412→598; concept 2023→2136; gsg=0; fas=ok; ss=0; unacc=0; hebbian=True)
+**Treino:** NÃO · **Seeds ativadas:** NÃO · **Deploy:** NÃO · **Contaminação cross-project:** 0
+
+### Causa raiz (incidente `defendeu_pilot_worker_incident_048_10m_1_2.md`)
+Seeds do worker miram clubes/GEO/IA — as páginas dos 7 jogadores não são mineradas
+(5/7 nem chegaram ao grafo) e quórum 3 não fecha em ciclo único (corroboração é
+cumulativa entre ciclos). Garrincha +2 domínios e Jairzinho +1 não-Wikimedia (RSSSF
+corroborou de fato neste ciclo, ao contrário do probe T160-era).
+
+### Opções devolvidas ao Operador
+1. Novo GO para adicionar páginas dos 7 jogadores às seeds (altera seed_clusters.yaml — proibido neste ciclo).
+2. Aceitar acumulação natural multi-ciclo com seeds atuais (RSSSF de jogadores não está nas seeds).
+3. Reavaliar o critério do piloto (quórum em ciclo único era irrealista para candidatos fora do escopo de seeds).
+
+### Declarações de invariante
+Este ciclo executou worker piloto DEFENDEU uma única vez. Não executou treino.
+Não ativou seeds. Não alterou quórum. Não alterou cognição central. Não usou
+projeto paralelo como evidência. Não restaurou snapshot automaticamente.

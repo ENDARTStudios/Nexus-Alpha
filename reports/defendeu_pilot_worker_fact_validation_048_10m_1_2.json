@@ -1,0 +1,123 @@
+{
+  "audit_id": "defendeu_pilot_worker_fact_validation_048_10m_1_2",
+  "generated_at": "2026-10-03T02:08:56.436571+00:00",
+  "mode": "read_only",
+  "expected_facts_total": 7,
+  "verified_expected_facts": 0,
+  "missing_expected_facts": [
+    "defendeu_carlosalbertotorres_007",
+    "defendeu_romariodesouzafaria_006",
+    "defendeu_socratesbrasileirosampai_005",
+    "defendeu_zito_003",
+    "defendeu_rogerioceni_012"
+  ],
+  "partial_expected_facts": [
+    "defendeu_jairzinho_002",
+    "defendeu_manuelfranciscodossantos_001"
+  ],
+  "candidates": [
+    {
+      "candidate_id": "defendeu_carlosalbertotorres_007",
+      "expected": "CARLOS ALBERTO TORRES --DEFENDEU--> SANTOS FUTEBOL CLUBE",
+      "present_in_graph": false,
+      "verified_in_graph": false,
+      "confirmed_domains": [],
+      "domain_count": 0,
+      "non_wikimedia_domain_present": false,
+      "meets_quorum": false,
+      "rows": []
+    },
+    {
+      "candidate_id": "defendeu_jairzinho_002",
+      "expected": "JAIRZINHO --DEFENDEU--> BOTAFOGO DE FUTEBOL E REGATAS",
+      "present_in_graph": true,
+      "verified_in_graph": false,
+      "confirmed_domains": [
+        "rsssfbrasil.com"
+      ],
+      "domain_count": 1,
+      "non_wikimedia_domain_present": true,
+      "meets_quorum": false,
+      "rows": [
+        {
+          "sujeito": "JAIRZINHO",
+          "objeto": "BOTAFOGO DE FUTEBOL E REGATAS",
+          "verificado": false,
+          "confirmacoes": 1,
+          "domains": [
+            "rsssfbrasil.com"
+          ]
+        }
+      ]
+    },
+    {
+      "candidate_id": "defendeu_manuelfranciscodossantos_001",
+      "expected": "MANUEL FRANCISCO DOS SANTOS --DEFENDEU--> BOTAFOGO DE FUTEBOL E REGATAS",
+      "present_in_graph": true,
+      "verified_in_graph": false,
+      "confirmed_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org"
+      ],
+      "domain_count": 2,
+      "non_wikimedia_domain_present": false,
+      "meets_quorum": false,
+      "rows": [
+        {
+          "sujeito": "MANUEL FRANCISCO DOS SANTOS",
+          "objeto": "BOTAFOGO DE FUTEBOL E REGATAS",
+          "verificado": false,
+          "confirmacoes": 2,
+          "domains": [
+            "pt.wikipedia.org",
+            "en.wikipedia.org"
+          ]
+        }
+      ]
+    },
+    {
+      "candidate_id": "defendeu_romariodesouzafaria_006",
+      "expected": "ROMÁRIO DE SOUZA FARIA --DEFENDEU--> CLUBE DE REGATAS VASCO DA GAMA",
+      "present_in_graph": false,
+      "verified_in_graph": false,
+      "confirmed_domains": [],
+      "domain_count": 0,
+      "non_wikimedia_domain_present": false,
+      "meets_quorum": false,
+      "rows": []
+    },
+    {
+      "candidate_id": "defendeu_socratesbrasileirosampai_005",
+      "expected": "SÓCRATES BRASILEIRO SAMPAIO DE SOUZA VIEIRA DE OLIVEIRA --DEFENDEU--> SPORT CLUB CORINTHIANS PAULISTA",
+      "present_in_graph": false,
+      "verified_in_graph": false,
+      "confirmed_domains": [],
+      "domain_count": 0,
+      "non_wikimedia_domain_present": false,
+      "meets_quorum": false,
+      "rows": []
+    },
+    {
+      "candidate_id": "defendeu_zito_003",
+      "expected": "ZITO --DEFENDEU--> SANTOS FUTEBOL CLUBE",
+      "present_in_graph": false,
+      "verified_in_graph": false,
+      "confirmed_domains": [],
+      "domain_count": 0,
+      "non_wikimedia_domain_present": false,
+      "meets_quorum": false,
+      "rows": []
+    },
+    {
+      "candidate_id": "defendeu_rogerioceni_012",
+      "expected": "ROGÉRIO CENI --DEFENDEU--> SÃO PAULO FUTEBOL CLUBE",
+      "present_in_graph": false,
+      "verified_in_graph": false,
+      "confirmed_domains": [],
+      "domain_count": 0,
+      "non_wikimedia_domain_present": false,
+      "meets_quorum": false,
+      "rows": []
+    }
+  ]
+}
