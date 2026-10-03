@@ -20,10 +20,6 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from dotenv import load_dotenv
-
-load_dotenv(Path(__file__).resolve().parent.parent / ".env")
-
 EXPECTED_PATH = Path("reports/defendeu_pilot_expected_facts_048_10m_1.json")
 OUT_PATH = Path("reports/defendeu_r4_graph_candidates_048_10m_1_2.json")
 WIKIMEDIA = {"pt.wikipedia.org", "en.wikipedia.org"}
@@ -71,6 +67,9 @@ def variants(entry: dict, field: str) -> list[str]:
 
 
 async def main() -> int:
+    from dotenv import load_dotenv  # lazy: CI pytest não tem python-dotenv
+
+    load_dotenv(Path(__file__).resolve().parent.parent / ".env")
     from neo4j import AsyncGraphDatabase
 
     expected = json.loads(EXPECTED_PATH.read_text(encoding="utf-8"))["expected_facts"]
