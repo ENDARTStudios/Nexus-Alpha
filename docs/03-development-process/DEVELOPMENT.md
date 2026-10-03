@@ -50,7 +50,7 @@ Verde = pronto para merge em `main`. Vermelho = corrija, **não** force-push.
 
 | Tipo | Regras específicas |
 |---|---|
-| **Módulo novo** | camada correta ([`ARCHITECTURE.md`](./ARCHITECTURE.md) §1); testes sem torch/spacy/Neo4j real; degradação graciosa |
+| **Módulo novo** | camada correta ([`ARCHITECTURE.md`](../02-architecture-design/ARCHITECTURE.md) §1); testes sem torch/spacy/Neo4j real; degradação graciosa |
 | **Refino determinístico** | função pura; motivo tipado; contadores dinâmicos em `/api/metrics`; teste golden por par entrada→saída |
 | **Cypher** | puro sem APOC; MERGE idempotente; índices para campos de filtro; respeitar schema (`fact_hash`, `f.domain`) |
 | **Endpoint novo** | auth igual aos existentes; erro sanitizado; registrar em [`API.md`](./API.md) |

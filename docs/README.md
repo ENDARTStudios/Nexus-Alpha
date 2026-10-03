@@ -2,7 +2,7 @@
 
 > Índice central da documentação. Todo documento de projeto vive aqui, sob as
 > pastas numeradas abaixo; a governança de sprint permanece em `SPRINT.md`
-> (raiz) e a arquitetura canônica em `ARCHITECTURE.md` (raiz) +
+> (raiz) e a arquitetura canônica em [`docs/02-architecture-design/ARCHITECTURE.md`](docs/02-architecture-design/ARCHITECTURE.md) e pipeline em [`ARCHITECTURE_PIPELINE.md`](docs/02-architecture-design/ARCHITECTURE_PIPELINE.md) +
 > [`02-architecture-design/ARCHITECTURE.md`](./02-architecture-design/ARCHITECTURE.md).
 
 **Repositório:** ENDARTStudios/Nexus-Alpha (privado) · **Última revisão:** 2026-09-27

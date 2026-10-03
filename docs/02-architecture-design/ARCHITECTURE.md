@@ -2,7 +2,7 @@
 
 > Este documento é a visão operacional por camadas. O desenho macro do pipeline
 > (fluxos ASCII, protocolo zero-trust, memória durável) vive em
-> [`ARCHITECTURE.md` na raiz](../ARCHITECTURE.md) e permanece canônico — aqui
+> [`ARCHITECTURE_PIPELINE.md`](./ARCHITECTURE_PIPELINE.md) — aqui
 > está o mapa de módulos, contratos e fronteiras que os agentes devem respeitar.
 
 **Última revisão:** 2026-09-23 · **Estado:** v1.12.0-beta concluída / freeze v1.13.0
@@ -87,6 +87,6 @@ motivos de rejeição tipados (`ok`, `unmapped_predicate`, `invalid_predicate`,
 
 ## 6. Diagramas detalhados
 
-- Pipeline macro + chat + enxame: [`../ARCHITECTURE.md` raiz, seções 1–2](../ARCHITECTURE.md).
+- Pipeline macro + chat + enxame: [`ARCHITECTURE_PIPELINE.md`](./ARCHITECTURE_PIPELINE.md), seções 1–2.
 - Modelo cognitivo e limites: [`MEMORY.md`](./MEMORY.md).
 - Métricas de saúde: [`ANALYTICS.md`](./ANALYTICS.md) e [`MONITORING.md`](./MONITORING.md).

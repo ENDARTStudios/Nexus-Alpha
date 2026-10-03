@@ -1,8 +1,7 @@
 # 💾 Backup e Disaster Recovery — Nexus-Alpha
 
 Infraestrutura de custo zero exige estratégia de backup **dentro do free
-tier**. O desenho canônico está na seção 4 do [`ARCHITECTURE.md` raiz]
-(../ARCHITECTURE.md); aqui está o runbook.
+tier**. O desenho canônico está na seção 4 do [`ARCHITECTURE_PIPELINE.md`](../02-architecture-design/ARCHITECTURE_PIPELINE.md); aqui está o runbook.
 
 ---
 

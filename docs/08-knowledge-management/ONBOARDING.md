@@ -16,7 +16,7 @@ Qdrant Cloud + Neo4j AuraDB Free).
 Leia nesta ordem:
 1. [`PRD.md`](./PRD.md) — o produto e suas funcionalidades.
 2. [`RULES.md`](./RULES.md) — as regras invioláveis (**obrigatório**).
-3. [`../ARCHITECTURE.md`](../ARCHITECTURE.md) — pipeline e módulos.
+3. [`../02-architecture-design/ARCHITECTURE_PIPELINE.md`](../02-architecture-design/ARCHITECTURE_PIPELINE.md) — pipeline e módulos.
 4. [`SETUP.md`](./SETUP.md) — ambiente local.
 
 ## 2. Primeiros passos (checklist)

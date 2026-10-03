@@ -1,7 +1,7 @@
 # 🧠 Memória — Modelo Cognitivo Persistente (Nexus-Alpha)
 
 > Documentação operacional da memória. O desenho canônico está na seção 5 do
-> [`ARCHITECTURE.md` raiz](../ARCHITECTURE.md); aqui estão semântica, limites,
+> [`ARCHITECTURE_PIPELINE.md`](../02-architecture-design/ARCHITECTURE_PIPELINE.md); aqui estão semântica, limites,
 > APIs e troubleshooting.
 
 **Implementação:** `src/brain/memory.py`, `src/brain/regions.py`,
