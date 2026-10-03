@@ -369,6 +369,10 @@ async def metrics() -> dict:
     """Métricas do pipeline + saúde cognitiva (grafo, vetores, quarentena, memória)."""
     graph = get_graph_connector()
     snapshot = await graph.graph_snapshot()
+    # #054.2.R2 — readiness aditivo: durante o wake-up do AuraDB (cold boot/pausa),
+    # o snapshot chega com ok=False e contadores zerados; sinalizar "booting" em vez
+    # de servir zeros como se fossem baseline vazia (evita falso diagnóstico de drift).
+    graph_ready = bool(snapshot.get("ok"))
     try:
         domain_counts = await graph.verified_fact_domain_counts()
     except Exception as exc:
@@ -438,7 +442,9 @@ async def metrics() -> dict:
     pressure = "low" if ratio < 0.5 else ("medium" if ratio < 0.8 else "high")
 
     return {
-        "status": "online",
+        "status": "online" if graph_ready else "booting",
+        "graph_ready": graph_ready,
+        "boot_reason": None if graph_ready else "neo4j_not_ready",
         "timestamp": int(time.time()),
         # #052.3 metrics clarity: `facts` is kept for backward compatibility and
         # currently carries the :Conceito count. Use `concept_count` / `fact_count`.

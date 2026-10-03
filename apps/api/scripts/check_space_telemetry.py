@@ -29,10 +29,69 @@ from src.ops.space_telemetry import (  # noqa: E402
 __all__ = ["check_space_telemetry", "evaluate_payload", "main"]
 
 
+# #054.2.R2/R4 — backoff formalizado (determinístico, documentado).
+WAIT_MAX_ATTEMPTS = 8
+WAIT_DELAYS_SECONDS = (5, 10, 15, 20, 25, 30, 30, 30)
+
+
+def classify_readiness(payload: dict) -> str:
+    """R4/#054.2.R2 — classifica um payload de /api/metrics (função pura).
+
+    COLD_BOOT: graph_ready ausente/False ou status "booting" — retry com backoff,
+        nunca declarar drift cognitivo durante cold boot confirmado.
+    DRIFT_REAL: graph_ready True (grafo respondendo) + verified == 0 — não é cold
+        boot; escalar.
+    READY: baseline íntegra (status online, verified > 0 — cobre também payloads
+        legados sem graph_ready).
+    INDETERMINATE: payload ilegível.
+    """
+    if not isinstance(payload, dict):
+        return "INDETERMINATE"
+    graph_ready = payload.get("graph_ready")
+    if graph_ready is False or payload.get("status") == "booting":
+        return "COLD_BOOT"
+    verified = (payload.get("verification") or {}).get("verified_facts_domain_independent")
+    if graph_ready is True:
+        return "DRIFT_REAL" if verified == 0 else "READY"
+    if payload.get("status") == "online":
+        return "READY" if isinstance(verified, int) and verified > 0 else "INDETERMINATE"
+    return "INDETERMINATE"
+
+
+def wait_backoff_delays(max_attempts: int = WAIT_MAX_ATTEMPTS) -> tuple[int, ...]:
+    """Sequência determinística de delays (segundos), cortada a max_attempts."""
+    return WAIT_DELAYS_SECONDS[:max_attempts]
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Preflight de telemetria do HF Space (read-only).")
     parser.add_argument("--allow-unverified-local", action="store_true", help="pula o gate (NÃO usar em produção)")
+    parser.add_argument(
+        "--wait-ready",
+        action="store_true",
+        help="#054.2.R2/R4 — sondar com backoff antes de declarar drift (cold boot do AuraDB não é drift)",
+    )
     args = parser.parse_args(argv)
+
+    if args.wait_ready:
+        # #054.2.R2/R4 — sondas de cold boot: zeros + hebbian=False + online durante
+        # o wake-up do AuraDB NÃO são drift; backoff determinístico antes de declarar.
+        import time as _time
+
+        for attempt, delay in enumerate(wait_backoff_delays(), start=1):
+            payload = _fetch_metrics_payload()
+            verdict = classify_readiness(payload)
+            print(
+                json.dumps(
+                    {"attempt": attempt, "verdict": verdict, "delay_next_s": delay},
+                    ensure_ascii=False,
+                )
+            )
+            if verdict in ("READY", "DRIFT_REAL"):
+                break
+            if attempt < len(wait_backoff_delays()):
+                _time.sleep(delay)
+        return 0 if verdict == "READY" else 1
 
     result = check_space_telemetry(allow_unverified_local=args.allow_unverified_local)
     print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2))
