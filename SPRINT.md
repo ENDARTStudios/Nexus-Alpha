@@ -3434,3 +3434,37 @@ Operador (A+C recomendado: critério multi-ciclo + lotes direcionados, lote 1 = 
 **Ready for future G1:** false
 **Runbook G1 criado:** false (bloqueado por ready=false)
 **Contaminação cross-project:** 0
+
+---
+
+## #048.10M.1.2.R4 — DEFENDEU source/seed viability read-only
+
+**Status:** DONE (`SUCCESS_048_10M_1_2_R4_DEFENDEU_VIABILITY_PACKET_READY`) · **Data:** 2026-10-03
+**HTTP externo:** NÃO · **Worker:** NÃO · **Ingest:** NÃO · **Escrita em grafo:** NÃO · **Seeds/aliases/núcleo:** NÃO alterados · **Treino/Deploy:** NÃO
+
+### Diagnóstico central
+Os 7 candidatos DEFENDEU estão **estruturalmente bloqueados por cobertura de seeds**:
+nenhum possui página de jogador nas seeds do worker (apenas Garrincha tem a própria).
+Resultado do worker #048.10M.1.2: 0/7 verificados, +186 fatos não-verificados
+acumulados (fact 412→598; concept 2023→2136), zero junk/forbidden/regressão.
+- Garrincha: 2/3, **FREEZE** (probe R3 provou 3 páginas rsssf sem menção)
+- Jairzinho: 1/3 com não-Wikimedia (rsssfbrasil corroborou no worker)
+- Zito/Sócrates/Romário/CAT/Ceni: 0 domínios (páginas de jogador fora das seeds)
+
+### Artefatos (commitados)
+- `reports/defendeu_r4_graph_candidates_048_10m_1_2.json` (script MATCH/RETURN read-only)
+- `reports/defendeu_r4_source_matrix_048_10m_1_2.json` (baldes: confirmado/probe-200-sem-menção/404/só-reports/bloqueado/proibido)
+- `reports/defendeu_r4_seed_extension_design_048_10m_1_2.md` (NÃO APLICADO)
+- `reports/defendeu_r4_decision_packet_048_10m_1_2.md` (5 opções)
+- testes offline: 18 (3 arquivos) · suíte total **798 passed / 20 skipped**
+
+### Opções devolvidas ao Operador
+A) Congelar DEFENDEU · B) R5 probes cirúrgicos com URLs de origem governada (≤3/candidato) ·
+C) Seed extension governada (design pronto, não aplicado) · D) Reduzir piloto (não resolve) ·
+**E) Pivotar para #054.2 primeiro (recomendada)** — boot-race recorrente (R3) e confiabilidade
+de sinal antes de qualquer expansão.
+
+### Declarações de invariante
+Este ciclo não fez requisição HTTP externa. Não executou worker. Não chamou /api/ingest.
+Não escreveu em Neo4j/Qdrant. Não ativou seeds. Não alterou aliases nem cognição central.
+Não treinou. Não deployou. Apenas produziu diagnóstico read-only e packet de decisão.

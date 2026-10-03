@@ -1,0 +1,227 @@
+{
+  "audit_id": "defendeu_r4_graph_candidates_048_10m_1_2",
+  "generated_at": "2026-10-03T15:19:08.652689+00:00",
+  "mode": "read_only_match_return",
+  "http_requests": 0,
+  "candidates_total": 7,
+  "candidates": [
+    {
+      "candidate_id": "defendeu_carlosalbertotorres_007",
+      "subject_canonical": "CARLOS ALBERTO TORRES",
+      "predicate": "DEFENDEU",
+      "object_canonical": "SANTOS FUTEBOL CLUBE",
+      "canonical_fact_present": false,
+      "verified": false,
+      "confirmed_domains": [],
+      "distinct_domain_count": 0,
+      "non_wikimedia_domains_present": false,
+      "non_wikimedia_domains": [],
+      "same_triple_confirmation": false,
+      "span_broken": false,
+      "junk_object": false,
+      "forbidden_object": false,
+      "invalid_predicate": false,
+      "homonymy_risk": "n/a (candidato congelado; probe 0 evidência)",
+      "semantic_risk": "low",
+      "existing_seed_cluster": [
+        "cluster Santos FC"
+      ],
+      "source_candidates_from_local_reports": [],
+      "probe_history": [],
+      "blocking_reason": "páginas do jogador não estão no escopo de seeds do worker",
+      "recommended_next_action": "SEED_EXTENSION_FUTURE"
+    },
+    {
+      "candidate_id": "defendeu_jairzinho_002",
+      "subject_canonical": "JAIRZINHO",
+      "predicate": "DEFENDEU",
+      "object_canonical": "BOTAFOGO DE FUTEBOL E REGATAS",
+      "canonical_fact_present": true,
+      "verified": false,
+      "confirmed_domains": [
+        "rsssfbrasil.com"
+      ],
+      "distinct_domain_count": 1,
+      "non_wikimedia_domains_present": true,
+      "non_wikimedia_domains": [
+        "rsssfbrasil.com"
+      ],
+      "same_triple_confirmation": false,
+      "span_broken": false,
+      "junk_object": false,
+      "forbidden_object": false,
+      "invalid_predicate": false,
+      "homonymy_risk": "n/a (candidato congelado; probe 0 evidência)",
+      "semantic_risk": "low",
+      "existing_seed_cluster": [],
+      "source_candidates_from_local_reports": [
+        "rsssfbrasil.com"
+      ],
+      "probe_history": [
+        {
+          "cycle": "R2",
+          "url": "caminhos supostos rsssfbrasil/rsssf",
+          "http_status": 404,
+          "mentions_jairzinho": false
+        }
+      ],
+      "blocking_reason": null,
+      "recommended_next_action": "SEED_EXTENSION_FUTURE"
+    },
+    {
+      "candidate_id": "defendeu_manuelfranciscodossantos_001",
+      "subject_canonical": "MANUEL FRANCISCO DOS SANTOS",
+      "predicate": "DEFENDEU",
+      "object_canonical": "BOTAFOGO DE FUTEBOL E REGATAS",
+      "canonical_fact_present": true,
+      "verified": false,
+      "confirmed_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org"
+      ],
+      "distinct_domain_count": 2,
+      "non_wikimedia_domains_present": false,
+      "non_wikimedia_domains": [],
+      "same_triple_confirmation": true,
+      "span_broken": false,
+      "junk_object": false,
+      "forbidden_object": false,
+      "invalid_predicate": false,
+      "homonymy_risk": "n/a (candidato congelado; probe 0 evidência)",
+      "semantic_risk": "low",
+      "existing_seed_cluster": [
+        "cluster Garrincha/Botafogo (página do jogador pt/en + Botafogo pt/en + site + gazetadoparana)"
+      ],
+      "source_candidates_from_local_reports": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org"
+      ],
+      "probe_history": [
+        {
+          "cycle": "R3",
+          "url": "https://www.rsssfbrasil.com/sel/jogclub.htm",
+          "http_status": 200,
+          "mentions_garrincha": false
+        },
+        {
+          "cycle": "R3",
+          "url": "https://www.rsssf.org/tablesb/brazchamp.html",
+          "http_status": 200,
+          "mentions_garrincha": false
+        },
+        {
+          "cycle": "R3",
+          "url": "https://www.rsssf.org/sacups/copalib.html",
+          "http_status": 200,
+          "mentions_garrincha": false
+        }
+      ],
+      "blocking_reason": null,
+      "recommended_next_action": "FREEZE (probe R3 confirmou 3 páginas sem Garrincha; D9 probe-path discipline)"
+    },
+    {
+      "candidate_id": "defendeu_romariodesouzafaria_006",
+      "subject_canonical": "ROMÁRIO DE SOUZA FARIA",
+      "predicate": "DEFENDEU",
+      "object_canonical": "CLUBE DE REGATAS VASCO DA GAMA",
+      "canonical_fact_present": false,
+      "verified": false,
+      "confirmed_domains": [],
+      "distinct_domain_count": 0,
+      "non_wikimedia_domains_present": false,
+      "non_wikimedia_domains": [],
+      "same_triple_confirmation": false,
+      "span_broken": false,
+      "junk_object": false,
+      "forbidden_object": false,
+      "invalid_predicate": false,
+      "homonymy_risk": "n/a (candidato congelado; probe 0 evidência)",
+      "semantic_risk": "low",
+      "existing_seed_cluster": [
+        "cluster Vasco"
+      ],
+      "source_candidates_from_local_reports": [],
+      "probe_history": [],
+      "blocking_reason": "páginas do jogador não estão no escopo de seeds do worker",
+      "recommended_next_action": "SEED_EXTENSION_FUTURE"
+    },
+    {
+      "candidate_id": "defendeu_socratesbrasileirosampai_005",
+      "subject_canonical": "SÓCRATES BRASILEIRO SAMPAIO DE SOUZA VIEIRA DE OLIVEIRA",
+      "predicate": "DEFENDEU",
+      "object_canonical": "SPORT CLUB CORINTHIANS PAULISTA",
+      "canonical_fact_present": false,
+      "verified": false,
+      "confirmed_domains": [],
+      "distinct_domain_count": 0,
+      "non_wikimedia_domains_present": false,
+      "non_wikimedia_domains": [],
+      "same_triple_confirmation": false,
+      "span_broken": false,
+      "junk_object": false,
+      "forbidden_object": false,
+      "invalid_predicate": false,
+      "homonymy_risk": "n/a (candidato congelado; probe 0 evidência)",
+      "semantic_risk": "low",
+      "existing_seed_cluster": [
+        "cluster Corinthians"
+      ],
+      "source_candidates_from_local_reports": [],
+      "probe_history": [],
+      "blocking_reason": "páginas do jogador não estão no escopo de seeds do worker",
+      "recommended_next_action": "SEED_EXTENSION_FUTURE"
+    },
+    {
+      "candidate_id": "defendeu_zito_003",
+      "subject_canonical": "ZITO",
+      "predicate": "DEFENDEU",
+      "object_canonical": "SANTOS FUTEBOL CLUBE",
+      "canonical_fact_present": false,
+      "verified": false,
+      "confirmed_domains": [],
+      "distinct_domain_count": 0,
+      "non_wikimedia_domains_present": false,
+      "non_wikimedia_domains": [],
+      "same_triple_confirmation": false,
+      "span_broken": false,
+      "junk_object": false,
+      "forbidden_object": false,
+      "invalid_predicate": false,
+      "homonymy_risk": "n/a (candidato congelado; probe 0 evidência)",
+      "semantic_risk": "low",
+      "existing_seed_cluster": [
+        "cluster Santos FC (páginas do clube, não do jogador)"
+      ],
+      "source_candidates_from_local_reports": [],
+      "probe_history": [],
+      "blocking_reason": "páginas do jogador não estão no escopo de seeds do worker",
+      "recommended_next_action": "SEED_EXTENSION_FUTURE"
+    },
+    {
+      "candidate_id": "defendeu_rogerioceni_012",
+      "subject_canonical": "ROGÉRIO CENI",
+      "predicate": "DEFENDEU",
+      "object_canonical": "SÃO PAULO FUTEBOL CLUBE",
+      "canonical_fact_present": false,
+      "verified": false,
+      "confirmed_domains": [],
+      "distinct_domain_count": 0,
+      "non_wikimedia_domains_present": false,
+      "non_wikimedia_domains": [],
+      "same_triple_confirmation": false,
+      "span_broken": false,
+      "junk_object": false,
+      "forbidden_object": false,
+      "invalid_predicate": false,
+      "homonymy_risk": "n/a (candidato congelado; probe 0 evidência)",
+      "semantic_risk": "low",
+      "existing_seed_cluster": [
+        "cluster São Paulo FC"
+      ],
+      "source_candidates_from_local_reports": [],
+      "probe_history": [],
+      "blocking_reason": "páginas do jogador não estão no escopo de seeds do worker",
+      "recommended_next_action": "SEED_EXTENSION_FUTURE"
+    }
+  ]
+}

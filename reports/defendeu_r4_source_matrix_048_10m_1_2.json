@@ -1,0 +1,81 @@
+{
+  "audit_id": "defendeu_r4_source_matrix_048_10m_1_2",
+  "generated_at": "2026-10-03T15:19:49.629152+00:00",
+  "mode": "read_only_local_evidence",
+  "http_requests": 0,
+  "allowed_domains": [
+    "pt.wikipedia.org",
+    "en.wikipedia.org",
+    "rsssf.org",
+    "www.rsssf.org",
+    "rsssfbrasil.com",
+    "www.rsssfbrasil.com"
+  ],
+  "prohibited_sources": [
+    "Transfermarkt",
+    "Soccerway",
+    "worldfootball.net",
+    "fbref",
+    "Almanaque sem licenca",
+    "redes sociais",
+    "foruns",
+    "agregadores SEO",
+    "sites de aposta"
+  ],
+  "domains_already_confirmed_in_graph": {
+    "defendeu_manuelfranciscodossantos_001": [
+      "pt.wikipedia.org",
+      "en.wikipedia.org"
+    ],
+    "defendeu_jairzinho_002": [
+      "rsssfbrasil.com"
+    ],
+    "defendeu_zito_003": [],
+    "defendeu_socratesbrasileirosampai_005": [],
+    "defendeu_romariodesouzafaria_006": [],
+    "defendeu_carlosalbertotorres_007": [],
+    "defendeu_rogerioceni_012": []
+  },
+  "domains_probe_200_no_mention": {
+    "defendeu_manuelfranciscodossantos_001": [
+      "www.rsssfbrasil.com/sel/jogclub.htm",
+      "www.rsssf.org/tablesb/brazchamp.html",
+      "www.rsssf.org/sacups/copalib.html"
+    ]
+  },
+  "domains_probe_404": {
+    "defendeu_jairzinho_002": [
+      "caminhos supostos rsssfbrasil/rsssf (R2, 6x404)"
+    ]
+  },
+  "domains_only_in_local_reports": [
+    "www.rsssf.org",
+    "www.rsssfbrasil.com"
+  ],
+  "domains_blocked_or_unavailable": [],
+  "domains_prohibited": [],
+  "future_probe_candidates_with_origin": {
+    "defendeu_jairzinho_002": [
+      {
+        "origin": "config/seed_clusters.yaml cluster Vasco (rsssf copalib/brazchamp)",
+        "url": "www.rsssf.org pages",
+        "status": "PROBE_FUTURE com GO"
+      }
+    ],
+    "defendeu_zito_003": [
+      {
+        "origin": "seed_clusters Santos cluster",
+        "url": "pt/en.wikipedia Zito",
+        "status": "SEED_EXTENSION_FUTURE (paginas de jogador fora das seeds)"
+      }
+    ],
+    "defendeu_rogerioceni_012": [
+      {
+        "origin": "seed_clusters Sao Paulo cluster",
+        "url": "pt/en.wikipedia Ceni",
+        "status": "SEED_EXTENSION_FUTURE"
+      }
+    ]
+  },
+  "note": "URLs viaveis apenas com origem governada (D9). Paginas de jogadores exigem seed extension; probes avulsos de caminhos supostos sao desperdicio (D9)."
+}
