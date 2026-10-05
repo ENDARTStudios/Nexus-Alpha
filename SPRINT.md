@@ -3536,3 +3536,13 @@ Não treinou. Zero HTTP a terceiros. Zero projeto paralelo como evidência.
 - **Verificação:** restore provado em Neo4j 5 local (container efêmero) — comparação byte-a-byte 6461/6461 nós + 4526/4526 rels OK; alvo final sem `_eid`/`__TMP_EID`, contagens idênticas.
 - **Ferramenta:** `apps/api/scripts/aura_final_backup.py` (export read-only / restore / verify / cleanup).
 - **Nota:** o workflow semanal `db-backup.yml` gera payload simulado, não dump real — o backup desta seção é o export real de referência.
+
+## [2026-10-05] Migração do grafo: Neo4j Aura → Railway Neo4j CE (#054.7)
+
+- **Contexto:** cancelamento iminente do AuraDB. Fonte: backup verificado `8ed58ea`.
+- **Destino:** Railway (plano HOBBY existente, custo marginal ~$2,65/mês dentro do uso inclusivo): projeto `nexus-alpha-graph`, serviço `nexus-graph` (imagem neo4j:5, heap 128–192m), volume persistente em `/data`, TCP proxy `zephyr.proxy.rlwy.net:40107` → 7687.
+- **Dados:** restore byte-a-byte (6461 nós / 4526 rels) via `aura_final_backup.py` (restore → verify → cleanup); constraints `conceito_nome`/`fonte_url` recriadas; senha rotacionada após provisionamento.
+- **Código (#054.7, commit `c734eea`):** forçamento `bolt://→neo4j+s://` agora restrito a hosts `*.databases.neo4j.io` (Aura); scheme explícito do operador prevalece em self-hosted standalone. Suite 812 passed / 20 skipped; CI success.
+- **Space:** NEO4J_URI (variable) / NEO4J_PASSWORD, NEO4J_USER (secrets) migrados; colisão variable×secret resolvida (causava CONFIG_ERROR); Space refeito **público** (estava privado — 404 anônimo quebraria site Vercel e worker do cron); deploy via `deploy_hf_space_safe.py` (67 arquivos).
+- **Prova E2E:** `/api/metrics` público → `status online | concept 2136 | fact 598 | verified 20 | hebbian True | vectors 1679`.
+- **Trade-off registrado:** tramo Space→Railway usa `bolt://` sem TLS (senha forte; mitigação futura: túnel TLS). O AuraDB pode ser cancelado a qualquer momento.
