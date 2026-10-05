@@ -317,11 +317,15 @@ class GraphConnector:
                 logger.warning("NEXUS_VERIFY_QUORUM inválido (%r) — usando 3.", raw_quorum)
                 self.verify_quorum = 3
 
-            # [CORREÇÃO - ISSUE #017]: força o protocolo seguro exigido pelo AuraDB
-            if self.uri.startswith("bolt://"):
-                self.uri = self.uri.replace("bolt://", "neo4j+s://", 1)
-            elif self.uri.startswith("neo4j://"):
-                self.uri = self.uri.replace("neo4j://", "neo4j+s://", 1)
+            # [#017 → #054.7]: o forçamento TLS era exigência do AuraDB (serviço
+            # desativado). Destinos self-hosted standalone (ex.: bolt:// em VPS)
+            # não servem routing table e quebram com neo4j+s://; o scheme
+            # explícito do operador prevalece, e hosts Aura continuam protegidos.
+            if ".databases.neo4j.io" in self.uri:
+                if self.uri.startswith("bolt://"):
+                    self.uri = self.uri.replace("bolt://", "neo4j+s://", 1)
+                elif self.uri.startswith("neo4j://"):
+                    self.uri = self.uri.replace("neo4j://", "neo4j+s://", 1)
 
             logger.info(
                 "Configuração carregada. Alvo: %s | quórum de verificação=%d",
