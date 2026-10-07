@@ -113,6 +113,34 @@ CONTROLLED_PREDICATES = [
 ]
 
 
+# #048.10M.1.2.R6 — alias de predicado com escopo estreito: para os pares
+# (sujeito, objeto) do atlas DEFENDEU do piloto, ``PERTENCE_A`` extraído das
+# infoboxes de carreira das páginas wiki do jogador é o MESMO fato lógico que
+# ``DEFENDEU`` — sem o alias o quórum 3 fragmenta por chave canônica (R5).
+# FORA desses pares, PERTENCE_A permanece inalterado (ex.: estádio PERTENCE_A
+# clube NÃO vira DEFENDEU). Fold via fold_lookup_key (case/acentos/artigos).
+_DEFENDEU_PAIR_TARGETS: tuple[tuple[frozenset[str], frozenset[str]], ...] = tuple(
+    (frozenset(fold_lookup_key(s) for s in subjects),
+     frozenset(fold_lookup_key(o) for o in objects))
+    for subjects, objects in (
+        ({"jairzinho"},
+         {"botafogo de futebol e regatas", "botafogo"}),
+        ({"manuel francisco dos santos", "garrincha"},
+         {"botafogo de futebol e regatas", "botafogo"}),
+        ({"zito"},
+         {"santos futebol clube", "santos fc", "santos"}),
+        ({"carlos alberto torres", "carlos alberto"},
+         {"santos futebol clube", "santos fc", "santos"}),
+        ({"socrates", "socrates brasileiro sampaio de souza vieira de oliveira"},
+         {"sport club corinthians paulista", "sc corinthians paulista", "corinthians"}),
+        ({"romario", "romario de souza faria"},
+         {"clube de regatas vasco da gama", "vasco da gama", "vasco", "c r vasco da gama"}),
+        ({"rogerio ceni"},
+         {"sao paulo futebol clube", "sao paulo fc", "sao paulo"}),
+    )
+)
+
+
 class SemanticCanonicalizer:
     """Mapeia entidades e predicados para formas canônicas."""
 
@@ -284,10 +312,21 @@ class SemanticCanonicalizer:
 
     def canonicalize_triplet(self, triplet: dict[str, Any]) -> dict[str, Any]:
         """Recebe uma tripla bruta e devolve os termos mapeados nas formas canônicas."""
+        subject = self.canonicalize_entity(triplet.get("subject", ""))
+        predicate = self.canonicalize_predicate(triplet.get("predicate", ""))
+        object_ = self.canonicalize_entity(triplet.get("object", ""))
+        # #048.10M.1.2.R6 — unificação DEFENDEU somente para pares do atlas (ver
+        # _DEFENDEU_PAIR_TARGETS); qualquer outro par mantém o predicado extraído.
+        if predicate == "PERTENCE_A":
+            folded_pair = (fold_lookup_key(subject), fold_lookup_key(object_))
+            for subjects, objects in _DEFENDEU_PAIR_TARGETS:
+                if folded_pair[0] in subjects and folded_pair[1] in objects:
+                    predicate = "DEFENDEU"
+                    break
         return {
-            "subject": self.canonicalize_entity(triplet.get("subject", "")),
-            "predicate": self.canonicalize_predicate(triplet.get("predicate", "")),
-            "object": self.canonicalize_entity(triplet.get("object", "")),
+            "subject": subject,
+            "predicate": predicate,
+            "object": object_,
             "confidence": triplet.get("confidence", 0.5),
             "source_url": triplet.get("source_url", ""),
         }
