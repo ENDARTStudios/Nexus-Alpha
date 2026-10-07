@@ -3585,3 +3585,11 @@ distingue COLD_BOOT de DRIFT_REAL) · `tests/test_readiness_graph_ready_054_2_r2
 - **Gate oficial:** `check_space_telemetry.py --wait-ready` → `{"attempt": 1, "verdict": "READY"}`, exit 0.
 - **Bugfix de produção (`--wait-ready`):** o loop da R2 chamava `_fetch_metrics_payload`, nunca definida no wrapper (NameError; T1-T6 cobriam só funções puras). Fix: função implementada reusando `_fetch_metrics` de `src.ops.space_telemetry` (dotenv lazy, D11) + teste de regressão (sem env → `{}` → INDETERMINATE).
 - **#054.2 CLOSED** (R1 root-cause + R2 patch + R3 deploy/validação). Dívidas restantes citadas no SPRINT: #054.3, #054.4 (sem task emitida).
+
+## [2026-10-07] #048.10M.1.2.R5 — Seed extension aplicada + worker piloto (Opção C executada)
+
+- **Seed extension (`a1b44cc`):** probes validaram 12 URLs wiki (200+título) + `jogclub.htm` (menciona só Jairzinho — confirma R4). Cluster `jairzinho_botafogo` adicionado (3 domínios/2 publishers/não-Wiki — único que cumpre as regras); Zito/CAT/Romário/Sócrates/Ceni ficam fora até 3ª fonte validada (D9). Testes de guarda convertidos (yaml_rules + pendentes_fora + design APLICADO c/ GO).
+- **Worker piloto (1 ciclo):** snapshot pré (6461/4526) → 75 fontes 200 + consolidação 200 → snapshot pós (7582/5437). **Métricas: fact 598→901 (+303), concept 2136→2390 (+254), verified 20 preservado, junk 0, fallback 0, unaccounted 0, gsg 0.** Relatório: `reports/defendeu_pilot_worker_r5_048_10m_1_2.json`.
+- **Fact-level: Jairzinho NÃO verificado — causa raiz nova e definitiva: FRAGMENTAÇÃO DE PREDICADO.** As páginas wiki do jogador extraem `PERTENCE_A` (nó conf=2, pt+en.wikipedia); o fato-alvo do registry é `DEFENDEU` (nó conf=1, rsssfbrasil). As fontes novas corroboram o mesmo fato lógico sob predicado diferente — quórum 3 não fecha na mesma chave canônica.
+- **Opções devolvidas:** (1) GO p/ alias canônico `PERTENCE_A→DEFENDEU` quando objeto = clube (mudança de núcleo, task própria com testes); (2) acumulação multi-ciclo (RSSSF já corrobora DEFENDEU); (3) congelar. 
+- **Invariantes:** treino NÃO · quórum intacto · núcleo/predicados intocados · contaminação 0 · restore NÃO.

@@ -1,0 +1,35 @@
+{
+  "task": "048_10M_1_2_R5",
+  "executed_at": "2026-10-07T23:25:13.612764+00:00",
+  "seed_extension": "a1b44cc — cluster jairzinho_botafogo (pt/en wiki + rsssfbrasil jogclub); 5 candidatos fora (D9)",
+  "worker": "1 ciclo, 75 fontes 200, consolidacao 200 (episodios 3700)",
+  "snapshots": {
+    "pre": "backups/snapshot_pre_worker_048_10m_1_2_R5 (6461/4526)",
+    "post": "backups/snapshot_post_worker_048_10m_1_2_R5"
+  },
+  "metrics": {
+    "concept": "2136->2390 (+254)",
+    "fact": "598->901 (+303)",
+    "verified": "20 (preservado)",
+    "junk": 0,
+    "fallback_promoted": 0,
+    "unaccounted_raw": 0,
+    "run_scoped_gap": 0,
+    "top_invalid": []
+  },
+  "fact_level": {
+    "jairzinho_defendeu_botafogo": {
+      "n_zer_6121": "DEFENDEU | conf 1 | rsssfbrasil.com (era pre-piloto)",
+      "n_6823": "PERTENCE_A | conf 2 | pt.wikipedia + en.wikipedia (novo, criado neste ciclo)",
+      "verdict": "NAO VERIFICADO — quorum 3 nao fecha por FRAGMENTACAO DE PREDICADO: paginas wiki de jogador extraem PERTENCE_A (infobox career), registry espera DEFENDEU"
+    },
+    "outros_6_candidatos": "inalterados (sem seeds; Garrincha 2/3 como antes)"
+  },
+  "root_cause": "fragmentacao de predicado PERTENCE_A vs DEFENDEU — fontes novas corroboram o MESMO fato logico sob predicado diferente",
+  "options_to_operator": [
+    "GO para alias canonico PERTENCE_A->DEFENDEU quando objeto=eclube (mudanca de nucleo, task propria)",
+    "aceitar acumulacao multi-ciclo (jogclub RSSSF ja corrobora DEFENDEU em ciclos de clube)",
+    "congelar DEFENDEU"
+  ],
+  "invariants": "treino NAO; quorum NAO alterado; nucleo/predicados NAO alterados; contaminacao 0; restore NAO executado"
+}
