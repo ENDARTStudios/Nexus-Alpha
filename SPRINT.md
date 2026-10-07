@@ -3537,6 +3537,24 @@ Não treinou. Zero HTTP a terceiros. Zero projeto paralelo como evidência.
 - **Ferramenta:** `apps/api/scripts/aura_final_backup.py` (export read-only / restore / verify / cleanup).
 - **Nota:** o workflow semanal `db-backup.yml` gera payload simulado, não dump real — o backup desta seção é o export real de referência.
 
+
+---
+
+## #054.2.R2 — Readiness patch aditivo implementado (PR, sem merge/deploy)
+
+**Status:** PR aberta (draft) — `fix/054-2-readiness-graph-ready-field` · **Data:** 2026-10-03
+**Arquivos:** `apps/api/app.py` (aditivo: `graph_ready`, `boot_reason`, `status` booting/online) ·
+`apps/api/scripts/check_space_telemetry.py` (`--wait-ready` com backoff determinístico 8×5-30s,
+distingue COLD_BOOT de DRIFT_REAL) · `tests/test_readiness_graph_ready_054_2_r2.py` (T1-T6)
+**CI:** (verificar no push da PR) · **Deploy:** NÃO · **Worker:** NÃO · **Ingest:** NÃO
+**Escrita em Neo4j/Qdrant:** NÃO · **Treino:** NÃO · **Contaminação cross-project:** 0
+
+### Contrato (aditivo, nada removido)
+- `status`: "online" (grafo OK) | "booting" (cold boot/wake-up) — novo valor aditivo.
+- `graph_ready`: bool sempre presente.
+- `boot_reason`: "neo4j_not_ready" quando não pronto.
+- Cold boot NUNCA é declarado como drift cognitivo pelo cliente.
+
 ## [2026-10-05] Migração do grafo: Neo4j Aura → Railway Neo4j CE (#054.7)
 
 - **Contexto:** cancelamento iminente do AuraDB. Fonte: backup verificado `8ed58ea`.
