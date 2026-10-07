@@ -18,8 +18,14 @@ from scripts.check_space_telemetry import _fetch_metrics_payload, classify_readi
 def test_fetch_payload_without_env_never_raises(monkeypatch):
     for var in ("HF_SPACE_URL", "NEXUS_SPACE_URL"):
         monkeypatch.delenv(var, raising=False)
-    # isola o .env local (o dotenv lazy da função repõe as vars deletadas)
-    monkeypatch.setattr("dotenv.load_dotenv", lambda *a, **k: None)
+    try:
+        # isola o .env local (o dotenv lazy da função repõe as vars deletadas);
+        # CI sem python-dotenv (D11) não tem .env para isolar
+        import dotenv  # noqa: F401
+
+        monkeypatch.setattr("dotenv.load_dotenv", lambda *a, **k: None)
+    except ImportError:
+        pass
     assert _fetch_metrics_payload() == {}
 
 
