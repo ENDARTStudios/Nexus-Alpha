@@ -3546,3 +3546,9 @@ Não treinou. Zero HTTP a terceiros. Zero projeto paralelo como evidência.
 - **Space:** NEO4J_URI (variable) / NEO4J_PASSWORD, NEO4J_USER (secrets) migrados; colisão variable×secret resolvida (causava CONFIG_ERROR); Space refeito **público** (estava privado — 404 anônimo quebraria site Vercel e worker do cron); deploy via `deploy_hf_space_safe.py` (67 arquivos).
 - **Prova E2E:** `/api/metrics` público → `status online | concept 2136 | fact 598 | verified 20 | hebbian True | vectors 1679`.
 - **Trade-off registrado:** tramo Space→Railway usa `bolt://` sem TLS (senha forte; mitigação futura: túnel TLS). O AuraDB pode ser cancelado a qualquer momento.
+
+## [2026-10-07] Pós-migração: backup semanal REAL + auditoria #054.6
+
+- **Backup semanal real (`5d08659`):** db-backup.yml agora executa `aura_final_backup.py export` contra o Railway (antes: payload simulado, nunca foi dump). Prova: run `37688323561` SUCCESS → `backups/auto_weekly/` commitado (`5ae17e2`), gzip 413 KB, integridade SHA256 OK, 6461 nós/4526 rels, fonte `zephyr.proxy.rlwy.net:40107`. Secrets GH `NEO4J_URI`/`NEO4J_PASSWORD` criados.
+- **#054.6 (read-only, relatório `apps/api/reports/audit_054_6_monorepo_paths.md`):** nenhum consumidor de caminho quebrado pós-split — workflows, deploy scripts (allowlist provada UPLOAD_OK 67 arquivos), worker, compose, tests, README todos consistentes. Divergências: apenas 4 docs de design com caminhos pré-split (`src/frontend/…`) — plano docs-only proposto, não aplicado.
+- **Housekeeping:** `AGENTS.md` (política Terminal & CLI First) commitado — existia só no disco.
