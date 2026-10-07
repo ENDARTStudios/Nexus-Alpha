@@ -74,7 +74,7 @@ npm run dev        # http://localhost:3000
   (`/api/nexus/[...path]`) — que precisa de `NEXUS_SPACE_URL`, `HF_TOKEN`,
   `NEXUS_API_TOKEN` no `.env.local` (ou roteia para um Space vazio).
 - Mock server para testes de UI sem backend:
-  `python src/frontend/mock_server.py`.
+  `python apps/api/scripts/mock_server.py`.
 
 ## 7. Dashboard técnico (opcional)
 

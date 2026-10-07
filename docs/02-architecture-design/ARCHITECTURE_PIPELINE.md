@@ -57,9 +57,9 @@ assíncrono dividido em 5 etapas:
 *   **Geração:** `src/cognition/llm_provider.py` — responder **extrativo** por padrão
     (zero dependências); LLM opcional via `NEXUS_LLM_BASE_URL` (compatível com
     OpenAI, Hugging Face Inference e LLM local via Ollama/vLLM).
-*   **UI:** `src/frontend/components/ChatWidget.tsx` — tema grafite (`#0F172A`) com
+*   **UI:** `apps/web/src/frontend/components/ChatWidget.tsx` — tema grafite (`#0F172A`) com
     borda roxo elétrico (`#8B5CF6`), indicador "Nexus pensando..." e skeletons de
-    mensagem. Config de movimento em `src/frontend/lib/motion.config.ts`.
+    mensagem. Config de movimento em `apps/web/src/frontend/lib/motion.config.ts`.
 
 ### 🧬 Simulação de Enxame (Predição)
 
@@ -243,7 +243,7 @@ backend não está instalado, o minerador segue com o scraper estático.
 | Hugging Face Spaces | Core FastAPI (porta 7860) | `app.py`, `Dockerfile.hf` |
 | Neo4j AuraDB | Grafo de conhecimento | `src/database/graph_connector.py` |
 | Qdrant Cloud | Memória vetorial semântica | `src/database/vector_connector.py` |
-| Next.js + Tailwind + Motion | Dashboard de monitoramento | `src/frontend/`, `dashboard/` |
+| Next.js + Tailwind + Motion | Dashboard de monitoramento | `apps/web/src/frontend/`, `apps/api/dashboard/` |
 
 ---
 
