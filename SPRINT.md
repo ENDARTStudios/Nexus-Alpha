@@ -3577,3 +3577,11 @@ distingue COLD_BOOT de DRIFT_REAL) · `tests/test_readiness_graph_ready_054_2_r2
 - **Docs #054.6 aplicados:** 12 referências pré-split corrigidas em 8 arquivos (`dca4999` + `690016f`); README (caminhos relativos sob `apps/web/`), SPRINT e relatórios históricos intocados por design.
 - **PR #1 destravada:** conflito em SPRINT.md resolvido via merge main→branch (`3ba70bd`), cronologia preservada (seção R2 de 03/10 antes das de 05–07/10) — PR MERGEABLE, aguardando Ready for review + merge do Operador.
 - **AuraDB:** cancelado pelo Operador — encerrado. Fonte canônica de restauração: `backups/` (`8ed58ea`) + backup semanal real (`5d08659`).
+
+## [2026-10-07] #054.2.R3 — Space com patch de readiness em produção (SUCCESS)
+
+- **Deploy:** `deploy_hf_space_safe.py --execute` → UPLOAD_OK 67 arquivos (main `d81bd26`, merge da PR #1; CI success no merge).
+- **Contrato novo no ar:** `/api/metrics` público → `status: "online" | graph_ready: true | boot_reason: null | 2136/598/20`.
+- **Gate oficial:** `check_space_telemetry.py --wait-ready` → `{"attempt": 1, "verdict": "READY"}`, exit 0.
+- **Bugfix de produção (`--wait-ready`):** o loop da R2 chamava `_fetch_metrics_payload`, nunca definida no wrapper (NameError; T1-T6 cobriam só funções puras). Fix: função implementada reusando `_fetch_metrics` de `src.ops.space_telemetry` (dotenv lazy, D11) + teste de regressão (sem env → `{}` → INDETERMINATE).
+- **#054.2 CLOSED** (R1 root-cause + R2 patch + R3 deploy/validação). Dívidas restantes citadas no SPRINT: #054.3, #054.4 (sem task emitida).

@@ -63,6 +63,36 @@ def wait_backoff_delays(max_attempts: int = WAIT_MAX_ATTEMPTS) -> tuple[int, ...
     return WAIT_DELAYS_SECONDS[:max_attempts]
 
 
+def _fetch_metrics_payload() -> dict:
+    """Fetch bruto de /api/metrics para o loop ``--wait-ready``.
+
+    Reusa ``_fetch_metrics`` de ``src.ops.space_telemetry`` (mesma URL/headers do
+    gate). dotenv lazy (D11); sem URL no ambiente retorna ``{}``, que classifica
+    como INDETERMINATE — nunca levanta.
+    """
+    try:
+        from dotenv import load_dotenv
+
+        load_dotenv(ROOT / ".env")
+        load_dotenv(ROOT / ".env.local")
+    except ImportError:
+        pass
+    import os
+
+    from src.ops.space_telemetry import _fetch_metrics
+
+    url = os.environ.get("HF_SPACE_URL") or os.environ.get("NEXUS_SPACE_URL")
+    if not url:
+        return {}
+    _status, payload = _fetch_metrics(
+        url,
+        os.environ.get("HF_TOKEN", ""),
+        os.environ.get("NEXUS_API_TOKEN", ""),
+        30,
+    )
+    return payload or {}
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Preflight de telemetria do HF Space (read-only).")
     parser.add_argument("--allow-unverified-local", action="store_true", help="pula o gate (NÃO usar em produção)")
