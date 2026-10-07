@@ -404,3 +404,27 @@ clusters:
         domain: nominatim.openstreetmap.org
         publisher: OpenStreetMap
         productivity: productive  # #048.10L: addr:city=Salvador (ODbL)
+
+
+  # === #048.10M.1.2 Opção C (2026-10-07): extensão mínima por jogador — GO do Operador ===
+  # Probes de validação (2026-10-07, ≤4/min): 12 URLs wikipedia 200 + título correto;
+  # jogclub.htm menciona APENAS Jairzinho (Zito/CAT/Romário/Sócrates/Ceni: não — confirma R4).
+  # Quórum 3 precisa de 3ª fonte não-Wiki: hoje só Jairzinho fecha 3/3; os demais ficam 2/3
+  # até fonte validada (D9 — sem caminhos supostos).
+
+  - id: jairzinho_botafogo
+    topic: "Jairzinho e o Botafogo"
+    expected_predicate: DEFENDEU
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Jairzinho
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # probeada 200+título (2026-10-07); triplas ainda não mineradas
+      - url: https://en.wikipedia.org/wiki/Jairzinho
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # idem
+      - url: https://www.rsssfbrasil.com/sel/jogclub.htm
+        domain: rsssfbrasil.com
+        publisher: RSSSF Brasil
+        productivity: productive  # #059C + probe menção "Jairzinho" (2026-10-07) — 3ª fonte não-Wiki

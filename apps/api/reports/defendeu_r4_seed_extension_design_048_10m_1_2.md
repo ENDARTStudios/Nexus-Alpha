@@ -1,6 +1,6 @@
-# DEFENDEU governed seed extension design (#048.10M.1.2.R4 — NÃO APLICADO)
+# DEFENDEU governed seed extension design (#048.10M.1.2.R4 — APLICADO)
 
-**Data:** 2026-10-03 · **Status:** DESIGN ONLY — nenhuma linha de `config/seed_clusters.yaml` foi alterada.
+**Data:** 2026-10-03 · **Status:** DESIGN aplicado em 2026-10-07 com GO do Operador (Opção C, extensão mínima): probes validaram 12 URLs wiki (200+título) e `jogclub.htm` menciona apenas Jairzinho — só o cluster `jairzinho_botafogo` (3 domínios/2 publishers/não-Wiki) cumpre as regras estruturais e foi adicionado. Zito/CAT/Romário/Sócrates/Ceni permanecem fora até 3ª fonte não-Wiki validada (D9 — sem caminhos supostos). Detalhes e riscos originais do design preservados abaixo.
 
 ## Estado atual dos seeds
 4+ clusters governados (`config/seed_clusters.yaml`) mirando **clubes/estádio/jogador único**:
