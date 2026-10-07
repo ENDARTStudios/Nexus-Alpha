@@ -1,9 +1,17 @@
 name: Nexus-Alpha Weekly Safety Backup
+# #054.7+: backup REAL do grafo (o workflow anterior gravava payload simulado,
+# não um dump — nunca tratá-lo como backup). Usa a mesma ferramenta do backup
+# de referência 8ed58ea (export → manifest SHA256 → verify disponível).
 on:
   schedule:
     # Executa pontualmente todo domingo à meia-noite (Custo Zero de infraestrutura)
     - cron: '0 0 * * 0'
-  workflow_dispatch: # Permite que você clique em um botão e gere o backup quando quiser
+  workflow_dispatch: # Permite disparar um backup sob demanda
+permissions:
+  contents: write
+concurrency:
+  group: weekly-graph-backup
+  cancel-in-progress: false
 jobs:
   run-backup:
     runs-on: ubuntu-latest
@@ -12,51 +20,34 @@ jobs:
     - name: 1. Clonar o Repositorio
       uses: actions/checkout@v4
 
-    - name: 2. Configurar Ambiente do SGBD e Python
+    - name: 2. Configurar Python + driver Neo4j
       uses: actions/setup-python@v5
       with:
-        python-version: '3.10'
+        python-version: '3.11'
 
-    - name: 3. Executar Exportação Semântica Atômica
+    - name: 3. Instalar dependências
+      run: pip install "neo4j>=5" python-dotenv
+
+    - name: 4. Export real do grafo (read-only, com retry de cold boot)
       env:
-        # Puxa as credenciais de produção injetadas anteriormente
         NEO4J_URI: ${{ secrets.NEO4J_URI }}
         NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
       run: |
-        echo "Iniciando snapshot estrutural de grafos..."
-        mkdir -p backups/
-        
-        # Script em linha simula o dump Cypher gerando um relatório em formato JSON estruturado
-        python -c "
-        import json
-        import time
-        import os
-        
-        backup_payload = {
-            'timestamp': int(time.time()),
-            'status_snapshot': 'HEALTHY',
-            'meta': 'Nexus-Alpha Córtex Backup Semanal',
-            'data_dump_simulated': 'MATCH (n) OPTIONAL MATCH (n)-[r]->(m) RETURN n,r,m'
-        }
-        
-        filename = f'backups/nexus_snapshot_{int(time.time())}.json'
-        with open(filename, 'w', encoding='utf-8') as f:
-            json.dump(backup_payload, f, indent=2)
-        print(f'Snapshot gerado com sucesso em: {filename}')
-        "
+        echo "Dump real: nos + relacoes + schema (manifest com SHA256 e contagens)"
+        cd apps/api
+        python scripts/aura_final_backup.py export --out ../../backups/auto_weekly
 
-    - name: 4. Commit e Push do Backup para o Repositório Privado
+    - name: 5. Comprimir dump (o manifest descreve o JSON original — verificar com gunzip | sha256sum)
+      run: gzip -f backups/auto_weekly/graph_export.json
+
+    - name: 6. Commit e Push do Backup
       run: |
         git config --global user.name "Nexus-Alpha Bot"
         git config --global user.email "nexus-bot@endartstudios.internal"
-        
-        # Adiciona apenas os novos arquivos da pasta backups impedindo conflito de código
-        git add backups/*.json
-        
-        # Só realiza o commit se de fato houverem novos dados gerados nesta semana
+        git add backups/auto_weekly
         if git diff --cached --quiet; then
-          echo "Nenhuma alteração detectada no grafo. Pulando commit de segurança."
+          echo "Nenhuma alteracao detectada no grafo. Pulando commit de seguranca."
         else
-          git commit -m "💾 [SECURITY BACKUP] Snapshot automatizado de grafos (v1.1.0)"
+          git commit -m "backup(graph): weekly automated export [skip ci]"
           git push origin main
         fi
