@@ -1,6 +1,6 @@
 # 🎨 Design System — Nexus-Alpha
 
-Aplica-se ao frontend Next.js (`src/frontend/`, `src/app/`), ao widget de
+Aplica-se ao frontend Next.js (`apps/web/src/frontend/`, `apps/web/src/app/`), ao widget de
 chat e ao dashboard Streamlit (`dashboard/app.py`).
 
 ---
@@ -38,7 +38,7 @@ da API (`demo-memory` → warn; `neo4j` → ok).
 
 ## 4. Movimento (Motion)
 
-Config centralizada em `src/frontend/lib/motion.config.ts`:
+Config centralizada em `apps/web/src/frontend/lib/motion.config.ts`:
 
 - Entrada de mensagens do chat: fade + translateY(8px), ~180ms, easing suave.
 - Indicador "Nexus pensando…": pulso de opacidade no skeleton (loop).
@@ -51,11 +51,11 @@ Config centralizada em `src/frontend/lib/motion.config.ts`:
 
 | Componente | Arquivo | Notas |
 |---|---|---|
-| `ChatWidget` | `src/frontend/components/ChatWidget.tsx` | bolha flutuante; tema grafite + borda roxa; skeletons por mensagem; histórico curto por `session_id` |
-| `Dashboard` | `src/frontend/components/Dashboard.tsx` | agregador de painéis; consome proxy `/api/nexus/*` |
-| `BrainPanel` | `src/frontend/components/BrainPanel.tsx` | **read-only**; contrato normalizado de `/api/brain/stats`; mostra `source` (neo4j/volatile) |
-| `KnowledgeGraph` | `src/frontend/components/KnowledgeGraph.tsx` | `react-force-graph-2d` sobre `/api/graph/topology` |
-| API client | `src/frontend/lib/api.ts` / `nexus.ts` / `brain.ts` | única porta de entrada HTTP; nenhum fetch direto em componente |
+| `ChatWidget` | `apps/web/src/frontend/components/ChatWidget.tsx` | bolha flutuante; tema grafite + borda roxa; skeletons por mensagem; histórico curto por `session_id` |
+| `Dashboard` | `apps/web/src/frontend/components/Dashboard.tsx` | agregador de painéis; consome proxy `/api/nexus/*` |
+| `BrainPanel` | `apps/web/src/frontend/components/BrainPanel.tsx` | **read-only**; contrato normalizado de `/api/brain/stats`; mostra `source` (neo4j/volatile) |
+| `KnowledgeGraph` | `apps/web/src/frontend/components/KnowledgeGraph.tsx` | `react-force-graph-2d` sobre `/api/graph/topology` |
+| API client | `apps/web/src/frontend/lib/api.ts` / `nexus.ts` / `brain.ts` | única porta de entrada HTTP; nenhum fetch direto em componente |
 
 ## 6. Padrões de UX
 

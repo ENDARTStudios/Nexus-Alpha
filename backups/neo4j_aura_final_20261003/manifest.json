@@ -1,0 +1,60 @@
+{
+  "counts": {
+    "by_label_combination": {
+      "[\"Conceito\"]": 2136,
+      "[\"Episodio\"]": 3651,
+      "[\"Fato\"]": 598,
+      "[\"FonteWeb\"]": 76
+    },
+    "by_relationship_type": {
+      "CONFIRMA": 651,
+      "MINERADO_DE": 2426,
+      "RELACIONA": 1449
+    },
+    "nodes_total": 6461,
+    "rels_total": 4526
+  },
+  "file_sizes_bytes": {
+    "aura_final_backup.py": 14883,
+    "graph_export.json": 4395547,
+    "manifest.json": 1159,
+    "schema.json": 7076
+  },
+  "files": {
+    "aura_final_backup.py": "e759a3f53de247d80370dd62a7bd1eed70d87790f905c7677d4ac8e4ed90f944",
+    "graph_export.json": "630f4b5b8499dcde26fa6752db64ba881adf2aacda7426571fcd1b20c83fd1ae",
+    "schema.json": "e49b7f4fb613279117fb757e69586fb2b4f4ca0026e66770538957fcc9f36eec"
+  },
+  "generated_at": "2026-10-03T22:33:21.947670+00:00",
+  "graph_sha256": "1ffa066f5370453ed09bf18c195f7426036644bc338a3df9ac6ce08ba3870031",
+  "manifest": "neo4j_aura_final_backup",
+  "nodes_total": 6461,
+  "read_only_on_source": true,
+  "rels_total": 4526,
+  "restore_usage": "python aura_final_backup.py restore --json graph_export.json --uri <alvo> --password <senha>",
+  "schema_sha256": "204ca577083c149b6fbc19cc0a7c32013081b8d0a295b64dceea55b246e02f50",
+  "source_host": "85cd4c04.databases.neo4j.io",
+  "verification": {
+    "method": "restore em Neo4j 5 local (docker efemero) + comparacao byte-a-byte nos/rels via _eid preservado",
+    "post_cleanup_counts": {
+      "by_label": {
+        "Conceito": 2136,
+        "Episodio": 3651,
+        "Fato": 598,
+        "FonteWeb": 76
+      },
+      "by_rel_type": {
+        "CONFIRMA": 651,
+        "MINERADO_DE": 2426,
+        "RELACIONA": 1449
+      },
+      "no_eid_left": true,
+      "no_tmp_left": true,
+      "nodes_total": 6461,
+      "rels_total": 4526
+    },
+    "tool_bugfixes": "_grouped usava tuple() sobre string do rel-type (rels criadas com tipo errado no ALVO; export JSON nunca foi afetado); corrigido e re-verificado",
+    "verify_nodes": "OK 6461/6461",
+    "verify_rels": "OK 4526/4526"
+  }
+}

@@ -36,10 +36,10 @@ O guia de design visual está em [`DESIGN.md`](./DESIGN.md); este cobre **códig
   (fakes); sem torch/transformers/spacy (CI lite).
 - Testes de caminho de erro obrigatórios (ver [`ERROR_HANDLING.md`](./ERROR_HANDLING.md) §6).
 
-## 2. TypeScript/React (`src/frontend/`, `src/app/`)
+## 2. TypeScript/React (`apps/web/src/frontend/`, `apps/web/src/app/`)
 
 - Next.js 14 App Router; componentes funcionais + hooks; sem classe.
-- **Todo fetch passa por `src/frontend/lib/api.ts`/`nexus.ts`/`brain.ts`** —
+- **Todo fetch passa por `apps/web/src/frontend/lib/api.ts`/`nexus.ts`/`brain.ts`** —
   nenhum `fetch` direto em componente.
 - Cores/tokens conforme [`DESIGN.md`](./DESIGN.md); sem hex avulso fora dos tokens.
 - Movimento centralizado em `lib/motion.config.ts`.

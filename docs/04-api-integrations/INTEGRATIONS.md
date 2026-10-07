@@ -40,7 +40,7 @@ todas).
 | `db-backup.yml` | `0 0 * * 0` (domingo) | snapshot JSON do Neo4j → `backups/` + commit do bot |
 
 ### Vercel (proxy + frontend)
-- `src/app/api/nexus/[...path]/route.ts` repassa ao Space privado injetando
+- `apps/web/src/app/api/nexus/[...path]/route.ts` repassa ao Space privado injetando
   `NEXUS_SPACE_URL` + `HF_TOKEN` + `NEXUS_API_TOKEN` (server-side, nunca
   `NEXT_PUBLIC_*`).
 - `vercel.json` + `public/robots.txt` blindam `/api/` e `/_next/image*`.

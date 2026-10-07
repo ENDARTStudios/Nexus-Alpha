@@ -3529,6 +3529,15 @@ Este ciclo não alterou runtime. Não deployou. Não executou worker. Não chamo
 Não escreveu em Neo4j/Qdrant. Não ativou seeds. Não alterou aliases nem cognição central.
 Não treinou. Zero HTTP a terceiros. Zero projeto paralelo como evidência.
 
+## [2026-10-03] Backup final Neo4j Aura (pré-cancelamento do serviço)
+
+- **Contexto:** Operador informou que o serviço AuraDB (85cd4c04.databases.neo4j.io) será cancelado.
+- **Export (read-only):** `backups/neo4j_aura_final_20261003/` — 6461 nós (Conceito 2136 / Episodio 3651 / Fato 598 / FonteWeb 76) e 4526 rels (MINERADO_DE 2426 / RELACIONA 1449 / CONFIRMA 651); schema (constraints/índices/versão) em `schema.json`; SHA256 e contagens em `manifest.json`; baseline viva confere (concept=2136, fact=598).
+- **Verificação:** restore provado em Neo4j 5 local (container efêmero) — comparação byte-a-byte 6461/6461 nós + 4526/4526 rels OK; alvo final sem `_eid`/`__TMP_EID`, contagens idênticas.
+- **Ferramenta:** `apps/api/scripts/aura_final_backup.py` (export read-only / restore / verify / cleanup).
+- **Nota:** o workflow semanal `db-backup.yml` gera payload simulado, não dump real — o backup desta seção é o export real de referência.
+
+
 ---
 
 ## #054.2.R2 — Readiness patch aditivo implementado (PR, sem merge/deploy)
@@ -3545,3 +3554,19 @@ distingue COLD_BOOT de DRIFT_REAL) · `tests/test_readiness_graph_ready_054_2_r2
 - `graph_ready`: bool sempre presente.
 - `boot_reason`: "neo4j_not_ready" quando não pronto.
 - Cold boot NUNCA é declarado como drift cognitivo pelo cliente.
+
+## [2026-10-05] Migração do grafo: Neo4j Aura → Railway Neo4j CE (#054.7)
+
+- **Contexto:** cancelamento iminente do AuraDB. Fonte: backup verificado `8ed58ea`.
+- **Destino:** Railway (plano HOBBY existente, custo marginal ~$2,65/mês dentro do uso inclusivo): projeto `nexus-alpha-graph`, serviço `nexus-graph` (imagem neo4j:5, heap 128–192m), volume persistente em `/data`, TCP proxy `zephyr.proxy.rlwy.net:40107` → 7687.
+- **Dados:** restore byte-a-byte (6461 nós / 4526 rels) via `aura_final_backup.py` (restore → verify → cleanup); constraints `conceito_nome`/`fonte_url` recriadas; senha rotacionada após provisionamento.
+- **Código (#054.7, commit `c734eea`):** forçamento `bolt://→neo4j+s://` agora restrito a hosts `*.databases.neo4j.io` (Aura); scheme explícito do operador prevalece em self-hosted standalone. Suite 812 passed / 20 skipped; CI success.
+- **Space:** NEO4J_URI (variable) / NEO4J_PASSWORD, NEO4J_USER (secrets) migrados; colisão variable×secret resolvida (causava CONFIG_ERROR); Space refeito **público** (estava privado — 404 anônimo quebraria site Vercel e worker do cron); deploy via `deploy_hf_space_safe.py` (67 arquivos).
+- **Prova E2E:** `/api/metrics` público → `status online | concept 2136 | fact 598 | verified 20 | hebbian True | vectors 1679`.
+- **Trade-off registrado:** tramo Space→Railway usa `bolt://` sem TLS (senha forte; mitigação futura: túnel TLS). O AuraDB pode ser cancelado a qualquer momento.
+
+## [2026-10-07] Pós-migração: backup semanal REAL + auditoria #054.6
+
+- **Backup semanal real (`5d08659`):** db-backup.yml agora executa `aura_final_backup.py export` contra o Railway (antes: payload simulado, nunca foi dump). Prova: run `37688323561` SUCCESS → `backups/auto_weekly/` commitado (`5ae17e2`), gzip 413 KB, integridade SHA256 OK, 6461 nós/4526 rels, fonte `zephyr.proxy.rlwy.net:40107`. Secrets GH `NEO4J_URI`/`NEO4J_PASSWORD` criados.
+- **#054.6 (read-only, relatório `apps/api/reports/audit_054_6_monorepo_paths.md`):** nenhum consumidor de caminho quebrado pós-split — workflows, deploy scripts (allowlist provada UPLOAD_OK 67 arquivos), worker, compose, tests, README todos consistentes. Divergências: apenas 4 docs de design com caminhos pré-split (`src/frontend/…`) — plano docs-only proposto, não aplicado.
+- **Housekeeping:** `AGENTS.md` (política Terminal & CLI First) commitado — existia só no disco.

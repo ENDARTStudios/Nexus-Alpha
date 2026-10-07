@@ -1,0 +1,31 @@
+{
+  "counts": {
+    "by_label_combination": {
+      "[\"Conceito\"]": 2136,
+      "[\"Episodio\"]": 3651,
+      "[\"Fato\"]": 598,
+      "[\"FonteWeb\"]": 76
+    },
+    "by_relationship_type": {
+      "CONFIRMA": 651,
+      "MINERADO_DE": 2426,
+      "RELACIONA": 1449
+    },
+    "nodes_total": 6461,
+    "rels_total": 4526
+  },
+  "files": {
+    "aura_final_backup.py": "e759a3f53de247d80370dd62a7bd1eed70d87790f905c7677d4ac8e4ed90f944",
+    "graph_export.json": "34bf9701602f59505a61f30f545a6e56ce8c665ebbef4f79acda496eafc44b8e",
+    "schema.json": "800d4570313acabc2bfb31228f5801bc555d7a0a9cc7f46026b4b5e8afd7ede1"
+  },
+  "generated_at": "2026-10-07T21:17:33.797963+00:00",
+  "graph_sha256": "3222fad212ec605faee0a441b927001ffc71e2ef2021a54430399b79b90ca174",
+  "manifest": "neo4j_aura_final_backup",
+  "nodes_total": 6461,
+  "read_only_on_source": true,
+  "rels_total": 4526,
+  "restore_usage": "python aura_final_backup.py restore --json graph_export.json --uri <alvo> --password <senha>",
+  "schema_sha256": "422258dbabba502ac0f4269e2d19ee13ed08949fdf5fd06e45efaa53db230672",
+  "source_host": "zephyr.proxy.rlwy.net:40107"
+}
