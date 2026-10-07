@@ -1,6 +1,6 @@
 # ♿ Acessibilidade — Nexus-Alpha
 
-Aplica-se ao frontend Next.js (`src/frontend/`, `src/app/`), ao widget de
+Aplica-se ao frontend Next.js (`apps/web/src/frontend/`, `apps/web/src/app/`), ao widget de
 chat e ao dashboard Streamlit. Meta: **WCAG 2.1 nível AA** nas superfícies
 interativas.
 
@@ -16,7 +16,7 @@ interativas.
 | `aria-live` | novas mensagens do bot anunciadas (`aria-live="polite"`); estado "Nexus pensando…" anunciado | `ChatWidget.tsx` |
 | Rótulos | inputs com `label`/`aria-label` em pt-BR; botão de envio com nome acessível | formulários |
 | Reduced motion | respeitar `prefers-reduced-motion`: desligar pulsos/skeletons animados e transições do Motion | `motion.config.ts` |
-| Semântica | landmarks (`main`, `nav`), headings hierárquicos, `lang="pt-BR"` em `layout.tsx` | `src/app/layout.tsx` |
+| Semântica | landmarks (`main`, `nav`), headings hierárquicos, `lang="pt-BR"` em `layout.tsx` | `apps/web/src/app/layout.tsx` |
 | Alternativas | gráfico de força precisa de tabela/`sr-only` equivalente com os nós principais | `KnowledgeGraph.tsx` |
 
 ## 2. Painéis de dados (BrainPanel, Dashboard)

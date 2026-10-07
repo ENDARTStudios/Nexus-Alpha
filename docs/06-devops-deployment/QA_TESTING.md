@@ -82,7 +82,7 @@ QA aqui é **funcional + integridade de conhecimento**: o objetivo não é
 
 ## 5. Ferramentas
 
-- Mock server de UI: `python src/frontend/mock_server.py`.
+- Mock server de UI: `python apps/api/scripts/mock_server.py`.
 - Verificações CORS auxiliares: `tests/check_cors.py`.
 - Auditorias read-only: `scripts/audit_post_clean.py`,
   `scripts/audit_cross_source.py`.

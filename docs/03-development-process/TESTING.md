@@ -52,7 +52,7 @@ python -m pytest tests/test_predicate_mapper.py -v   # arquivo específico
 
 | Gap | Onde cobrir |
 |---|---|
-| UI real (cliques, visual) | [`QA_TESTING.md`](./QA_TESTING.md) + mock server (`src/frontend/mock_server.py`) |
+| UI real (cliques, visual) | [`QA_TESTING.md`](./QA_TESTING.md) + mock server (`apps/api/scripts/mock_server.py`) |
 | Allowlist do proxy | validação Node no CI (passo 8) + `tests/check_cors.py` auxiliar |
 | Carga/estresse de memória | `scripts/stress_episodes.py` (fora da suíte; resultado registrado em `SPRINT.md`) |
 | Integração real com AuraDB/Qdrant | validação manual em produção ([`MONITORING.md`](./MONITORING.md)) |
