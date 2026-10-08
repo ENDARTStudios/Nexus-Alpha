@@ -19,7 +19,6 @@ except Exception:
 
 
 async def main() -> None:
-    import asyncio
 
     import httpx
     from neo4j import AsyncGraphDatabase

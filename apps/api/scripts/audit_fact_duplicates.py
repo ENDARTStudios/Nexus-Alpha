@@ -8,7 +8,6 @@ Anti-leak: nenhum segredo no relatório.
 """
 from __future__ import annotations
 
-import argparse
 import asyncio
 import json
 import os
@@ -26,7 +25,6 @@ from dotenv import load_dotenv
 load_dotenv(ROOT / ".env")
 load_dotenv(ROOT / ".env.local")
 
-from src.cognition.entity_linking_audit import assert_no_secret_markers  # noqa: E402
 
 
 def _norm(value: str) -> str:

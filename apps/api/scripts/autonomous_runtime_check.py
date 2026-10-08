@@ -1,5 +1,4 @@
 """TASK-003: checagem de site/Space/API sem imprimir segredos."""
-import io
 import json
 import os
 import time

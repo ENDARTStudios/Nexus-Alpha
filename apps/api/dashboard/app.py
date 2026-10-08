@@ -42,7 +42,6 @@ st.caption("Modo Escuro Obrigatório | Infraestrutura Parasita Gratuita | Pipeli
 from src.cognition.memory import LocalMemory
 from src.miner.quarantine import QuarantineStore
 from src.miner.security_protocol import SecurityProtocol
-from src.cognition.reflection import ReflectionWorker
 from src.cognition.reasoning_engine import ReasoningEngine
 
 

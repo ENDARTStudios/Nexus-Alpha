@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import pytest
 
-from src.cognition.extractor import EntityExtractor, is_propositional_sentence
+from src.cognition.extractor import EntityExtractor
 from src.cognition.triple_refiner import refine_triple_ex
 
 ACCEPTED = [

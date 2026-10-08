@@ -5,7 +5,6 @@ Barrera payloads gigantes (>1MB) e registra apenas metadados limpos.
 from __future__ import annotations
 
 import logging
-import os
 
 from .log_sanitizer import sanitize_text
 

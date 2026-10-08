@@ -29,13 +29,10 @@ ROOT = os.path.dirname(_HERE)
 sys.path.insert(0, ROOT)
 sys.path.insert(0, _HERE)
 
-import audit_extraction_gap as gap  # noqa: E402
 from bs4 import BeautifulSoup  # noqa: E402
 from src.cognition.canonicalizer import SemanticCanonicalizer  # noqa: E402
 from src.cognition.entity_linking_audit import assert_no_secret_markers  # noqa: E402
-from src.cognition.extractor import EntityExtractor  # noqa: E402
 from src.cognition.table_extractor import _clean_club_mention  # noqa: E402
-from src.cognition.triple_refiner import refine_triple_ex  # noqa: E402
 from src.miner.web_miner import WebMiner  # noqa: E402
 
 AUDIT_ID = "multi_club_honours_dry_run_048_9"

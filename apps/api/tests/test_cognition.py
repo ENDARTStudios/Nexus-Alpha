@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import pytest
 
-from src.cognition.reasoning import ChainOfThought, ReasoningStep
+from src.cognition.reasoning import ChainOfThought
 from src.cognition.rag_engine import RAGEngine
 from src.miner.security_protocol import SecurityProtocol, VerificationResult
 

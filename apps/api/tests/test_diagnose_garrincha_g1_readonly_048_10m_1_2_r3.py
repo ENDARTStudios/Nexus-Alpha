@@ -16,9 +16,6 @@ from scripts.diagnose_garrincha_g1_readonly_048_10m_1_2_r2 import (  # noqa: E40
     club_defendeu_query,
     classify_garrincha_state,
 )
-from scripts.prepare_garrincha_g1_corrected_dry_run_048_10m_1_2_r3 import (  # noqa: E402
-    main as _unused_main_marker,  # importável sem executar (main só roda via __main__)
-)
 
 OBJECT_VARIANTS = ["BOTAFOGO DE FUTEBOL E REGATAS", "BOTAFOGO"]
 

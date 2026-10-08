@@ -16,7 +16,6 @@ load_dotenv(Path(__file__).resolve().parent.parent / ".env.local")
 
 
 async def main() -> None:
-    import asyncio
 
     import httpx
     from neo4j import AsyncGraphDatabase

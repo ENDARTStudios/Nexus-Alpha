@@ -23,7 +23,6 @@ import os
 import re
 import sys
 from datetime import datetime, timezone
-from urllib.parse import urlparse
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(_HERE)

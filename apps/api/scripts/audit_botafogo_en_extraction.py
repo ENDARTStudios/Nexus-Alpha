@@ -21,7 +21,7 @@ import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
@@ -113,14 +113,11 @@ def _fetch(url: str, *, timeout: float = 30.0) -> dict[str, Any]:
 def forensics_one(url: str, *, timeout: float = 30.0) -> dict[str, Any]:
     """Fetch → clean → extract → refine → diagnose. Read-only, sem grafo."""
     from src.cognition.extractor import EntityExtractor
-    from src.cognition.span_validator import fold_span
-    from src.cognition.triple_refiner import refine_triple_ex
     from src.miner.source_productivity import (
         SENTENCE_SCORE_THRESHOLD,
         analyze_text,
         split_sentences,
     )
-    from src.miner.source_productivity import score_candidate_sentence  # type: ignore
     from src.miner.web_miner import WebMiner
 
     fetch = _fetch(url, timeout=timeout)

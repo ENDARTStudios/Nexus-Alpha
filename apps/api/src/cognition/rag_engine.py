@@ -6,7 +6,7 @@ import logging
 from typing import Any, Optional
 
 from ..miner.web_miner import WebMiner
-from ..miner.security_protocol import SecurityProtocol, VerificationResult
+from ..miner.security_protocol import SecurityProtocol
 from ..miner.quarantine import QuarantineStore
 from .reasoning import ChainOfThought, ReasoningTrace
 from .extractor import EntityExtractor

@@ -52,7 +52,6 @@ from src.cognition.span_validator import fold_span  # noqa: E402
 from src.cognition.triple_refiner import refine_triple_ex  # noqa: E402
 from src.miner.source_productivity import (  # noqa: E402
     analyze_text,
-    classify_extractive_quality,
     split_sentences,
 )
 from src.miner.web_miner import WebMiner  # noqa: E402
