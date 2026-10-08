@@ -102,13 +102,13 @@ clusters:
         publisher: Botafogo
         productivity: weak  # 200, 1 tripla canônica
       - url: https://gazetadoparana.com.br/artigo/garrincha-botafogo-historia-craque-futebol-arte
+        domain: gazetadoparana.com.br
+        publisher: Gazeta do Paraná
+        productivity: productive  # extrai fato Garrincha --SER--> Botafogo (cross-domain válido)
       - url: https://www.ogol.com.br/jogador/garrincha
         domain: ogol.com.br
         publisher: oGol
         productivity: weak  # probeada 200; histórico de carreira por época (60 menções Botafogo) — extração a provar
-        domain: gazetadoparana.com.br
-        publisher: Gazeta do Paraná
-        productivity: productive  # extrai fato Garrincha --SER--> Botafogo (cross-domain válido)
 
   - id: botafogo_libertadores
     topic: "Botafogo e a Copa Libertadores (títulos)"
