@@ -15,6 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import pytest
 
 from src.cognition.canonicalizer import SemanticCanonicalizer
+from src.cognition.triple_refiner import refine_triple_ex
 
 
 @pytest.fixture(scope="module")
@@ -82,3 +83,23 @@ def test_triplet_fields_preserved(canon: SemanticCanonicalizer):
     )
     assert out["confidence"] == 0.8
     assert out["source_url"].endswith("/wiki/Jairzinho")
+
+
+# --- caminho REAL de ingestão: refine_triple_ex (não passa por canonicalize_triplet) --
+
+def _refined_predicate(canon: SemanticCanonicalizer, subject: str, predicate: str, object_: str):
+    refined, _ = refine_triple_ex(
+        {"subject": subject, "predicate": predicate, "object": object_, "confidence": 0.9},
+        canonicalizer=canon,
+    )
+    return refined["predicate"] if refined else None
+
+
+def test_ingest_path_atlas_pair_becomes_defendeu(canon: SemanticCanonicalizer):
+    assert _refined_predicate(canon, "Jairzinho", "PERTENCE_A", "Botafogo de Futebol e Regatas") == "DEFENDEU"
+    assert _refined_predicate(canon, "Romário", "PERTENCE_A", "Vasco") == "DEFENDEU"
+
+
+def test_ingest_path_out_of_scope_keeps_pertence_a(canon: SemanticCanonicalizer):
+    assert _refined_predicate(canon, "Maracanã", "PERTENCE_A", "Flamengo") == "PERTENCE_A"
+    assert _refined_predicate(canon, "Pelé", "PERTENCE_A", "Santos") == "PERTENCE_A"

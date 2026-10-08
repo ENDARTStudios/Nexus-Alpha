@@ -141,6 +141,22 @@ _DEFENDEU_PAIR_TARGETS: tuple[tuple[frozenset[str], frozenset[str]], ...] = tupl
 )
 
 
+def apply_defendeu_pair_alias(subject: str, predicate: str, object_: str) -> str:
+    """#048.10M.1.2.R6 — devolve ``DEFENDEU`` quando (sujeito, objeto) foldado casa
+    com um par do atlas e ``predicate`` é ``PERTENCE_A``; caso contrário devolve
+    ``predicate`` inalterado. Usada por ``canonicalize_triplet`` E pelo refiner de
+    ingestão (``triple_refiner.refine_triple_ex``), que canonicaliza entidades
+    separadamente e não passa por ``canonicalize_triplet``.
+    """
+    if predicate != "PERTENCE_A":
+        return predicate
+    folded_pair = (fold_lookup_key(subject), fold_lookup_key(object_))
+    for subjects, objects in _DEFENDEU_PAIR_TARGETS:
+        if folded_pair[0] in subjects and folded_pair[1] in objects:
+            return "DEFENDEU"
+    return predicate
+
+
 class SemanticCanonicalizer:
     """Mapeia entidades e predicados para formas canônicas."""
 
@@ -317,12 +333,7 @@ class SemanticCanonicalizer:
         object_ = self.canonicalize_entity(triplet.get("object", ""))
         # #048.10M.1.2.R6 — unificação DEFENDEU somente para pares do atlas (ver
         # _DEFENDEU_PAIR_TARGETS); qualquer outro par mantém o predicado extraído.
-        if predicate == "PERTENCE_A":
-            folded_pair = (fold_lookup_key(subject), fold_lookup_key(object_))
-            for subjects, objects in _DEFENDEU_PAIR_TARGETS:
-                if folded_pair[0] in subjects and folded_pair[1] in objects:
-                    predicate = "DEFENDEU"
-                    break
+        predicate = apply_defendeu_pair_alias(subject, predicate, object_)
         return {
             "subject": subject,
             "predicate": predicate,

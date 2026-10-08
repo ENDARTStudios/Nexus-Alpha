@@ -23,8 +23,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
-from .canonicalizer import SemanticCanonicalizer
-from .predicate_mapper import CONTROLLED_PREDICATES, map_predicate, validate_predicate
+from .canonicalizer import SemanticCanonicalizer, apply_defendeu_pair_alias
+from .predicate_mapper import map_predicate, validate_predicate
 from .span_validator import fold_span, validate_entity_span
 
 logger = logging.getLogger(__name__)
@@ -176,6 +176,11 @@ def refine_triple_ex(
 
     if subject == obj:
         return None, "self_loop"
+
+    # #048.10M.1.2.R6 — unificação DEFENDEU para pares do atlas (o caminho de
+    # ingestão canonicaliza entidades separadamente; ver canonicalizer.
+    # applies_defendeu_pair_alias). Qualquer outro par mantém o predicado.
+    predicate = apply_defendeu_pair_alias(subject, predicate, obj)
 
     try:
         confidence = float(raw.get("confidence", 0.5))
