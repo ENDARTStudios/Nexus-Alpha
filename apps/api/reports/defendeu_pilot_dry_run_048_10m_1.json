@@ -16,10 +16,7 @@
         "en.wikipedia.org",
         "rsssf.org"
       ],
-      "probe_confirmed": [
-        "pt.wikipedia.org",
-        "en.wikipedia.org"
-      ],
+      "probe_confirmed": [],
       "local_existing_covered": [
         "pt.wikipedia.org",
         "en.wikipedia.org",
@@ -32,10 +29,7 @@
         "en.wikipedia.org",
         "rsssf.org"
       ],
-      "probe_confirmed": [
-        "pt.wikipedia.org",
-        "en.wikipedia.org"
-      ],
+      "probe_confirmed": [],
       "local_existing_covered": [
         "pt.wikipedia.org",
         "en.wikipedia.org",
@@ -48,10 +42,7 @@
         "en.wikipedia.org",
         "rsssf.org"
       ],
-      "probe_confirmed": [
-        "pt.wikipedia.org",
-        "en.wikipedia.org"
-      ],
+      "probe_confirmed": [],
       "local_existing_covered": [
         "pt.wikipedia.org",
         "en.wikipedia.org",
@@ -64,10 +55,7 @@
         "en.wikipedia.org",
         "rsssf.org"
       ],
-      "probe_confirmed": [
-        "pt.wikipedia.org",
-        "en.wikipedia.org"
-      ],
+      "probe_confirmed": [],
       "local_existing_covered": [
         "pt.wikipedia.org",
         "en.wikipedia.org",
@@ -80,10 +68,7 @@
         "en.wikipedia.org",
         "rsssf.org"
       ],
-      "probe_confirmed": [
-        "pt.wikipedia.org",
-        "en.wikipedia.org"
-      ],
+      "probe_confirmed": [],
       "local_existing_covered": [
         "pt.wikipedia.org",
         "en.wikipedia.org",
@@ -96,9 +81,7 @@
         "en.wikipedia.org",
         "rsssf.org"
       ],
-      "probe_confirmed": [
-        "pt.wikipedia.org"
-      ],
+      "probe_confirmed": [],
       "local_existing_covered": [
         "pt.wikipedia.org",
         "en.wikipedia.org",
@@ -111,10 +94,7 @@
         "en.wikipedia.org",
         "rsssf.org"
       ],
-      "probe_confirmed": [
-        "pt.wikipedia.org",
-        "en.wikipedia.org"
-      ],
+      "probe_confirmed": [],
       "local_existing_covered": [
         "pt.wikipedia.org",
         "en.wikipedia.org",
@@ -122,8 +102,8 @@
       ]
     }
   },
-  "domain_coverage_pt": 7,
-  "domain_coverage_en": 6,
+  "domain_coverage_pt": 0,
+  "domain_coverage_en": 0,
   "domain_coverage_rsssf": 0,
   "domain_coverage_non_wikimedia": 0,
   "predicted_defendeu_triples_by_domain": {

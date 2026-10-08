@@ -1,19 +1,18 @@
 {
   "audit_id": "defendeu_pilot_worker_fact_validation_048_10m_1_2",
-  "generated_at": "2026-10-03T02:08:56.436571+00:00",
+  "generated_at": "2026-10-08T03:12:31.273288+00:00",
   "mode": "read_only",
   "expected_facts_total": 7,
-  "verified_expected_facts": 0,
+  "verified_expected_facts": 1,
   "missing_expected_facts": [
     "defendeu_carlosalbertotorres_007",
     "defendeu_romariodesouzafaria_006",
     "defendeu_socratesbrasileirosampai_005",
-    "defendeu_zito_003",
     "defendeu_rogerioceni_012"
   ],
   "partial_expected_facts": [
-    "defendeu_jairzinho_002",
-    "defendeu_manuelfranciscodossantos_001"
+    "defendeu_manuelfranciscodossantos_001",
+    "defendeu_zito_003"
   ],
   "candidates": [
     {
@@ -31,20 +30,24 @@
       "candidate_id": "defendeu_jairzinho_002",
       "expected": "JAIRZINHO --DEFENDEU--> BOTAFOGO DE FUTEBOL E REGATAS",
       "present_in_graph": true,
-      "verified_in_graph": false,
+      "verified_in_graph": true,
       "confirmed_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org",
         "rsssfbrasil.com"
       ],
-      "domain_count": 1,
+      "domain_count": 3,
       "non_wikimedia_domain_present": true,
-      "meets_quorum": false,
+      "meets_quorum": true,
       "rows": [
         {
           "sujeito": "JAIRZINHO",
           "objeto": "BOTAFOGO DE FUTEBOL E REGATAS",
-          "verificado": false,
-          "confirmacoes": 1,
+          "verificado": true,
+          "confirmacoes": 3,
           "domains": [
+            "en.wikipedia.org",
+            "pt.wikipedia.org",
             "rsssfbrasil.com"
           ]
         }
@@ -100,13 +103,27 @@
     {
       "candidate_id": "defendeu_zito_003",
       "expected": "ZITO --DEFENDEU--> SANTOS FUTEBOL CLUBE",
-      "present_in_graph": false,
+      "present_in_graph": true,
       "verified_in_graph": false,
-      "confirmed_domains": [],
-      "domain_count": 0,
-      "non_wikimedia_domain_present": false,
+      "confirmed_domains": [
+        "lance.com.br",
+        "santosfc.com.br"
+      ],
+      "domain_count": 2,
+      "non_wikimedia_domain_present": true,
       "meets_quorum": false,
-      "rows": []
+      "rows": [
+        {
+          "sujeito": "ZITO",
+          "objeto": "SANTOS FUTEBOL CLUBE",
+          "verificado": false,
+          "confirmacoes": 2,
+          "domains": [
+            "lance.com.br",
+            "santosfc.com.br"
+          ]
+        }
+      ]
     },
     {
       "candidate_id": "defendeu_rogerioceni_012",

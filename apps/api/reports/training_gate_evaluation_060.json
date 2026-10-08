@@ -1,30 +1,30 @@
 {
   "audit_id": "training_gate_evaluation_060",
-  "generated_at": "2026-09-27T21:05:18.293928+00:00",
+  "generated_at": "2026-10-08T02:15:05.884431+00:00",
   "head_initial": "b7fe512",
   "head_final": "see SPRINT",
   "commits_created": [],
   "ci_status": "green",
-  "verified_facts_domain_independent": 10,
+  "verified_facts_domain_independent": 21,
   "numeric_gate": {
     "verified_facts_gate": true,
     "records_gate": false,
-    "schema_gate": true,
+    "schema_gate": false,
     "sanitization_gate": true
   },
   "quality_gate": {
-    "diversity_gate": false,
-    "publisher_independence_gate": false,
+    "diversity_gate": true,
+    "publisher_independence_gate": true,
     "provenance_gate": true
   },
   "environment_gate": {
-    "python_gate": true,
+    "python_gate": false,
     "gpu_gate": false,
     "llamafactory_gate": false,
     "training_enable_gate": false,
     "details": {
-      "python_version": "3.11.15",
-      "python_ok": true,
+      "python_version": "3.14.7",
+      "python_ok": false,
       "gpu_available": false,
       "kaggle_credentials_present": false,
       "llamafactory_installed": false,
@@ -33,12 +33,22 @@
     }
   },
   "dataset_summary_path": "reports/training_dataset_export_summary_060.json",
+  "unique_publisher_families": 3,
+  "publisher_family_distribution": {
+    "Wikimedia": 42,
+    "OpenStreetMap": 9,
+    "RSSSF": 12
+  },
+  "effective_publisher_count": 3,
+  "publisher_independence_warnings": [
+    "OPENSTREETMAP_IS_GEOGRAPHIC_OPEN_DATA_NOT_NEWS_EDITORIAL",
+    "RSSSF_AND_RSSSF_BRASIL_SAME_FAMILY_SUSPECTED",
+    "WIKIMEDIA_MULTIPLE_LANGUAGES_NOT_INDEPENDENT"
+  ],
   "training_recommended": false,
   "training_allowed": false,
   "blocking_reasons": [
     "BLOCKED_RECORDS_INSUFFICIENT",
-    "DIVERSITY_GATE_FAILED",
-    "PUBLISHER_INDEPENDENCE_WARNING",
     "TRAINING_BLOCKED_ENVIRONMENT"
   ],
   "next_issue_recommendation": "#048.10A — escalar fatos verificados para records >= 50 (e #048.10B para diversidade além de VENCEU)",

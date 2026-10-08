@@ -17,9 +17,7 @@
       "min_domain_count": 3,
       "must_be_verified": true,
       "evidence_strength": "LOCAL_EXISTING_EVIDENCE",
-      "source_evidence_refs": [
-        ".autonomous\\048_10m_1\\probes\\defendeu_carlosalbertotorres_007.json"
-      ],
+      "source_evidence_refs": [],
       "risk": "low",
       "ontology_change_required": false,
       "source_policy": "allowed"
@@ -38,9 +36,7 @@
       "min_domain_count": 3,
       "must_be_verified": true,
       "evidence_strength": "LOCAL_EXISTING_EVIDENCE",
-      "source_evidence_refs": [
-        ".autonomous\\048_10m_1\\probes\\defendeu_jairzinho_002.json"
-      ],
+      "source_evidence_refs": [],
       "risk": "low",
       "ontology_change_required": false,
       "source_policy": "allowed"
@@ -59,9 +55,7 @@
       "min_domain_count": 3,
       "must_be_verified": true,
       "evidence_strength": "LOCAL_EXISTING_EVIDENCE",
-      "source_evidence_refs": [
-        ".autonomous\\048_10m_1\\probes\\defendeu_manuelfranciscodossantos_001.json"
-      ],
+      "source_evidence_refs": [],
       "risk": "low",
       "ontology_change_required": false,
       "source_policy": "allowed"
@@ -80,9 +74,7 @@
       "min_domain_count": 3,
       "must_be_verified": true,
       "evidence_strength": "LOCAL_EXISTING_EVIDENCE",
-      "source_evidence_refs": [
-        ".autonomous\\048_10m_1\\probes\\defendeu_romariodesouzafaria_006.json"
-      ],
+      "source_evidence_refs": [],
       "risk": "low",
       "ontology_change_required": false,
       "source_policy": "allowed"
@@ -101,9 +93,7 @@
       "min_domain_count": 3,
       "must_be_verified": true,
       "evidence_strength": "LOCAL_EXISTING_EVIDENCE",
-      "source_evidence_refs": [
-        ".autonomous\\048_10m_1\\probes\\defendeu_socratesbrasileirosampai_005.json"
-      ],
+      "source_evidence_refs": [],
       "risk": "low",
       "ontology_change_required": false,
       "source_policy": "allowed"
@@ -122,9 +112,7 @@
       "min_domain_count": 3,
       "must_be_verified": true,
       "evidence_strength": "LOCAL_EXISTING_EVIDENCE",
-      "source_evidence_refs": [
-        ".autonomous\\048_10m_1\\probes\\defendeu_zito_003.json"
-      ],
+      "source_evidence_refs": [],
       "risk": "low",
       "ontology_change_required": false,
       "source_policy": "allowed"
@@ -143,28 +131,26 @@
       "min_domain_count": 3,
       "must_be_verified": true,
       "evidence_strength": "LOCAL_EXISTING_EVIDENCE",
-      "source_evidence_refs": [
-        ".autonomous\\048_10m_1\\probes\\defendeu_rogerioceni_012.json"
-      ],
+      "source_evidence_refs": [],
       "risk": "medium",
       "ontology_change_required": false,
       "source_policy": "allowed"
     }
   ],
   "forbidden_objects": [
-    "CLAUSULA",
+    "ENDERECO",
     "SELECAO_AMBIGUA",
     "CIDADE",
-    "PAIS",
-    "ESTADIO",
     "EMPRESTIMO_NAO_SUPORTADO",
-    "ENDERECO",
-    "ESTADO",
-    "COMPETICAO",
-    "GENERICO",
-    "COORDENADA",
     "BASE_JUVENTUDE_NAO_SUPORTADA",
-    "BAIRRO"
+    "CLAUSULA",
+    "COORDENADA",
+    "PAIS",
+    "GENERICO",
+    "ESTADIO",
+    "COMPETICAO",
+    "BAIRRO",
+    "ESTADO"
   ],
   "forbidden_predicates": [
     "DISPUTOU",
