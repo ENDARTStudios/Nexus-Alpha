@@ -3616,3 +3616,12 @@ distingue COLD_BOOT de DRIFT_REAL) · `tests/test_readiness_graph_ready_054_2_r2
 - **Firewall restante (intencional, não mexido):** bot_filter challenge + JA3/JA4 ativos — curls são desafiados (429 Security Checkpoint); navegador real passa.
 - **Prova anônima end-to-end (browser real, sem login):** produção carrega `Nexus-Alpha — Córtex Audit` (UI "Nexus-Alpha Core / PRO MODE" renderizada) e o proxy `/api/nexus/metrics` retorna **200: concept 2504 / fact 1089 / verified 21 / graph_ready true** — o site público lê o grafo do Railway com o fato verificado novo.
 - **Impacto:** frontend público destravado (produto, SEO/AEO, validação de usuário real). Previews e código permanecem protegidos.
+
+## [2026-10-08] #048.10M.1.2.R7 — Fontes de carreira descobertas+aplicadas; Zito a 1 domínio do quórum
+
+- **Forense Garrincha:** o DEFENDEU dele tem pt+en.wikipedia (conf 2); a gazetadoparana tem ZERO CONFIRMA no grafo (as 9 triplas do audit #058 eram extração offline de teste) — Garrincha precisa de outra fonte que produza a tripla.
+- **Descoberta (busca web + probes):** pares validados para **Zito** (lancepedia "A história de Zito no Santos" + ogol `/jogador/zito`), **CAT** (artigo oficial santosfc.com.br "o melhor lateral-direito do mundo" — que também corroborou o Zito!), **Romário** (biografia oficial romario.org/biografia/). Sócrates/Ceni: sem URL de carreira descoberta (pendentes).
+- **Extensão 2 (`c307b40`):** 3 clusters novos conformes (14 fontes no total do piloto). Teste de guarda atualizado (Zito/CAT/Romário dentro com não-Wiki; Sócrates/Ceni fora por D9).
+- **Worker (2 execuções: 1 abortada por timeout do tool + 1 completa desacoplada, 82 fontes):** resultado fact-level — **Jairzinho mantido verified 3/3**; **Zito: DEFENDEU conf=2 (lance.com.br + santosfc.com.br — o alias R6 provado no caminho de produção)**, pt/en wiki ainda não produziram a tripla dele (acumulação multi-ciclo fecha via cron 6h); CAT/Romário: fontes no stream, triplas ainda não extraídas. Métricas: fact 1231, concept 2611, verified 21, junk 0, gates 0.
+- **Nota de ruído:** `ZITO DEFENDEU "PELO SANTOS"` (fragmento, fora do atlas) — candidato a limpeza futura (sem GO de delete).
+- **Gotchas:** ciclo de worker excede o timeout do tool → usar nohup desacoplado + log; o `.env` da RAIZ (Aura morto) engana `load_dotenv(Path(".env"))` fora de apps/api — usar caminho absoluto.
