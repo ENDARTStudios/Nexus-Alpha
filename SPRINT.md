@@ -3645,3 +3645,10 @@ distingue COLD_BOOT de DRIFT_REAL) · `tests/test_readiness_graph_ready_054_2_r2
 
 ### Etapa 5 — Fechamento
 30 ✅ DOC-1 (este checklist + docs da sessão) · 31 ✅ AUD-1: contabilidade gsg=0/unaccounted=0/fas=ok/junk=0 · quórum 3 intacto · anti-contaminação: 0 artefatos de projeto interdito · anti-leak: CI verde em todos os pushes · staging explícito em todos os commits · sem force-push · 32 → **CLOSE-1: CONCLUSÃO OPERACIONAL** (Caminho alternativo sancionado): o projeto fecha como **sistema de extração/verificação operacional** — grafo no Railway (TLS, backup real semanal), Space público com contrato de readiness, frontend público, **verified 21** (1 fato novo via quórum 3 provado), Zito a 1 domínio, 3 candidatos com fontes no stream. Treino formalmente deferido. Continuação = novo mandato do Operador (GO-4/GO-5/GO-6 quando aplicável).
+
+## [2026-10-08] Transferência pós-CLOSE-1 recebida — estado conferido, correções de precisão registradas
+
+- **Handoff do Operador registrado** (gaps 1-6, políticas vigentes, opções A-E, recomendação = Opção D — acumulação natural por 2-4 semanas e reavaliação). **Nenhuma opção executada**: todas exigem GO próprio; standby sob Opção D.
+- **Correções de precisão no documento de transferência** (para não induzir a próxima sessão): (1) métricas vivas = **verified 21 · fact 1231 · concept 2611** (o documento citou a baseline pré-piloto 598/2136 como atuais — esses valores são históricos); (2) o grafo de produção é **Railway Neo4j CE (bolt+ssc TLS)** — o AuraDB está CANCELADO; (3) Backup semanal real + política em `docs/06-devops-deployment/SNAPSHOT_POLICY.md` ✓ (confirmado).
+- **Estado verificado agora**: `verified 21 | fact 1231 | concept 2611 | graph_ready true | quórum 3` · HEAD `6dd8ac2` · CI success.
+- **Critério de reativação (Opção D)**: se o cron 6h fechar o Zito (verified 22), reavaliar Opção A; records ≥ 30 → Opção B; records ≥ 50 + GO-6 → treino (Opção E/ENV-1).
