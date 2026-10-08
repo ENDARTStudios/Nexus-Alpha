@@ -3659,3 +3659,11 @@ distingue COLD_BOOT de DRIFT_REAL) · `tests/test_readiness_graph_ready_054_2_r2
 - **Descoberta de fontes de carreira (rodada 2):** oGol tem perfis de jogador em padrão previsível — **Garrincha validado** (`/jogador/garrincha`, 200, 60 menções Botafogo, histórico tabular por época) adicionado ao cluster (`db3a31c`+`7cf658b`, com fix de estrutura yaml `7cf658b`). Sócrates/Ceni: slugs ogol caem na página de busca (JS) — pendentes de descoberta real.
 - **Worker (ciclo com as novas seeds):** 82+ fontes; Jairzinho mantido verified 3/3; Zito 2/3 (lance+santosfc — acumulação segue); CAT/Romário em extração.
 - **#054.4.1 EXECUTADO:** 67→0 ocorrências ruff (30 F401 auto-fix + F841/E402/E702 manuais; `ruff.toml` com dívida explícita limitada a 4 scripts legados + dashboard E402) + **gate de lint ATIVO no CI** (step 3.5, ruff==0.15.21 pinned em requirements-dev). Lição: o `--fix` alterou mais arquivos que o commit explícito — CI pegou; follow-up commitou o restante (`dcd0738`). Commits `8cdac3f`+`dcd0738`.
+
+## [2026-10-08] Resultado do ciclo final: verified 21 → **26** (+5) — Romário fecha quórum com a biografia oficial
+
+- **Validação fact-level:** **`ROMARIO DEFENDEU VASCO DA GAMA` — verified, 3/3 domínios (romario.org + pt.wikipedia.org + en.wikipedia.org)** — 2º candidato do atlas DEFENDEU verificado. A biografia oficial (romario.org) também corroborou Romário→Barcelona/Flamengo/Fluminense e CONECTA_A→Hiddink (todos 3/3) — fonte de carreira de alta produtividade, provando o método da descoberta.
+- **Nota de precisão:** o validador do piloto (`validate_defendeu_pilot_worker...`) reporta `romariodesouzafaria_006: present=false` porque casa o nome canônico completo do registry — o grafo verificou o fato sob o apelido `ROMARIO`. Limitação do REPORT (não do sistema); melhoria futura: adicionar `ROMARIO`/`GARRINCHA`-style apelidos aos subject_aliases da seleção.
+- **CAT: present, 1/3 não-Wiki (santosfc.com.br corroborou o par CAT→Santos ✓)** — em acumulação.
+- **Métricas finais: verified 26 | fact 1427 | concept 2739 | junk 0 | promoted 0 | gsg 0.**
+- **Caminho para o treino:** 26/50 — faltam 24; o padrão provado (descoberta de fonte de carreira → seed → quórum) replica por candidato/ícone.
