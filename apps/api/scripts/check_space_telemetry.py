@@ -79,9 +79,10 @@ def _fetch_metrics_payload() -> dict:
         pass
     import os
 
+    from src.ops.space_env import space_base_url
     from src.ops.space_telemetry import _fetch_metrics
 
-    url = os.environ.get("HF_SPACE_URL") or os.environ.get("NEXUS_SPACE_URL")
+    url = space_base_url()
     if not url:
         return {}
     _status, payload = _fetch_metrics(

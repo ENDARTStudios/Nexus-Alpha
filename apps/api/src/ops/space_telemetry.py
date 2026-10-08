@@ -12,6 +12,8 @@ import urllib.request
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
+from .space_env import space_base_url
+
 USER_AGENT = "Nexus-Alpha/1.0 (preflight telemetry check)"
 EXPECTED_QUORUM = 3
 ONLINE_STATUSES = {"online", "ok", "success"}
@@ -137,7 +139,7 @@ def check_space_telemetry(
     if allow_unverified_local or _env_allow_unverified():
         return TelemetryCheckResult(True, "ALLOW_UNVERIFIED_LOCAL", [], {}, None)
 
-    url = space_url or os.environ.get("HF_SPACE_URL") or os.environ.get("NEXUS_SPACE_URL")
+    url = space_url or space_base_url()
     token = hf_token if hf_token is not None else os.environ.get("HF_TOKEN")
     nexus = nexus_token if nexus_token is not None else os.environ.get("NEXUS_API_TOKEN")
 

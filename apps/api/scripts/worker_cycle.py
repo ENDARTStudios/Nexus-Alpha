@@ -14,6 +14,7 @@ import json
 import logging
 import os
 import time
+from contextlib import contextmanager
 from pathlib import Path
 from urllib.parse import quote
 
@@ -30,6 +31,7 @@ from src.cognition.geo_extractor import (
 )
 from src.cognition.geo_wiki_parser import extract_geo_localizado_from_wiki, is_geo_wiki_url
 from src.ops.space_telemetry import check_space_telemetry
+from src.ops.space_env import space_base_url
 from src.miner.seed_loader import cluster_to_seeds, load_seed_clusters, manifest_health, validate_seed_clusters
 from src.miner.source_productivity import payload_telemetry
 from src.miner.web_miner import WebMiner
@@ -243,14 +245,30 @@ def _build_geo_wiki_payloads(
 
 
 async def _post_ingest_with_retry(client, api_url: str, payload: dict, headers: dict, max_retries: int = 2):
-    """POST no endpoint de ingest com retry limitado para 5xx.
+    """POST no endpoint de ingest com retry limitado para 5xx e 429 (#054.3).
 
     Idempotente: o grafo persiste por MERGE na chave canonica (`app.py` -> graph_connector),
-    entao reenviar o mesmo payload nao cria duplicata. Retry apenas para 502/503/504.
+    entao reenviar o mesmo payload nao cria duplicata. Retry para 502/503/504 e, desde
+    #054.3, para 429 — respeitando `Retry-After` (teto de 30s por tentativa, sem estourar
+    o rate limit do Space). Outros 4xx nao sao retentaveis (erro real do payload/auth).
     """
     response = None
     for attempt in range(max_retries + 1):
         response = await client.post(api_url, json=payload, headers=headers, timeout=30.0)
+        if response.status_code == 429:
+            if attempt < max_retries:
+                retry_after = _bounded_retry_after(response.headers.get("Retry-After"))
+                logger.warning(
+                    "ingest 429 em %s — respeitando Retry-After (%.0fs) — retry %d/%d",
+                    payload.get("source_url"), retry_after, attempt + 1, max_retries,
+                )
+                await asyncio.sleep(retry_after)
+                continue
+            logger.error(
+                "ingest 429 persistente em %s após %d retries — fonte adiada para o próximo ciclo.",
+                payload.get("source_url"), max_retries,
+            )
+            return response
         if response.status_code not in (502, 503, 504):
             return response
         if attempt < max_retries:
@@ -260,6 +278,43 @@ async def _post_ingest_with_retry(client, api_url: str, payload: dict, headers: 
             )
             await asyncio.sleep(5 * (attempt + 1))
     return response
+
+
+def _bounded_retry_after(raw: str | None, cap_seconds: float = 30.0, default_seconds: float = 5.0) -> float:
+    """Converte o header `Retry-After` em segundos, com default e teto (#054.3)."""
+    try:
+        value = float(raw) if raw is not None else default_seconds
+    except (TypeError, ValueError):
+        value = default_seconds
+    return max(0.0, min(value, cap_seconds))
+
+
+# O1 — supervisão de processo: lock exclusivo por host. Impede dois workers
+# minerando em paralelo (launchers órfãos/duplicados) e dá timeout implícito:
+# lock mais antigo que WORKER_LOCK_STALE_SECONDS é tratado como órfão de crash.
+WORKER_LOCK_STALE_SECONDS = 3 * 60 * 60
+WORKER_LOCK_PATH = Path("data") / "worker_cycle.lock"
+
+
+@contextmanager
+def worker_lock(lock_path: Path = WORKER_LOCK_PATH, stale_seconds: int = WORKER_LOCK_STALE_SECONDS):
+    """Lock exclusivo do ciclo (O1): escreve PID, recusa ciclo simultâneo e
+    substitui lock órfão (mtime mais antigo que ``stale_seconds``)."""
+    if lock_path.exists():
+        age = time.time() - lock_path.stat().st_mtime
+        if age < stale_seconds:
+            holder = lock_path.read_text(encoding="utf-8", errors="replace").strip() or "?"
+            raise SystemExit(
+                f"worker_cycle já em execução (lock {lock_path}, PID {holder}, {int(age)}s) — abortando (O1)."
+            )
+        logger.warning("lock órfão do worker (%.0fs, PID %s) substituído (O1).", age,
+                       lock_path.read_text(encoding="utf-8", errors="replace").strip())
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    lock_path.write_text(str(os.getpid()), encoding="utf-8")
+    try:
+        yield
+    finally:
+        lock_path.unlink(missing_ok=True)
 
 
 class TelemetryBlocked(RuntimeError):
@@ -287,7 +342,7 @@ def _enforce_telemetry_gate(result) -> None:
 async def run_cycle(allow_unverified_local: bool = False) -> None:
     _enforce_telemetry_gate(_telemetry_gate(allow_unverified_local=allow_unverified_local))
     token = os.environ.get("NEXUS_API_TOKEN", "")
-    api_base = os.environ.get("HF_SPACE_URL", "").rstrip("/")
+    api_base = space_base_url()
     hf_token = os.environ.get("HF_TOKEN", "")
     if not token or not api_base:
         logger.error("Secrets ausentes — defina NEXUS_API_TOKEN e HF_SPACE_URL no GitHub.")
@@ -429,7 +484,8 @@ if __name__ == "__main__":
     if _args.allow_unverified_local:
         logger.warning("Gate de telemetria PULADO (--allow-unverified-local). NÃO usar em produção.")
     try:
-        asyncio.run(run_cycle(allow_unverified_local=_args.allow_unverified_local))
+        with worker_lock(WORKER_LOCK_PATH):
+            asyncio.run(run_cycle(allow_unverified_local=_args.allow_unverified_local))
     except TelemetryBlocked as exc:
         logger.error("%s", exc)
         raise SystemExit(1)
