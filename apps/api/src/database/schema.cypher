@@ -12,7 +12,7 @@ CREATE CONSTRAINT fato_id IF NOT EXISTS FOR (fa:Fato) REQUIRE fa.id IS UNIQUE;
 
 // === ÍNDICES DE BUSCA ===
 CREATE INDEX conceito_busca IF NOT EXISTS FOR (c:Conceito) ON (c.nome);
-CREATE INDEX fonte_dominio IF NOT EXISTS FOR (f:FonteWeb) ON (f.dominio);
+CREATE INDEX fonte_dominio IF NOT EXISTS FOR (f:FonteWeb) ON (f.domain);  // D6: propriedade canônica é `domain`
 """
 
 INGEST_QUERY = """
@@ -21,7 +21,7 @@ MERGE (c1:Conceito {nome: $conceito_origem})
 MERGE (c2:Conceito {nome: $conceito_destino})
   ON CREATE SET c2.criado_em = timestamp()
 MERGE (f:FonteWeb {url: $fonte_url})
-  ON CREATE SET f.dominio = $dominio, f.criado_em = timestamp()
+  ON CREATE SET f.domain = $domain, f.criado_em = timestamp()
   SET f.ultima_verificacao = timestamp(),
       f.confiabilidade = coalesce($confiabilidade, f.confiabilidade, 0.5)
 MERGE (a:Autor {id: $autor_id})
