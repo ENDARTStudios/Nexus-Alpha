@@ -3667,3 +3667,10 @@ distingue COLD_BOOT de DRIFT_REAL) · `tests/test_readiness_graph_ready_054_2_r2
 - **CAT: present, 1/3 não-Wiki (santosfc.com.br corroborou o par CAT→Santos ✓)** — em acumulação.
 - **Métricas finais: verified 26 | fact 1427 | concept 2739 | junk 0 | promoted 0 | gsg 0.**
 - **Caminho para o treino:** 26/50 — faltam 24; o padrão provado (descoberta de fonte de carreira → seed → quórum) replica por candidato/ícone.
+
+## [2026-10-08] Rodada pós-extensão 4: **verified 27** — todos os 7 candidatos com confirmações ativas
+
+- **Ciclo com as 6 fontes novas:** 88 fontes 200; `verified 26→27` — o +1 veio do caminho IA legado (`INTELIGÊNCIA ARTIFICIAL UTILIZA MACHINE LEARNING` 3/3: spectrum.ieee.org + plato.stanford.edu + geeksforgeeks.org — diversidade de publishers real).
+- **Estado por candidato (confirmações no grafo):** Jairzinho **✅ 3/3 verificado** · Romário **✅ 3/3 verificado** (após correção de nomenclatura do validador — nota anterior) · Ceni **2/3** (pt+en wikipedia; ogol no stream) · Zito **2/3** (lance + santosfc; wiki pendente) · Sócrates **1/3** (lancepedia produzindo ✓) · CAT **1/3** (santosfc ✓) · Garrincha 2/3 (wiki; fontes não-wiki não produzem a tripla — caso de extração).
+- **Rumo ao treino: 27/50** — 23 fatos para o gate; o padrão descoberta→seed→ciclo replica (Romário rendeu +5 num ciclo sozinho).
+- Invariantes: gates 0 (junk/promoted/unaccounted/gsg), quórum 3, sem treino, contaminação 0.
