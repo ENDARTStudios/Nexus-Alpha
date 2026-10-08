@@ -3593,3 +3593,11 @@ distingue COLD_BOOT de DRIFT_REAL) · `tests/test_readiness_graph_ready_054_2_r2
 - **Fact-level: Jairzinho NÃO verificado — causa raiz nova e definitiva: FRAGMENTAÇÃO DE PREDICADO.** As páginas wiki do jogador extraem `PERTENCE_A` (nó conf=2, pt+en.wikipedia); o fato-alvo do registry é `DEFENDEU` (nó conf=1, rsssfbrasil). As fontes novas corroboram o mesmo fato lógico sob predicado diferente — quórum 3 não fecha na mesma chave canônica.
 - **Opções devolvidas:** (1) GO p/ alias canônico `PERTENCE_A→DEFENDEU` quando objeto = clube (mudança de núcleo, task própria com testes); (2) acumulação multi-ciclo (RSSSF já corrobora DEFENDEU); (3) congelar. 
 - **Invariantes:** treino NÃO · quórum intacto · núcleo/predicados intocados · contaminação 0 · restore NÃO.
+
+## [2026-10-07] #048.10M.1.2.R6 — Alias de predicado no caminho de ingest: PRIMEIRO fato DEFENDEU novo verificado (quórum 3)
+
+- **Causa raiz R5 (fragmentação de predicado)** resolvida com mudança de núcleo mínima e escopada (GO do Operador): `canonicalizer.apply_defendeu_pair_alias` — `PERTENCE_A→DEFENDEU` SOMENTE para os pares (sujeito, objeto) do atlas dos 7 candidatos (fold case/acentos/artigos). Estádio `PERTENCE_A` clube, Pelé→Santos, Rivelino etc. permanecem `PERTENCE_A` (testes negativos).
+- **Lição de integração:** o primeiro deploy não surtiu efeito — `canonicalize_triplet` não está no caminho de ingest; o pipeline real é `refine_triple_ex` (canonicaliza entidades separadamente). Alias injetado nos DOIS caminhos; testes passam a cobrir `refine_triple_ex`.
+- **Validação (2 ciclos de worker, app novo confirmado por boot log):** `defendeu_jairzinho_002` → **present, verified=true, 3 domínios (rsssfbrasil.com + pt.wikipedia.org + en.wikipedia.org), não-Wikimedia ✓**.
+- **Métricas: verified_facts 20→21 (primeiro fato novo verificado do projeto), fact→1089, concept→2504; junk 0, fallback 0, unaccounted 0, gsg 0.** Suíte 837 passed/20 skipped; commits `dea8774`+`884c5a2`; CI success; Space redeployado (67 arquivos).
+- **Próximos candidatos (5):** exigem 3ª fonte não-Wiki validada (D9) antes de entrar em seeds — probes futuros por jogador (gazetadoparana-like). Treino: 21/50 — segue bloqueado.
