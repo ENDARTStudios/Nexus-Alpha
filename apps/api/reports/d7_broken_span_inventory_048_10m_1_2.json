@@ -1,0 +1,18 @@
+{
+  "task": "D7 — auditoria read-only de fatos DEFENDEU com span quebrado",
+  "generated_at": "2026-10-08T02:15:44.843539+00:00",
+  "defendeu_facts_total": 15,
+  "broken_span_count": 1,
+  "inventory": [
+    {
+      "sujeito": "ZITO",
+      "objeto": "PELO SANTOS",
+      "verificado": false,
+      "confirmacoes": 1,
+      "dominios": [
+        "santosfc.com.br"
+      ]
+    }
+  ],
+  "decision": "ACEITAÇÃO DOCUMENTADA — higiene (remoção/rewrite) DEFERIDA com GO próprio (padrão 048.10L.5); nenhum fato quebrado é verificado nem interfere no quórum dos candidatos do atlas"
+}

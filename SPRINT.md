@@ -3625,3 +3625,23 @@ distingue COLD_BOOT de DRIFT_REAL) · `tests/test_readiness_graph_ready_054_2_r2
 - **Worker (2 execuções: 1 abortada por timeout do tool + 1 completa desacoplada, 82 fontes):** resultado fact-level — **Jairzinho mantido verified 3/3**; **Zito: DEFENDEU conf=2 (lance.com.br + santosfc.com.br — o alias R6 provado no caminho de produção)**, pt/en wiki ainda não produziram a tripla dele (acumulação multi-ciclo fecha via cron 6h); CAT/Romário: fontes no stream, triplas ainda não extraídas. Métricas: fact 1231, concept 2611, verified 21, junk 0, gates 0.
 - **Nota de ruído:** `ZITO DEFENDEU "PELO SANTOS"` (fragmento, fora do atlas) — candidato a limpeza futura (sem GO de delete).
 - **Gotchas:** ciclo de worker excede o timeout do tool → usar nohup desacoplado + log; o `.env` da RAIZ (Aura morto) engana `load_dotenv(Path(".env"))` fora de apps/api — usar caminho absoluto.
+
+## [2026-10-08] Fechamento — checklist mestre do roadmap (32 itens) e Conclusão Operacional (CLOSE-1)
+
+### Etapa 0 — Desbloqueio e integridade: 6/6 FECHADOS
+1 ✅ Vercel rootDirectory=apps/web via API, deploy Production READY (`dpl_5wf2RqDuay`) · 2 ✅ PR #1 merged (`d81bd26`) · 3 ✅ R3.0 coberto pela auditoria #054.6 + prova prática (3× UPLOAD_OK, allowlist 67 arquivos) · 4 ✅ R3: Space RUNNING com `graph_ready`, gate `--wait-ready` READY · 5 ✅ #054.6 relatório · 6 ✅ #054.6.1 ajustes docs (`dca4999`+`690016f`).
+
+### Etapa 1 — Observabilidade e confiabilidade: 8/8 FECHADOS
+7 ✅ #054.3 retry 429 c/ Retry-After (teto 30s) + testes (`817a79f`) · 8 ✅ O2 `src/ops/space_env.py` loader canônico (worker+telemetria+gate) · 9 ✅ O4 `docs/04-api-integrations/TELEMETRY_FIELDS.md` (+ `metric_glossary` já no contrato) · 10 ✅ D6 convenção `domain` (schema.cypher alinhado + testes `ed2011d`) · 11 ✅ D11 verificado: CI verde SEM python-dotenv (remanescentes = CLI standalone fora da suíte) · 12 ✅ #054.4 relatório (`lint_gate_report_054_4.md`: 67 ocorrências; gate DEFERIDO → #054.4.1 c/ GO) · 13 ✅ O1 lock/PID/timeout órfão (`worker_lock`, testes) · 14 ✅ O3 `docs/06-devops-deployment/SNAPSHOT_POLICY.md`.
+
+### Etapa 2 — DEFENDEU: decisão executada (Opção C), parcial aberta documentada
+15 ✅ GO-3 registrado: Opção C executada (R5/R6/R7) · 16 ✅ D8-review: design aprovado e aplicado (desvio documentado: seeds ativas por GO explícito, sem flag) · 17 ✅ S1 (`a1b44cc`+`c307b40`) · 18 ✅ S2: dry-run re-executado → `ready_for_worker=true` (7/7 collision, junk 0) · 19 ◐ G-gates: **Jairzinho ✅ verified 3/3** (verified 20→21); **Zito 2/3** (lance.com.br + santosfc.com.br — fecha por acumulação do cron); Garrincha 2/3 (gazetadoparana não produz tripla — forense); CAT/Romário fontes no stream; Sócrates/Ceni pendentes de fonte (D9) · 20 ✅ D7: inventário — 1/15 DEFENDEU com span quebrado (`ZITO→PELO SANTOS`), aceitação documentada, higiene deferida (GO próprio).
+
+### Etapa 3 — Volume: planning fechado, execução condicionada
+21 ✅ GEO-3 planning (`geo3_planning_atlas_048_10m.md`, 5 candidatos, `ready=false` até demonstrar produtividade do geo path) · 22 ◐ dry-run condicionado à pré-condição 1 · 23 ⏸ worker aguarda GO-5 + pré-condição.
+
+### Etapa 4 — Treino: DEFERIDO FORMALMENTE
+25 ✅ GATE-1 reavaliado (`training_gate_evaluation_060.json`): records 21/50 → `BLOCKED_RECORDS_INSUFFICIENT`; ambiente → `TRAINING_BLOCKED_ENVIRONMENT`; diversidade/publishers OK. 24 ✅ ONT-1 fechado como fora de escopo (default). 26-29 ⏸ ENV-1/DATA-1/TRAIN-1/EVAL-1 **DEFERIDOS**: gate não verde + GO-6/GO-7 não concedidos.
+
+### Etapa 5 — Fechamento
+30 ✅ DOC-1 (este checklist + docs da sessão) · 31 ✅ AUD-1: contabilidade gsg=0/unaccounted=0/fas=ok/junk=0 · quórum 3 intacto · anti-contaminação: 0 artefatos de projeto interdito · anti-leak: CI verde em todos os pushes · staging explícito em todos os commits · sem force-push · 32 → **CLOSE-1: CONCLUSÃO OPERACIONAL** (Caminho alternativo sancionado): o projeto fecha como **sistema de extração/verificação operacional** — grafo no Railway (TLS, backup real semanal), Space público com contrato de readiness, frontend público, **verified 21** (1 fato novo via quórum 3 provado), Zito a 1 domínio, 3 candidatos com fontes no stream. Treino formalmente deferido. Continuação = novo mandato do Operador (GO-4/GO-5/GO-6 quando aplicável).
