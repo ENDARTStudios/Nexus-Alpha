@@ -3601,3 +3601,10 @@ distingue COLD_BOOT de DRIFT_REAL) · `tests/test_readiness_graph_ready_054_2_r2
 - **Validação (2 ciclos de worker, app novo confirmado por boot log):** `defendeu_jairzinho_002` → **present, verified=true, 3 domínios (rsssfbrasil.com + pt.wikipedia.org + en.wikipedia.org), não-Wikimedia ✓**.
 - **Métricas: verified_facts 20→21 (primeiro fato novo verificado do projeto), fact→1089, concept→2504; junk 0, fallback 0, unaccounted 0, gsg 0.** Suíte 837 passed/20 skipped; commits `dea8774`+`884c5a2`; CI success; Space redeployado (67 arquivos).
 - **Próximos candidatos (5):** exigem 3ª fonte não-Wiki validada (D9) antes de entrar em seeds — probes futuros por jogador (gazetadoparana-like). Treino: 21/50 — segue bloqueado.
+
+## [2026-10-07] Probes RSSSF full-details para os 5 candidatos — resultado NEGATIVO (D9 vence)
+
+- **Probes (24 req hoje, ≤4/min):** `rsssf.org/tables/{58,62,70,86,94}full.html` todas 200 e mencionam os jogadores (Zito 58/62, CAT 70, Sócrates 86, Romário 94; 02full=404 p/ Ceni).
+- **Rejeição fundamentada:** análise de contexto mostra que as menções são **escalações da Seleção, sem clube adjacente** — os "Santos" próximos de Zito são os jogadores N.Santos/D.Santos. Nenhum par (jogador, clube-do-atlas) é corroborado; adicionar essas seeds seria ruído (participação em Seleção ≠ DEFENDEU clube).
+- **Estado DEFENDEU:** Jairzinho ✓ verificado (R6). Garrincha 2/3 (gazetadoparana não produz a tripla canônica — investigação própria). Zito/CAT/Sócrates/Romário/Ceni pendem de fonte não-Wiki de **carreira** (artigo/prof ile tipo gazetadoparana) — requer tarefa de descoberta com orçamento próprio, não probes de tabelas.
+- Invariantes: seeds intocadas nesta seção; nenhum commit de dados de grafo.
