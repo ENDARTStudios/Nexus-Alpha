@@ -42,10 +42,18 @@ def test_applied_cluster_meets_structural_rules():
 
 
 def test_pending_candidates_stay_out_until_third_source():
-    """D9: sem 3ª fonte não-Wiki validada, os 5 candidatos NÃO entram no manifest."""
+    """D9: candidatos sem 3ª fonte não-Wiki validada NÃO entram no manifest.
+
+    Extensão 2 (2026-10-07): Zito/CAT/Romário entraram com fontes de carreira
+    probeadas (lancepedia/ogol/santosfc.com.br/romario.org). Sócrates/Ceni
+    seguem sem fonte descoberta e portanto FORA.
+    """
     clusters = _clusters()
-    for cid in ("zito_santos", "carlosalbertotorres_santos", "socrates_corinthians",
-                "romario_vasco", "rogerioceni_saopaulo"):
+    for cid in ("zito_santos", "carlosalbertotorres_santos", "romario_vasco"):
+        assert cid in clusters, f"{cid} deveria estar com fonte de carreira validada"
+        domains = {s["domain"] for s in clusters[cid]["sources"]}
+        assert any("wikipedia" not in d for d in domains), f"{cid} sem fonte não-Wiki"
+    for cid in ("socrates_corinthians", "rogerioceni_saopaulo"):
         assert cid not in clusters, f"{cid} entrou sem 3ª fonte validada (D9)"
 
 

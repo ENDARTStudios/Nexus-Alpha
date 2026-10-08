@@ -428,3 +428,63 @@ clusters:
         domain: rsssfbrasil.com
         publisher: RSSSF Brasil
         productivity: productive  # #059C + probe menção "Jairzinho" (2026-10-07) — 3ª fonte não-Wiki
+
+  # === #048.10M.1.2 extensão 2 (2026-10-07): fontes de carreira descobertas por
+  # busca + probes (200 + menção do par). Lancepedia/ogol/santosfc/romario.org =
+  # prosa de carreira; productivity weak até mineração provar triplas.
+  # Sócrates e Ceni permanecem fora: nenhuma URL de carreira descoberta nesta rodada.
+
+  - id: zito_santos
+    topic: "Zito e o Santos FC"
+    expected_predicate: DEFENDEU
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Zito
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # probeada 200+título
+      - url: https://en.wikipedia.org/wiki/Zito_(footballer)
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # idem
+      - url: https://www.lance.com.br/lancepedia/a-historia-de-zito-no-santos.html
+        domain: lance.com.br
+        publisher: Lance
+        productivity: weak  # probeada 200; prosa dedicada "A história de Zito no Santos"
+      - url: https://www.ogol.com.br/jogador/zito
+        domain: ogol.com.br
+        publisher: oGol
+        productivity: weak  # probeada 200; editorial "Zito, o eterno capitão da Vila"
+
+  - id: carlosalbertotorres_santos
+    topic: "Carlos Alberto Torres e o Santos FC"
+    expected_predicate: DEFENDEU
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Carlos_Alberto_Torres
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # probeada 200+título
+      - url: https://en.wikipedia.org/wiki/Carlos_Alberto_Torres
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # idem
+      - url: https://www.santosfc.com.br/carlos-alberto-torres-o-melhor-lateral-direito-do-mundo
+        domain: santosfc.com.br
+        publisher: Santos FC
+        productivity: weak  # probeada 200; artigo oficial de carreira no clube
+
+  - id: romario_vasco
+    topic: "Romário e o Vasco da Gama"
+    expected_predicate: DEFENDEU
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Rom%C3%A1rio
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # probeada 200+título
+      - url: https://en.wikipedia.org/wiki/Rom%C3%A1rio
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # idem
+      - url: https://romario.org/biografia/
+        domain: romario.org
+        publisher: Romário (oficial)
+        productivity: weak  # probeada 200; biografia oficial com menção de Vasco
