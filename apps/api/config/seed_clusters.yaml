@@ -492,3 +492,42 @@ clusters:
         domain: romario.org
         publisher: Romário (oficial)
         productivity: weak  # probeada 200; biografia oficial com menção de Vasco
+
+  # === #048.10M.1.2 extensão 4 (2026-10-08): Sócrates e Ceni — fontes de carreira
+  # descobertas (lancepedia "A história de Sócrates no Corinthians" 200+prosa do par;
+  # ogol /jogador/rogerio-ceni/5664 com 90 menções São Paulo e carreira tabular).
+  # Com eles, TODOS os 7 candidatos do atlas têm cluster conforme (3+ domínios/2+ publishers).
+
+  - id: socrates_corinthians
+    topic: "Sócrates e o Corinthians"
+    expected_predicate: DEFENDEU
+    sources:
+      - url: https://pt.wikipedia.org/wiki/S%C3%B3crates
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # probeada 200+título (futebolista, não desambiguação)
+      - url: https://en.wikipedia.org/wiki/S%C3%B3crates
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # idem
+      - url: https://www.lance.com.br/lancepedia/a-historia-de-socrates-no-corinthians.html
+        domain: lance.com.br
+        publisher: Lance
+        productivity: weak  # probeada 200; prosa dedicada "A história de Sócrates no Corinthians" (172 gols, 3 Paulistas)
+
+  - id: rogerioceni_saopaulo
+    topic: "Rogério Ceni e o São Paulo FC"
+    expected_predicate: DEFENDEU
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Rog%C3%A9rio_Ceni
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # probeada 200+título
+      - url: https://en.wikipedia.org/wiki/Rog%C3%A9rio_Ceni
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # idem
+      - url: https://www.ogol.com.br/jogador/rogerio-ceni/5664
+        domain: ogol.com.br
+        publisher: oGol
+        productivity: weak  # probeada 200; carreira tabular (90 menções São Paulo, 1.237 jogos)

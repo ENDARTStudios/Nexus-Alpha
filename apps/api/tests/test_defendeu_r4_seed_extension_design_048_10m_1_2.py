@@ -42,19 +42,23 @@ def test_applied_cluster_meets_structural_rules():
 
 
 def test_pending_candidates_stay_out_until_third_source():
-    """D9: candidatos sem 3ª fonte não-Wiki validada NÃO entram no manifest.
+    """D9: nenhum candidato entra sem 3ª fonte não-Wiki validada.
 
-    Extensão 2 (2026-10-07): Zito/CAT/Romário entraram com fontes de carreira
-    probeadas (lancepedia/ogol/santosfc.com.br/romario.org). Sócrates/Ceni
-    seguem sem fonte descoberta e portanto FORA.
+    Extensão 4 (2026-10-08): com Sócrates (lancepedia) e Ceni (ogol), TODOS os
+    7 candidatos do atlas têm cluster conforme (pt/en wiki + fonte de carreira).
     """
     clusters = _clusters()
-    for cid in ("zito_santos", "carlosalbertotorres_santos", "romario_vasco"):
-        assert cid in clusters, f"{cid} deveria estar com fonte de carreira validada"
+    expected = {
+        "garrincha_botafogo", "jairzinho_botafogo", "zito_santos",
+        "carlosalbertotorres_santos", "romario_vasco",
+        "socrates_corinthians", "rogerioceni_saopaulo",
+    }
+    missing = expected - set(clusters)
+    assert not missing, f"candidatos sem cluster: {missing}"
+    for cid in expected:
         domains = {s["domain"] for s in clusters[cid]["sources"]}
+        assert len(domains) >= 3, f"{cid} com menos de 3 domínios"
         assert any("wikipedia" not in d for d in domains), f"{cid} sem fonte não-Wiki"
-    for cid in ("socrates_corinthians", "rogerioceni_saopaulo"):
-        assert cid not in clusters, f"{cid} entrou sem 3ª fonte validada (D9)"
 
 
 def test_design_contains_risks_section():
