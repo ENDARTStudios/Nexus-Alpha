@@ -21,10 +21,15 @@ def test_graph_connector_writes_domain_property():
 
 
 def test_no_active_module_uses_legacy_dominio_property():
+    import re
+
+    # "dominio" como PALAVRA aparece em prosa pt-BR (logs/docstrings) e é legítimo;
+    # o que a convenção proíbe é a PROPRIEDADE de grafo: f.dominio / $dominio etc.
+    property_pattern = re.compile(r"\b(?:f|fa|ff|src|w)\.dominio\b|\$dominio\b")
     offenders = []
     for path in (API_ROOT / "src").rglob("*.py"):
         text = path.read_text(encoding="utf-8", errors="replace")
-        if "dominio" in text:
+        if property_pattern.search(text):
             offenders.append(path.name)
     assert offenders == [], f"propriedade legada `dominio` em: {offenders}"
 
