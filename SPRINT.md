@@ -3608,3 +3608,11 @@ distingue COLD_BOOT de DRIFT_REAL) · `tests/test_readiness_graph_ready_054_2_r2
 - **Rejeição fundamentada:** análise de contexto mostra que as menções são **escalações da Seleção, sem clube adjacente** — os "Santos" próximos de Zito são os jogadores N.Santos/D.Santos. Nenhum par (jogador, clube-do-atlas) é corroborado; adicionar essas seeds seria ruído (participação em Seleção ≠ DEFENDEU clube).
 - **Estado DEFENDEU:** Jairzinho ✓ verificado (R6). Garrincha 2/3 (gazetadoparana não produz a tripla canônica — investigação própria). Zito/CAT/Sócrates/Romário/Ceni pendem de fonte não-Wiki de **carreira** (artigo/prof ile tipo gazetadoparana) — requer tarefa de descoberta com orçamento próprio, não probes de tabelas.
 - Invariantes: seeds intocadas nesta seção; nenhum commit de dados de grafo.
+
+## [2026-10-07] Frontend público — Deployment Protection (SSO) de produção desativado via API Vercel
+
+- **Achado:** `ssoProtection.deploymentType = "all_except_custom_domains"` — sem custom domain, TODA URL do projeto (incl. produção) exigia login Vercel.
+- **Alteração (PATCH `/v9/projects/nexus-alpha`, CLI/API — sem dashboard):** `ssoProtection = {"deploymentType": "preview"}` — **produção anônima pública; previews de PR permanecem protegidos por SSO**. Nota de diagnóstico: `/v2/teams` retornou 403 nesta sessão (token de curta duração com refresh); projeto responde direto sem team lookup.
+- **Firewall restante (intencional, não mexido):** bot_filter challenge + JA3/JA4 ativos — curls são desafiados (429 Security Checkpoint); navegador real passa.
+- **Prova anônima end-to-end (browser real, sem login):** produção carrega `Nexus-Alpha — Córtex Audit` (UI "Nexus-Alpha Core / PRO MODE" renderizada) e o proxy `/api/nexus/metrics` retorna **200: concept 2504 / fact 1089 / verified 21 / graph_ready true** — o site público lê o grafo do Railway com o fato verificado novo.
+- **Impacto:** frontend público destravado (produto, SEO/AEO, validação de usuário real). Previews e código permanecem protegidos.
