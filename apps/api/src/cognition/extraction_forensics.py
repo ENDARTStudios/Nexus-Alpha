@@ -13,7 +13,6 @@ Diagnóstico válido: qualquer valor de ``DIAGNOSIS_STAGES`` **exceto**
 """
 from __future__ import annotations
 
-import collections
 import re
 from datetime import datetime, timezone
 from typing import Any, Iterable, Optional
@@ -184,9 +183,9 @@ def classify_diagnosis(source: dict[str, Any]) -> dict[str, Any]:
         return _result("extraction", evidence, secondary)
 
     # --- span_validation / predicate_mapping / entity_aliasing ----------
-    span_hits = sum(int(v) for k, v in reasons.items() if k in _SPAN_REASONS)
-    pred_hits = sum(int(v) for k, v in reasons.items() if k in _PREDICATE_REASONS)
-    missing_entity = int(reasons.get("missing_entity") or 0)
+    _span_hits = sum(int(v) for k, v in reasons.items() if k in _SPAN_REASONS)
+    _pred_hits = sum(int(v) for k, v in reasons.items() if k in _PREDICATE_REASONS)
+    _missing_entity = int(reasons.get("missing_entity") or 0)
     total_rejected = sum(int(v) for v in reasons.values())
 
     if canonical == 0 and total_rejected > 0:
@@ -379,7 +378,7 @@ def build_comparison(pt: dict[str, Any], en: dict[str, Any]) -> dict[str, Any]:
         root = [en_diag if en_diag != "unknown" else pt_diag]
     else:
         # Ambos com canônicas — hash overlap ou divergência estrutural.
-        pt_hashes = set(pt.get("persisted_fact_hashes") or [])
+        _pt_hashes = set(pt.get("persisted_fact_hashes") or [])
         # Para forense usamos fact hashes derivados das canonical se disponíveis.
         # Aqui comparamos contagens e diagnóstico residual.
         if en_raw <= ERROR_PAGE_RAW_TRIPLES_MAX and en.get("looks_like_wikipedia_404"):

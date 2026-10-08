@@ -1,0 +1,13 @@
+# #054.4.1 — config do gate de lint (ativado no ai-validation.yml).
+line-length = 120
+
+[lint.per-file-ignores]
+# E402 intencional: sys.path hack antes dos imports (testes de script) e dashboard Streamlit.
+"tests/test_worker_seeds.py" = ["E402"]
+"dashboard/app.py" = ["E402"]
+# Dívida explícita em scripts de auditoria legados (one-liners E702, F841, E402):
+# limpeza futura exige GO próprio; a lista é curta e visível de propósito.
+"scripts/audit_multi_club_honours_dry_run.py" = ["E702", "F841", "E402"]
+"scripts/audit_nominal_copular_dry_run.py" = ["E702", "F841", "E402"]
+"scripts/audit_santos_honours_dry_run.py" = ["E702", "F841", "E402"]
+"scripts/audit_fact_duplicates.py" = ["E702", "F841", "E402"]

@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import logging
 import re
-from typing import Optional
 
 
 from .extractor import is_function_word_span, rescue_truncated_toponym, strip_boundary_noise
@@ -75,7 +74,7 @@ class NLPExtractor:
             "define": "DEFINE", "definem": "DEFINE", "defines": "DEFINE",
             "é": "E", "is": "E", "são": "E", "are": "E",
         }
-        text_lower = text.lower()
+        _text_lower = text.lower()
         core_lower = core_entity.lower()
         out: list[dict] = []
         for pred_key, pred_label in predicate_map.items():

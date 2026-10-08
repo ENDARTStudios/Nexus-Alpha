@@ -57,7 +57,7 @@ class ReflectionWorker:
     async def resolve(self, contradiction: dict[str, Any]) -> dict[str, Any]:
         origem = contradiction.get("origem", "")
         destino = contradiction.get("destino", "")
-        query = f"{origem} {destino} o que é fato"
+        _query = f"{origem} {destino} o que é fato"
         seed_urls = [
             "https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial",
             "https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial",

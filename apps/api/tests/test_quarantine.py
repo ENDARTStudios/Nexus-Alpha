@@ -1,7 +1,6 @@
 """Testes da quarentena persistente."""
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 from src.miner.quarantine import QuarantineStore
@@ -39,7 +38,7 @@ def test_quarantine_clear(tmp_path: Path):
 def test_quarantine_approve_and_discard(tmp_path: Path):
     store = QuarantineStore(base_dir=tmp_path)
     store.put({"source_url": "https://x"}, reason="fraco", score=0.1)
-    first = store.list_all()[0]
+    _first = store.list_all()[0]
     removed = store.approve_at(0)
     assert removed is not None
     assert store.list_all() == []

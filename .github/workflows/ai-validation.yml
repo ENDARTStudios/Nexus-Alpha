@@ -26,6 +26,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements-dev.txt
 
+    - name: 3.5. Gate de Lint (ruff — #054.4.1)
+      working-directory: apps/api
+      run: ruff check .
+
     - name: 4. Executar Auditoria Estática de Segurança (Anti-Leak)
       working-directory: apps/api
       run: |

@@ -6,7 +6,6 @@ canônica entre EN + PT + RSSSF (base do predicted_verified).
 from src.cognition.canonicalizer import SemanticCanonicalizer
 from src.cognition.extractor import EntityExtractor
 from src.cognition.table_extractor import (
-    TABLE_PREDICATE,
     extract_honours_from_html,
     is_honours_url,
 )
@@ -207,7 +206,7 @@ INTER_PT = "https://pt.wikipedia.org/wiki/Sport_Club_Internacional"
 
 
 def _honours_table(row: str, caption: str = "") -> str:
-    cap = f"<caption>{caption}</caption>" if caption else ""
+    _cap = f"<caption>{caption}</caption>" if caption else ""
     return ("<html><body><table class=wikitable>"
             "<tr><th>Competitions</th><th>Titles</th><th>Seasons</th></tr>"
             f"{row}</table></body></html>")

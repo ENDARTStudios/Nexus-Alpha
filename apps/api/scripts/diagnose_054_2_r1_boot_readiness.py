@@ -33,7 +33,7 @@ def classify_sample(payload: dict) -> str:
     """Classifica uma amostra de /api/metrics (função pura)."""
     if payload.get("status") != "online":
         return "unknown"
-    ia = payload.get("ingestion_accounting") or {}
+    _ia = payload.get("ingestion_accounting") or {}
     v = payload.get("verification") or {}
     ch = payload.get("cognitive_health") or {}
     verified = v.get("verified_facts_domain_independent")
@@ -134,10 +134,9 @@ def main() -> int:
             },
         )
         payload: dict = {}
-        http_status: int | None = None
         try:
             with urllib.request.urlopen(request, timeout=TIMEOUT_SECONDS) as response:
-                http_status = response.status
+                _http_status = response.status
                 payload = json.loads(response.read().decode("utf-8"))
         except Exception as exc:  # leitura apenas; falha vira amostra inconclusiva
             samples.append({

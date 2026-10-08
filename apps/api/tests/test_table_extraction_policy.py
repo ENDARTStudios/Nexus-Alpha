@@ -77,7 +77,7 @@ def test_wiki_narrative_not_suppressed():
     }
     # enrich_payload re-extrai do content; o ponto é: nada suprimido por política.
     before = extractor.rejection_reasons.get("narrative_suppressed_table_only_source", 0)
-    out = extractor.enrich_payload(payload)
+    _out = extractor.enrich_payload(payload)
     after = extractor.rejection_reasons.get("narrative_suppressed_table_only_source", 0)
     assert after == before
 
