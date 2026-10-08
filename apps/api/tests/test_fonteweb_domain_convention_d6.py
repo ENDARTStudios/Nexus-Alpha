@@ -17,7 +17,9 @@ def _read(relative: str) -> str:
 
 
 def test_graph_connector_writes_domain_property():
-    assert "SET f.domain = $domain" in _read("src/database/graph_connector.py")
+    text = _read("src/database/graph_connector.py")
+    assert "f.domain = $domain" in text  # ingest escreve a propriedade canônica
+    assert ".dominio" not in text
 
 
 def test_no_active_module_uses_legacy_dominio_property():
