@@ -3681,3 +3681,11 @@ distingue COLD_BOOT de DRIFT_REAL) · `tests/test_readiness_graph_ready_054_2_r2
 - **GATE-1 reavaliado:** records 28 (+7), `unique_predicates 3→6` (dobrou — DEFENDEU, LOCALIZADO_EM, PERTENCE_A, SER, VENCEU...), `publishers 3→9` (triplicou — +OSM, Lance, oGol, santosfc, romario.org), diversidade/publisher OK. Bloqueios remanescentes: só records (28/50) e ambiente.
 - **Lote GEO-3 semeado (`0ce7fb4`):** 6 novos estádios-cidade (São Januário, Couto Pereira, Arena da Baixada, Castelão, Serra Dourada, Mangueirão) — worker rodou (99 fontes, 15 OSM), fact 1703→1901; as triplas dos 6 ainda não saíram (ajuste fino do `q=` do Nominatim por nome — iteração futura; o cron continua tentando).
 - **Atlas draft do GEO-3 desatualizado por boa razão:** os "candidatos do próximo lote" (Neo Química, Allianz, Maracanã etc.) já foram verificados pela acumulação — a expansão real são os 6 novos acima.
+
+## [2026-10-08] Ciclo de massa (370+ fontes): **GARRINCHA VERIFICADO** + verified 28→33
+
+- **Forense do gargalo do Garrincha resolvida na prática:** as 40 páginas de elenco do pt.wikipedia (descoberta por categoria `Futebolistas do Botafogo de Futebol e Regatas`) corroboraram o `MANUEL FRANCISCO DOS SANTOS DEFENDEU BOTAFOGO` como 3º domínio — `defendeu_manuelfranciscodossantos_001: verified=true, 3/3`. O problema nunca foi a fonte: era a escala do acervo.
+- **Jairzinho consolidado em 4/3 domínios.** Romário verificado sob apelido `ROMARIO` (validador do piloto é cego a apelidos — melhoria de report pendente).
+- **Métricas: verified 28→33 · fact 8.491 · concept 7.908 · junk 0 · promoted 0 · gsg 0 · unaccounted 0.**
+- **Rumo ao treino: 33/50** — 17 fatos; os elencos de 6 clubes continuam no stream do cron (corroborações de massapara os quóruns restantes: CAT/Zito/Sócrates/Ceni).
+- Commits: `817a79f` (ops), `a1b44cc`→`770f61e` (DEFENDEU), `8cdac3f`+`dcd0738` (lint gate), `0ce7fb4` (GEO-3), `307b3e1`→`af714fc` (transfer/rounds), `db3a31c`/`7cf658b` (ogol), `c307b40`/`fe98cfc` (career clusters), `6dd8ac2`/`e48c677` (closure/GEO-3), `0ce7fb4`→`8cdac3f` ciclo atual.
