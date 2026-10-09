@@ -117,7 +117,7 @@
     {
       "candidate_id": "defendeu_socratesbrasileirosampai_005",
       "fact": "SÓCRATES BRASILEIRO SAMPAIO DE SOUZA VIEIRA DE OLIVEIRA --DEFENDEU--> SPORT CLUB CORINTHIANS PAULISTA",
-      "subject": "SÓCRATES BRASILEIRO SAMPAIO DE SOUZA VIEIRA DE OLIVEIRA",
+      "subject": "SOCRATES",
       "predicate": "DEFENDEU",
       "object": "SPORT CLUB CORINTHIANS PAULISTA",
       "required_domains": [
@@ -135,7 +135,8 @@
       "subject_aliases": [
         "Sócrates",
         "Socrates",
-        "Doutor Sócrates"
+        "Doutor Sócrates",
+        "Sócrates Brasileiro Sampaio de Souza Vieira de Oliveira"
       ],
       "object_aliases": [
         "Corinthians",
