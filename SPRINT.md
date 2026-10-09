@@ -3705,3 +3705,10 @@ distingue COLD_BOOT de DRIFT_REAL) · `tests/test_readiness_graph_ready_054_2_r2
 - **Report final:** **5 verificados** (Jairzinho 4/3, Garrincha 4/3, Romário 3/3, Ceni 3/3, Zito 3/3) + **Sócrates com 3/3 domínios** (wikidata + lance + wiki; consolidação marca verificado no próximo ciclo) + **CAT 2/3** (falta 1 domínio).
 - **Falsos positivos do bulk Wikidata inventariados (higiene deferida, GO próprio):** `CARLOS ALBERTO ARAUJO PRESTES → SANTOS FC` (homonímia), `SOCRATES → FLAMENGO` (entidade errada) — não-verificados, não interferem no quórum dos candidatos.
 - **Rumo ao treino: 37 verificados no grafo (38 pós-consolidação do Sócrates) / 50** — faltam ~12; CAT fecha com 1 fonte, o resto segue pela acumulação e novas rodadas de descoberta.
+
+## [2026-10-09] Consolidação: **6/7 candidatos DEFENDEU verificados** — verified 41
+
+- **CAT verificado 3/3** (santosfc.com.br + en.wikipedia + wikidata.org via query direta Q295262) — consolidado no ciclo.
+- **Sócrates: 3/3 domínios presentes** (wikidata + lance + en.wiki) mas divididos entre 2 nós canônicos (CORINTHIANS pré-alias vs SPORT CLUB CORINTHIANS PAULISTA pós-alias) — o próximo ciclo unifica via alias e fecha o 7º.
+- **verified 37→41** (consolidação marcou CAT + 3 acumulados) · fact 11.959 · concept 10.259 · gates 0/ok.
+- **Rumo ao treino: 41/50** — faltam 9; o Sócrates fecha no próximo ciclo (cron) e as linhas GEO/DEFENDEU seguem acumulando.
