@@ -52,13 +52,16 @@ def validate_seed_clusters(data: dict[str, Any]) -> list[str]:
 
     errors: list[str] = []
     defaults = data.get("defaults") or {}
-    min_domains = int(defaults.get("min_distinct_domains", 3))
-    min_publishers = int(defaults.get("min_distinct_publishers", 2))
-    require_non_wiki = bool(defaults.get("require_non_wikipedia_publisher", True))
 
     seen_ids: set[str] = set()
     for cluster in data.get("clusters") or []:
         cid = cluster.get("id")
+        # #056.2 — override por cluster: clusters de corroboração em massa (ex.
+        # elencos-wiki de categorias) podem declarar regras próprias. O quórum 3
+        # do GRAFO não muda — isto é só sobre validação estrutural do manifest.
+        min_domains = int(cluster.get("min_distinct_domains", defaults.get("min_distinct_domains", 3)))
+        min_publishers = int(cluster.get("min_distinct_publishers", defaults.get("min_distinct_publishers", 2)))
+        require_non_wiki = bool(cluster.get("require_non_wikipedia_publisher", defaults.get("require_non_wikipedia_publisher", True)))
         if not cid:
             errors.append("cluster sem 'id'")
             continue

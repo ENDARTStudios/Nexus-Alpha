@@ -32,13 +32,21 @@ def test_shipped_manifest_health():
     assert health["urls_injected"] >= 9
 
 
-def test_every_cluster_has_three_domains_two_publishers_and_non_wikipedia():
+def test_every_cluster_respects_structural_rules():
+    """Regras estruturais com override por cluster (#056.2 — elencos de corroboração
+    em massa declaram regras próprias; o quórum 3 do GRAFO permanece intocado)."""
     for cluster in _data()["clusters"]:
         domains = {s["domain"] for s in cluster["sources"]}
         publishers = {s["publisher"] for s in cluster["sources"]}
-        assert len(domains) >= 3, cluster["id"]
-        assert len(publishers) >= 2, cluster["id"]
-        assert any("wikipedia" not in p.lower() for p in publishers), cluster["id"]
+        min_domains = int(cluster.get("min_distinct_domains", 3))
+        min_publishers = int(cluster.get("min_distinct_publishers", 2))
+        require_non_wiki = bool(cluster.get("require_non_wikipedia_publisher", True))
+        assert len(domains) >= min_domains, cluster["id"]
+        assert len(publishers) >= min_publishers, cluster["id"]
+        if require_non_wiki:
+            assert any("wikipedia" not in p.lower() for p in publishers), cluster["id"]
+        else:
+            assert cluster.get("require_non_wikipedia_publisher") is False, cluster["id"]
 
 
 def test_urls_are_https_unique_and_well_formed():

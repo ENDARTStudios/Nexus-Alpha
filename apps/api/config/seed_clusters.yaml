@@ -1,635 +1,1572 @@
 version: 1
-
-# Clusters curados para corroboração cross-domain REAL (#048, audit #058).
-# Regras: >= 3 domínios distintos por cluster; >= 2 publishers; ao menos 1 fora de
-# wikipedia.org; URLs validadas (HTTPS, HTTP 200 auditado em #058). Fatos duráveis
-# (fundação, estádio, ídolos) — sem datas isoladas como objeto (span validator #050).
-#
-# Auditoria #058 (2026-09-23): 22 URLs avaliadas → 8 produtivas (todas wikipedia),
-# 4 fracas, 10 improdutivas. **Nenhuma fonte não-wiki de futebol é produtiva** —
-# anotado honestamente por fonte; não forçamos URL lixo (404/JS descartadas).
-#
-# #048.5 (2026-09-26): gazetadoparana produtiva (SER) no cluster garrincha_botafogo.
-# #048.6 batch 3 (2026-09-27): RSSSF produtiva (VENCEU tabular, dry-run #058.12
-# 9/9 gates) nos clusters de honras abaixo — primeira fonte tabular independente.
 defaults:
   min_distinct_domains: 3
   min_distinct_publishers: 2
   require_non_wikipedia_publisher: true
-
 clusters:
-  - id: santos_fc
-    topic: "Santos FC (clube, história, identidade)"
-    expected_predicate: POSSUIR
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Santos_FC
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive
-      - url: https://en.wikipedia.org/wiki/Santos_FC
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive
-      - url: https://www.santosfc.com.br/institucional/historia
-        domain: santosfc.com.br
-        publisher: Santos FC
-        productivity: unproductive  # 200, mas 0 triplas canônicas (redirect p/ Zito)
-      - url: https://ge.globo.com/futebol/times/santos/
-        domain: ge.globo.com
-        publisher: Globo
-        productivity: unproductive  # 200, listing JS → 0 triplas
-
-  - id: estadio_urbano_caldeira
-    topic: "Estádio Urbano Caldeira (Vila Belmiro)"
-    expected_predicate: LOCALIZADO_EM
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive
-      - url: https://en.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive
-      - url: https://ge.globo.com/futebol/times/santos/
-        domain: ge.globo.com
-        publisher: Globo
-        productivity: unproductive  # 200, listing JS → 0 triplas (único não-wiki do cluster)
-
-  - id: pele_santos
-    topic: "Pelé e sua associação ao Santos FC"
-    expected_predicate: DEFENDEU
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Pel%C3%A9
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive
-      - url: https://en.wikipedia.org/wiki/Pel%C3%A9
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive
-      - url: https://www.santosfc.com.br/institucional/historia
-        domain: santosfc.com.br
-        publisher: Santos FC
-        productivity: unproductive  # 200, mas 0 triplas canônicas
-      - url: https://www.rsssfbrasil.com/sel/jogclub.htm
-        domain: rsssfbrasil.com
-        publisher: RSSSF Brasil
-        productivity: productive  # #059C: club-context player records (Pelé 112 jogos como jogador do Santos)
-
-  - id: garrincha_botafogo
-    topic: "Garrincha e o Botafogo"
-    expected_predicate: DEFENDEU
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Garrincha
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # 2 triplas canônicas, 0 football hits
-      - url: https://en.wikipedia.org/wiki/Garrincha
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive
-      - url: https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # 9 triplas, 8 football verbs — reforço do cluster (#058)
-      - url: https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # 200, raw 15, canon 10 — validado offline (#048.4)
-      - url: https://www.botafogo.com.br/
-        domain: botafogo.com.br
-        publisher: Botafogo
-        productivity: weak  # 200, 1 tripla canônica
-      - url: https://gazetadoparana.com.br/artigo/garrincha-botafogo-historia-craque-futebol-arte
-        domain: gazetadoparana.com.br
-        publisher: Gazeta do Paraná
-        productivity: productive  # extrai fato Garrincha --SER--> Botafogo (cross-domain válido)
-      - url: https://www.ogol.com.br/jogador/garrincha
-        domain: ogol.com.br
-        publisher: oGol
-        productivity: weak  # probeada 200; histórico de carreira por época (60 menções Botafogo) — extração a provar
-
-  - id: botafogo_libertadores
-    topic: "Botafogo e a Copa Libertadores (títulos)"
-    expected_predicate: VENCEU
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # 9 triplas, 8 football verbs — reforço do cluster (#058)
-      - url: https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # 200, raw 15, canon 10 — validado offline (#048.4)
-      - url: https://www.rsssf.org/sacups/copalib.html
-        domain: rsssf.org
-        publisher: RSSSF
-        productivity: productive  # dry-run #058.12: 4 triplas tabulares, hit botafogo_libertadores (2024)
-
-  - id: santos_libertadores
-    topic: "Santos FC e a Copa Libertadores (títulos)"
-    expected_predicate: VENCEU
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Santos_FC
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive
-      - url: https://en.wikipedia.org/wiki/Santos_FC
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive
-      - url: https://www.rsssf.org/sacups/copalib.html
-        domain: rsssf.org
-        publisher: RSSSF
-        productivity: productive  # dry-run #058.12: hit santos_libertadores (1962, 1963, 2011)
-
-  - id: botafogo_brasileirao
-    topic: "Botafogo e o Campeonato Brasileiro Série A (títulos)"
-    expected_predicate: VENCEU
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # 9 triplas, 8 football verbs — reforço do cluster (#058)
-      - url: https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # 200, raw 15, canon 10 — validado offline (#048.4)
-      - url: https://www.rsssf.org/tablesb/brazchamp.html
-        domain: rsssf.org
-        publisher: RSSSF
-        productivity: productive  # dry-run #058.12: 3 triplas tabulares, hit botafogo_brasileirao (1968, 1995, 2024)
-
-  - id: flamengo_honours
-    topic: "Flamengo e a Copa Libertadores (títulos)"
-    expected_predicate: VENCEU
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Clube_de_Regatas_do_Flamengo
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #048.9 dry-run: Libertadores pt full
-      - url: https://en.wikipedia.org/wiki/CR_Flamengo
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #048.9 dry-run: Libertadores en full
-      - url: https://www.rsssf.org/sacups/copalib.html
-        domain: rsssf.org
-        publisher: RSSSF
-        productivity: productive  # #048.9 dry-run: winners-list (Flamengo 1981/2019/2022/2025)
-
-  - id: palmeiras_honours
-    topic: "Palmeiras, Libertadores e Campeonato Brasileiro (títulos)"
-    expected_predicate: VENCEU
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Sociedade_Esportiva_Palmeiras
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #048.9 dry-run: Libertadores + Brasileirão pt full
-      - url: https://en.wikipedia.org/wiki/SE_Palmeiras
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #048.9 dry-run: Libertadores + Brasileirão en full
-      - url: https://www.rsssf.org/sacups/copalib.html
-        domain: rsssf.org
-        publisher: RSSSF
-        productivity: productive  # #048.9 dry-run: Libertadores winners-list
-      - url: https://www.rsssf.org/tablesb/brazchamp.html
-        domain: rsssf.org
-        publisher: RSSSF
-        productivity: productive  # #048.9 dry-run: Brasileirão champions
-
-  - id: sao_paulo_honours
-    topic: "São Paulo FC, Libertadores e Campeonato Brasileiro (títulos)"
-    expected_predicate: VENCEU
-    sources:
-      - url: https://pt.wikipedia.org/wiki/S%C3%A3o_Paulo_Futebol_Clube
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #048.9 dry-run: Libertadores + Brasileirão pt full
-      - url: https://en.wikipedia.org/wiki/S%C3%A3o_Paulo_FC
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #048.9 dry-run: Libertadores + Brasileirão en full
-      - url: https://www.rsssf.org/sacups/copalib.html
-        domain: rsssf.org
-        publisher: RSSSF
-        productivity: productive  # #048.9: winners-list (São Paulo 1992/1993/2005)
-      - url: https://www.rsssf.org/tablesb/brazchamp.html
-        domain: rsssf.org
-        publisher: RSSSF
-        productivity: productive  # #048.9: Brasileirão champions
-
-  - id: gremio_honours
-    topic: "Grêmio e a Copa Libertadores (títulos)"
-    expected_predicate: VENCEU
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Gr%C3%AAmio_Foot-Ball_Porto_Alegrense
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #048.9 dry-run: Libertadores pt full
-      - url: https://en.wikipedia.org/wiki/Gr%C3%AAmio_FBPA
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #048.9 dry-run: Libertadores en full
-      - url: https://www.rsssf.org/sacups/copalib.html
-        domain: rsssf.org
-        publisher: RSSSF
-        productivity: productive  # #048.9: winners-list (Grêmio 1983/1995/2017)
-
-  - id: internacional_honours
-    topic: "Internacional e a Copa Libertadores (títulos)"
-    expected_predicate: VENCEU
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Sport_Club_Internacional
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #048.9 dry-run: Libertadores pt full
-      - url: https://en.wikipedia.org/wiki/SC_Internacional
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #048.9 dry-run: Libertadores en full
-      - url: https://www.rsssf.org/sacups/copalib.html
-        domain: rsssf.org
-        publisher: RSSSF
-        productivity: productive  # #048.9: winners-list (Internacional 2006/2010)
-
-  # #048.10G — GEO: ESTÁDIO --LOCALIZADO_EM--> CIDADE via OSM/Nominatim (3ª família).
-  # Fontes validadas no atlas #059E (full collision: pt + en + OSM/Nominatim, ODbL).
-  - id: allianz_parque_localization
-    topic: "Allianz Parque — localização (São Paulo)"
-    expected_predicate: LOCALIZADO_EM
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Allianz_Parque
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #059E full collision
-      - url: https://en.wikipedia.org/wiki/Allianz_Parque
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #059E full collision
-      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Allianz%20Parque
-        domain: nominatim.openstreetmap.org
-        publisher: OpenStreetMap
-        productivity: productive  # #059E: addr:city=São Paulo (ODbL)
-
-  - id: morumbi_localization
-    topic: "Morumbi — localização (São Paulo)"
-    expected_predicate: LOCALIZADO_EM
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_do_Morumbi
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #059E full collision
-      - url: https://en.wikipedia.org/wiki/Morumbi_Stadium
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #059E full collision
-      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20do%20Morumbi
-        domain: nominatim.openstreetmap.org
-        publisher: OpenStreetMap
-        productivity: productive  # #059E: addr:city=São Paulo (ODbL)
-
-  - id: pacaembu_localization
-    topic: "Pacaembu — localização (São Paulo)"
-    expected_predicate: LOCALIZADO_EM
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_do_Pacaembu
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #059E full collision
-      - url: https://en.wikipedia.org/wiki/Pacaembu_Stadium
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #059E full collision
-      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20do%20Pacaembu
-        domain: nominatim.openstreetmap.org
-        publisher: OpenStreetMap
-        productivity: productive  # #059E: addr:city=São Paulo (ODbL)
-
-  - id: neo_quimica_arena_localization
-    topic: "Neo Química Arena — localização (São Paulo)"
-    expected_predicate: LOCALIZADO_EM
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Neo_Qu%C3%ADmica_Arena
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #059E full collision
-      - url: https://en.wikipedia.org/wiki/Neo_Qu%C3%ADmica_Arena
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #059E full collision
-      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Neo%20Quimica%20Arena
-        domain: nominatim.openstreetmap.org
-        publisher: OpenStreetMap
-        productivity: productive  # #059E: addr:city=São Paulo (ODbL)
-
-  - id: nilton_santos_localization
-    topic: "Estádio Olímpico Nilton Santos — localização (Rio de Janeiro)"
-    expected_predicate: LOCALIZADO_EM
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Ol%C3%ADmpico_Nilton_Santos
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #048.10K/#048.10L full collision
-      - url: https://en.wikipedia.org/wiki/Nilton_Santos_Stadium
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #048.10K/#048.10L full collision
-      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Est%C3%A1dio%20Ol%C3%ADmpico%20Nilton%20Santos
-        domain: nominatim.openstreetmap.org
-        publisher: OpenStreetMap
-        productivity: productive  # #048.10L: addr:city=Rio de Janeiro (ODbL)
-
-  - id: maracana_localization
-    topic: "Estádio do Maracanã — localização (Rio de Janeiro)"
-    expected_predicate: LOCALIZADO_EM
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_do_Maracan%C3%A3
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #048.10K/#048.10L full collision
-      - url: https://en.wikipedia.org/wiki/Maracan%C3%A3_Stadium
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #048.10K/#048.10L full collision
-      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Est%C3%A1dio%20do%20Maracan%C3%A3
-        domain: nominatim.openstreetmap.org
-        publisher: OpenStreetMap
-        productivity: productive  # #048.10L: addr:city=Rio de Janeiro (ODbL)
-
-  - id: beira_rio_localization
-    topic: "Estádio Beira-Rio — localização (Porto Alegre)"
-    expected_predicate: LOCALIZADO_EM
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Beira-Rio
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #048.10K/#048.10L full collision
-      - url: https://en.wikipedia.org/wiki/Est%C3%A1dio_Beira-Rio
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #048.10K/#048.10L full collision
-      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Est%C3%A1dio%20Beira-Rio%2C%20Porto%20Alegre
-        domain: nominatim.openstreetmap.org
-        publisher: OpenStreetMap
-        productivity: productive  # #048.10L.4: query desambiguada (q sem cidade retornava feature errada em MG) (ODbL)
-
-  - id: mineirao_localization
-    topic: "Estádio Mineirão — localização (Belo Horizonte)"
-    expected_predicate: LOCALIZADO_EM
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Governador_Magalh%C3%A3es_Pinto
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #048.10K/#048.10L full collision
-      - url: https://en.wikipedia.org/wiki/Mineir%C3%A3o
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #048.10K/#048.10L full collision
-      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Mineir%C3%A3o%2C%20Belo%20Horizonte
-        domain: nominatim.openstreetmap.org
-        publisher: OpenStreetMap
-        productivity: productive  # #048.10L.4: query desambiguada (q sem cidade retornava outro estadium em MG) (ODbL)
-
-  - id: arena_fonte_nova_localization
-    topic: "Arena Fonte Nova — localização (Salvador)"
-    expected_predicate: LOCALIZADO_EM
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Arena_Fonte_Nova
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #048.10K/#048.10L full collision
-      - url: https://en.wikipedia.org/wiki/Itaipava_Arena_Fonte_Nova
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: productive  # #048.10K/#048.10L full collision
-      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Arena%20Fonte%20Nova
-        domain: nominatim.openstreetmap.org
-        publisher: OpenStreetMap
-        productivity: productive  # #048.10L: addr:city=Salvador (ODbL)
-
-
-  # === #048.10M.1.2 Opção C (2026-10-07): extensão mínima por jogador — GO do Operador ===
-  # Probes de validação (2026-10-07, ≤4/min): 12 URLs wikipedia 200 + título correto;
-  # jogclub.htm menciona APENAS Jairzinho (Zito/CAT/Romário/Sócrates/Ceni: não — confirma R4).
-  # Quórum 3 precisa de 3ª fonte não-Wiki: hoje só Jairzinho fecha 3/3; os demais ficam 2/3
-  # até fonte validada (D9 — sem caminhos supostos).
-
-  - id: jairzinho_botafogo
-    topic: "Jairzinho e o Botafogo"
-    expected_predicate: DEFENDEU
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Jairzinho
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # probeada 200+título (2026-10-07); triplas ainda não mineradas
-      - url: https://en.wikipedia.org/wiki/Jairzinho
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # idem
-      - url: https://www.rsssfbrasil.com/sel/jogclub.htm
-        domain: rsssfbrasil.com
-        publisher: RSSSF Brasil
-        productivity: productive  # #059C + probe menção "Jairzinho" (2026-10-07) — 3ª fonte não-Wiki
-
-  # === #048.10M.1.2 extensão 2 (2026-10-07): fontes de carreira descobertas por
-  # busca + probes (200 + menção do par). Lancepedia/ogol/santosfc/romario.org =
-  # prosa de carreira; productivity weak até mineração provar triplas.
-  # Sócrates e Ceni permanecem fora: nenhuma URL de carreira descoberta nesta rodada.
-
-  - id: zito_santos
-    topic: "Zito e o Santos FC"
-    expected_predicate: DEFENDEU
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Zito
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # probeada 200+título
-      - url: https://en.wikipedia.org/wiki/Zito_(footballer)
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # idem
-      - url: https://www.lance.com.br/lancepedia/a-historia-de-zito-no-santos.html
-        domain: lance.com.br
-        publisher: Lance
-        productivity: weak  # probeada 200; prosa dedicada "A história de Zito no Santos"
-      - url: https://www.ogol.com.br/jogador/zito
-        domain: ogol.com.br
-        publisher: oGol
-        productivity: weak  # probeada 200; editorial "Zito, o eterno capitão da Vila"
-
-  - id: carlosalbertotorres_santos
-    topic: "Carlos Alberto Torres e o Santos FC"
-    expected_predicate: DEFENDEU
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Carlos_Alberto_Torres
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # probeada 200+título
-      - url: https://en.wikipedia.org/wiki/Carlos_Alberto_Torres
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # idem
-      - url: https://www.santosfc.com.br/carlos-alberto-torres-o-melhor-lateral-direito-do-mundo
-        domain: santosfc.com.br
-        publisher: Santos FC
-        productivity: weak  # probeada 200; artigo oficial de carreira no clube
-
-  - id: romario_vasco
-    topic: "Romário e o Vasco da Gama"
-    expected_predicate: DEFENDEU
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Rom%C3%A1rio
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # probeada 200+título
-      - url: https://en.wikipedia.org/wiki/Rom%C3%A1rio
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # idem
-      - url: https://romario.org/biografia/
-        domain: romario.org
-        publisher: Romário (oficial)
-        productivity: weak  # probeada 200; biografia oficial com menção de Vasco
-
-  # === #048.10M.1.2 extensão 4 (2026-10-08): Sócrates e Ceni — fontes de carreira
-  # descobertas (lancepedia "A história de Sócrates no Corinthians" 200+prosa do par;
-  # ogol /jogador/rogerio-ceni/5664 com 90 menções São Paulo e carreira tabular).
-  # Com eles, TODOS os 7 candidatos do atlas têm cluster conforme (3+ domínios/2+ publishers).
-
-  - id: socrates_corinthians
-    topic: "Sócrates e o Corinthians"
-    expected_predicate: DEFENDEU
-    sources:
-      - url: https://pt.wikipedia.org/wiki/S%C3%B3crates
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # probeada 200+título (futebolista, não desambiguação)
-      - url: https://en.wikipedia.org/wiki/S%C3%B3crates
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # idem
-      - url: https://www.lance.com.br/lancepedia/a-historia-de-socrates-no-corinthians.html
-        domain: lance.com.br
-        publisher: Lance
-        productivity: weak  # probeada 200; prosa dedicada "A história de Sócrates no Corinthians" (172 gols, 3 Paulistas)
-
-  - id: rogerioceni_saopaulo
-    topic: "Rogério Ceni e o São Paulo FC"
-    expected_predicate: DEFENDEU
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Rog%C3%A9rio_Ceni
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # probeada 200+título
-      - url: https://en.wikipedia.org/wiki/Rog%C3%A9rio_Ceni
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # idem
-      - url: https://www.ogol.com.br/jogador/rogerio-ceni/5664
-        domain: ogol.com.br
-        publisher: oGol
-        productivity: weak  # probeada 200; carreira tabular (90 menções São Paulo, 1.237 jogos)
-
-  - id: sao_januario_localization
-    topic: "Estádio São Januário — localização (Rio de Janeiro)"
-    expected_predicate: LOCALIZADO_EM
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_S%C3%A3o_Janu%C3%A1rio
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # GEO-3: narrativa wiki serve ao parser dedicado LOCALIZADO_EM
-      - url: https://en.wikipedia.org/wiki/Est%C3%A1dio_S%C3%A3o_Janu%C3%A1rio
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # idem
-      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20Sao%20Januario
-        domain: nominatim.openstreetmap.org
-        publisher: OpenStreetMap
-        productivity: productive  # padrão #059E: addr:city no OSM (ODbL)
-
-  - id: couto_pereira_localization
-    topic: "Estádio Couto Pereira — localização (Curitiba)"
-    expected_predicate: LOCALIZADO_EM
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Couto_Pereira
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # GEO-3: narrativa wiki serve ao parser dedicado LOCALIZADO_EM
-      - url: https://en.wikipedia.org/wiki/Est%C3%A1dio_Couto_Pereira
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # idem
-      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20Couto%20Pereira
-        domain: nominatim.openstreetmap.org
-        publisher: OpenStreetMap
-        productivity: productive  # padrão #059E: addr:city no OSM (ODbL)
-
-  - id: arena_da_baixada_localization
-    topic: "Arena da Baixada — localização (Curitiba)"
-    expected_predicate: LOCALIZADO_EM
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Arena_da_Baixada
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # GEO-3: narrativa wiki serve ao parser dedicado LOCALIZADO_EM
-      - url: https://en.wikipedia.org/wiki/Arena_da_Baixada
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # idem
-      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Arena%20da%20Baixada
-        domain: nominatim.openstreetmap.org
-        publisher: OpenStreetMap
-        productivity: productive  # padrão #059E: addr:city no OSM (ODbL)
-
-  - id: castelao_fortaleza_localization
-    topic: "Estádio Castelão — localização (Fortaleza)"
-    expected_predicate: LOCALIZADO_EM
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Pl%C3%A1cido_Aderaldo_Castelo
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # GEO-3: narrativa wiki serve ao parser dedicado LOCALIZADO_EM
-      - url: https://en.wikipedia.org/wiki/Est%C3%A1dio_Pl%C3%A1cido_Aderaldo_Castelo
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # idem
-      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20Placido%20Aderaldo%20Castelo
-        domain: nominatim.openstreetmap.org
-        publisher: OpenStreetMap
-        productivity: productive  # padrão #059E: addr:city no OSM (ODbL)
-
-  - id: serra_dourada_localization
-    topic: "Estádio Serra Dourada — localização (Goiânia)"
-    expected_predicate: LOCALIZADO_EM
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Serra_Dourada
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # GEO-3: narrativa wiki serve ao parser dedicado LOCALIZADO_EM
-      - url: https://en.wikipedia.org/wiki/Est%C3%A1dio_Serra_Dourada
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # idem
-      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20Serra%20Dourada
-        domain: nominatim.openstreetmap.org
-        publisher: OpenStreetMap
-        productivity: productive  # padrão #059E: addr:city no OSM (ODbL)
-
-  - id: mangueirao_localization
-    topic: "Estádio Mangueirão — localização (Belém)"
-    expected_predicate: LOCALIZADO_EM
-    sources:
-      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Estadual_Jornalista_Edgar_Augusto_Proen%C3%A7a
-        domain: pt.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # GEO-3: narrativa wiki serve ao parser dedicado LOCALIZADO_EM
-      - url: https://en.wikipedia.org/wiki/Estadio_Estadual_Jornalista_Edgar_Augusto_Proenca
-        domain: en.wikipedia.org
-        publisher: Wikimedia
-        productivity: weak  # idem
-      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20Mangueirao
-        domain: nominatim.openstreetmap.org
-        publisher: OpenStreetMap
-        productivity: productive  # padrão #059E: addr:city no OSM (ODbL)
+- id: santos_fc
+  topic: Santos FC (clube, história, identidade)
+  expected_predicate: POSSUIR
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Santos_FC
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://en.wikipedia.org/wiki/Santos_FC
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://www.santosfc.com.br/institucional/historia
+    domain: santosfc.com.br
+    publisher: Santos FC
+    productivity: unproductive
+  - url: https://ge.globo.com/futebol/times/santos/
+    domain: ge.globo.com
+    publisher: Globo
+    productivity: unproductive
+- id: estadio_urbano_caldeira
+  topic: Estádio Urbano Caldeira (Vila Belmiro)
+  expected_predicate: LOCALIZADO_EM
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://en.wikipedia.org/wiki/Est%C3%A1dio_Urbano_Caldeira
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://ge.globo.com/futebol/times/santos/
+    domain: ge.globo.com
+    publisher: Globo
+    productivity: unproductive
+- id: pele_santos
+  topic: Pelé e sua associação ao Santos FC
+  expected_predicate: DEFENDEU
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Pel%C3%A9
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://en.wikipedia.org/wiki/Pel%C3%A9
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://www.santosfc.com.br/institucional/historia
+    domain: santosfc.com.br
+    publisher: Santos FC
+    productivity: unproductive
+  - url: https://www.rsssfbrasil.com/sel/jogclub.htm
+    domain: rsssfbrasil.com
+    publisher: RSSSF Brasil
+    productivity: productive
+- id: garrincha_botafogo
+  topic: Garrincha e o Botafogo
+  expected_predicate: DEFENDEU
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Garrincha
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://en.wikipedia.org/wiki/Garrincha
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://www.botafogo.com.br/
+    domain: botafogo.com.br
+    publisher: Botafogo
+    productivity: weak
+  - url: https://gazetadoparana.com.br/artigo/garrincha-botafogo-historia-craque-futebol-arte
+    domain: gazetadoparana.com.br
+    publisher: Gazeta do Paraná
+    productivity: productive
+  - url: https://www.ogol.com.br/jogador/garrincha
+    domain: ogol.com.br
+    publisher: oGol
+    productivity: weak
+- id: botafogo_libertadores
+  topic: Botafogo e a Copa Libertadores (títulos)
+  expected_predicate: VENCEU
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://www.rsssf.org/sacups/copalib.html
+    domain: rsssf.org
+    publisher: RSSSF
+    productivity: productive
+- id: santos_libertadores
+  topic: Santos FC e a Copa Libertadores (títulos)
+  expected_predicate: VENCEU
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Santos_FC
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://en.wikipedia.org/wiki/Santos_FC
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://www.rsssf.org/sacups/copalib.html
+    domain: rsssf.org
+    publisher: RSSSF
+    productivity: productive
+- id: botafogo_brasileirao
+  topic: Botafogo e o Campeonato Brasileiro Série A (títulos)
+  expected_predicate: VENCEU
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://en.wikipedia.org/wiki/Botafogo_de_Futebol_e_Regatas
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://www.rsssf.org/tablesb/brazchamp.html
+    domain: rsssf.org
+    publisher: RSSSF
+    productivity: productive
+- id: flamengo_honours
+  topic: Flamengo e a Copa Libertadores (títulos)
+  expected_predicate: VENCEU
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Clube_de_Regatas_do_Flamengo
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://en.wikipedia.org/wiki/CR_Flamengo
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://www.rsssf.org/sacups/copalib.html
+    domain: rsssf.org
+    publisher: RSSSF
+    productivity: productive
+- id: palmeiras_honours
+  topic: Palmeiras, Libertadores e Campeonato Brasileiro (títulos)
+  expected_predicate: VENCEU
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Sociedade_Esportiva_Palmeiras
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://en.wikipedia.org/wiki/SE_Palmeiras
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://www.rsssf.org/sacups/copalib.html
+    domain: rsssf.org
+    publisher: RSSSF
+    productivity: productive
+  - url: https://www.rsssf.org/tablesb/brazchamp.html
+    domain: rsssf.org
+    publisher: RSSSF
+    productivity: productive
+- id: sao_paulo_honours
+  topic: São Paulo FC, Libertadores e Campeonato Brasileiro (títulos)
+  expected_predicate: VENCEU
+  sources:
+  - url: https://pt.wikipedia.org/wiki/S%C3%A3o_Paulo_Futebol_Clube
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://en.wikipedia.org/wiki/S%C3%A3o_Paulo_FC
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://www.rsssf.org/sacups/copalib.html
+    domain: rsssf.org
+    publisher: RSSSF
+    productivity: productive
+  - url: https://www.rsssf.org/tablesb/brazchamp.html
+    domain: rsssf.org
+    publisher: RSSSF
+    productivity: productive
+- id: gremio_honours
+  topic: Grêmio e a Copa Libertadores (títulos)
+  expected_predicate: VENCEU
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Gr%C3%AAmio_Foot-Ball_Porto_Alegrense
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://en.wikipedia.org/wiki/Gr%C3%AAmio_FBPA
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://www.rsssf.org/sacups/copalib.html
+    domain: rsssf.org
+    publisher: RSSSF
+    productivity: productive
+- id: internacional_honours
+  topic: Internacional e a Copa Libertadores (títulos)
+  expected_predicate: VENCEU
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Sport_Club_Internacional
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://en.wikipedia.org/wiki/SC_Internacional
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://www.rsssf.org/sacups/copalib.html
+    domain: rsssf.org
+    publisher: RSSSF
+    productivity: productive
+- id: allianz_parque_localization
+  topic: Allianz Parque — localização (São Paulo)
+  expected_predicate: LOCALIZADO_EM
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Allianz_Parque
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://en.wikipedia.org/wiki/Allianz_Parque
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Allianz%20Parque
+    domain: nominatim.openstreetmap.org
+    publisher: OpenStreetMap
+    productivity: productive
+- id: morumbi_localization
+  topic: Morumbi — localização (São Paulo)
+  expected_predicate: LOCALIZADO_EM
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_do_Morumbi
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://en.wikipedia.org/wiki/Morumbi_Stadium
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20do%20Morumbi
+    domain: nominatim.openstreetmap.org
+    publisher: OpenStreetMap
+    productivity: productive
+- id: pacaembu_localization
+  topic: Pacaembu — localização (São Paulo)
+  expected_predicate: LOCALIZADO_EM
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_do_Pacaembu
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://en.wikipedia.org/wiki/Pacaembu_Stadium
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20do%20Pacaembu
+    domain: nominatim.openstreetmap.org
+    publisher: OpenStreetMap
+    productivity: productive
+- id: neo_quimica_arena_localization
+  topic: Neo Química Arena — localização (São Paulo)
+  expected_predicate: LOCALIZADO_EM
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Neo_Qu%C3%ADmica_Arena
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://en.wikipedia.org/wiki/Neo_Qu%C3%ADmica_Arena
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Neo%20Quimica%20Arena
+    domain: nominatim.openstreetmap.org
+    publisher: OpenStreetMap
+    productivity: productive
+- id: nilton_santos_localization
+  topic: Estádio Olímpico Nilton Santos — localização (Rio de Janeiro)
+  expected_predicate: LOCALIZADO_EM
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Ol%C3%ADmpico_Nilton_Santos
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://en.wikipedia.org/wiki/Nilton_Santos_Stadium
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Est%C3%A1dio%20Ol%C3%ADmpico%20Nilton%20Santos
+    domain: nominatim.openstreetmap.org
+    publisher: OpenStreetMap
+    productivity: productive
+- id: maracana_localization
+  topic: Estádio do Maracanã — localização (Rio de Janeiro)
+  expected_predicate: LOCALIZADO_EM
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_do_Maracan%C3%A3
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://en.wikipedia.org/wiki/Maracan%C3%A3_Stadium
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Est%C3%A1dio%20do%20Maracan%C3%A3
+    domain: nominatim.openstreetmap.org
+    publisher: OpenStreetMap
+    productivity: productive
+- id: beira_rio_localization
+  topic: Estádio Beira-Rio — localização (Porto Alegre)
+  expected_predicate: LOCALIZADO_EM
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Beira-Rio
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://en.wikipedia.org/wiki/Est%C3%A1dio_Beira-Rio
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Est%C3%A1dio%20Beira-Rio%2C%20Porto%20Alegre
+    domain: nominatim.openstreetmap.org
+    publisher: OpenStreetMap
+    productivity: productive
+- id: mineirao_localization
+  topic: Estádio Mineirão — localização (Belo Horizonte)
+  expected_predicate: LOCALIZADO_EM
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Governador_Magalh%C3%A3es_Pinto
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://en.wikipedia.org/wiki/Mineir%C3%A3o
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Mineir%C3%A3o%2C%20Belo%20Horizonte
+    domain: nominatim.openstreetmap.org
+    publisher: OpenStreetMap
+    productivity: productive
+- id: arena_fonte_nova_localization
+  topic: Arena Fonte Nova — localização (Salvador)
+  expected_predicate: LOCALIZADO_EM
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Arena_Fonte_Nova
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://en.wikipedia.org/wiki/Itaipava_Arena_Fonte_Nova
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: productive
+  - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Arena%20Fonte%20Nova
+    domain: nominatim.openstreetmap.org
+    publisher: OpenStreetMap
+    productivity: productive
+- id: jairzinho_botafogo
+  topic: Jairzinho e o Botafogo
+  expected_predicate: DEFENDEU
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Jairzinho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://en.wikipedia.org/wiki/Jairzinho
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://www.rsssfbrasil.com/sel/jogclub.htm
+    domain: rsssfbrasil.com
+    publisher: RSSSF Brasil
+    productivity: productive
+- id: zito_santos
+  topic: Zito e o Santos FC
+  expected_predicate: DEFENDEU
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Zito
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://en.wikipedia.org/wiki/Zito_(footballer)
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://www.lance.com.br/lancepedia/a-historia-de-zito-no-santos.html
+    domain: lance.com.br
+    publisher: Lance
+    productivity: weak
+  - url: https://www.ogol.com.br/jogador/zito
+    domain: ogol.com.br
+    publisher: oGol
+    productivity: weak
+- id: carlosalbertotorres_santos
+  topic: Carlos Alberto Torres e o Santos FC
+  expected_predicate: DEFENDEU
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Carlos_Alberto_Torres
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://en.wikipedia.org/wiki/Carlos_Alberto_Torres
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://www.santosfc.com.br/carlos-alberto-torres-o-melhor-lateral-direito-do-mundo
+    domain: santosfc.com.br
+    publisher: Santos FC
+    productivity: weak
+- id: romario_vasco
+  topic: Romário e o Vasco da Gama
+  expected_predicate: DEFENDEU
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Rom%C3%A1rio
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://en.wikipedia.org/wiki/Rom%C3%A1rio
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://romario.org/biografia/
+    domain: romario.org
+    publisher: Romário (oficial)
+    productivity: weak
+- id: socrates_corinthians
+  topic: Sócrates e o Corinthians
+  expected_predicate: DEFENDEU
+  sources:
+  - url: https://pt.wikipedia.org/wiki/S%C3%B3crates
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://en.wikipedia.org/wiki/S%C3%B3crates
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://www.lance.com.br/lancepedia/a-historia-de-socrates-no-corinthians.html
+    domain: lance.com.br
+    publisher: Lance
+    productivity: weak
+- id: rogerioceni_saopaulo
+  topic: Rogério Ceni e o São Paulo FC
+  expected_predicate: DEFENDEU
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Rog%C3%A9rio_Ceni
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://en.wikipedia.org/wiki/Rog%C3%A9rio_Ceni
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://www.ogol.com.br/jogador/rogerio-ceni/5664
+    domain: ogol.com.br
+    publisher: oGol
+    productivity: weak
+- id: sao_januario_localization
+  topic: Estádio São Januário — localização (Rio de Janeiro)
+  expected_predicate: LOCALIZADO_EM
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_S%C3%A3o_Janu%C3%A1rio
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://en.wikipedia.org/wiki/Est%C3%A1dio_S%C3%A3o_Janu%C3%A1rio
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20Sao%20Januario
+    domain: nominatim.openstreetmap.org
+    publisher: OpenStreetMap
+    productivity: productive
+- id: couto_pereira_localization
+  topic: Estádio Couto Pereira — localização (Curitiba)
+  expected_predicate: LOCALIZADO_EM
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Couto_Pereira
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://en.wikipedia.org/wiki/Est%C3%A1dio_Couto_Pereira
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20Couto%20Pereira
+    domain: nominatim.openstreetmap.org
+    publisher: OpenStreetMap
+    productivity: productive
+- id: arena_da_baixada_localization
+  topic: Arena da Baixada — localização (Curitiba)
+  expected_predicate: LOCALIZADO_EM
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Arena_da_Baixada
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://en.wikipedia.org/wiki/Arena_da_Baixada
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Arena%20da%20Baixada
+    domain: nominatim.openstreetmap.org
+    publisher: OpenStreetMap
+    productivity: productive
+- id: castelao_fortaleza_localization
+  topic: Estádio Castelão — localização (Fortaleza)
+  expected_predicate: LOCALIZADO_EM
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Pl%C3%A1cido_Aderaldo_Castelo
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://en.wikipedia.org/wiki/Est%C3%A1dio_Pl%C3%A1cido_Aderaldo_Castelo
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20Placido%20Aderaldo%20Castelo
+    domain: nominatim.openstreetmap.org
+    publisher: OpenStreetMap
+    productivity: productive
+- id: serra_dourada_localization
+  topic: Estádio Serra Dourada — localização (Goiânia)
+  expected_predicate: LOCALIZADO_EM
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Serra_Dourada
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://en.wikipedia.org/wiki/Est%C3%A1dio_Serra_Dourada
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20Serra%20Dourada
+    domain: nominatim.openstreetmap.org
+    publisher: OpenStreetMap
+    productivity: productive
+- id: mangueirao_localization
+  topic: Estádio Mangueirão — localização (Belém)
+  expected_predicate: LOCALIZADO_EM
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Estadual_Jornalista_Edgar_Augusto_Proen%C3%A7a
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://en.wikipedia.org/wiki/Estadio_Estadual_Jornalista_Edgar_Augusto_Proenca
+    domain: en.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20Mangueirao
+    domain: nominatim.openstreetmap.org
+    publisher: OpenStreetMap
+    productivity: productive
+- id: botafogo_elenco_wiki
+  topic: Elenco histórico do Botafogo (páginas de jogadores) — corroboração em massa dos DEFENDEU do Wikidata
+  expected_predicate: DEFENDEU
+  min_distinct_domains: 1
+  min_distinct_publishers: 1
+  require_non_wikipedia_publisher: false
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Abel_Braga
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Abelardo_de_Lamare
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Ademaro_de_Lamare
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Ademilson_Correa
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Ademir_Fonseca
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Adevaldo
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Adriano_Gerlin_da_Silva
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Adryelson
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Afonsinho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Ailton_Ferraz
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Airton_Ribeiro_Santos
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alan_Santos
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alessandro_%28futebolista%2C_1977%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alex_Alves_%28futebolista%2C_1975%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alex_Bruno
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alex_Santana_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alex_Telles
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Alves_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Gallo
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Ga%C3%BAcho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Luiz_Fernandes
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alisson_Brand
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Allan_Marques_Loureiro
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Almir_Lopes_de_Luna
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Amarildo
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Anderson_Aquino
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Andrei_Frascarelli
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Bahia
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Lima_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Luis_Silva_de_Aguiar
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Luiz_Tavares
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Lu%C3%ADs_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Silva_Gomes
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Antoninho_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Antonio_Carlos_%28zagueiro%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Ant%C3%B4nio_Jos%C3%A9_Gomes_de_Matos
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/A%C3%ADrton_Beleza
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Egidio_Ar%C3%A9valo
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Fernando_%C3%81lvez
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Iv%C3%A1n_Angulo
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+- id: santos_elenco_wiki
+  topic: Elenco histórico do Santos FC (páginas de jogadores) — corroboração em massa dos DEFENDEU do Wikidata
+  expected_predicate: DEFENDEU
+  min_distinct_domains: 1
+  min_distinct_publishers: 1
+  require_non_wikipedia_publisher: false
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Abel_Ver%C3%B4nico
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Abelardo_Dutra_Meireles
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Ada%C3%ADlton_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Ademir_da_Silva
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Aderlan_Silva
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Adesvaldo_Jos%C3%A9_de_Lima
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Adhemar_de_Oliveira
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Adiel_de_Oliveira_Amorim
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Adir_Cid_Rodrigues
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Adriane_Nen%C3%AA
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Adriano_Pagode
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Afonsinho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Afonso_Vidal
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Agnaldo_de_Jesus
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Agostinho_dos_Santos_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Aguinaldo_Secco
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Airton_Diogo
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Airton_Pavilh%C3%A3o
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alan_Kardec_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alan_Patrick
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alan_Santos
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alberto_Luiz_de_Souza
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alcides_Ara%C3%BAjo_Alves
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alcindo_Martha_de_Freitas
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alessandro_Bressani
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alessandro_Cambalhota
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alessandro_Nunes
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alex_Rodrigo_Dias_da_Costa
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alex_Sandro
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Alves_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Alves_da_Silva
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Gallo
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alfredo_Mostarda
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alfredo_Ramos
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alfredo_Sampaio_Filho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alfredo_Vega
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alison_Lopes
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Almir_Ernani
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Almir_Pernambuquinho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Almir_de_Souza_Fraga
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+- id: flamengo_elenco_wiki
+  topic: Elenco histórico do Flamengo (páginas de jogadores) — corroboração em massa dos DEFENDEU do Wikidata
+  expected_predicate: DEFENDEU
+  min_distinct_domains: 1
+  min_distinct_publishers: 1
+  require_non_wikipedia_publisher: false
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Adalberto_Machado
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Adalberto_Melo_de_Oliveira_J%C3%BAnior
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Ademar_Pantera
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Adriano_Imperador
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Adryan
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Ad%C3%A3o_Nunes_Dornelles
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Ad%C3%ADlio_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Ad%C3%ADlson_Heleno
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Ad%C3%ADlson_Jos%C3%A9_Pinto
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Ad%C3%ADlton
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Afonsinho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Afonso_Guimar%C3%A3es_da_Silva
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Agnelo_dos_Santos
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Ailton_Ferraz
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Airton_Ravagniani
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Airton_Ribeiro_Santos
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Alan_Patrick
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Alanzinho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Alberto_Borgerth
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Alberto_Leguel%C3%A9
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Alberto_Pereira_Pires
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Alberto_Valentim
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Alcindo_Sartori
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Alcir_de_Oliveira_Fonseca
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Aldair
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Alecsandro
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Alessandro_%28futebolista%2C_1982%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Alessandro_Nunes
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Alex_Cruz
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Alex_Sandro
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Alex_Sandro_da_Silva
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Ga%C3%BAcho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Alexsandro_de_Souza
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Ale%C3%ADlson
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Alfredo_Willemsens
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Alfredo_dos_Santos
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Allan_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Almir_Lopes_de_Luna
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Almir_Pernambuquinho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+  - url: https://pt.wikipedia.org/wiki/Alo%C3%ADsio_Chulapa
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # descoberta #056.2 (categoria de futebolistas)'
+- id: vasco_elenco_wiki
+  topic: Elenco histórico do Vasco (páginas de jogadores) — corroboração em massa dos DEFENDEU do Wikidata
+  expected_predicate: DEFENDEU
+  min_distinct_domains: 1
+  min_distinct_publishers: 1
+  require_non_wikipedia_publisher: false
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Abel_Braga
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Abuda
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Ademir_da_Silva
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Ademir_de_Menezes
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Adriano_F%C3%A9lix_Teixeira
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Adriano_Martins_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Adson_Ferreira_Soares
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Ad%C3%A3o_Ant%C3%B4nio_Brand%C3%A3o
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Ad%C3%ADlio_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Afonsinho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Afr%C3%A2nio_Riul
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Agenor_Muniz
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Airton_Ravagniani
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Aislan
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alan_Kardec_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alcides_de_Oliveira
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alcir_Portella
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alecsandro
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alessandro_%28futebolista%2C_1977%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alessandro_%28futebolista%2C_1982%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alessandro_Cambalhota
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alessandro_Mar%C3%A7al_Neves
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alex_Alves_%28futebolista%2C_1974%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alex_Dias_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alex_Oliveira
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alex_Sandro_Pinho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alex_Teixeira
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Torres
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alfredo_dos_Santos
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alisson_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Allan_Dellon
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Allan_Marques_Loureiro
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Almir_Ernani
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Almir_Pernambuquinho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Almir_de_Souza_Fraga
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alo%C3%ADsio_Chulapa
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Altino_Marcondes
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Altivo_de_Souza_Filho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Amaral_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Amarildo
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+- id: corinthians_elenco_wiki
+  topic: Elenco histórico do Corinthians (páginas de jogadores) — corroboração em massa dos DEFENDEU do Wikidata
+  expected_predicate: DEFENDEU
+  min_distinct_domains: 1
+  min_distinct_publishers: 1
+  require_non_wikipedia_publisher: false
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Abuda
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Achilles_Ciasca
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Adalberto_Melo_de_Oliveira_J%C3%BAnior
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Adesvaldo_Jos%C3%A9_de_Lima
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Adilson_Miranda
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Adoilson_Costa
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Adriano_Imperador
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Adson_Ferreira_Soares
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Ad%C3%A3o_Ambr%C3%B3sio
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Ad%C3%ADlson_Batista
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Agostinho_dos_Santos_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Aladim_Luciano
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alan_Mineiro
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alberto_Luiz_de_Souza
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alberto_Mart%C3%ADn_Acosta
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alcindo_Sartori
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alessandro_Cambalhota
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alessandro_Nunes
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alex_Meschini
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alex_Rossi
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alex_Santana_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alexandre_De_Maria
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Gallo
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Paes_Lopes
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Pato
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alfinete_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alfredo_Ramos
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Allan_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Almir_Pernambuquinho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Altino_Marcondes
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Amaral_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Amoroso
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Am%C3%A9rico_Fiaschi
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Am%C3%ADlcar_Barbuy
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Anderson_Cl%C3%A9ber_Beraldo
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Anderson_Martins
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Anderson_Sebasti%C3%A3o_Cardoso
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Balada
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Emanuel_Tedesco
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Leone
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+- id: saopaulo_elenco_wiki
+  topic: Elenco histórico do São Paulo FC (páginas de jogadores) — corroboração em massa dos DEFENDEU do Wikidata
+  expected_predicate: DEFENDEU
+  min_distinct_domains: 1
+  min_distinct_publishers: 1
+  require_non_wikipedia_publisher: false
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Adalberto_Kretzer
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Ada%C3%ADlton_Ladeira
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Ademilson
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Aderllan_Santos
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Adevaldo
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Adriano_Gerlin_da_Silva
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Adriano_Imperador
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Adri%C3%A1n_Gonz%C3%A1lez_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Ad%C3%ADlson_Jos%C3%A9_Pinto
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Ad%C3%ADlton
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Agostinho_dos_Santos_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Airton_Diogo
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Airton_Ravagniani
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Aislan
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alan_Kardec_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alberto_Valentim
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alcindo_Sartori
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alex_Bruno
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alex_Cazumba
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alex_Dias_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alex_Sandro_da_Silva
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Alves_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Gallo
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Luiz_Fernandes
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Pato
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alfredo_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alfredo_Gottardi_J%C3%BAnior
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alfredo_Ramos
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alisson_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Almir_Jos%C3%A9_Gil
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Almir_de_Souza_Fraga
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alo%C3%ADsio_Chulapa
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Alo%C3%ADsio_dos_Santos_Gon%C3%A7alves
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Amoroso
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Anderson_Cl%C3%A9ber_Beraldo
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Anderson_Martins
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Gon%C3%A7alves_Dias
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/A%C3%ADlton_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/A%C3%ADlton_Delfino
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
+  - url: https://pt.wikipedia.org/wiki/A%C3%ADlton_Lira
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: weak
