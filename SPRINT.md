@@ -3689,3 +3689,12 @@ distingue COLD_BOOT de DRIFT_REAL) · `tests/test_readiness_graph_ready_054_2_r2
 - **Métricas: verified 28→33 · fact 8.491 · concept 7.908 · junk 0 · promoted 0 · gsg 0 · unaccounted 0.**
 - **Rumo ao treino: 33/50** — 17 fatos; os elencos de 6 clubes continuam no stream do cron (corroborações de massapara os quóruns restantes: CAT/Zito/Sócrates/Ceni).
 - Commits: `817a79f` (ops), `a1b44cc`→`770f61e` (DEFENDEU), `8cdac3f`+`dcd0738` (lint gate), `0ce7fb4` (GEO-3), `307b3e1`→`af714fc` (transfer/rounds), `db3a31c`/`7cf658b` (ogol), `c307b40`/`fe98cfc` (career clusters), `6dd8ac2`/`e48c677` (closure/GEO-3), `0ce7fb4`→`8cdac3f` ciclo atual.
+
+## [2026-10-08] #056.3 — Alavanca LLM ATIVADA: verified 33→**37**, ZITO verificado (4/7 candidatos)
+
+- **Prova da alavanca:** HF Inference router **gratuito com o HF_TOKEN do projeto** (`router.huggingface.co/v1`, 128 modelos) + `LLMCanonicalExtractor` (já existente, nunca ligado) → Llama-3.1-8B-Instruct extraiu as triplas que o regex/spaCy nunca capturou: **gazetadoparana 23 triplas** (incl. `GARRINCHA DEFENDEU BOTAFOGO` — a fonte "impossível" agora produz), **ogol Ceni 18**, **en Ceni 25**, Zito en 2 etc.
+- **Configuração (local, 0 custo):** `NEXUS_LLM_BASE_URL=router.huggingface.co/v1` + `NEXUS_LLM_MODEL=meta-llama/Llama-3.1-8B-Instruct` + `NEXUS_LLM_API_KEY=HF_TOKEN`.
+- **`llm_extract_atlas.py`:** lê as sources dos 7 clusters DEFENDEU do manifest → fetch+clean (bs4) → LLM extract (allowed: DEFENDEU/PERTENCE_A/LOCALIZADO_EM/VENCEU/POSSUIR; MAX 12k chars) → payloads → ingest pelo pipeline (refiner+aliases+span filtram o ruído: self-loop ŽITO, "DEFENDEU FUTEBOL-ARTE" etc.).
+- **Resultados:** **ZITO verificado 3/3** (lance + santosfc + en.wiki/LLM); Garrincha consolidado **4/3**; Jairzinho 4/3; **verified 33→37 · fact 11.195 · concept 9.977 · gates 0**.
+- **Nota de variância do LLM:** 0 triplas em páginas com conteúdo (lance Sócrates nesta passada; en Sócrates) — variação do 8B; a rodada seguinte/com modelo maior (Llama-3.3-70B no router) captura. CAT 1/3 e Ceni (fatos sob `ROGERIO CENI` PERTENCE_A pré-alias no grafo) seguem com quóruns em montagem.
+- **Rumo ao treino: 37/50** — 13 fatos; o recipe (LLM + descoberta + quórum) fecha isso em ~3-4 rodadas.
