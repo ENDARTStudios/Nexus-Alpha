@@ -20,7 +20,16 @@
       "source_evidence_refs": [],
       "risk": "low",
       "ontology_change_required": false,
-      "source_policy": "allowed"
+      "source_policy": "allowed",
+      "subject_aliases": [
+        "Carlos Alberto Torres",
+        "Carlos Alberto"
+      ],
+      "object_aliases": [
+        "Santos FC",
+        "Santos",
+        "Santos Futebol Clube"
+      ]
     },
     {
       "candidate_id": "defendeu_jairzinho_002",
@@ -39,7 +48,15 @@
       "source_evidence_refs": [],
       "risk": "low",
       "ontology_change_required": false,
-      "source_policy": "allowed"
+      "source_policy": "allowed",
+      "subject_aliases": [
+        "Jairzinho",
+        "Jair Ventura Filho"
+      ],
+      "object_aliases": [
+        "Botafogo",
+        "Botafogo FR"
+      ]
     },
     {
       "candidate_id": "defendeu_manuelfranciscodossantos_001",
@@ -58,7 +75,15 @@
       "source_evidence_refs": [],
       "risk": "low",
       "ontology_change_required": false,
-      "source_policy": "allowed"
+      "source_policy": "allowed",
+      "subject_aliases": [
+        "Garrincha",
+        "Mané Garrincha"
+      ],
+      "object_aliases": [
+        "Botafogo",
+        "Botafogo FR"
+      ]
     },
     {
       "candidate_id": "defendeu_romariodesouzafaria_006",
@@ -77,7 +102,17 @@
       "source_evidence_refs": [],
       "risk": "low",
       "ontology_change_required": false,
-      "source_policy": "allowed"
+      "source_policy": "allowed",
+      "subject_aliases": [
+        "Romário",
+        "Romario",
+        "Baixinho"
+      ],
+      "object_aliases": [
+        "Vasco",
+        "Vasco da Gama",
+        "CR Vasco da Gama"
+      ]
     },
     {
       "candidate_id": "defendeu_socratesbrasileirosampai_005",
@@ -96,7 +131,17 @@
       "source_evidence_refs": [],
       "risk": "low",
       "ontology_change_required": false,
-      "source_policy": "allowed"
+      "source_policy": "allowed",
+      "subject_aliases": [
+        "Sócrates",
+        "Socrates",
+        "Doutor Sócrates"
+      ],
+      "object_aliases": [
+        "Corinthians",
+        "SC Corinthians Paulista",
+        "Timão"
+      ]
     },
     {
       "candidate_id": "defendeu_zito_003",
@@ -115,7 +160,16 @@
       "source_evidence_refs": [],
       "risk": "low",
       "ontology_change_required": false,
-      "source_policy": "allowed"
+      "source_policy": "allowed",
+      "subject_aliases": [
+        "Zito",
+        "José Ely de Miranda"
+      ],
+      "object_aliases": [
+        "Santos FC",
+        "Santos",
+        "Santos Futebol Clube"
+      ]
     },
     {
       "candidate_id": "defendeu_rogerioceni_012",
@@ -134,7 +188,17 @@
       "source_evidence_refs": [],
       "risk": "medium",
       "ontology_change_required": false,
-      "source_policy": "allowed"
+      "source_policy": "allowed",
+      "subject_aliases": [
+        "Rogério Ceni",
+        "Rogerio Ceni"
+      ],
+      "object_aliases": [
+        "São Paulo",
+        "Sao Paulo",
+        "SPFC",
+        "São Paulo FC"
+      ]
     }
   ],
   "forbidden_objects": [

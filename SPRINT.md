@@ -3698,3 +3698,10 @@ distingue COLD_BOOT de DRIFT_REAL) · `tests/test_readiness_graph_ready_054_2_r2
 - **Resultados:** **ZITO verificado 3/3** (lance + santosfc + en.wiki/LLM); Garrincha consolidado **4/3**; Jairzinho 4/3; **verified 33→37 · fact 11.195 · concept 9.977 · gates 0**.
 - **Nota de variância do LLM:** 0 triplas em páginas com conteúdo (lance Sócrates nesta passada; en Sócrates) — variação do 8B; a rodada seguinte/com modelo maior (Llama-3.3-70B no router) captura. CAT 1/3 e Ceni (fatos sob `ROGERIO CENI` PERTENCE_A pré-alias no grafo) seguem com quóruns em montagem.
 - **Rumo ao treino: 37/50** — 13 fatos; o recipe (LLM + descoberta + quórum) fecha isso em ~3-4 rodadas.
+
+## [2026-10-08] Registry com aliases do atlas — report final: **6/7 candidatos com quórum, 5 verificados**
+
+- **Causa da cegueira do validador corrigida:** o registry `defendeu_pilot_expected_facts_048_10m_1.json` tinha `aliases: None` — os fatos canônicos variantes (ROMARIO/SAO PAULO/SOCRATES) não casavam com o registry nominal. Registry atualizado com os subject_aliases/object_aliases do atlas (mesmos do entity_aliases.yaml).
+- **Report final:** **5 verificados** (Jairzinho 4/3, Garrincha 4/3, Romário 3/3, Ceni 3/3, Zito 3/3) + **Sócrates com 3/3 domínios** (wikidata + lance + wiki; consolidação marca verificado no próximo ciclo) + **CAT 2/3** (falta 1 domínio).
+- **Falsos positivos do bulk Wikidata inventariados (higiene deferida, GO próprio):** `CARLOS ALBERTO ARAUJO PRESTES → SANTOS FC` (homonímia), `SOCRATES → FLAMENGO` (entidade errada) — não-verificados, não interferem no quórum dos candidatos.
+- **Rumo ao treino: 37 verificados no grafo (38 pós-consolidação do Sócrates) / 50** — faltam ~12; CAT fecha com 1 fonte, o resto segue pela acumulação e novas rodadas de descoberta.
