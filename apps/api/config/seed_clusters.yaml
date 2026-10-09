@@ -1570,3 +1570,1005 @@ clusters:
     domain: pt.wikipedia.org
     publisher: Wikimedia
     productivity: weak
+- id: gremio_elenco_wiki
+  topic: Elenco histórico do GREMIO — corroboração em massa (#056.2 r3)
+  expected_predicate: DEFENDEU
+  min_distinct_domains: 1
+  min_distinct_publishers: 1
+  require_non_wikipedia_publisher: false
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Abelardo_Madalena
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adair_Lopes_Bicca
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adalberto_Kretzer
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adesvaldo_Jos%C3%A9_de_Lima
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adilson_Fernandes
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adriano_Chuva
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adriano_Padilha_Nascimento
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adriano_Pagode
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adriano_Pereira_da_Silva
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ad%C3%ADlson_Batista
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ad%C3%ADlson_Heleno
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ad%C3%ADlson_Warken
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ailton_Ferraz
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Airton_Pavilh%C3%A3o
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Airton_Ravagniani
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Albeneir
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alcindo_Martha_de_Freitas
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alcindo_Sartori
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alcino_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alessandro_Nunes
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Mineiro
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Santana_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Telles
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alexander_Aravena
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Ga%C3%BAcho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alfinete_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alfredo_Sampaio_Filho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alisson_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Almir_de_Souza_Fraga
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alo%C3%ADsio_dos_Santos_Gon%C3%A7alves
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Altemir_Marquez_da_Cruz
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Amaral_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Amoroso
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ana_Alice
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Anderson_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Atilio_Ancheta
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Francis_Amuzu
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Lista_das_transfer%C3%AAncias_mais_caras_do_Gr%C3%AAmio_Foot-Ball_Porto_Alegrense
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ondigui_Adams
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Sebasti%C3%A1n_Abreu
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+- id: internacional_elenco_wiki
+  topic: Elenco histórico do INTERNACIONAL — corroboração em massa (#056.2 r3)
+  expected_predicate: DEFENDEU
+  min_distinct_domains: 1
+  min_distinct_publishers: 1
+  require_non_wikipedia_publisher: false
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Abigail_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ademir_Alc%C3%A2ntara
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ademir_Roque_Kaefer
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adesvaldo_Jos%C3%A9_de_Lima
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adilson_Miranda
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adriano_Gabiru
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adriano_Martins_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ad%C3%A3o_Nunes_Dornelles
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ad%C3%ADlson_Batista
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ad%C3%ADlson_Jos%C3%A9_Pinto
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Airton_Diogo
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Airton_Ribeiro_Santos
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alan_Ben%C3%ADtez
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alan_Kardec_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alan_Patrick
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alan_Rodr%C3%ADguez_%28futebolista_uruguaio%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alan_Ruschel
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alberto_F%C3%A9lix
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alberto_Luiz_de_Souza
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alberto_Zolim_Filho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alecsandro
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alerrandro
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Meschini
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Rossi
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Sandro_de_Oliveira
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Santana_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Ga%C3%BAcho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Goulart
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Paes_Lopes
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Pato
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alfeu_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alfeu_Martha_de_Freitas
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Almir_de_Souza_Fraga
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alo%C3%ADsio_Pires_Alves
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Altivo_de_Souza_Filho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/A%C3%ADlton_Gon%C3%A7alves_da_Silva
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Diego_Aguirre
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Lucas_Alario
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Roberto_Abbondanzieri
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/%C3%93scar_Aguirregaray
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+- id: cruzeiro_elenco_wiki
+  topic: Elenco histórico do CRUZEIRO — corroboração em massa (#056.2 r3)
+  expected_predicate: DEFENDEU
+  min_distinct_domains: 1
+  min_distinct_publishers: 1
+  require_non_wikipedia_publisher: false
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Abel_Braga
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Abelardo_Dutra_Meireles
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ademir_Roque_Kaefer
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adriano_Chuva
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adriano_Gabiru
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adriano_Vieira_Louzada
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ad%C3%ADlson_Batista
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Airton_Pavilh%C3%A3o
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alan_Ruschel
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Albeneir
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alberto_F%C3%A9lix
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alberto_Valentim
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alecsandro
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alessandro_%28futebolista%2C_1982%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alessandro_Cambalhota
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alessandro_Nunes
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Alves_%28futebolista%2C_1974%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Alves_%28futebolista%2C_1975%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Apolin%C3%A1rio
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Dias_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Mineiro
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Sandro_da_Silva
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Sandro_de_Oliveira
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alexander_Viveros
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Goulart
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alexsandro_de_Souza
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alisson_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Almir_Ernani
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ananias_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Anderson_Cl%C3%A9ber_Beraldo
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Anderson_Ferreira_da_Silva
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Felippe_Seixas_Dias
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Leone
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Luiz_Moreira
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Lu%C3%ADs_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Lu%C3%ADs_Leite
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/A%C3%ADlton_Delfino
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Gilbert_%C3%81lvarez
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ram%C3%B3n_%C3%81bila
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/%C3%82nderson_Miguel_da_Silva
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+- id: coritiba_elenco_wiki
+  topic: Elenco histórico do CORITIBA — corroboração em massa (#056.2 r3)
+  expected_predicate: DEFENDEU
+  min_distinct_domains: 1
+  min_distinct_publishers: 1
+  require_non_wikipedia_publisher: false
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Abel_Ver%C3%B4nico
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Abner_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ademar_Pantera
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ademir_Alc%C3%A2ntara
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adriano_Correia
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ad%C3%A3o_Ambr%C3%B3sio
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ad%C3%ADlio_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Aladim_Luciano
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alan_Santos
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alberto_F%C3%A9lix
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alberto_Luiz_de_Souza
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alecsandro
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alef_Manga
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_da_Silva
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alexandre_Alves_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alexsandro_de_Souza
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alfredo_Gottardi_J%C3%BAnior
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alfredo_Mostarda
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Almir_Jos%C3%A9_Gil
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Altevir_Sales
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Anderson_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Anderson_Aquino
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Anderson_Batatais
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Anderson_Francisco_Nunes
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Lu%C3%ADs_dos_Santos_Ferreira
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Ranzani
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Anselmo_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Antonio_Caio_da_Silva_Souza
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ant%C3%B4nio_Jos%C3%A9_Gomes_de_Matos
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ant%C3%B4nio_Monteiro_Dutra
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Argemiro_Veiga_Gon%C3%A7alves
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Aroldo_Fedatto
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Arthur_Ca%C3%ADke
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Aryon_Cornelsen
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Auri_Dias_Faustino
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ayrton_Luis_Ganino
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Carlos_Aragon%C3%A9s
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Francisco_Arancibia
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/V%C3%ADctor_Aristiz%C3%A1bal
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/%C3%82nderson_Lima
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+- id: bahia_elenco_wiki
+  topic: Elenco histórico do BAHIA — corroboração em massa (#056.2 r3)
+  expected_predicate: DEFENDEU
+  min_distinct_domains: 1
+  min_distinct_publishers: 1
+  require_non_wikipedia_publisher: false
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Adalberto_Kretzer
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adalberto_Melo_de_Oliveira_J%C3%BAnior
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ada%C3%ADlton_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ademir_Patr%C3%ADcio
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ademir_da_Silva_Santos_J%C3%BAnior
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adevaldo
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adriano_Gerlin_da_Silva
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adriano_Michael_Jackson
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Aguinaldo_Secco
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Agust%C3%ADn_Allione
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alberto_Leguel%C3%A9
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alberto_Pereira_Pires
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Aldrovani
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alessandro_%28futebolista%2C_1982%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alesson
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Alves_%28futebolista%2C_1975%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Mineiro
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Oliveira
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Sandro_Mendon%C3%A7a_dos_Santos
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Sandro_Pinho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Sandro_de_Oliveira
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alison_W%C3%A1gner_Lira_Ferreira
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Allyson_%28futebolista%2C_1982%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Altivo_de_Souza_Filho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ananias_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Anderson_Concei%C3%A7%C3%A3o
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Anderson_Costa
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Anderson_Ferreira_da_Silva
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Anderson_Martins
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Anderson_Sebasti%C3%A3o_Cardoso
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Anderson_Talisca
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Catimba
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Lu%C3%ADs_dos_Santos_Ferreira
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Antonio_Caio_da_Silva_Souza
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Apodi_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Arivaldo_Alves_dos_Santos
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Freddy_Adu
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Michel_Ara%C3%BAjo
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Nicol%C3%A1s_Acevedo
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Santiago_Arias
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+- id: fortaleza_elenco_wiki
+  topic: Elenco histórico do FORTALEZA — corroboração em massa (#056.2 r3)
+  expected_predicate: DEFENDEU
+  min_distinct_domains: 1
+  min_distinct_publishers: 1
+  require_non_wikipedia_publisher: false
+  sources:
+  - url: https://pt.wikipedia.org/wiki/Adam_Bareiro
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adelino
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ademir_Patr%C3%ADcio
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adriano_Chuva
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adriano_Martins_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Adriano_Pimenta
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ad%C3%ADlson_Heleno
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ad%C3%ADlton
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alan_Mineiro
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alb%C3%A9ris
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Afonso
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Alves_%28futebolista%2C_1974%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Alex_Sandro_de_Oliveira
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Allyson_%28futebolista%2C_1982%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Aluspah_Brewah
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Anderson_Batatais
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Anderson_Francisco_Nunes
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Leonel
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Lima_Pedro
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Neles
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Andr%C3%A9_Turatto
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Anselmo_Tadeu
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Ari_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Arivaldo_Alves_dos_Santos
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Arturzinho
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Baiano_%28futebolista%2C_1978%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Baldocchi
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Bastos_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Becec%C3%AA
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Bechara_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Beijoca
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Bernardo_Schappo
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Bileu
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Birungueta
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Breno_Lopes
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/B%C3%A9rgson
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Dylan_Borrero
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Emanuel_Br%C3%ADtez
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/Gast%C3%B3n_%C3%81vila
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
+  - url: https://pt.wikipedia.org/wiki/%C3%81lvaro_Pires_%28futebolista%29
+    domain: pt.wikipedia.org
+    publisher: Wikimedia
+    productivity: 'weak  # #056.2 r3'
