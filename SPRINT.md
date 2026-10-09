@@ -3674,3 +3674,10 @@ distingue COLD_BOOT de DRIFT_REAL) · `tests/test_readiness_graph_ready_054_2_r2
 - **Estado por candidato (confirmações no grafo):** Jairzinho **✅ 3/3 verificado** · Romário **✅ 3/3 verificado** (após correção de nomenclatura do validador — nota anterior) · Ceni **2/3** (pt+en wikipedia; ogol no stream) · Zito **2/3** (lance + santosfc; wiki pendente) · Sócrates **1/3** (lancepedia produzindo ✓) · CAT **1/3** (santosfc ✓) · Garrincha 2/3 (wiki; fontes não-wiki não produzem a tripla — caso de extração).
 - **Rumo ao treino: 27/50** — 23 fatos para o gate; o padrão descoberta→seed→ciclo replica (Romário rendeu +5 num ciclo sozinho).
 - Invariantes: gates 0 (junk/promoted/unaccounted/gsg), quórum 3, sem treino, contaminação 0.
+
+## [2026-10-08] Rodada "prossiga" — GEO-3 DESBLOQUEADO (9 LOCALIZADO_EM verificados) + GATE-1 com diversidade dobrada
+
+- **Pré-condição 1 do GEO-3 SATISFEITA:** **9 fatos `LOCALIZADO_EM` verificados** com quórum 3 — Maracanã→Rio, Mineirão→BH, Beira-Rio→POA, Fonte Nova→Salvador, Nilton Santos→Rio, Neo Química/Morumbi/Pacaembu/Allianz→SP — todos com **nominatim.openstreetmap.org (OSM/ODbL) como publisher não-Wiki**. O caminho dedicado (geo_wiki_parser + OSM) está produtivo e a acumulação fechou os quóruns sozinha.
+- **GATE-1 reavaliado:** records 28 (+7), `unique_predicates 3→6` (dobrou — DEFENDEU, LOCALIZADO_EM, PERTENCE_A, SER, VENCEU...), `publishers 3→9` (triplicou — +OSM, Lance, oGol, santosfc, romario.org), diversidade/publisher OK. Bloqueios remanescentes: só records (28/50) e ambiente.
+- **Lote GEO-3 semeado (`0ce7fb4`):** 6 novos estádios-cidade (São Januário, Couto Pereira, Arena da Baixada, Castelão, Serra Dourada, Mangueirão) — worker rodou (99 fontes, 15 OSM), fact 1703→1901; as triplas dos 6 ainda não saíram (ajuste fino do `q=` do Nominatim por nome — iteração futura; o cron continua tentando).
+- **Atlas draft do GEO-3 desatualizado por boa razão:** os "candidatos do próximo lote" (Neo Química, Allianz, Maracanã etc.) já foram verificados pela acumulação — a expansão real são os 6 novos acima.

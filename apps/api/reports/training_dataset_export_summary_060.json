@@ -1,33 +1,36 @@
 {
   "audit_id": "training_dataset_export_summary_060",
-  "generated_at": "2026-10-08T02:15:05.884283+00:00",
+  "generated_at": "2026-10-09T01:03:00.192738+00:00",
   "export_command": "python scripts/train_lora.py export --source graph --limit 100 --out-dir .autonomous/training/dataset --dataset-name verified_candidate",
   "dataset_paths": [
     "D:\\PROJETOS\\Nexus-Alpha\\apps\\api\\.autonomous\\training\\dataset\\verified_candidate.jsonl"
   ],
   "verified_only": true,
-  "records_total": 21,
+  "records_total": 28,
   "records_valid_json": 0,
   "records_invalid_json": 0,
   "records_empty_output": 0,
   "records_duplicate_exact": 0,
-  "records_with_provenance": 21,
+  "records_with_provenance": 28,
   "records_from_demo_memory": 0,
   "records_from_fallback": 0,
   "records_with_date_object": 0,
   "records_with_generic_object": 0,
   "records_with_clause_object": 0,
-  "unique_fact_hashes": 21,
-  "unique_subjects": 18,
-  "unique_predicates": 3,
-  "unique_objects": 9,
-  "unique_domains": 5,
-  "unique_publishers": 4,
-  "unique_publisher_families": 3,
+  "unique_fact_hashes": 28,
+  "unique_subjects": 20,
+  "unique_predicates": 6,
+  "unique_objects": 16,
+  "unique_domains": 10,
+  "unique_publishers": 9,
+  "unique_publisher_families": 8,
   "predicate_distribution": {
     "LOCALIZADO_EM": 9,
     "VENCEU": 10,
-    "DEFENDEU": 2
+    "DEFENDEU": 3,
+    "UTILIZA": 2,
+    "CONECTA_A": 1,
+    "PERTENCE_A": 3
   },
   "object_distribution": {
     "SAO PAULO": 4,
@@ -37,8 +40,15 @@
     "COPA LIBERTADORES": 7,
     "SANTOS FUTEBOL CLUBE": 1,
     "RIO DE JANEIRO": 2,
+    "MACHINE LEARNING": 1,
     "BOTAFOGO DE FUTEBOL E REGATAS": 1,
-    "BELO HORIZONTE": 1
+    "BELO HORIZONTE": 1,
+    "GUUS HIDDINK": 1,
+    "VASCO DA GAMA": 1,
+    "BARCELONA": 1,
+    "FLAMENGO": 1,
+    "FLUMINENSE": 1,
+    "ESTÁDIO URBANO CALDEIRA": 1
   },
   "subject_distribution": {
     "ALLIANZ PARQUE": 1,
@@ -49,40 +59,57 @@
     "EDSON ARANTES DO NASCIMENTO": 1,
     "ESTADIO OLIMPICO NILTON SANTOS": 1,
     "GREMIO FOOT BALL PORTO ALEGRENSE": 1,
+    "INTELIGÊNCIA ARTIFICIAL": 1,
     "JAIRZINHO": 1,
     "MARACANA": 1,
     "MINEIRAO": 1,
     "MORUMBI": 1,
     "NEO QUIMICA ARENA": 1,
     "PACAEMBU": 1,
-    "SANTOS FUTEBOL CLUBE": 1,
+    "ROMARIO": 5,
+    "SANTOS FUTEBOL CLUBE": 2,
     "SOCIEDADE ESPORTIVA PALMEIRAS": 2,
     "SPORT CLUBE INTERNACIONAL": 1,
     "SÃO PAULO FUTEBOL CLUBE": 2
   },
   "domain_distribution": {
-    "en.wikipedia.org": 21,
-    "pt.wikipedia.org": 21,
+    "en.wikipedia.org": 27,
+    "pt.wikipedia.org": 27,
     "nominatim.openstreetmap.org": 9,
     "rsssf.org": 10,
-    "rsssfbrasil.com": 2
+    "rsssfbrasil.com": 2,
+    "spectrum.ieee.org": 1,
+    "plato.stanford.edu": 1,
+    "geeksforgeeks.org": 1,
+    "romario.org": 5,
+    "ge.globo.com": 1
   },
   "publisher_distribution": {
-    "Wikimedia": 42,
+    "Wikimedia": 54,
     "nominatim.openstreetmap.org": 9,
     "RSSSF": 10,
-    "rsssfbrasil.com": 2
+    "rsssfbrasil.com": 2,
+    "spectrum.ieee.org": 1,
+    "plato.stanford.edu": 1,
+    "geeksforgeeks.org": 1,
+    "romario.org": 5,
+    "ge.globo.com": 1
   },
   "publisher_family_distribution": {
-    "Wikimedia": 42,
+    "Wikimedia": 54,
     "OpenStreetMap": 9,
-    "RSSSF": 12
+    "RSSSF": 12,
+    "spectrum.ieee.org": 1,
+    "plato.stanford.edu": 1,
+    "geeksforgeeks.org": 1,
+    "romario.org": 5,
+    "ge.globo.com": 1
   },
   "source_type_distribution": {
-    "table": 21
+    "table": 28
   },
   "language_distribution": {
-    "mixed_pt_en": 21
+    "mixed_pt_en": 28
   },
   "avg_instruction_chars": 0.0,
   "avg_output_chars": 0.0,
@@ -99,23 +126,28 @@
     "secrets": 0
   },
   "diversity": {
-    "non_venceu_ratio": 0.5238,
-    "top_predicate_share": 0.4762,
-    "top_object_share": 0.3333,
+    "non_venceu_ratio": 0.6429,
+    "top_predicate_share": 0.3571,
+    "top_object_share": 0.25,
     "diversity_ok": true,
     "cause": "insufficient_verified_facts"
   },
   "publisher_independence": {
-    "unique_publishers": 4,
-    "unique_publisher_families": 3,
-    "effective_publisher_count": 3,
+    "unique_publishers": 9,
+    "unique_publisher_families": 8,
+    "effective_publisher_count": 8,
     "publisher_family_distribution": {
-      "Wikimedia": 42,
+      "Wikimedia": 54,
       "OpenStreetMap": 9,
-      "RSSSF": 12
+      "RSSSF": 12,
+      "spectrum.ieee.org": 1,
+      "plato.stanford.edu": 1,
+      "geeksforgeeks.org": 1,
+      "romario.org": 5,
+      "ge.globo.com": 1
     },
-    "records_with_publisher_count_ge_3": 0,
-    "ratio_records_with_publisher_count_ge_3": 0.0,
+    "records_with_publisher_count_ge_3": 1,
+    "ratio_records_with_publisher_count_ge_3": 0.0357,
     "publisher_independence_ok": true,
     "publisher_family_independence_ok": true,
     "note": "#053.1 telemetria: rsssf.org/rsssfbrasil.com contam como 1 família (RSSSF); métrica de verificação (domínios) inalterada."

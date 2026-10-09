@@ -1,11 +1,11 @@
 {
   "audit_id": "training_gate_evaluation_060",
-  "generated_at": "2026-10-08T02:15:05.884431+00:00",
+  "generated_at": "2026-10-09T01:03:00.192858+00:00",
   "head_initial": "b7fe512",
   "head_final": "see SPRINT",
   "commits_created": [],
   "ci_status": "green",
-  "verified_facts_domain_independent": 21,
+  "verified_facts_domain_independent": 28,
   "numeric_gate": {
     "verified_facts_gate": true,
     "records_gate": false,
@@ -33,13 +33,18 @@
     }
   },
   "dataset_summary_path": "reports/training_dataset_export_summary_060.json",
-  "unique_publisher_families": 3,
+  "unique_publisher_families": 8,
   "publisher_family_distribution": {
-    "Wikimedia": 42,
+    "Wikimedia": 54,
     "OpenStreetMap": 9,
-    "RSSSF": 12
+    "RSSSF": 12,
+    "spectrum.ieee.org": 1,
+    "plato.stanford.edu": 1,
+    "geeksforgeeks.org": 1,
+    "romario.org": 5,
+    "ge.globo.com": 1
   },
-  "effective_publisher_count": 3,
+  "effective_publisher_count": 8,
   "publisher_independence_warnings": [
     "OPENSTREETMAP_IS_GEOGRAPHIC_OPEN_DATA_NOT_NEWS_EDITORIAL",
     "RSSSF_AND_RSSSF_BRASIL_SAME_FAMILY_SUSPECTED",
