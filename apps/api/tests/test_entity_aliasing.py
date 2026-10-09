@@ -198,3 +198,25 @@ def test_aliases_yaml_anti_leak_no_secrets():
         "qdrant", "nexus_api", "authorization:", "http://", "https://",
     ):
         assert needle not in code_only, f"anti-leak: {needle!r} encontrado no YAML"
+
+
+def test_canonical_names_fit_refiner_term_limit():
+    """Regressão (#056.4): o canônico de todo alias precisa passar por
+    triple_refiner._is_valid_term (MAX_TERM_TOKENS=6) — senão a ingestão rejeita
+    a tripla como `missing_entity` ANTES do span_validator (limite 8). Bug real:
+    o canonical "SÓCRATES BRASILEIRO SAMPAIO DE SOUZA VIEIRA DE OLIVEIRA" (8
+    tokens) zerava a captura do Sócrates. Limites conflitantes = dívida
+    inventariada; aqui garantimos que o manifest respeita o mais restritivo."""
+    from src.cognition.triple_refiner import MAX_TERM_TOKENS, _is_valid_term
+
+    entries = _load_raw_aliases()
+    offenders = []
+    for entry in entries:
+        canonical = str(entry.get("canonical") or "")
+        if len(canonical.split()) > MAX_TERM_TOKENS:
+            offenders.append((canonical, len(canonical.split())))
+    assert not offenders, (
+        f"canônicos acima de {MAX_TERM_TOKENS} tokens serão rejeitados na ingestão: {offenders}"
+    )
+    for entry in entries:
+        assert _is_valid_term(str(entry.get("canonical"))), entry.get("canonical")

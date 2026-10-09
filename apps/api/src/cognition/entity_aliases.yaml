@@ -137,7 +137,7 @@ aliases:
       parity_report: "reports/defendeu_pilot_worker_r5_048_10m_1_2.json"
       reason: "extension_2_romario_vasco_atlas_pair"
 
-  - canonical: "SÓCRATES BRASILEIRO SAMPAIO DE SOUZA VIEIRA DE OLIVEIRA"
+  - canonical: "SÓCRATES"
     display_name: "Sócrates"
     variants:
       - "Sócrates"
