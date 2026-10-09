@@ -108,3 +108,96 @@ aliases:
         - "en.wikipedia.org/wiki/São_Paulo_FC"
       parity_report: "reports/extraction_parity_pt_en_2026-09-24.json"
       reason: "entity_divergence_sao_paulo_club_vs_city"
+
+  - canonical: "SPORT CLUB CORINTHIANS PAULISTA"
+    display_name: "Corinthians"
+    variants:
+      - "Corinthians"
+      - "SC Corinthians Paulista"
+      - "Sport Club Corinthians Paulista"
+      - "Timão"
+    evidence:
+      sources:
+        - "pt.wikipedia.org/wiki/Sport_Club_Corinthians_Paulista"
+        - "www.lance.com.br/lancepedia/a-historia-de-socrates-no-corinthians.html"
+      parity_report: "reports/defendeu_pilot_worker_r5_048_10m_1_2.json"
+      reason: "extension_4_socrates_corinthians_atlas_pair"
+
+  - canonical: "CLUBE DE REGATAS VASCO DA GAMA"
+    display_name: "Vasco da Gama"
+    variants:
+      - "Vasco"
+      - "Vasco da Gama"
+      - "CR Vasco da Gama"
+      - "Clube de Regatas Vasco da Gama"
+    evidence:
+      sources:
+        - "pt.wikipedia.org/wiki/Club_de_Regatas_Vasco_da_Gama"
+        - "romario.org/biografia/"
+      parity_report: "reports/defendeu_pilot_worker_r5_048_10m_1_2.json"
+      reason: "extension_2_romario_vasco_atlas_pair"
+
+  - canonical: "SÓCRATES BRASILEIRO SAMPAIO DE SOUZA VIEIRA DE OLIVEIRA"
+    display_name: "Sócrates"
+    variants:
+      - "Sócrates"
+      - "Socrates"
+      - "Doutor Sócrates"
+      - "Sócrates Brasileiro Sampaio de Souza Vieira de Oliveira"
+    evidence:
+      sources:
+        - "pt.wikipedia.org/wiki/S%C3%B3crates"
+        - "en.wikipedia.org/wiki/S%C3%B3crates"
+      parity_report: "reports/defendeu_pilot_worker_r5_048_10m_1_2.json"
+      reason: "extension_4_socrates_subject_canonical"
+
+  - canonical: "ROGÉRIO CENI"
+    display_name: "Rogério Ceni"
+    variants:
+      - "Rogério Ceni"
+      - "Rogerio Ceni"
+      - "Rogério Mücke Ceni"
+    evidence:
+      sources:
+        - "pt.wikipedia.org/wiki/Rog%C3%A9rio_Ceni"
+        - "www.ogol.com.br/jogador/rogerio-ceni/5664"
+      parity_report: "reports/defendeu_pilot_worker_r5_048_10m_1_2.json"
+      reason: "extension_4_ceni_subject_canonical"
+
+  - canonical: "CARLOS ALBERTO TORRES"
+    display_name: "Carlos Alberto Torres"
+    variants:
+      - "Carlos Alberto Torres"
+      - "Carlos Alberto"
+      - "Capitão do Tri"
+    evidence:
+      sources:
+        - "pt.wikipedia.org/wiki/Carlos_Alberto_Torres"
+        - "www.santosfc.com.br/carlos-alberto-torres-o-melhor-lateral-direito-do-mundo"
+      parity_report: "reports/defendeu_pilot_worker_r5_048_10m_1_2.json"
+      reason: "extension_2_cat_subject_canonical"
+
+  - canonical: "JAIRZINHO"
+    display_name: "Jairzinho"
+    variants:
+      - "Jairzinho"
+      - "Jair Ventura Filho"
+      - "Furacão da Copa"
+    evidence:
+      sources:
+        - "pt.wikipedia.org/wiki/Jairzinho"
+        - "en.wikipedia.org/wiki/Jairzinho"
+      parity_report: "reports/defendeu_pilot_worker_r5_048_10m_1_2.json"
+      reason: "jairzinho_botafogo_atlas_subject"
+
+  - canonical: "ZITO"
+    display_name: "Zito"
+    variants:
+      - "Zito"
+      - "José Ely de Miranda"
+    evidence:
+      sources:
+        - "pt.wikipedia.org/wiki/Zito"
+        - "www.lance.com.br/lancepedia/a-historia-de-zito-no-santos.html"
+      parity_report: "reports/defendeu_pilot_worker_r5_048_10m_1_2.json"
+      reason: "zito_santos_atlas_subject"
