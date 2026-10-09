@@ -56,16 +56,23 @@ async def main() -> int:
             for fact in expected:
                 subjects = variants(fact, "subject")
                 objects = variants(fact, "object")
+                # #056.5 — match accent-tolerant: o grafo tem nós acentuados
+                # (SÓCRATES) e desacentuados (SOCRATES); `IN` exato falhava.
+                # Traz os DEFENDEU do sujeito (todos os candidatos) e filtra no Python.
                 query = (
                     "MATCH (f:Fato {predicado: 'DEFENDEU'}) "
-                    "WHERE f.sujeito IN $subjects AND f.objeto IN $objects "
                     "OPTIONAL MATCH (w:FonteWeb)-[:CONFIRMA]->(f) "
                     "RETURN f.sujeito AS sujeito, f.objeto AS objeto, "
                     "f.verificado AS verificado, f.confirmacoes AS confirmacoes, "
                     "collect(DISTINCT w.domain) AS domains"
                 )
-                records = await session.run(query, subjects=subjects, objects=objects)
-                rows = [rec.data() async for rec in records]
+                records = await session.run(query)
+                raw_rows = [rec.data() async for rec in records]
+                subjects_set, objects_set = set(subjects), set(objects)
+                rows = [
+                    r for r in raw_rows
+                    if canon(r["sujeito"]) in subjects_set and canon(r["objeto"]) in objects_set
+                ]
                 verified_rows = [r for r in rows if r["verificado"] is True]
                 best_domains: set[str] = set()
                 for row in verified_rows or rows:
