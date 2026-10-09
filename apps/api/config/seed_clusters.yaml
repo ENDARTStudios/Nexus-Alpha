@@ -531,3 +531,105 @@ clusters:
         domain: ogol.com.br
         publisher: oGol
         productivity: weak  # probeada 200; carreira tabular (90 menções São Paulo, 1.237 jogos)
+
+  - id: sao_januario_localization
+    topic: "Estádio São Januário — localização (Rio de Janeiro)"
+    expected_predicate: LOCALIZADO_EM
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_S%C3%A3o_Janu%C3%A1rio
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # GEO-3: narrativa wiki serve ao parser dedicado LOCALIZADO_EM
+      - url: https://en.wikipedia.org/wiki/Est%C3%A1dio_S%C3%A3o_Janu%C3%A1rio
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # idem
+      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20Sao%20Januario
+        domain: nominatim.openstreetmap.org
+        publisher: OpenStreetMap
+        productivity: productive  # padrão #059E: addr:city no OSM (ODbL)
+
+  - id: couto_pereira_localization
+    topic: "Estádio Couto Pereira — localização (Curitiba)"
+    expected_predicate: LOCALIZADO_EM
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Couto_Pereira
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # GEO-3: narrativa wiki serve ao parser dedicado LOCALIZADO_EM
+      - url: https://en.wikipedia.org/wiki/Est%C3%A1dio_Couto_Pereira
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # idem
+      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20Couto%20Pereira
+        domain: nominatim.openstreetmap.org
+        publisher: OpenStreetMap
+        productivity: productive  # padrão #059E: addr:city no OSM (ODbL)
+
+  - id: arena_da_baixada_localization
+    topic: "Arena da Baixada — localização (Curitiba)"
+    expected_predicate: LOCALIZADO_EM
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Arena_da_Baixada
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # GEO-3: narrativa wiki serve ao parser dedicado LOCALIZADO_EM
+      - url: https://en.wikipedia.org/wiki/Arena_da_Baixada
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # idem
+      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Arena%20da%20Baixada
+        domain: nominatim.openstreetmap.org
+        publisher: OpenStreetMap
+        productivity: productive  # padrão #059E: addr:city no OSM (ODbL)
+
+  - id: castelao_fortaleza_localization
+    topic: "Estádio Castelão — localização (Fortaleza)"
+    expected_predicate: LOCALIZADO_EM
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Pl%C3%A1cido_Aderaldo_Castelo
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # GEO-3: narrativa wiki serve ao parser dedicado LOCALIZADO_EM
+      - url: https://en.wikipedia.org/wiki/Est%C3%A1dio_Pl%C3%A1cido_Aderaldo_Castelo
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # idem
+      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20Placido%20Aderaldo%20Castelo
+        domain: nominatim.openstreetmap.org
+        publisher: OpenStreetMap
+        productivity: productive  # padrão #059E: addr:city no OSM (ODbL)
+
+  - id: serra_dourada_localization
+    topic: "Estádio Serra Dourada — localização (Goiânia)"
+    expected_predicate: LOCALIZADO_EM
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Serra_Dourada
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # GEO-3: narrativa wiki serve ao parser dedicado LOCALIZADO_EM
+      - url: https://en.wikipedia.org/wiki/Est%C3%A1dio_Serra_Dourada
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # idem
+      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20Serra%20Dourada
+        domain: nominatim.openstreetmap.org
+        publisher: OpenStreetMap
+        productivity: productive  # padrão #059E: addr:city no OSM (ODbL)
+
+  - id: mangueirao_localization
+    topic: "Estádio Mangueirão — localização (Belém)"
+    expected_predicate: LOCALIZADO_EM
+    sources:
+      - url: https://pt.wikipedia.org/wiki/Est%C3%A1dio_Estadual_Jornalista_Edgar_Augusto_Proen%C3%A7a
+        domain: pt.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # GEO-3: narrativa wiki serve ao parser dedicado LOCALIZADO_EM
+      - url: https://en.wikipedia.org/wiki/Estadio_Estadual_Jornalista_Edgar_Augusto_Proenca
+        domain: en.wikipedia.org
+        publisher: Wikimedia
+        productivity: weak  # idem
+      - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20Mangueirao
+        domain: nominatim.openstreetmap.org
+        publisher: OpenStreetMap
+        productivity: productive  # padrão #059E: addr:city no OSM (ODbL)
