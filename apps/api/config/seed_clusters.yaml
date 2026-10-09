@@ -516,7 +516,7 @@ clusters:
     domain: en.wikipedia.org
     publisher: Wikimedia
     productivity: weak
-  - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Arena%20da%20Baixada
+  - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20Joaquim%20Americo%20Guimaraes
     domain: nominatim.openstreetmap.org
     publisher: OpenStreetMap
     productivity: productive
@@ -532,7 +532,7 @@ clusters:
     domain: en.wikipedia.org
     publisher: Wikimedia
     productivity: weak
-  - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Estadio%20Placido%20Aderaldo%20Castelo
+  - url: https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&q=Castelao%20Fortaleza
     domain: nominatim.openstreetmap.org
     publisher: OpenStreetMap
     productivity: productive
