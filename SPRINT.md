@@ -3712,3 +3712,10 @@ distingue COLD_BOOT de DRIFT_REAL) · `tests/test_readiness_graph_ready_054_2_r2
 - **Sócrates: 3/3 domínios presentes** (wikidata + lance + en.wiki) mas divididos entre 2 nós canônicos (CORINTHIANS pré-alias vs SPORT CLUB CORINTHIANS PAULISTA pós-alias) — o próximo ciclo unifica via alias e fecha o 7º.
 - **verified 37→41** (consolidação marcou CAT + 3 acumulados) · fact 11.959 · concept 10.259 · gates 0/ok.
 - **Rumo ao treino: 41/50** — faltam 9; o Sócrates fecha no próximo ciclo (cron) e as linhas GEO/DEFENDEU seguem acumulando.
+
+## [2026-10-09] 🏆 MARCO: **7/7 candidatos DEFENDEU VERIFICADOS** + verified 44/50 (faltam 6 para o treino)
+
+- **Todos os 7 candidatos do atlas com quórum 3 confirmado:** CAT 3/3, Jairzinho 4/3, Garrincha 4/3, Romário 3/3, **Sócrates 3/3**, Zito 3/3, Ceni 3/3.
+- **Bugs #056.4/#056.5 (cadeia de dois):** (1) canonical do Sócrates com 8 tokens era rejeitado pelo `triple_refiner._is_valid_term` (limite 6) ANTES do span validator (limite 8) → toda tripla caía em `missing_entity`. Corrigido p/ forma curta + **teste de regressão** (todo canonical do manifest deve caber no limite do refiner). (2) O nó verificado do Sócrates ficou com acento (`SÓCRATES`) e o validador foldava removendo acentos → match nunca casava. Validador agora é **accent-tolerant** (filtro Python com canon()).
+- **GATE-1:** `verified_facts_gate: true` (44≥10) · diversity/publisher/provenance/sanitization ✓ · publishers 13 famílias · `records_gate: false` (**44/50 — faltam 6**) · environment: Python 3.14 (precisa 3.11-3.13) + sem GPU.
+- **Caminho:** 6 fatos via acumulação (13 rosters + cron) / GEO batch / mais descoberta — depois ENV-1 (ambiente) + GO-6.
