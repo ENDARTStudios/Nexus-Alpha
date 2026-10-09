@@ -36,7 +36,7 @@ def category_members(category: str, limit: int = 500) -> list[str]:
             data = json.loads(response.read().decode("utf-8"))
         members = data.get("query", {}).get("categorymembers", [])
         for member in members:
-            if member["ns"] == 0:  # artigos, não subcategorias
+            if member["ns"] == 0 and (member.get("title") or "").strip():  # artigos
                 titles.append(member["title"])
         cont = data.get("continue", {}).get("cmcontinue")
         if not cont:
@@ -59,8 +59,8 @@ def article_urls(titles: list[str]) -> list[str]:
         with urllib.request.urlopen(request, timeout=30) as response:
             data = json.loads(response.read().decode("utf-8"))
         for page in data.get("query", {}).get("pages", {}).values():
-            if int(page.get("pageid", 0)) > 0:
-                title = page.get("title", "").replace(" ", "_")
+            title = (page.get("title") or "").replace(" ", "_")
+            if int(page.get("pageid", 0)) > 0 and title:
                 urls.append("https://pt.wikipedia.org/wiki/" + urllib.parse.quote(title))
     return urls
 

@@ -50,6 +50,29 @@ SELECT ?stadium ?stadiumLabel ?cityLabel WHERE {
 LIMIT {limit}
 """
 
+VICTORIES_QUERY = """
+SELECT ?club ?clubLabel ?compLabel WHERE {
+  ?club wdt:P31/wdt:P279* wd:Q476028 ;
+        wdt:P17 wd:Q155 ;
+        p:P2522 ?v .
+  ?v ps:P2522 ?competition .
+  ?competition rdfs:label ?compLabel . FILTER(LANG(?compLabel) = "pt")
+  ?club rdfs:label ?clubLabel . FILTER(LANG(?clubLabel) = "pt")
+}
+LIMIT {limit}
+"""
+
+VENUES_QUERY = """
+SELECT ?club ?clubLabel ?venueLabel WHERE {
+  ?club wdt:P31/wdt:P279* wd:Q476028 ;
+        wdt:P17 wd:Q155 ;
+        wdt:P115 ?venue .
+  ?venue rdfs:label ?venueLabel . FILTER(LANG(?venueLabel) = "pt")
+  ?club rdfs:label ?clubLabel . FILTER(LANG(?clubLabel) = "pt")
+}
+LIMIT {limit}
+"""
+
 
 def _sparql(query: str, timeout: int = 90) -> list[dict]:
     url = SPARQL_ENDPOINT + "?" + urllib.parse.urlencode({"query": query, "format": "json"})
@@ -197,11 +220,61 @@ def main() -> int:
     p_stadiums.add_argument("--limit", type=int, default=1000)
     p_stadiums.add_argument("--out", default="data/wikidata_stadiums.jsonl")
 
+    p_vic = sub.add_parser("extract-victories")
+    p_vic.add_argument("--limit", type=int, default=3000)
+    p_vic.add_argument("--out", default="data/wikidata_victories.jsonl")
+
+    p_ven = sub.add_parser("extract-venues")
+    p_ven.add_argument("--limit", type=int, default=1000)
+    p_ven.add_argument("--out", default="data/wikidata_venues.jsonl")
+
     p_ing = sub.add_parser("ingest")
     p_ing.add_argument("--jsonl", required=True)
     p_ing.add_argument("--sleep", type=float, default=0.6)
 
     args = parser.parse_args()
+    if args.mode == "extract-victories":
+        bindings = _sparql(VICTORIES_QUERY.replace("{limit}", str(args.limit)))
+        by_club: dict[str, dict] = {}
+        for b in bindings:
+            if "club" not in b or "clubLabel" not in b or "compLabel" not in b:
+                continue
+            club_q = _qid(b["club"]["value"])
+            club = b["clubLabel"]["value"].strip().upper()
+            comp = b["compLabel"]["value"].strip().upper()
+            if not club or not comp or club == comp:
+                continue
+            entry = by_club.setdefault(club_q, {
+                "source_url": f"https://www.wikidata.org/wiki/{club_q}",
+                "title": f"Wikidata — títulos: {club}",
+                "domain_score": 0.9, "extracted_entities": [],
+            })
+            entry["extracted_entities"].append({"subject": club, "predicate": "VENCEU", "object": comp, "confidence": 0.95})
+        _write(Path(args.out), by_club)
+        print(f"payloads (itens Wikidata): {len(by_club)} -> {args.out}")
+        return 0
+
+    if args.mode == "extract-venues":
+        bindings = _sparql(VENUES_QUERY.replace("{limit}", str(args.limit)))
+        by_club: dict[str, dict] = {}
+        for b in bindings:
+            if "club" not in b or "clubLabel" not in b or "venueLabel" not in b:
+                continue
+            club_q = _qid(b["club"]["value"])
+            club = b["clubLabel"]["value"].strip().upper()
+            venue = b["venueLabel"]["value"].strip().upper()
+            if not club or not venue or club == venue:
+                continue
+            entry = by_club.setdefault(club_q, {
+                "source_url": f"https://www.wikidata.org/wiki/{club_q}",
+                "title": f"Wikidata — sede/estádio: {club}",
+                "domain_score": 0.9, "extracted_entities": [],
+            })
+            entry["extracted_entities"].append({"subject": club, "predicate": "POSSUIR", "object": venue, "confidence": 0.95})
+        _write(Path(args.out), by_club)
+        print(f"payloads (itens Wikidata): {len(by_club)} -> {args.out}")
+        return 0
+
     if args.mode == "extract-careers":
         n = extract_careers(args.limit, Path(args.out))
         print(f"payloads (itens Wikidata): {n} -> {args.out}")
