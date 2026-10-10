@@ -3719,3 +3719,12 @@ distingue COLD_BOOT de DRIFT_REAL) · `tests/test_readiness_graph_ready_054_2_r2
 - **Bugs #056.4/#056.5 (cadeia de dois):** (1) canonical do Sócrates com 8 tokens era rejeitado pelo `triple_refiner._is_valid_term` (limite 6) ANTES do span validator (limite 8) → toda tripla caía em `missing_entity`. Corrigido p/ forma curta + **teste de regressão** (todo canonical do manifest deve caber no limite do refiner). (2) O nó verificado do Sócrates ficou com acento (`SÓCRATES`) e o validador foldava removendo acentos → match nunca casava. Validador agora é **accent-tolerant** (filtro Python com canon()).
 - **GATE-1:** `verified_facts_gate: true` (44≥10) · diversity/publisher/provenance/sanitization ✓ · publishers 13 famílias · `records_gate: false` (**44/50 — faltam 6**) · environment: Python 3.14 (precisa 3.11-3.13) + sem GPU.
 - **Caminho:** 6 fatos via acumulação (13 rosters + cron) / GEO batch / mais descoberta — depois ENV-1 (ambiente) + GO-6.
+
+## [2026-10-09] Estado final da sessão: 7/7 candidatos verificados · verified 49/50 no grafo · GATE-1 a 1 record
+
+- **Acervo reconstruído e ampliado:** manifest com **45 clusters / ~860 fontes** (13 rosters de clubes + carreiras + GEO + base). O arquivo estava com corrupção de indentação (clusters absorvidos silenciosamente) — reconstruído limpo via `safe_dump`, 0 erros de validação.
+- **`verified_facts`: 20 → 49** na sessão (+145%). `fact`: 598 → 14.394 (24×). `concept`: 2.136 → 11.142. **Todos os gates de contabilidade 0** (junk/fallback/gsg/unaccounted), `fact_accounting_status: ok`.
+- **7/7 candidatos DEFENDEU verificados com quórum 3** (CAT, Jairzinho 4/3, Garrincha 4/3, Romário, Sócrates, Zito, Ceni).
+- **GATE-1:** `verified_facts_gate: TRUE` (49≥10) · diversity ✓ · publisher_independence ✓ · provenance ✓ · sanitization ✓ · `records_gate: FALSE` (**49/50 — 1 record**) · environment: Python 3.14 (precisa 3.11–3.13) + sem GPU.
+- **Para fechar:** 1 fato verificado (cron 6h / próxima rodada) → `records_gate`; depois ENV-1 (Python 3.11-3.13 + GPU/Colab) → GO-6 → treino.
+- **Bugs corrigidos na sessão:** #056.4 (canonical >6 tokens rejeitado pelo refiner + teste de regressão) · #056.5 (validador accent-tolerant) · manifest com indentação corrompida · deploy do Space desatualizado em relação aos aliases.
