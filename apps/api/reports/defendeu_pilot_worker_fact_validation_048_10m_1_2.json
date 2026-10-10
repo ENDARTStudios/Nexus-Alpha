@@ -1,30 +1,38 @@
 {
   "audit_id": "defendeu_pilot_worker_fact_validation_048_10m_1_2",
-  "generated_at": "2026-10-08T03:12:31.273288+00:00",
+  "generated_at": "2026-10-09T22:22:36.788824+00:00",
   "mode": "read_only",
   "expected_facts_total": 7,
-  "verified_expected_facts": 1,
-  "missing_expected_facts": [
-    "defendeu_carlosalbertotorres_007",
-    "defendeu_romariodesouzafaria_006",
-    "defendeu_socratesbrasileirosampai_005",
-    "defendeu_rogerioceni_012"
-  ],
-  "partial_expected_facts": [
-    "defendeu_manuelfranciscodossantos_001",
-    "defendeu_zito_003"
-  ],
+  "verified_expected_facts": 7,
+  "missing_expected_facts": [],
+  "partial_expected_facts": [],
   "candidates": [
     {
       "candidate_id": "defendeu_carlosalbertotorres_007",
       "expected": "CARLOS ALBERTO TORRES --DEFENDEU--> SANTOS FUTEBOL CLUBE",
-      "present_in_graph": false,
-      "verified_in_graph": false,
-      "confirmed_domains": [],
-      "domain_count": 0,
-      "non_wikimedia_domain_present": false,
-      "meets_quorum": false,
-      "rows": []
+      "present_in_graph": true,
+      "verified_in_graph": true,
+      "confirmed_domains": [
+        "en.wikipedia.org",
+        "santosfc.com.br",
+        "wikidata.org"
+      ],
+      "domain_count": 3,
+      "non_wikimedia_domain_present": true,
+      "meets_quorum": true,
+      "rows": [
+        {
+          "sujeito": "CARLOS ALBERTO TORRES",
+          "objeto": "SANTOS FUTEBOL CLUBE",
+          "verificado": true,
+          "confirmacoes": 3,
+          "domains": [
+            "wikidata.org",
+            "en.wikipedia.org",
+            "santosfc.com.br"
+          ]
+        }
+      ]
     },
     {
       "candidate_id": "defendeu_jairzinho_002",
@@ -34,9 +42,10 @@
       "confirmed_domains": [
         "en.wikipedia.org",
         "pt.wikipedia.org",
-        "rsssfbrasil.com"
+        "rsssfbrasil.com",
+        "wikidata.org"
       ],
-      "domain_count": 3,
+      "domain_count": 4,
       "non_wikimedia_domain_present": true,
       "meets_quorum": true,
       "rows": [
@@ -44,8 +53,9 @@
           "sujeito": "JAIRZINHO",
           "objeto": "BOTAFOGO DE FUTEBOL E REGATAS",
           "verificado": true,
-          "confirmacoes": 3,
+          "confirmacoes": 4,
           "domains": [
+            "wikidata.org",
             "en.wikipedia.org",
             "pt.wikipedia.org",
             "rsssfbrasil.com"
@@ -57,21 +67,25 @@
       "candidate_id": "defendeu_manuelfranciscodossantos_001",
       "expected": "MANUEL FRANCISCO DOS SANTOS --DEFENDEU--> BOTAFOGO DE FUTEBOL E REGATAS",
       "present_in_graph": true,
-      "verified_in_graph": false,
+      "verified_in_graph": true,
       "confirmed_domains": [
         "en.wikipedia.org",
-        "pt.wikipedia.org"
+        "gazetadoparana.com.br",
+        "pt.wikipedia.org",
+        "wikidata.org"
       ],
-      "domain_count": 2,
-      "non_wikimedia_domain_present": false,
-      "meets_quorum": false,
+      "domain_count": 4,
+      "non_wikimedia_domain_present": true,
+      "meets_quorum": true,
       "rows": [
         {
           "sujeito": "MANUEL FRANCISCO DOS SANTOS",
           "objeto": "BOTAFOGO DE FUTEBOL E REGATAS",
-          "verificado": false,
-          "confirmacoes": 2,
+          "verificado": true,
+          "confirmacoes": 4,
           "domains": [
+            "gazetadoparana.com.br",
+            "wikidata.org",
             "pt.wikipedia.org",
             "en.wikipedia.org"
           ]
@@ -81,44 +95,108 @@
     {
       "candidate_id": "defendeu_romariodesouzafaria_006",
       "expected": "ROMÁRIO DE SOUZA FARIA --DEFENDEU--> CLUBE DE REGATAS VASCO DA GAMA",
-      "present_in_graph": false,
-      "verified_in_graph": false,
-      "confirmed_domains": [],
-      "domain_count": 0,
-      "non_wikimedia_domain_present": false,
-      "meets_quorum": false,
-      "rows": []
+      "present_in_graph": true,
+      "verified_in_graph": true,
+      "confirmed_domains": [
+        "en.wikipedia.org",
+        "pt.wikipedia.org",
+        "romario.org"
+      ],
+      "domain_count": 3,
+      "non_wikimedia_domain_present": true,
+      "meets_quorum": true,
+      "rows": [
+        {
+          "sujeito": "ROMARIO",
+          "objeto": "VASCO DA GAMA",
+          "verificado": true,
+          "confirmacoes": 3,
+          "domains": [
+            "romario.org",
+            "en.wikipedia.org",
+            "pt.wikipedia.org"
+          ]
+        },
+        {
+          "sujeito": "ROMARIO",
+          "objeto": "CLUBE DE REGATAS VASCO DA GAMA",
+          "verificado": true,
+          "confirmacoes": 3,
+          "domains": [
+            "romario.org",
+            "en.wikipedia.org",
+            "pt.wikipedia.org"
+          ]
+        }
+      ]
     },
     {
       "candidate_id": "defendeu_socratesbrasileirosampai_005",
       "expected": "SÓCRATES BRASILEIRO SAMPAIO DE SOUZA VIEIRA DE OLIVEIRA --DEFENDEU--> SPORT CLUB CORINTHIANS PAULISTA",
-      "present_in_graph": false,
-      "verified_in_graph": false,
-      "confirmed_domains": [],
-      "domain_count": 0,
-      "non_wikimedia_domain_present": false,
-      "meets_quorum": false,
-      "rows": []
+      "present_in_graph": true,
+      "verified_in_graph": true,
+      "confirmed_domains": [
+        "en.wikipedia.org",
+        "lance.com.br",
+        "wikidata.org"
+      ],
+      "domain_count": 3,
+      "non_wikimedia_domain_present": true,
+      "meets_quorum": true,
+      "rows": [
+        {
+          "sujeito": "SOCRATES",
+          "objeto": "CORINTHIANS",
+          "verificado": false,
+          "confirmacoes": 2,
+          "domains": [
+            "en.wikipedia.org",
+            "lance.com.br"
+          ]
+        },
+        {
+          "sujeito": "SOCRATES",
+          "objeto": "SPORT CLUB CORINTHIANS PAULISTA",
+          "verificado": false,
+          "confirmacoes": 1,
+          "domains": [
+            "wikidata.org"
+          ]
+        },
+        {
+          "sujeito": "SÓCRATES",
+          "objeto": "SPORT CLUB CORINTHIANS PAULISTA",
+          "verificado": true,
+          "confirmacoes": 3,
+          "domains": [
+            "wikidata.org",
+            "lance.com.br",
+            "en.wikipedia.org"
+          ]
+        }
+      ]
     },
     {
       "candidate_id": "defendeu_zito_003",
       "expected": "ZITO --DEFENDEU--> SANTOS FUTEBOL CLUBE",
       "present_in_graph": true,
-      "verified_in_graph": false,
+      "verified_in_graph": true,
       "confirmed_domains": [
         "lance.com.br",
+        "ogol.com.br",
         "santosfc.com.br"
       ],
-      "domain_count": 2,
+      "domain_count": 3,
       "non_wikimedia_domain_present": true,
-      "meets_quorum": false,
+      "meets_quorum": true,
       "rows": [
         {
           "sujeito": "ZITO",
           "objeto": "SANTOS FUTEBOL CLUBE",
-          "verificado": false,
-          "confirmacoes": 2,
+          "verificado": true,
+          "confirmacoes": 3,
           "domains": [
+            "ogol.com.br",
             "lance.com.br",
             "santosfc.com.br"
           ]
@@ -128,13 +206,58 @@
     {
       "candidate_id": "defendeu_rogerioceni_012",
       "expected": "ROGÉRIO CENI --DEFENDEU--> SÃO PAULO FUTEBOL CLUBE",
-      "present_in_graph": false,
-      "verified_in_graph": false,
-      "confirmed_domains": [],
-      "domain_count": 0,
-      "non_wikimedia_domain_present": false,
-      "meets_quorum": false,
-      "rows": []
+      "present_in_graph": true,
+      "verified_in_graph": true,
+      "confirmed_domains": [
+        "en.wikipedia.org",
+        "ogol.com.br",
+        "pt.wikipedia.org"
+      ],
+      "domain_count": 3,
+      "non_wikimedia_domain_present": true,
+      "meets_quorum": true,
+      "rows": [
+        {
+          "sujeito": "ROGERIO CENI",
+          "objeto": "SAO PAULO",
+          "verificado": true,
+          "confirmacoes": 3,
+          "domains": [
+            "ogol.com.br",
+            "en.wikipedia.org",
+            "pt.wikipedia.org"
+          ]
+        },
+        {
+          "sujeito": "ROGERIO CENI",
+          "objeto": "SÃO PAULO FUTEBOL CLUBE",
+          "verificado": false,
+          "confirmacoes": 1,
+          "domains": [
+            "wikidata.org"
+          ]
+        },
+        {
+          "sujeito": "ROGÉRIO CENI",
+          "objeto": "SAO PAULO",
+          "verificado": true,
+          "confirmacoes": 3,
+          "domains": [
+            "ogol.com.br",
+            "en.wikipedia.org",
+            "pt.wikipedia.org"
+          ]
+        },
+        {
+          "sujeito": "ROGÉRIO CENI",
+          "objeto": "SÃO PAULO FUTEBOL CLUBE",
+          "verificado": false,
+          "confirmacoes": 1,
+          "domains": [
+            "wikidata.org"
+          ]
+        }
+      ]
     }
   ]
 }

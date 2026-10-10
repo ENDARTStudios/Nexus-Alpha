@@ -23,7 +23,7 @@ import yaml  # noqa: E402
 
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36"}
 MAX_TEXT_CHARS = 12_000
-ATLAS_PREDICATES = ["DEFENDEU", "PERTENCE_A", "LOCALIZADO_EM", "VENCEU", "POSSUIR"]
+ATLAS_PREDICATES = ["DEFENDEU", "PERTENCE_A", "LOCALIZADO_EM", "VENCEU", "POSSUIR", "CONECTA_A"]
 
 
 def _page_text(url: str) -> str:

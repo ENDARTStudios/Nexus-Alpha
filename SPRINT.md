@@ -3773,3 +3773,12 @@ DOC-1 ✓ · AUD-1 ✓ (contabilidade 0, quórum 3, anti-contaminação) · CLOS
 
 ### Pendências do Operador
 **GO-6** (ambiente de treino: provisionar Kaggle + smoke test) **ou deferir** e priorizar expansão do dataset (as alavancas multiplicam records).
+
+## [2026-10-10] 🎉 ETAPA 4 COMPLETA — treino LoRA executado em GPU local (TRAIN-1 + EVAL-1)
+
+- **Descoberta de ambiente:** a máquina do Operador **já tinha** `python3.11.15`/`python3.12.13` + **GPU RTX 5060 Ti 16GB** — o gate reportava "Python 3.14 / sem GPU" porque media o miniconda padrão. ENV-1 resolvido **localmente, custo zero** (sem Kaggle).
+- **ENV-1 executado:** venv `.venv-train` (uv, Python 3.12) + `llamafactory==0.9.5` + **torch 2.11.0+cu128 / torchvision 0.26.0+cu128 / torchaudio 2.11.0+cu128** (build Blackwell sm_120). Gotcha real: o build CPU de torch/torchvision quebra o stack (`torchvision::nms does not exist`) — é preciso reinstalar ambos do index cu128.
+- **DATA-1:** dataset governado em `data/sft/nexus_verified_facts.jsonl` (52 records, gitignored por O3).
+- **TRAIN-1 executado:** `python scripts/train_lora.py train` → **Qwen2.5-1.5B-Instruct + LoRA (r=8)** · **`train_loss: 0.8474`** · 3 epochs · **79s na GPU** · adapter `saves/nexus-lora/adapter_model.safetensors` (37MB, gitignored) + gráfico de loss. Nenhuma promoção automática de modelo.
+- **EVAL-1 (read-only):** inferência com o adapter treinado — caso do treino reproduz o formato aprendido (*"JAIRZINHO defendeu o Botafogo... corroborada por quatro fontes independentes"*); caso NOVO gerou resposta **cautelosa sem alucinar** (*"Não há informações confiáveis..."*). Confirma o esperado: com 52 records o LoRA aprende **formato/tom**, não conhecimento — o ativo real permanece a infra de verificação. Integração do modelo permanece **deferida** ao Operador.
+- **Higiene:** `.gitignore` cobre `apps/api/.venv-train/` e `backups/snapshot_*/` (política O3 — payloads grandes nunca commitados).
