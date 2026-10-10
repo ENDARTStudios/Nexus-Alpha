@@ -1,15 +1,15 @@
 {
   "audit_id": "training_gate_evaluation_060",
-  "generated_at": "2026-10-09T22:24:23.089336+00:00",
+  "generated_at": "2026-10-10T01:32:19.289182+00:00",
   "head_initial": "b7fe512",
   "head_final": "see SPRINT",
   "commits_created": [],
   "ci_status": "green",
-  "verified_facts_domain_independent": 44,
+  "verified_facts_domain_independent": 52,
   "numeric_gate": {
     "verified_facts_gate": true,
-    "records_gate": false,
-    "schema_gate": false,
+    "records_gate": true,
+    "schema_gate": true,
     "sanitization_gate": true
   },
   "quality_gate": {
@@ -35,19 +35,19 @@
   "dataset_summary_path": "reports/training_dataset_export_summary_060.json",
   "unique_publisher_families": 13,
   "publisher_family_distribution": {
-    "Wikimedia": 84,
+    "Wikimedia": 105,
+    "gazetadoparana.com.br": 1,
     "OpenStreetMap": 9,
+    "santosfc.com.br": 7,
     "ibm.com": 3,
     "spectrum.ieee.org": 2,
-    "plato.stanford.edu": 1,
+    "plato.stanford.edu": 2,
     "geeksforgeeks.org": 3,
     "RSSSF": 14,
-    "gazetadoparana.com.br": 1,
-    "santosfc.com.br": 3,
     "ge.globo.com": 1,
     "ogol.com.br": 3,
     "romario.org": 11,
-    "lance.com.br": 2
+    "lance.com.br": 3
   },
   "effective_publisher_count": 13,
   "publisher_independence_warnings": [
@@ -58,7 +58,6 @@
   "training_recommended": false,
   "training_allowed": false,
   "blocking_reasons": [
-    "BLOCKED_RECORDS_INSUFFICIENT",
     "TRAINING_BLOCKED_ENVIRONMENT"
   ],
   "next_issue_recommendation": "#048.10A — escalar fatos verificados para records >= 50 (e #048.10B para diversidade além de VENCEU)",

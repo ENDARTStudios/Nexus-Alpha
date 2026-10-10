@@ -3728,3 +3728,11 @@ distingue COLD_BOOT de DRIFT_REAL) · `tests/test_readiness_graph_ready_054_2_r2
 - **GATE-1:** `verified_facts_gate: TRUE` (49≥10) · diversity ✓ · publisher_independence ✓ · provenance ✓ · sanitization ✓ · `records_gate: FALSE` (**49/50 — 1 record**) · environment: Python 3.14 (precisa 3.11–3.13) + sem GPU.
 - **Para fechar:** 1 fato verificado (cron 6h / próxima rodada) → `records_gate`; depois ENV-1 (Python 3.11-3.13 + GPU/Colab) → GO-6 → treino.
 - **Bugs corrigidos na sessão:** #056.4 (canonical >6 tokens rejeitado pelo refiner + teste de regressão) · #056.5 (validador accent-tolerant) · manifest com indentação corrompida · deploy do Space desatualizado em relação aos aliases.
+
+## [2026-10-09] 🎉 TODOS OS GATES DE DADOS VERDES — verified 52/50, dataset exportado, treino a 1 passo (ambiente)
+
+- **`verified_facts: 52`** (era 20 na abertura da sessão). A virada final: **páginas do atlas em es/fr.wikipedia = DOMÍNIOS NOVOS** (es.wikipedia.org, fr.wikipedia.org) → +3 quóruns de uma vez. Alavanca replicável e legítima (a Wikipedia multilíngue é fonte independente por domínio).
+- **GATE-1 COMPLETO nos dados:** `verified_facts_gate ✓` · `records_gate ✓ (52≥50)` · `schema_gate ✓` · `sanitization_gate ✓` · `diversity ✓` · `publisher ✓` · `provenance ✓` · **`blocking: None`**.
+- **DATA-1 executado:** dataset governado exportado (`.autonomous/training/dataset/verified_candidate.jsonl`, 52 records, 52 válidos, 0 inválidos, 0 segredos, schema instruction/input/output). **Não commitado** (política O3).
+- **ENV-1 (plano):** `reports/env1_training_environment_plan.md` — único bloqueio restante é o ambiente (Python 3.14 vs 3.11-3.13, sem GPU). Opção recomendada: **Kaggle Notebooks (T4, custo zero)**. `training_allowed` continua `false` **por design** — treino exige GO-6 + flag explícita.
+- **Próximo passo (Operador):** GO-6 (provisionar ambiente + smoke test) **ou** deferir treino e priorizar expansão do dataset (as alavancas provadas multiplicam records).
