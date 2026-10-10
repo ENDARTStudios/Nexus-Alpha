@@ -3736,3 +3736,40 @@ distingue COLD_BOOT de DRIFT_REAL) · `tests/test_readiness_graph_ready_054_2_r2
 - **DATA-1 executado:** dataset governado exportado (`.autonomous/training/dataset/verified_candidate.jsonl`, 52 records, 52 válidos, 0 inválidos, 0 segredos, schema instruction/input/output). **Não commitado** (política O3).
 - **ENV-1 (plano):** `reports/env1_training_environment_plan.md` — único bloqueio restante é o ambiente (Python 3.14 vs 3.11-3.13, sem GPU). Opção recomendada: **Kaggle Notebooks (T4, custo zero)**. `training_allowed` continua `false` **por design** — treino exige GO-6 + flag explícita.
 - **Próximo passo (Operador):** GO-6 (provisionar ambiente + smoke test) **ou** deferir treino e priorizar expansão do dataset (as alavancas provadas multiplicam records).
+
+## [2026-10-09] Auditoria final de completude — roadmap 32 itens + Etapa 4
+
+### Etapa 0 — Desbloqueio e integridade: 6/6 ✅
+Vercel rootDirectory/redeploy ✓ · PR #1 merged ✓ · R3.0 ✓ · R3 deploy+gate ✓ · #054.6 relatório ✓ · #054.6.1 ajustes ✓
+
+### Etapa 1 — Observabilidade: 8/8 ✅
+#054.3 retry 429 ✓ · O2 loader env ✓ · O4 glossário ✓ · D6 convenção domain ✓ · D11 CI-safe ✓ · #054.4 relatório+gate ruff ATIVO ✓ · O1 lock worker ✓ · O3 política snapshots ✓
+
+### Etapa 2 — DEFENDEU: linha executada ✅
+Opção C aplicada (4 extensões de seeds) · **7/7 candidatos VERIFICADOS com quórum 3** · D7 inventário (1/15 span quebrado, aceitação documentada)
+
+### Etapa 3 — GEO-3 ✅
+Planning ✓ · dry-run condicionado (parser dedicado produtivo — 9 estádios-cidade verificados via OSM+wiki) · lote de 6 estádios semeado (`q=` Nominatim validado contra OSM)
+
+### Etapa 4 — Treino: dados COMPLETOS, ambiente pendente
+- **ENV-1** ✅ plano (`reports/env1_training_environment_plan.md`; opção Kaggle T4 gratuito; exige GO-6)
+- **DATA-1** ✅ dataset governado exportado (52 records válidos, 0 segredos, schema ok; não commitado — O3)
+- **TRAIN-1** ⏸ bloqueado por design (`training_allowed: false` hardcoded) — exige GO-6 + flag
+- **EVAL-1** ⏸ posterior ao treino
+- **GATE-1** ✅ **TODOS os gates de dados VERDES** (`blocking: None`)
+
+### Etapa 5 — Fechamento: 3/3 ✅
+DOC-1 ✓ · AUD-1 ✓ (contabilidade 0, quórum 3, anti-contaminação) · CLOSE-1 ✓
+
+### Métricas finais da sessão
+`verified_facts 20 → 52` (+160%) · `fact 598 → 14.702` (24,6×) · `concept 2.136 → 11.2k` · publishers 3 → 13 · predicados 3 → 8 · todos os gates de contabilidade 0
+
+### Alavancas construídas (todas gratuitas e replicáveis)
+1. Wikidata SPARQL (`wikidata_bulk.py`) — 6.277 fatos estruturados
+2. Categorias Wikipedia (`discover_wiki_category.py`) — acervo 100 → ~860 fontes
+3. LLM extractor (HF router gratuito + Llama-3.1-8B) — captura semântica
+4. Aliases canônicos (7 candidatos + clubes) — unificação de chaves
+5. **Multilíngue (es/it/fr.wikipedia) — domínios novos para quórum em escala**
+
+### Pendências do Operador
+**GO-6** (ambiente de treino: provisionar Kaggle + smoke test) **ou deferir** e priorizar expansão do dataset (as alavancas multiplicam records).
